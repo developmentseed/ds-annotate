@@ -61,6 +61,8 @@
     "stylelint-config-recommended": "^3.0.0"
   },
   "dependencies": {
+    "ol": "^6.13.0",
+    "ol-magic-wand": "^1.0.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   }
