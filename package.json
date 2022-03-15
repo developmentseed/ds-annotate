@@ -1,0 +1,60 @@
+{
+  "name": "project-seed",
+  "description": "Starter application by Development Seed",
+  "version": "5.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/developmentseed/project-seed.git"
+  },
+  "author": {
+    "name": "Development Seed",
+    "url": "https://developmentseed.org"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/developmentseed/project-seed/issues"
+  },
+  "homepage": "https://github.com/developmentseed/project-seed",
+  "scripts": {
+    "serve": "NODE_ENV=development gulp serve",
+    "build": "NODE_ENV=production gulp",
+    "stage": "NODE_ENV=staging gulp",
+    "clean": "gulp clean",
+    "lint": "yarn lint:js && yarn lint:css",
+    "lint:js": "eslint app/scripts/ --ext .js",
+    "lint:css": "stylelint 'app/styles/**/**' 'app/scripts/**/*.js'"
+  },
+  "engines": {
+    "node": "16.x"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.7",
+    "@babel/eslint-parser": "^7.16.5",
+    "@babel/preset-env": "^7.16.8",
+    "@babel/preset-react": "^7.16.7",
+    "@parcel/reporter-bundle-analyzer": "^2.2.1",
+    "@parcel/reporter-bundle-buddy": "^2.2.1",
+    "@parcel/transformer-image": "2.2.1",
+    "del": "^6.0.0",
+    "eslint": "^8.7.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react-app": "^7.0.0",
+    "eslint-plugin-inclusive-language": "^2.2.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "fancy-log": "^2.0.0",
+    "fs-extra": "^10.0.0",
+    "gulp": "^4.0.2",
+    "parcel": "^2.2.1",
+    "portscanner": "^2.2.0",
+    "posthtml-expressions": "^1.9.0",
+    "prettier": "^2.5.1",
+    "stylelint": "^13.12",
+    "stylelint-config-recommended": "^3.0.0"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
