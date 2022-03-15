@@ -25,59 +25,52 @@
         padding: 1rem;
         font-family: sans-serif;
         font-size: 1rem;
-  
+
         transition: all 320ms ease-in-out;
       }
-  
+
       #welcome-banner h1 {
         height: 3rem;
       }
-  
+
       #welcome-banner.dismissed {
         opacity: 0;
         visibility: hidden;
       }
-  
+
       .loading {
         margin-top: 2rem;
         opacity: 0.64;
       }
     </style>
   </head>
-  
+
   <body>
     <!-- Welcome banner gets hidden by React -->
     <div id='welcome-banner'>
       <div>
-        <!-- 
-            To avoid an abrupt transition when the app loads, this banner is
-            transitioned out. Replace the contents with something appropriate
-            for the project.
-          -->
         <h1><img src="./media/layout/ds-logo-pos.svg" alt="Development Seed logotype" width="188" height="32" /></h1>
-        <p>In the beginning the Universe was created.
-        <p>
-        <p>This has made a lot of people very angry and been widely regarded as a bad move.</p>
+        <p>annotate</p>
       </div>
     </div>
     </div>
-  
+
     <div id='app-container'>
       <!-- Content rendered here via React -->
     </div>
-  
+
     <script>
       // https://stackoverflow.com/a/9851769/728583
-  
+
       // internet explorer 6-11
       var isIE = /*@cc_on!@*/ false || !!document.documentMode;
-  
+
       if (isIE) {
         document.body.innerHTML =
           'Unfortunately, your browser is not currently supported.<br />Recommended browsers: Edge, Firefox, Safari, Chrome';
       }
     </script>
 
-    <script src="./scripts/main.js" type="module"></script>
+    <script src="./main.js" type="module"></script>
   </body>
 </html>

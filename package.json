@@ -1,10 +1,10 @@
 {
-  "name": "project-seed",
-  "description": "Starter application by Development Seed",
-  "version": "5.0.0",
+  "name": "ds-annotate",
+  "description": "Annotation tool for segmentation labeling in satellite imagery ",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/developmentseed/project-seed.git"
+    "url": "https://github.com/developmentseed/ds-annotate.git"
   },
   "author": {
     "name": "Development Seed",
@@ -12,17 +12,19 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/developmentseed/project-seed/issues"
+    "url": "https://github.com/developmentseed/ds-annotate/issues"
   },
-  "homepage": "https://github.com/developmentseed/project-seed",
+  "homepage": "https://github.com/developmentseed/ds-annotate",
   "scripts": {
+    "start": "yarn serve",
     "serve": "NODE_ENV=development gulp serve",
     "build": "NODE_ENV=production gulp",
     "stage": "NODE_ENV=staging gulp",
     "clean": "gulp clean",
     "lint": "yarn lint:js && yarn lint:css",
-    "lint:js": "eslint app/scripts/ --ext .js",
-    "lint:css": "stylelint 'app/styles/**/**' 'app/scripts/**/*.js'"
+    "lint:js": "eslint app/ --ext .js",
+    "lint:css": "stylelint 'app/styles/**/**' 'app/**/*.js'",
+    "test": "jest"
   },
   "engines": {
     "node": "16.x"
@@ -35,18 +37,23 @@
     "@parcel/reporter-bundle-analyzer": "^2.2.1",
     "@parcel/reporter-bundle-buddy": "^2.2.1",
     "@parcel/transformer-image": "2.2.1",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.4",
+    "babel-jest": "^27.5.1",
     "del": "^6.0.0",
     "eslint": "^8.7.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-react-app": "^7.0.0",
     "eslint-plugin-inclusive-language": "^2.2.0",
+    "eslint-plugin-jest": "^26.1.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "fancy-log": "^2.0.0",
     "fs-extra": "^10.0.0",
     "gulp": "^4.0.2",
-    "parcel": "^2.2.1",
+    "jest": "^27.5.1",
+    "parcel": "^2.3.2",
     "portscanner": "^2.2.0",
     "posthtml-expressions": "^1.9.0",
     "prettier": "^2.5.1",

@@ -17,8 +17,6 @@
 # to fit your needs!
 ################################################
 
-app/scripts/time.json
-
 node_modules
 bower_components
 .sass-cache
@@ -70,3 +68,4 @@ tmp
 .tmp
 dist
 parcel-bundle-reports
+coverage/*

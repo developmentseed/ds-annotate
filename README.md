@@ -1,61 +1,76 @@
-# project-seed
+# ds-annotate
 
-A basic starting point for web projects that uses parcel as a Build System.  
-This is the result of a [build system research](https://github.com/developmentseed/project-seed/issues/97) and [experimentation](https://github.com/danielfdsilva/parcel-gulp/).  
+Autorização de uso dos dados de Dourados, MS, Brasil.
 
-For the previous version of project-seed, that used browserify see [tag v4.0.0](https://github.com/developmentseed/project-seed/tree/v4.0.0).
+## Installation and Usage
+The steps below will walk you through setting up your own instance of the project.
 
-## Overview
+### Install Project Dependencies
+To set up the development environment for this website, you'll need to install the following on your system:
 
-Steps to follow as soon as you download this structure to start a project:
-- [ ] Update `package.js` with data about the project (name, repo, license...)
-- [ ] If the license is known update `LICENSE`
-- [ ] Check `index.html` for bootstrap information that can be changed or removed.
-- [ ] Update the application title and description in `.env`
-- [ ] Remove unneeded images from the `graphics` folder and replace the favicon with a project related one.
-- [ ] Update the modules to the most recent version.
-- [ ] **Delete this `README.md` and rename `_README.md`. Fill in the needed data. This is the most important task.** Others need to be able to know what the project is about and how to work with it. This can't be stressed enough.
+- [Node](http://nodejs.org/) v16 (To manage multiple node versions we recommend [nvm](https://github.com/creationix/nvm))
+- [Yarn](https://yarnpkg.com/) Package manager
 
-It's better to do this straight away so no traces of project-seed are ever pushed to github and just looks more professional.
-The values that are not immediately know should be left blank and filled ASAP.
+### Install Application Dependencies
 
-## Parcel for building, Gulp to orchestrate
+If you use [`nvm`](https://github.com/creationix/nvm), activate the desired Node version:
 
-[Parcel](https://parceljs.org/) is used to bundle all the needed assets for the application, but there are some edge cases in some projects that parcel can't handle very well. Anything that must happen outside the final bundle, parcel can't deal with properly. For example, [parcel's static file plugin](https://github.com/elwin013/parcel-reporter-static-files-copy) will just copy the files to the dist folder, [without watching them](https://github.com/elwin013/parcel-reporter-static-files-copy#flaws-and-problems) for changes.
+```
+nvm install
+```
 
-To solve this problem, [Gulp](https://gulpjs.com/) is used to orchestrate tasks. With it, tasks can be setup to do all that is needed, and then parcel is executed to bundle the app.  
+Install Node modules:
 
-Unless you have a use case that needs data processing you shouldn't have to touch the gulpfile. For an example of extra tasks see the [research repo](https://github.com/danielfdsilva/parcel-gulp/).
+```
+yarn install
+```
 
-There are two commands, both run via [`yarn`](https://yarnpkg.com/en/).
+## Usage
 
-- `yarn build` - clean & build everything and put it into dist folder
-- `yarn serve` - serve the pages and utilize live reload on changes to fonts, images, scripts and HTML.
+### Config files
+Configuration is done using [dot.env](https://parceljs.org/features/node-emulation/#.env-files) files.
+
+These files are used to simplify the configuration of the app and should not contain sensitive information.
+
+Run the project locally by copying the `.env` to `.env.local` and setting the following environment variables:
 
 
-### Configurations and environment variables
+| --- | --- |
+| `{{VARIABLE}}` | {{description}} |
 
-At times, it may be necessary to include options/variables specific to `production`, `staging` or `local` in the code. To handle this, there you can use `.env` files.
-See Parcel documentation on [env variables](https://parceljs.org/features/node-emulation/#environment-variables).
+### Starting the app
 
-## Github Actions for CI
-Testing and deployment is taken care of by Github Actions. It is set up to:
+```
+yarn serve
+```
+Compiles the sass files, javascript, and launches the server making the site available at `http://localhost:9000/`
+The system will watch files and execute tasks whenever one of them changes.
+The site will automatically refresh since it is bundled with livereload.
 
-1. run checks (test & lint) on every non-draft Pull Request
-2. build and deploy the application on pushes to the `main` branch
+# Deployment
+To prepare the app for deployment run:
 
-To make sure that the site deploys with passing checks, branch protection should be set up for the `main` branch (`Require status checks to pass before merging`).
+```
+yarn build
+```
+or
+```
+yarn stage
+```
+This will package the app and place all the contents in the `dist` directory.
+The app can then be run by any web server.
 
-Deploy is not set up by default, but the project contains [sample workflows](.github/_workflow-samples/README.md) that can be used to set it up.
+**When building the site for deployment provide the base url trough the `PUBLIC_URL` environment variable. Omit the leading slash. (E.g. https://example.com)**
 
-## Linting
+If you want to use any other parcel feature it is also possible. Example:
+```
+PARCEL_BUNDLE_ANALYZER=true yarn parcel build app/index.html
+```
 
-Our [ESLint rules](.eslintrc) are based on `eslint:recommended` rules, with some custom options. To check linting errors run:
+### Tests
 
-    yarn lint
+To run the tests, execute:
 
-## Coding style
-
-File [.editorconfig](.editorconfig) defines basic code styling rules, like indent sizes. 
-
-[Prettier](https://prettier.io) is the recommended code formatter. Atom and VSCode have extensions supporting Prettier-ESLint integration, which will help maintain style consistency while following linting rules.
+```
+yarn test
+```

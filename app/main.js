@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { render } from 'react-dom';
 
-// Root component.
-function Root() {
+function App() {
   useEffect(() => {
     // Hide the welcome banner.
     const banner = document.querySelector('#welcome-banner');
@@ -13,4 +12,4 @@ function Root() {
   return <p>Hello from Starter</p>;
 }
 
-render(<Root />, document.querySelector('#app-container'));
+render(<App />, document.querySelector('#app-container'));

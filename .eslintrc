@@ -3,7 +3,8 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:react/jsx-runtime"
   ],
   "settings": {
     "react": {
@@ -13,9 +14,10 @@
   "env": {
     "browser": true,
     "node": true,
-    "es6": true
+    "es6": true,
+    "jest/globals": true
   },
-  "plugins": ["react", "react-hooks", "inclusive-language"],
+  "plugins": ["react", "react-hooks", "inclusive-language", "jest"],
   "parserOptions": {
     "requireConfigFile": false,
     "babelOptions": {
