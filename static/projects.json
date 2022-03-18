@@ -1,0 +1,50 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "classes": {
+          "Road": "#1976D2",
+          "Water": "#757575",
+          "Building": "#BA68C8",
+          "Vegetation": "#b6e59e"
+        },
+        "name": "Brussels Prototype",
+        "imagery": {
+          "type": "wms",
+          "url": "https://geoservices-urbis.irisnet.be/geoserver/ows",
+          "layerName": "Urbis:Ortho2020",
+          "serverType": "geoserver"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              4.312562942504883,
+              50.84188241883442
+            ],
+            [
+              4.376935958862305,
+              50.84188241883442
+            ],
+            [
+              4.376935958862305,
+              50.874282090165394
+            ],
+            [
+              4.312562942504883,
+              50.874282090165394
+            ],
+            [
+              4.312562942504883,
+              50.84188241883442
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
