@@ -10,9 +10,8 @@ export const osm = new TileLayer({
 export const vector = new VectorLayer({
   style: new Style({
     stroke: new Stroke({
-      color: 'pink',
-      lineDash: [4],
-      width: 3
+      color: '#dd1c77',
+      width: 2
     })
   }),
   zIndex: 5
