@@ -10,6 +10,7 @@
           "Building": "#BA68C8",
           "Vegetation": "#b6e59e"
         },
+        "slug": "brussels",
         "name": "Brussels Prototype",
         "imagery": {
           "type": "wms",
@@ -41,6 +42,50 @@
             [
               4.312562942504883,
               50.84188241883442
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "slug": "bologna",
+        "classes": {
+          "Road": "#1976D2",
+          "Water": "#757575",
+          "Building": "#BA68C8",
+          "Vegetation": "#b6e59e"
+        },
+        "name": "Bologna, IT",
+        "imagery": {
+          "type": "tms",
+          "url": "https://sitmappe.comune.bologna.it/tms/tileserver/Ortofoto2017/{z}/{x}/{y}.png",
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.285705566406248,
+              44.46992873580161
+            ],
+            [
+              11.407241821289062,
+              44.46992873580161
+            ],
+            [
+              11.407241821289062,
+              44.530412702249656
+            ],
+            [
+              11.285705566406248,
+              44.530412702249656
+            ],
+            [
+              11.285705566406248,
+              44.46992873580161
             ]
           ]
         ]

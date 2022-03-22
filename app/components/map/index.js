@@ -46,7 +46,10 @@ export function MapWrapper({ project, children }) {
 
   return (
     <MapContext.Provider value={{ map }}>
-      <div ref={mapElement} style={{ height: '100vh', width: '100%' }}>
+      <div
+        ref={mapElement}
+        style={{ height: 'calc(100vh - 60px)', width: '100%' }}
+      >
         {project && <ProjectLayer project={project} />}
         {children}
       </div>

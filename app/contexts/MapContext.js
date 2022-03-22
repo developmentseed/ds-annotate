@@ -1,3 +1,3 @@
-import React from 'react';
+import { createContext } from 'react';
 
-export const MapContext = new React.createContext();
+export const MapContext = new createContext();
