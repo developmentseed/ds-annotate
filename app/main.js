@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { DevseedUiThemeProvider } from '@devseed-ui/theme-provider';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -27,4 +27,6 @@ function App() {
   );
 }
 
-render(<App />, document.querySelector('#app-container'));
+const container = document.querySelector('#app-container');
+const root = createRoot(container);
+root.render(<App />);

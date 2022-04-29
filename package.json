@@ -37,8 +37,8 @@
     "@parcel/reporter-bundle-analyzer": "^2.2.1",
     "@parcel/reporter-bundle-buddy": "^2.2.1",
     "@parcel/transformer-image": "2.2.1",
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.4",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.1.1",
     "babel-jest": "^27.5.1",
     "buffer": "^6.0.3",
     "del": "^6.0.0",
@@ -73,9 +73,9 @@
     "ol": "^6.13.0",
     "ol-magic-wand": "^1.0.5",
     "prop-types": "^15.8.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-router-dom": "^6.2.2",
-    "styled-components": "^5.3.3"
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-router-dom": "^6.3.0",
+    "styled-components": "^5.3.5"
   }
 }
