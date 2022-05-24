@@ -90,6 +90,50 @@
           ]
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "slug": "Unsch",
+        "classes": {
+          "Road": "#1976D2",
+          "Water": "#757575",
+          "Building": "#BA68C8",
+          "Vegetation": "#b6e59e"
+        },
+        "name": "Ayacucho, Peru",
+        "imagery": {
+          "type": "tms",
+          "url": "https://titiler.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x?url=https%3A%2F%2Fds-data-projects.s3.amazonaws.com%2Ftest_u%2Funsch.tiff&bidx=1&bidx=2&bidx=4",
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -74.22680854797363,
+              -13.147271777634202
+            ],
+            [
+              -74.2177963256836,
+              -13.147271777634202
+            ],
+            [
+              -74.2177963256836,
+              -13.139247875305998
+            ],
+            [
+              -74.22680854797363,
+              -13.139247875305998
+            ],
+            [
+              -74.22680854797363,
+              -13.147271777634202
+            ]
+          ]
+        ]
+      }
     }
   ]
 }
