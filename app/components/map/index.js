@@ -47,8 +47,8 @@ export function MapWrapper({ project, children }) {
     setWand(initWand);
   }, []);
 
-  const handleClick = (e) => {
-    if (wand && e.type === 'contextmenu') {
+  const drawSegments = (e) => {
+    if (e.type == 'keypress') {
       let contours = wand.getContours();
       if (!contours) return;
       let rings = contours.map((c) =>
@@ -62,13 +62,18 @@ export function MapWrapper({ project, children }) {
     }
   };
 
+  const handleClick = (e) => {
+    console.log(`Start drawing...using ${e.type}`);
+  };
+
   return (
     <MapContext.Provider value={{ map }}>
       <div
         ref={mapElement}
         style={{ height: 'calc(100vh - 60px)', width: '100%' }}
-        // onClick={handleClick}
         onContextMenu={handleClick}
+        onKeyPress={drawSegments}
+        tabIndex={0}
       >
         {project && (
           <ProjectLayer project={project} projectSegData={projectSegData} />
