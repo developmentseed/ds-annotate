@@ -1,6 +1,6 @@
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
 import { TileWMS, OSM, XYZ } from 'ol/source';
-import { Stroke, Style } from 'ol/style';
+import { Stroke, Style, Fill } from 'ol/style';
 
 export const osm = new TileLayer({
   source: new OSM(),
@@ -11,6 +11,17 @@ export const vector = new VectorLayer({
   style: new Style({
     stroke: new Stroke({
       color: '#dd1c77',
+      width: 2
+    })
+  }),
+  zIndex: 5
+});
+
+export const vectorSegData = new VectorLayer({
+  style: new Style({
+    stroke: new Stroke({
+      color: 'magenta',
+      lineDash: [2],
       width: 2
     })
   }),

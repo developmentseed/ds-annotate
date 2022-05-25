@@ -5,13 +5,13 @@ import View from 'ol/View';
 import { defaults as defaultInteractions } from 'ol/interaction';
 import { FullScreen, defaults as defaultControls } from 'ol/control';
 import MagicWandInteraction from 'ol-magic-wand';
-
+import { Feature } from 'ol';
+import Polygon from 'ol/geom/Polygon';
 import 'ol/ol.css';
 
-import { osm, vector, mainLayer } from './layers';
+import { osm, vector, mainLayer, vectorSegData } from './layers';
 import { MapContext } from '../../contexts/MapContext';
 import { ProjectLayer } from './ProjectLayer';
-import { Example } from '../test';
 
 export function MapWrapper({ project, children }) {
   const [map, setMap] = useState();
@@ -19,6 +19,8 @@ export function MapWrapper({ project, children }) {
   const mapRef = useRef();
   mapRef.current = map;
   const [wand, setWand] = useState(null);
+  const [projectSegData, setProjectSegData] = useState([]);
+
   useLayoutEffect(() => {
     const initWand = new MagicWandInteraction({
       layers: [mainLayer],
@@ -37,7 +39,7 @@ export function MapWrapper({ project, children }) {
       target: mapElement.current,
       controls: defaultControls().extend([new FullScreen()]),
       interactions: defaultInteractions().extend([initWand]),
-      layers: [osm, mainLayer, vector],
+      layers: [osm, mainLayer, vector, vectorSegData],
       view: view
     });
 
@@ -45,26 +47,19 @@ export function MapWrapper({ project, children }) {
     setWand(initWand);
   }, []);
 
-  // useEffect(() => {
-
-  // }, []);
-
   const handleClick = (e) => {
-    if (e.type === 'contextmenu') {
-      getContoursValues();
-    }
-  };
-
-  const getContoursValues = () => {
-    if (wand) {
+    if (wand && e.type === 'contextmenu') {
       let contours = wand.getContours();
       if (!contours) return;
       let rings = contours.map((c) =>
         c.points.map((p) => map.getCoordinateFromPixel([p.x, p.y]))
       );
-      console.log(rings)
+      const feature = new Feature({
+        geometry: new Polygon(rings),
+        name: 'My Polygon'
+      });
+      setProjectSegData([...projectSegData, feature]);
     }
-    return;
   };
 
   return (
@@ -72,13 +67,13 @@ export function MapWrapper({ project, children }) {
       <div
         ref={mapElement}
         style={{ height: 'calc(100vh - 60px)', width: '100%' }}
-        onClick={handleClick}
+        // onClick={handleClick}
         onContextMenu={handleClick}
       >
-        {project && <ProjectLayer project={project} />}
+        {project && (
+          <ProjectLayer project={project} projectSegData={projectSegData} />
+        )}
         {children}
-
-        <Example />
       </div>
     </MapContext.Provider>
   );
