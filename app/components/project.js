@@ -1,12 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ProjectContext } from '../contexts/ProjectContext';
 import { MapWrapper } from './map';
 import projects from '../../static/projects.json';
 import { ClassLayers } from './classLayers';
+
+import { activeClassReducer } from './../reducers/activeClassReducer';
+
 export const Project = () => {
   const [project, setProject] = useState();
+  const [activeClass, dispatchSetActiveClass] = useReducer(
+    activeClassReducer,
+    null
+  );
   let { slug } = useParams();
 
   useEffect(() => {
@@ -17,8 +24,10 @@ export const Project = () => {
   }, [slug]);
 
   return (
-    <ProjectContext.Provider value={project}>
-      {project && <ClassLayers project={project} />}
+    <ProjectContext.Provider
+      value={{ project, activeClass, dispatchSetActiveClass }}
+    >
+      {project && <ClassLayers project={project} activeClass={activeClass} />}
       <MapWrapper project={project} />
     </ProjectContext.Provider>
   );

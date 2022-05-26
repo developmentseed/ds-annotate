@@ -1,4 +1,10 @@
-import { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import {
+  useState,
+  useEffect,
+  useRef,
+  useLayoutEffect,
+  useContext
+} from 'react';
 import T from 'prop-types';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -11,6 +17,7 @@ import 'ol/ol.css';
 
 import { osm, vector, mainLayer, vectorSegData } from './layers';
 import { MapContext } from '../../contexts/MapContext';
+import { ProjectContext } from '../../contexts/ProjectContext';
 import { ProjectLayer } from './ProjectLayer';
 
 export function MapWrapper({ project, children }) {
@@ -20,6 +27,7 @@ export function MapWrapper({ project, children }) {
   mapRef.current = map;
   const [wand, setWand] = useState(null);
   const [projectSegData, setProjectSegData] = useState([]);
+  const { activeClass } = useContext(ProjectContext);
 
   useLayoutEffect(() => {
     const initWand = new MagicWandInteraction({
@@ -56,7 +64,9 @@ export function MapWrapper({ project, children }) {
       );
       const feature = new Feature({
         geometry: new Polygon(rings),
-        name: 'My Polygon'
+        project: project.properties.name,
+        class: activeClass,
+        color: project.properties.classes[activeClass]
       });
       setProjectSegData([...projectSegData, feature]);
     }

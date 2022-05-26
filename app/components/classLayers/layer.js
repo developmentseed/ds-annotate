@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Toolbar, ToolbarIconButton } from '@devseed-ui/toolbar';
 import { glsp, truncated, themeVal } from '@devseed-ui/theme-provider';
-import { AccordionFold } from '@devseed-ui/accordion';
+import { CollecticonPencil } from '@devseed-ui/collecticons';
 
 import { Heading } from '@devseed-ui/typography';
+
+import { ProjectContext } from './../../contexts/ProjectContext';
 
 const LayerHeader = styled.header`
   position: relative;
@@ -16,6 +18,8 @@ const LayerHeader = styled.header`
   grid-gap: ${glsp(0.5)};
   background-color: ${themeVal('color.surface')};
   box-shadow: inset 0 -${themeVal('layout.border')} 0 0 ${themeVal('color.shadow')};
+  background: ${({ color }) => color};
+  cursor: pointer;
 `;
 
 const LayerHeadline = styled.div`
@@ -33,16 +37,37 @@ const LayerHeadToolbar = styled(Toolbar)`
 `;
 
 export function Layer({ name, color }) {
+  const { activeClass, dispatchSetActiveClass } = useContext(ProjectContext);
+  const SetActiveClass = (activeClassName) => {
+    dispatchSetActiveClass({
+      type: 'SET_ACTIVE_CLASS',
+      payload: { activeClassName }
+    });
+  };
+
   return (
-    <LayerHeader>
+    <LayerHeader
+      onClick={() => {
+        SetActiveClass(name);
+      }}
+      color={activeClass == name ? color : '#fff'}
+    >
       <LayerHeadline>
-        <LayerTitle style={{ color: color }}>{name}</LayerTitle>
+        <LayerTitle>{name}</LayerTitle>
       </LayerHeadline>
-      {/* <LayerHeadToolbar size='small'>
-        <ToolbarIconButton title='Toggle layer on/off' useIcon={'eye'}>
-          visible
-        </ToolbarIconButton>
-      </LayerHeadToolbar> */}
+      {activeClass == name ? (
+        <LayerHeadToolbar size='small'>
+          <ToolbarIconButton>
+            <CollecticonPencil meaningful title='Editing...' />
+          </ToolbarIconButton>
+        </LayerHeadToolbar>
+      ) : (
+        <LayerHeadToolbar size='small'>
+          <ToolbarIconButton>
+            <div>{null}</div>
+          </ToolbarIconButton>
+        </LayerHeadToolbar>
+      )}
     </LayerHeader>
   );
 }

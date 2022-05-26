@@ -18,13 +18,15 @@ export const vector = new VectorLayer({
 });
 
 export const vectorSegData = new VectorLayer({
-  style: new Style({
-    stroke: new Stroke({
-      color: 'magenta',
-      lineDash: [2],
-      width: 2
-    })
-  }),
+  style: function (feature, resolution) {
+    return new Style({
+      stroke: new Stroke({
+        color: feature.get('color'),
+        lineDash: [2],
+        width: 3
+      })
+    });
+  },
   zIndex: 5
 });
 

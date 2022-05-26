@@ -5,10 +5,10 @@
       "type": "Feature",
       "properties": {
         "classes": {
-          "Road": "#1976D2",
-          "Water": "#757575",
-          "Building": "#BA68C8",
-          "Vegetation": "#b6e59e"
+          "Road": "#FED000",
+          "Water": "#04F5EA",
+          "Building": "#E000FF",
+          "Vegetation": "#17FF00"
         },
         "slug": "brussels",
         "name": "Brussels Prototype",
@@ -52,10 +52,8 @@
       "properties": {
         "slug": "bologna",
         "classes": {
-          "Road": "#1976D2",
-          "Water": "#757575",
-          "Building": "#BA68C8",
-          "Vegetation": "#b6e59e"
+          "Water": "#04F5EA",
+          "Building": "#E000FF",
         },
         "name": "Bologna, IT",
         "imagery": {
@@ -96,10 +94,8 @@
       "properties": {
         "slug": "Unsch",
         "classes": {
-          "Road": "#1976D2",
-          "Water": "#757575",
-          "Building": "#BA68C8",
-          "Vegetation": "#b6e59e"
+          "Road": "#FED000",
+          "Vegetation": "#17FF00"
         },
         "name": "Ayacucho, Peru",
         "imagery": {
