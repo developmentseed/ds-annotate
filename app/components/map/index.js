@@ -43,10 +43,19 @@ export function MapWrapper({ project, children }) {
       zoom: 2
     });
 
+    const interactions = {
+      doubleClickZoom: false,
+      keyboardPan: false,
+      keyboardZoom: false,
+      mouseWheelZoom: false,
+      pointer: false,
+      select: false
+    };
+
     const initialMap = new Map({
       target: mapElement.current,
       controls: defaultControls().extend([new FullScreen()]),
-      interactions: defaultInteractions().extend([initWand]),
+      interactions: defaultInteractions(interactions).extend([initWand]),
       layers: [osm, mainLayer, vector, vectorSegData],
       view: view
     });
