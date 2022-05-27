@@ -6,9 +6,9 @@ import { MapWrapper } from './map';
 import projects from '../../static/projects.json';
 import { ClassLayers } from './classLayers';
 
-import { activeClassReducer } from './../reducers/activeClassReducer';
+import { activeClassReducer } from '../reducers';
 
-export const Project = () => {
+export const Project = ({ dlGeojsonStatus }) => {
   const [project, setProject] = useState();
   const [activeClass, dispatchSetActiveClass] = useReducer(
     activeClassReducer,
@@ -28,7 +28,7 @@ export const Project = () => {
       value={{ project, activeClass, dispatchSetActiveClass }}
     >
       {project && <ClassLayers project={project} activeClass={activeClass} />}
-      <MapWrapper project={project} />
+      <MapWrapper project={project} dlGeojsonStatus={dlGeojsonStatus} />
     </ProjectContext.Provider>
   );
 };

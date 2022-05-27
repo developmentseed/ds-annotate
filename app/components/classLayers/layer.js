@@ -38,6 +38,7 @@ const LayerHeadToolbar = styled(Toolbar)`
 
 export function Layer({ name, color }) {
   const { activeClass, dispatchSetActiveClass } = useContext(ProjectContext);
+  
   const SetActiveClass = (activeClassName) => {
     dispatchSetActiveClass({
       type: 'SET_ACTIVE_CLASS',

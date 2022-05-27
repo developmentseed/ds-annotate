@@ -6,3 +6,12 @@ export const activeClassReducer = (state, action) => {
       return state;
   }
 };
+
+export const downloadGeojsonReducer = (state, action) => {
+  switch (action.type) {
+    case 'DOWNLOAD_GEOJSON':
+      return action.payload.status;
+    default:
+      return state;
+  }
+};

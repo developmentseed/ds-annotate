@@ -20,7 +20,14 @@ const Container = styled.div`
   padding: 10px;
 `;
 
-export const Header = () => {
+export const Header = ({ dispatchDSetDLGeojsonStatus }) => {
+  const setDownloadGeojson = (status) => {
+    dispatchDSetDLGeojsonStatus({
+      type: 'DOWNLOAD_GEOJSON',
+      payload: { status }
+    });
+  };
+
   return (
     <Container>
       <Toolbar style={{ display: 'inline-block' }}>
@@ -54,7 +61,11 @@ export const Header = () => {
           <ToolbarLabel>Classes</ToolbarLabel>
         </ToolbarGroup>
         <ToolbarGroup>
-          <ToolbarIconButton>
+          <ToolbarIconButton
+            onClick={() => {
+              setDownloadGeojson(true);
+            }}
+          >
             <CollecticonDownload meaningful title='Download data' />
           </ToolbarIconButton>
         </ToolbarGroup>

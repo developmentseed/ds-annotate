@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useReducer } from 'react';
 import { createRoot } from 'react-dom/client';
 import { DevseedUiThemeProvider } from '@devseed-ui/theme-provider';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { Project } from './components/project';
 import { Header } from './components/header';
+import { downloadGeojsonReducer } from './reducers';
 
 function App() {
   useEffect(() => {
@@ -14,13 +15,22 @@ function App() {
     setTimeout(() => banner.remove(), 500);
   }, []);
 
+  const [dlGeojsonStatus, dispatchDSetDLGeojsonStatus] = useReducer(
+    downloadGeojsonReducer,
+    false
+  );
+
   return (
     <BrowserRouter>
       <DevseedUiThemeProvider>
-        <Header />
+        <Header dispatchDSetDLGeojsonStatus={dispatchDSetDLGeojsonStatus} />
         <Routes>
           <Route exact path='/' element={<Project />} />
-          <Route exact path='/project/:slug' element={<Project />} />
+          <Route
+            exact
+            path='/project/:slug'
+            element={<Project dlGeojsonStatus={dlGeojsonStatus} />}
+          />
         </Routes>
       </DevseedUiThemeProvider>
     </BrowserRouter>

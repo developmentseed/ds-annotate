@@ -12,6 +12,7 @@ import { defaults as defaultInteractions } from 'ol/interaction';
 import { FullScreen, defaults as defaultControls } from 'ol/control';
 import MagicWandInteraction from 'ol-magic-wand';
 import { Feature } from 'ol';
+import GeoJSON from 'ol/format/geojson';
 import Polygon from 'ol/geom/Polygon';
 import 'ol/ol.css';
 
@@ -19,8 +20,8 @@ import { osm, vector, mainLayer, vectorSegData } from './layers';
 import { MapContext } from '../../contexts/MapContext';
 import { ProjectContext } from '../../contexts/ProjectContext';
 import { ProjectLayer } from './ProjectLayer';
-
-export function MapWrapper({ project, children }) {
+import { downloadGeojsonFile } from './../../utils/downloadGeojson';
+export function MapWrapper({ project, dlGeojsonStatus, children }) {
   const [map, setMap] = useState();
   const mapElement = useRef();
   const mapRef = useRef();
@@ -44,7 +45,7 @@ export function MapWrapper({ project, children }) {
     });
 
     const interactions = {
-      doubleClickZoom: false,
+      doubleClickZoom: true,
       keyboardPan: false,
       keyboardZoom: false,
       mouseWheelZoom: false,
@@ -63,6 +64,20 @@ export function MapWrapper({ project, children }) {
     setMap(initialMap);
     setWand(initWand);
   }, []);
+
+  useEffect(() => {
+    if (dlGeojsonStatus) {
+      var geojson = new GeoJSON().writeFeatures(
+        vectorSegData.getSource().getFeatures(),
+        {
+          dataProjection: 'EPSG:4326',
+          featureProjection: 'EPSG:3857'
+        }
+      );
+      const fileName = `${project.properties.name.replace(/\s/g, '_')}.geojson`;
+      downloadGeojsonFile(geojson, fileName);
+    }
+  }, [dlGeojsonStatus]);
 
   const drawSegments = (e) => {
     if (e.type == 'keypress') {
@@ -105,5 +120,6 @@ export function MapWrapper({ project, children }) {
 
 MapWrapper.propTypes = {
   project: T.object,
-  children: T.node
+  children: T.node,
+  dlGeojsonStatus: T.bool
 };
