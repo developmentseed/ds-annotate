@@ -28,7 +28,8 @@ const LayerHeadline = styled.div`
 `;
 
 const LayerTitle = styled(Heading).attrs({ size: 'small' })`
-  ${truncated()};
+  // ${truncated()};
+  font-size: 14px;
 `;
 
 const LayerHeadToolbar = styled(Toolbar)`
@@ -38,7 +39,6 @@ const LayerHeadToolbar = styled(Toolbar)`
 
 export function Layer({ name, color }) {
   const { activeClass, dispatchSetActiveClass } = useContext(ProjectContext);
-  
   const SetActiveClass = (activeClassName) => {
     dispatchSetActiveClass({
       type: 'SET_ACTIVE_CLASS',

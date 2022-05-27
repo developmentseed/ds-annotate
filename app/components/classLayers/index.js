@@ -1,4 +1,5 @@
 import React from 'react';
+import T from 'prop-types';
 import styled from 'styled-components';
 import { Layer } from './layer';
 
@@ -10,6 +11,7 @@ const LayerBar = styled.section`
   width: auto;
   height: auto;
   overflow: hidden;
+  background: #fff;
 `;
 
 export function ClassLayers({ project }) {
@@ -20,6 +22,7 @@ export function ClassLayers({ project }) {
 
   return (
     <LayerBar>
+      <h5>Classes</h5>
       {classLayers.map((classLayer, index) => {
         return (
           <Layer key={index} name={classLayer.name} color={classLayer.color} />
@@ -28,3 +31,7 @@ export function ClassLayers({ project }) {
     </LayerBar>
   );
 }
+
+ClassLayers.propTypes = {
+  project: T.object
+};

@@ -29,7 +29,12 @@ function App() {
           <Route
             exact
             path='/project/:slug'
-            element={<Project dlGeojsonStatus={dlGeojsonStatus} />}
+            element={
+              <Project
+                dlGeojsonStatus={dlGeojsonStatus}
+                dispatchDSetDLGeojsonStatus={dispatchDSetDLGeojsonStatus}
+              />
+            }
           />
         </Routes>
       </DevseedUiThemeProvider>

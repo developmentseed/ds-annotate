@@ -21,7 +21,12 @@ import { MapContext } from '../../contexts/MapContext';
 import { ProjectContext } from '../../contexts/ProjectContext';
 import { ProjectLayer } from './ProjectLayer';
 import { downloadGeojsonFile } from './../../utils/downloadGeojson';
-export function MapWrapper({ project, dlGeojsonStatus, children }) {
+export function MapWrapper({
+  project,
+  dlGeojsonStatus,
+  dispatchDSetDLGeojsonStatus,
+  children
+}) {
   const [map, setMap] = useState();
   const mapElement = useRef();
   const mapRef = useRef();
@@ -76,6 +81,7 @@ export function MapWrapper({ project, dlGeojsonStatus, children }) {
       );
       const fileName = `${project.properties.name.replace(/\s/g, '_')}.geojson`;
       downloadGeojsonFile(geojson, fileName);
+      dispatchDSetDLGeojsonStatus({ status: false });
     }
   }, [dlGeojsonStatus]);
 
