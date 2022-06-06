@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { Project } from './components/project';
 import { Header } from './components/header';
-import { downloadGeojsonReducer } from './reducers';
+import { downloadGeojsonReducer, downloadInJOSMReducer } from './reducers';
 
 function App() {
   useEffect(() => {
@@ -20,10 +20,15 @@ function App() {
     false
   );
 
+  const [dlInJOSM, dispatchDLInJOSM] = useReducer(downloadInJOSMReducer, false);
+
   return (
     <BrowserRouter>
       <DevseedUiThemeProvider>
-        <Header dispatchDSetDLGeojsonStatus={dispatchDSetDLGeojsonStatus} />
+        <Header
+          dispatchDSetDLGeojsonStatus={dispatchDSetDLGeojsonStatus}
+          dispatchDLInJOSM={dispatchDLInJOSM}
+        />
         <Routes>
           <Route exact path='/' element={<Project />} />
           <Route
@@ -33,6 +38,8 @@ function App() {
               <Project
                 dlGeojsonStatus={dlGeojsonStatus}
                 dispatchDSetDLGeojsonStatus={dispatchDSetDLGeojsonStatus}
+                dlInJOSM={dlInJOSM}
+                dispatchDLInJOSM={dispatchDLInJOSM}
               />
             }
           />

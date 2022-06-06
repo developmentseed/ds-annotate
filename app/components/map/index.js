@@ -20,11 +20,16 @@ import { osm, vector, mainLayer, vectorSegData } from './layers';
 import { MapContext } from '../../contexts/MapContext';
 import { ProjectContext } from '../../contexts/ProjectContext';
 import { ProjectLayer } from './ProjectLayer';
-import { downloadGeojsonFile } from './../../utils/downloadGeojson';
+import {
+  downloadGeojsonFile,
+  downloadInJOSM
+} from './../../utils/downloadGeojson';
 export function MapWrapper({
   project,
   dlGeojsonStatus,
   dispatchDSetDLGeojsonStatus,
+  dlInJOSM,
+  dispatchDLInJOSM,
   children
 }) {
   const [map, setMap] = useState();
@@ -84,6 +89,26 @@ export function MapWrapper({
       dispatchDSetDLGeojsonStatus({ status: false });
     }
   }, [dlGeojsonStatus]);
+
+  useEffect(() => {
+    if (dlInJOSM) {
+      var geojson = new GeoJSON().writeFeatures(
+        vectorSegData.getSource().getFeatures(),
+        {
+          dataProjection: 'EPSG:4326',
+          featureProjection: 'EPSG:3857'
+        }
+      );
+      downloadInJOSM(geojson);
+      dispatchDLInJOSM({ status: false });
+    }
+  }, [dlInJOSM]);
+
+  useEffect(() => {
+    if (project) {
+      setProjectSegData([]);
+    }
+  }, [project]);
 
   const drawSegments = (e) => {
     if (e.type == 'keypress') {

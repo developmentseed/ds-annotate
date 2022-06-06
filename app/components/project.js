@@ -8,7 +8,12 @@ import { ClassLayers } from './classLayers';
 
 import { activeClassReducer } from '../reducers';
 
-export const Project = ({ dlGeojsonStatus, dispatchDSetDLGeojsonStatus }) => {
+export const Project = ({
+  dlGeojsonStatus,
+  dispatchDSetDLGeojsonStatus,
+  dlInJOSM,
+  dispatchDLInJOSM
+}) => {
   const [project, setProject] = useState();
   const [activeClass, dispatchSetActiveClass] = useReducer(
     activeClassReducer,
@@ -32,6 +37,8 @@ export const Project = ({ dlGeojsonStatus, dispatchDSetDLGeojsonStatus }) => {
         project={project}
         dlGeojsonStatus={dlGeojsonStatus}
         dispatchDSetDLGeojsonStatus={dispatchDSetDLGeojsonStatus}
+        dlInJOSM={dlInJOSM}
+        dispatchDLInJOSM={dispatchDLInJOSM}
       />
     </ProjectContext.Provider>
   );

@@ -15,3 +15,12 @@ export const downloadGeojsonReducer = (state, action) => {
       return state;
   }
 };
+
+export const downloadInJOSMReducer = (state, action) => {
+  switch (action.type) {
+    case 'DOWNLOAD_IN_JOSM':
+      return action.payload.status;
+    default:
+      return state;
+  }
+};

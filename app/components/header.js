@@ -9,7 +9,8 @@ import {
 } from '@devseed-ui/toolbar';
 import {
   CollecticonBrandDevelopmentSeed,
-  CollecticonDownload
+  CollecticonDownload,
+  CollecticonArea
 } from '@devseed-ui/collecticons';
 import { Dropdown, DropMenu, DropMenuItem } from '@devseed-ui/dropdown';
 
@@ -20,10 +21,17 @@ const Container = styled.div`
   padding: 10px;
 `;
 
-export const Header = ({ dispatchDSetDLGeojsonStatus }) => {
+export const Header = ({ dispatchDSetDLGeojsonStatus, dispatchDLInJOSM }) => {
   const setDownloadGeojson = (status) => {
     dispatchDSetDLGeojsonStatus({
       type: 'DOWNLOAD_GEOJSON',
+      payload: { status }
+    });
+  };
+
+  const setDownloadInJOSM = (status) => {
+    dispatchDLInJOSM({
+      type: 'DOWNLOAD_IN_JOSM',
       payload: { status }
     });
   };
@@ -67,6 +75,15 @@ export const Header = ({ dispatchDSetDLGeojsonStatus }) => {
             }}
           >
             <CollecticonDownload meaningful title='Download data' />
+          </ToolbarIconButton>
+        </ToolbarGroup>
+        <ToolbarGroup>
+          <ToolbarIconButton
+            onClick={() => {
+              setDownloadInJOSM(true);
+            }}
+          >
+            <CollecticonArea meaningful title='Download in JOSM' />
           </ToolbarIconButton>
         </ToolbarGroup>
       </Toolbar>
