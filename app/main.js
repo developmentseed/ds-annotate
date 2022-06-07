@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { Project } from './components/project';
 import { Header } from './components/header';
-import { downloadGeojsonReducer, downloadInJOSMReducer } from './reducers';
+import MainContextProvider from './contexts/Maincontext';
 
 function App() {
   useEffect(() => {
@@ -15,37 +15,19 @@ function App() {
     setTimeout(() => banner.remove(), 500);
   }, []);
 
-  const [dlGeojsonStatus, dispatchDSetDLGeojsonStatus] = useReducer(
-    downloadGeojsonReducer,
-    false
-  );
-
-  const [dlInJOSM, dispatchDLInJOSM] = useReducer(downloadInJOSMReducer, false);
 
   return (
-    <BrowserRouter>
-      <DevseedUiThemeProvider>
-        <Header
-          dispatchDSetDLGeojsonStatus={dispatchDSetDLGeojsonStatus}
-          dispatchDLInJOSM={dispatchDLInJOSM}
-        />
-        <Routes>
-          <Route exact path='/' element={<Project />} />
-          <Route
-            exact
-            path='/project/:slug'
-            element={
-              <Project
-                dlGeojsonStatus={dlGeojsonStatus}
-                dispatchDSetDLGeojsonStatus={dispatchDSetDLGeojsonStatus}
-                dlInJOSM={dlInJOSM}
-                dispatchDLInJOSM={dispatchDLInJOSM}
-              />
-            }
-          />
-        </Routes>
-      </DevseedUiThemeProvider>
-    </BrowserRouter>
+    <MainContextProvider>
+      <BrowserRouter>
+        <DevseedUiThemeProvider>
+          <Header />
+          <Routes>
+            <Route exact path='/' element={<Project />} />
+            <Route exact path='/project/:slug' element={<Project />} />
+          </Routes>
+        </DevseedUiThemeProvider>
+      </BrowserRouter>
+    </MainContextProvider>
   );
 }
 

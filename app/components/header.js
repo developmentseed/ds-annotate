@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import {
@@ -13,17 +15,21 @@ import {
   CollecticonArea
 } from '@devseed-ui/collecticons';
 import { Dropdown, DropMenu, DropMenuItem } from '@devseed-ui/dropdown';
+import { MainContext } from './../contexts/Maincontext';
 
-import projects from '../../static/projects.json';
+// import projects from '../../static/projects.json';
 
 const Container = styled.div`
   height: 60px;
   padding: 10px;
 `;
 
-export const Header = ({ dispatchDSetDLGeojsonStatus, dispatchDLInJOSM }) => {
+export const Header = () => {
+  const { projects, dispatchDLGeojson, dispatchDLInJOSM } =
+    useContext(MainContext);
+
   const setDownloadGeojson = (status) => {
-    dispatchDSetDLGeojsonStatus({
+    dispatchDLGeojson({
       type: 'DOWNLOAD_GEOJSON',
       payload: { status }
     });
@@ -55,7 +61,7 @@ export const Header = ({ dispatchDSetDLGeojsonStatus, dispatchDLInJOSM }) => {
             )}
           >
             <DropMenu>
-              {projects.features.map((p) => (
+              {projects.map((p) => (
                 <DropMenuItem key={p.properties.slug}>
                   <Link to={`/project/${p.properties.slug}`}>
                     {p.properties.name}

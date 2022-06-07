@@ -18,29 +18,22 @@ import 'ol/ol.css';
 
 import { osm, vector, mainLayer, vectorSegData } from './layers';
 import { MapContext } from '../../contexts/MapContext';
-import { ProjectContext } from '../../contexts/ProjectContext';
+import { Maincontext } from '../../contexts/Maincontext';
 import { ProjectLayer } from './ProjectLayer';
 import {
   downloadGeojsonFile,
   downloadInJOSM
 } from './../../utils/downloadGeojson';
-export function MapWrapper({
-  project,
-  dlGeojsonStatus,
-  dispatchDSetDLGeojsonStatus,
-  dlInJOSM,
-  dispatchDLInJOSM,
-  children
-}) {
+export function MapWrapper({ project }) {
   const [map, setMap] = useState();
   const mapElement = useRef();
   const mapRef = useRef();
   mapRef.current = map;
   const [wand, setWand] = useState(null);
   const [projectSegData, setProjectSegData] = useState([]);
-  const { activeClass } = useContext(ProjectContext);
+  // const { activeClass } = useContext(Maincontext);
 
-  useLayoutEffect(() => {
+  useLayoutEffect((project, children) => {
     const initWand = new MagicWandInteraction({
       layers: [mainLayer],
       hatchLength: 4,
@@ -75,56 +68,56 @@ export function MapWrapper({
     setWand(initWand);
   }, []);
 
-  useEffect(() => {
-    if (dlGeojsonStatus) {
-      var geojson = new GeoJSON().writeFeatures(
-        vectorSegData.getSource().getFeatures(),
-        {
-          dataProjection: 'EPSG:4326',
-          featureProjection: 'EPSG:3857'
-        }
-      );
-      const fileName = `${project.properties.name.replace(/\s/g, '_')}.geojson`;
-      downloadGeojsonFile(geojson, fileName);
-      dispatchDSetDLGeojsonStatus({ status: false });
-    }
-  }, [dlGeojsonStatus]);
+  // useEffect(() => {
+  //   if (dlGeojsonStatus) {
+  //     var geojson = new GeoJSON().writeFeatures(
+  //       vectorSegData.getSource().getFeatures(),
+  //       {
+  //         dataProjection: 'EPSG:4326',
+  //         featureProjection: 'EPSG:3857'
+  //       }
+  //     );
+  //     const fileName = `${project.properties.name.replace(/\s/g, '_')}.geojson`;
+  //     downloadGeojsonFile(geojson, fileName);
+  //     dispatchDSetDLGeojsonStatus({ status: false });
+  //   }
+  // }, [dlGeojsonStatus]);
 
-  useEffect(() => {
-    if (dlInJOSM) {
-      var geojson = new GeoJSON().writeFeatures(
-        vectorSegData.getSource().getFeatures(),
-        {
-          dataProjection: 'EPSG:4326',
-          featureProjection: 'EPSG:3857'
-        }
-      );
-      downloadInJOSM(geojson);
-      dispatchDLInJOSM({ status: false });
-    }
-  }, [dlInJOSM]);
+  // useEffect(() => {
+  //   if (dlInJOSM) {
+  //     var geojson = new GeoJSON().writeFeatures(
+  //       vectorSegData.getSource().getFeatures(),
+  //       {
+  //         dataProjection: 'EPSG:4326',
+  //         featureProjection: 'EPSG:3857'
+  //       }
+  //     );
+  //     downloadInJOSM(geojson);
+  //     dispatchDLInJOSM({ status: false });
+  //   }
+  // }, [dlInJOSM]);
 
-  useEffect(() => {
-    if (project) {
-      setProjectSegData([]);
-    }
-  }, [project]);
+  // useEffect(() => {
+  //   if (project) {
+  //     setProjectSegData([]);
+  //   }
+  // }, [project]);
 
   const drawSegments = (e) => {
-    if (e.type == 'keypress') {
-      let contours = wand.getContours();
-      if (!contours) return;
-      let rings = contours.map((c) =>
-        c.points.map((p) => map.getCoordinateFromPixel([p.x, p.y]))
-      );
-      const feature = new Feature({
-        geometry: new Polygon(rings),
-        project: project.properties.name,
-        class: activeClass,
-        color: project.properties.classes[activeClass]
-      });
-      setProjectSegData([...projectSegData, feature]);
-    }
+    // if (e.type == 'keypress') {
+    //   let contours = wand.getContours();
+    //   if (!contours) return;
+    //   let rings = contours.map((c) =>
+    //     c.points.map((p) => map.getCoordinateFromPixel([p.x, p.y]))
+    //   );
+    //   const feature = new Feature({
+    //     geometry: new Polygon(rings),
+    //     project: project.properties.name,
+    //     class: activeClass,
+    //     color: project.properties.classes[activeClass]
+    //   });
+    //   setProjectSegData([...projectSegData, feature]);
+    // }
   };
 
   const handleClick = (e) => {
