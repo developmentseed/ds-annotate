@@ -1,26 +1,43 @@
-import { useState, useEffect, useRef } from 'react';
+import {
+  useState,
+  useEffect,
+  useRef,
+  useLayoutEffect,
+  useContext
+} from 'react';
 import T from 'prop-types';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import { defaults as defaultInteractions } from 'ol/interaction';
 import { FullScreen, defaults as defaultControls } from 'ol/control';
 import MagicWandInteraction from 'ol-magic-wand';
-
+import { Feature } from 'ol';
+import GeoJSON from 'ol/format/geojson';
+import Polygon from 'ol/geom/Polygon';
 import 'ol/ol.css';
 
-import { osm, vector, mainLayer } from './layers';
+import { osm, vector, mainLayer, vectorSegData } from './layers';
 import { MapContext } from '../../contexts/MapContext';
+import { MainContext } from '../../contexts/MainContext';
 import { ProjectLayer } from './ProjectLayer';
-
+import { downloadGeojsonFile, downloadInJOSM } from './../../utils/download';
 export function MapWrapper({ project, children }) {
   const [map, setMap] = useState();
-
   const mapElement = useRef();
   const mapRef = useRef();
   mapRef.current = map;
+  const [wand, setWand] = useState(null);
+  const [projectSegData, setProjectSegData] = useState([]);
+  const {
+    activeClass,
+    dlGeojson,
+    dispatchDLGeojson,
+    dlInJOSM,
+    dispatchDLInJOSM
+  } = useContext(MainContext);
 
-  useEffect(() => {
-    const wand = new MagicWandInteraction({
+  useLayoutEffect((project, children) => {
+    const initWand = new MagicWandInteraction({
       layers: [mainLayer],
       hatchLength: 4,
       hatchTimeout: 300,
@@ -33,24 +50,95 @@ export function MapWrapper({ project, children }) {
       zoom: 2
     });
 
+    const interactions = {
+      doubleClickZoom: true,
+      keyboardPan: false,
+      keyboardZoom: false,
+      mouseWheelZoom: false,
+      pointer: false,
+      select: false
+    };
+
     const initialMap = new Map({
       target: mapElement.current,
       controls: defaultControls().extend([new FullScreen()]),
-      interactions: defaultInteractions().extend([wand]),
-      layers: [osm, mainLayer, vector],
+      interactions: defaultInteractions(interactions).extend([initWand]),
+      layers: [osm, mainLayer, vector, vectorSegData],
       view: view
     });
 
     setMap(initialMap);
+    setWand(initWand);
   }, []);
+
+  useEffect(() => {
+    if (dlGeojson) {
+      var geojson = new GeoJSON().writeFeatures(
+        vectorSegData.getSource().getFeatures(),
+        {
+          dataProjection: 'EPSG:4326',
+          featureProjection: 'EPSG:3857'
+        }
+      );
+      const fileName = `${project.properties.name.replace(/\s/g, '_')}.geojson`;
+      downloadGeojsonFile(geojson, fileName);
+      dispatchDLGeojson({ status: false });
+    }
+  }, [dlGeojson]);
+
+  useEffect(() => {
+    if (dlInJOSM) {
+      var geojson = new GeoJSON().writeFeatures(
+        vectorSegData.getSource().getFeatures(),
+        {
+          dataProjection: 'EPSG:4326',
+          featureProjection: 'EPSG:3857'
+        }
+      );
+      downloadInJOSM(geojson);
+      dispatchDLInJOSM({ status: false });
+    }
+  }, [dlInJOSM]);
+
+  useEffect(() => {
+    if (project) {
+      setProjectSegData([]);
+    }
+  }, [project]);
+
+  const drawSegments = (e) => {
+    if (e.type == 'keypress') {
+      let contours = wand.getContours();
+      if (!contours) return;
+      let rings = contours.map((c) =>
+        c.points.map((p) => map.getCoordinateFromPixel([p.x, p.y]))
+      );
+      const feature = new Feature({
+        geometry: new Polygon(rings),
+        project: project.properties.name,
+        class: activeClass,
+        color: project.properties.classes[activeClass]
+      });
+      setProjectSegData([...projectSegData, feature]);
+    }
+  };
+
+  const handleClick = (e) => {
+    console.log(`Start drawing...using ${e.type}`);
+  };
 
   return (
     <MapContext.Provider value={{ map }}>
       <div
         ref={mapElement}
         style={{ height: 'calc(100vh - 60px)', width: '100%' }}
+        onContextMenu={handleClick}
+        onKeyPress={drawSegments}
+        tabIndex={0}
       >
-        {project && <ProjectLayer project={project} />}
+        {project && (
+          <ProjectLayer project={project} projectSegData={projectSegData} />
+        )}
         {children}
       </div>
     </MapContext.Provider>
@@ -59,5 +147,6 @@ export function MapWrapper({ project, children }) {
 
 MapWrapper.propTypes = {
   project: T.object,
-  children: T.node
+  children: T.node,
+  dlGeojsonStatus: T.bool
 };

@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import {
@@ -9,11 +10,11 @@ import {
 } from '@devseed-ui/toolbar';
 import {
   CollecticonBrandDevelopmentSeed,
-  CollecticonDownload
+  CollecticonDownload,
+  CollecticonArea
 } from '@devseed-ui/collecticons';
 import { Dropdown, DropMenu, DropMenuItem } from '@devseed-ui/dropdown';
-
-import projects from '../../static/projects.json';
+import { MainContext } from './../contexts/Maincontext';
 
 const Container = styled.div`
   height: 60px;
@@ -21,6 +22,26 @@ const Container = styled.div`
 `;
 
 export const Header = () => {
+  const { projects, dispatchDLGeojson, dispatchDLInJOSM } =
+    useContext(MainContext);
+
+  const setDownloadGeojson = (e) => {
+    e.preventDefault();
+
+    dispatchDLGeojson({
+      type: 'DOWNLOAD_GEOJSON',
+      payload: { status: true }
+    });
+  };
+
+  const setDownloadInJOSM = (e) => {
+    e.preventDefault();
+    dispatchDLInJOSM({
+      type: 'DOWNLOAD_IN_JOSM',
+      payload: { status: true }
+    });
+  };
+
   return (
     <Container>
       <Toolbar style={{ display: 'inline-block' }}>
@@ -53,9 +74,15 @@ export const Header = () => {
         <ToolbarGroup>
           <ToolbarLabel>Classes</ToolbarLabel>
         </ToolbarGroup>
+
         <ToolbarGroup>
-          <ToolbarIconButton>
+          <ToolbarIconButton onClick={setDownloadGeojson}>
             <CollecticonDownload meaningful title='Download data' />
+          </ToolbarIconButton>
+        </ToolbarGroup>
+        <ToolbarGroup>
+          <ToolbarIconButton onClick={setDownloadInJOSM}>
+            <CollecticonArea meaningful title='Download in JOSM' />
           </ToolbarIconButton>
         </ToolbarGroup>
       </Toolbar>

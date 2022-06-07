@@ -17,6 +17,19 @@ export const vector = new VectorLayer({
   zIndex: 5
 });
 
+export const vectorSegData = new VectorLayer({
+  style: function (feature, resolution) {
+    return new Style({
+      stroke: new Stroke({
+        color: feature.get('color'),
+        lineDash: [2],
+        width: 3
+      })
+    });
+  },
+  zIndex: 5
+});
+
 export const mainLayer = new TileLayer({ zIndex: 2 });
 
 export const getImageryLayer = (imagery) => {
