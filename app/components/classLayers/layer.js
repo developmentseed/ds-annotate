@@ -20,6 +20,7 @@ const LayerHeader = styled.header`
   box-shadow: inset 0 -${themeVal('layout.border')} 0 0 ${themeVal('color.shadow')};
   background: ${({ color }) => color};
   cursor: pointer;
+  text-align: left;
 `;
 
 const LayerHeadline = styled.div`

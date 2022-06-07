@@ -11,12 +11,10 @@ export const downloadGeojsonFile = (data, fileName) => {
 };
 
 export const downloadInJOSM = (data) => {
-  // Need to pass in env var the token
-  const token = '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';
   fetch('https://api.github.com/gists', {
     method: 'post',
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${process.env.GIST_TOKEN}`,
       Accept: 'application/json',
       'Content-Type': 'application/json'
     },

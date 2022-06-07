@@ -2,6 +2,7 @@ import React from 'react';
 import T from 'prop-types';
 import styled from 'styled-components';
 import { Layer } from './layer';
+import { Heading } from '@devseed-ui/typography';
 
 const LayerBar = styled.section`
   position: absolute;
@@ -12,6 +13,15 @@ const LayerBar = styled.section`
   height: auto;
   overflow: hidden;
   background: #fff;
+  bottom: 5px;
+  left: 5px;
+  padding: 5px;
+  text-align: center;
+  background: ${({ color }) => color};
+`;
+
+const Title = styled(Heading)`
+  font-size: 16px;
 `;
 
 export function ClassLayers({ project }) {
@@ -22,7 +32,7 @@ export function ClassLayers({ project }) {
 
   return (
     <LayerBar>
-      <h5>Classes</h5>
+      <Title>Classes</Title>
       {classLayers.map((classLayer, index) => {
         return (
           <Layer key={index} name={classLayer.name} color={classLayer.color} />

@@ -21,6 +21,7 @@ import { MapContext } from '../../contexts/MapContext';
 import { MainContext } from '../../contexts/MainContext';
 import { ProjectLayer } from './ProjectLayer';
 import { downloadGeojsonFile, downloadInJOSM } from './../../utils/download';
+import { getGeojson } from './../../utils/featureCollection';
 export function MapWrapper({ project, children }) {
   const [map, setMap] = useState();
   const mapElement = useRef();
@@ -71,32 +72,28 @@ export function MapWrapper({ project, children }) {
     setWand(initWand);
   }, []);
 
+  // Download geojson
   useEffect(() => {
-    if (dlGeojson) {
-      var geojson = new GeoJSON().writeFeatures(
-        vectorSegData.getSource().getFeatures(),
-        {
-          dataProjection: 'EPSG:4326',
-          featureProjection: 'EPSG:3857'
-        }
-      );
+    if (dlGeojson && vectorSegData.getSource()) {
+      dispatchDLGeojson({
+        type: 'DOWNLOAD_GEOJSON',
+        payload: { status: false }
+      });
+      var geojson = getGeojson(vectorSegData);
       const fileName = `${project.properties.name.replace(/\s/g, '_')}.geojson`;
       downloadGeojsonFile(geojson, fileName);
-      dispatchDLGeojson({ status: false });
     }
   }, [dlGeojson]);
 
+  // Download in JOSM
   useEffect(() => {
-    if (dlInJOSM) {
-      var geojson = new GeoJSON().writeFeatures(
-        vectorSegData.getSource().getFeatures(),
-        {
-          dataProjection: 'EPSG:4326',
-          featureProjection: 'EPSG:3857'
-        }
-      );
+    if (dlInJOSM && vectorSegData.getSource()) {
+      dispatchDLGeojson({
+        type: 'DOWNLOAD_IN_JOSM',
+        payload: { status: false }
+      });
+      var geojson = getGeojson(vectorSegData);
       downloadInJOSM(geojson);
-      dispatchDLInJOSM({ status: false });
     }
   }, [dlInJOSM]);
 

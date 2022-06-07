@@ -11,7 +11,7 @@ import {
 import {
   CollecticonBrandDevelopmentSeed,
   CollecticonDownload,
-  CollecticonArea
+  CollecticonGlobe
 } from '@devseed-ui/collecticons';
 import { Dropdown, DropMenu, DropMenuItem } from '@devseed-ui/dropdown';
 import { MainContext } from './../contexts/Maincontext';
@@ -82,7 +82,7 @@ export const Header = () => {
         </ToolbarGroup>
         <ToolbarGroup>
           <ToolbarIconButton onClick={setDownloadInJOSM}>
-            <CollecticonArea meaningful title='Download in JOSM' />
+            <CollecticonGlobe meaningful title='Download in JOSM' />
           </ToolbarIconButton>
         </ToolbarGroup>
       </Toolbar>
