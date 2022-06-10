@@ -10,7 +10,11 @@ export const downloadGeojsonFile = (data, fileName) => {
   window.URL.revokeObjectURL(url);
 };
 
-export const downloadInJOSM = (data) => {
+export const downloadInJOSM = (data, project) => {
+  console.log(project.properties.imagery);
+  // "type": "tms",
+  // "url": "https://sitmappe.comune.bologna.it/tms/tileserver/Ortofoto2017/{z}/{x}/{y}.png",
+
   fetch('https://api.github.com/gists', {
     method: 'post',
     headers: {
@@ -29,9 +33,22 @@ export const downloadInJOSM = (data) => {
   })
     .then((response) => response.json())
     .then((data) => {
+      // Set TMS layer
+      const { url, type, layerName } = project.properties.imagery;
+      const layer_name = project.properties.name.replace(/\s/g, '_');
+
+      const layerName_encode = encodeURIComponent(layerName);
+      let query = `?SERVICE=WMS&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=${layerName_encode}&TILED=true&WIDTH=256&HEIGHT=256&CRS=EPSG%3A3857&STYLES=&BBOX={bbox}`;
+      query = encodeURIComponent(query);
+      const url_layer = `​http://127.0.0.1:8111/imagery?title=${layer_name}&type=${type}&url=${url}${query}`;
+      console.log(url_layer)
+
+      fetch(url_layer).then((response) => {
+        console.log(response);
+      });
+
       const raw_url = data.files['geojson.geojson'].raw_url;
-      console.log(raw_url);
-      const url = `http://127.0.0.1:8111/import?url=${raw_url}`;
-      fetch(url);
+      const url_geojson = `http://127.0.0.1:8111/import?url=${raw_url}`;
+      fetch(url_geojson);
     });
 };

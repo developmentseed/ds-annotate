@@ -93,7 +93,7 @@ export function MapWrapper({ project, children }) {
         payload: { status: false }
       });
       var geojson = getGeojson(vectorSegData);
-      downloadInJOSM(geojson);
+      downloadInJOSM(geojson, project);
     }
   }, [dlInJOSM]);
 
@@ -144,6 +144,5 @@ export function MapWrapper({ project, children }) {
 
 MapWrapper.propTypes = {
   project: T.object,
-  children: T.node,
-  dlGeojsonStatus: T.bool
+  children: T.node
 };

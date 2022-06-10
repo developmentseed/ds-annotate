@@ -72,10 +72,6 @@ export const Header = () => {
           </Dropdown>
         </ToolbarGroup>
         <ToolbarGroup>
-          <ToolbarLabel>Classes</ToolbarLabel>
-        </ToolbarGroup>
-
-        <ToolbarGroup>
           <ToolbarIconButton onClick={setDownloadGeojson}>
             <CollecticonDownload meaningful title='Download data' />
           </ToolbarIconButton>
