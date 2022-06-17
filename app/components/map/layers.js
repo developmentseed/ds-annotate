@@ -1,6 +1,7 @@
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
 import { TileWMS, OSM, XYZ } from 'ol/source';
-import { Stroke, Style } from 'ol/style';
+import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
+import MultiPoint from 'ol/geom/MultiPoint';
 
 export const osm = new TileLayer({
   source: new OSM(),
@@ -19,13 +20,29 @@ export const vector = new VectorLayer({
 
 export const vectorSegData = new VectorLayer({
   style: function (feature, resolution) {
-    return new Style({
-      stroke: new Stroke({
-        color: feature.get('color'),
-        lineDash: [2],
-        width: 3
+    return [
+      new Style({
+        background: 'white',
+        stroke: new Stroke({
+          color: feature.get('color'),
+          // lineDash: [2],
+          width: 2
+        })
+      }),
+      new Style({
+        image: new CircleStyle({
+          radius: 3,
+          fill: new Fill({
+            color: feature.get('color')
+          })
+        }),
+        geometry: function (feature) {
+          // return the coordinates of the first ring of the polygon
+          const coordinates = feature.getGeometry().getCoordinates()[0];
+          return new MultiPoint(coordinates);
+        }
       })
-    });
+    ];
   },
   zIndex: 5
 });

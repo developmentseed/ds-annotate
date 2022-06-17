@@ -19,6 +19,7 @@ const LayerHeader = styled.header`
   background-color: ${themeVal('color.surface')};
   box-shadow: inset 0 -${themeVal('layout.border')} 0 0 ${themeVal('color.shadow')};
   background: ${({ color }) => color};
+  // background: rgba(0,60,136,0.6);
   cursor: pointer;
   text-align: left;
 `;

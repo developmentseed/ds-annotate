@@ -15,5 +15,5 @@ export const getGeojson = (vectorSegData) => {
       featureProjection: 'EPSG:3857'
     }
   );
-  return geojson
+  return geojson;
 };

@@ -9,12 +9,21 @@ import T from 'prop-types';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import { defaults as defaultInteractions } from 'ol/interaction';
-import { FullScreen, defaults as defaultControls } from 'ol/control';
+import {
+  ScaleLine,
+  FullScreen,
+  defaults as defaultControls
+} from 'ol/control';
 import MagicWandInteraction from 'ol-magic-wand';
 import { Feature } from 'ol';
 import GeoJSON from 'ol/format/geojson';
 import Polygon from 'ol/geom/Polygon';
 import 'ol/ol.css';
+import {
+  Modify,
+  Select,
+  defaults as defaultInteractions
+} from 'ol/interaction';
 
 import { osm, vector, mainLayer, vectorSegData } from './layers';
 import { MapContext } from '../../contexts/MapContext';
@@ -22,6 +31,8 @@ import { MainContext } from '../../contexts/MainContext';
 import { ProjectLayer } from './ProjectLayer';
 import { downloadGeojsonFile, downloadInJOSM } from './../../utils/download';
 import { getGeojson } from './../../utils/featureCollection';
+import { simplifyGeo } from './../../utils/transformation';
+
 export function MapWrapper({ project, children }) {
   const [map, setMap] = useState();
   const mapElement = useRef();
@@ -60,10 +71,28 @@ export function MapWrapper({ project, children }) {
       select: false
     };
 
+    const select = new Select({
+      wrapX: false
+    });
+
+    const modify = new Modify({
+      features: select.getFeatures()
+    });
+
+    const scaleLine = new ScaleLine({
+      units: 'metric',
+      minWidth: 40,
+      maxWidth: 40
+    });
+
     const initialMap = new Map({
       target: mapElement.current,
-      controls: defaultControls().extend([new FullScreen()]),
-      interactions: defaultInteractions(interactions).extend([initWand]),
+      controls: defaultControls().extend([new FullScreen(),scaleLine]),
+      interactions: defaultInteractions(interactions).extend([
+        initWand,
+        select,
+        modify
+      ]),
       layers: [osm, mainLayer, vector, vectorSegData],
       view: view
     });
@@ -71,6 +100,22 @@ export function MapWrapper({ project, children }) {
     setMap(initialMap);
     setWand(initWand);
   }, []);
+
+  const zoomChanged =()=>
+  {
+    zoom = map.getZoom();
+    print(zoom)
+    if (zoom == 3)
+    {
+      kml1.setVisibility (true);
+      kml2.setVisibility (false);
+    }
+    else if (zoom == 4)
+    {
+      kml1.setVisibility (false);
+      kml2.setVisibility (true);
+    }
+  }
 
   // Download geojson
   useEffect(() => {
@@ -88,7 +133,7 @@ export function MapWrapper({ project, children }) {
   // Download in JOSM
   useEffect(() => {
     if (dlInJOSM && vectorSegData.getSource()) {
-      dispatchDLGeojson({
+      dispatchDLInJOSM({
         type: 'DOWNLOAD_IN_JOSM',
         payload: { status: false }
       });
@@ -110,12 +155,14 @@ export function MapWrapper({ project, children }) {
       let rings = contours.map((c) =>
         c.points.map((p) => map.getCoordinateFromPixel([p.x, p.y]))
       );
+
       const feature = new Feature({
         geometry: new Polygon(rings),
         project: project.properties.name,
         class: activeClass,
         color: project.properties.classes[activeClass]
       });
+      // ...simplifyGeo(feature)
       setProjectSegData([...projectSegData, feature]);
     }
   };

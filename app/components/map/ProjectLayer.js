@@ -44,7 +44,8 @@ export const ProjectLayer = ({ project, projectSegData }) => {
     if (!map) return;
     if (projectSegData.length > 0) {
       const segDataSource = new VectorSource({
-        features: projectSegData
+        features: projectSegData,
+        wrapX: true
       });
       vectorSegData.setSource(segDataSource);
     }
