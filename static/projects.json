@@ -53,12 +53,12 @@
         "slug": "bologna",
         "classes": {
           "Water": "#04F5EA",
-          "Building": "#E000FF",
+          "Building": "#E000FF"
         },
         "name": "Bologna, IT",
         "imagery": {
           "type": "tms",
-          "url": "https://sitmappe.comune.bologna.it/tms/tileserver/Ortofoto2017/{z}/{x}/{y}.png",
+          "url": "https://sitmappe.comune.bologna.it/tms/tileserver/Ortofoto2017/{z}/{x}/{y}.png"
         }
       },
       "geometry": {
@@ -100,7 +100,7 @@
         "name": "Ayacucho, Peru",
         "imagery": {
           "type": "tms",
-          "url": "https://titiler.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x?url=https%3A%2F%2Fds-data-projects.s3.amazonaws.com%2Ftest_u%2Funsch.tiff&bidx=1&bidx=2&bidx=4",
+          "url": "https://titiler.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x?url=https%3A%2F%2Fds-data-projects.s3.amazonaws.com%2Ftest_u%2Funsch.tiff&bidx=1&bidx=2&bidx=4"
         }
       },
       "geometry": {
