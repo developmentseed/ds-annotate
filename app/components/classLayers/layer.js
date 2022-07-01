@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Toolbar, ToolbarIconButton } from '@devseed-ui/toolbar';
@@ -40,7 +40,6 @@ const LayerHeadToolbar = styled(Toolbar)`
 `;
 
 export function Layer({ name, color }) {
-
   const { activeClass, dispatchSetActiveClass } = useContext(MainContext);
   const SetActiveClass = (activeClassName) => {
     dispatchSetActiveClass({
@@ -51,7 +50,7 @@ export function Layer({ name, color }) {
 
   return (
     <LayerHeader
-      onClick={() => { 
+      onClick={() => {
         SetActiveClass(name);
       }}
       color={activeClass == name ? color : '#fff'}

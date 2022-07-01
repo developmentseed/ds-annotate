@@ -8,15 +8,9 @@ import {
 import T from 'prop-types';
 import Map from 'ol/Map';
 import View from 'ol/View';
-import { defaults as defaultInteractions } from 'ol/interaction';
-import {
-  ScaleLine,
-  FullScreen,
-  defaults as defaultControls
-} from 'ol/control';
+import { ScaleLine, FullScreen, defaults as defaultControls } from 'ol/control';
 import MagicWandInteraction from 'ol-magic-wand';
 import { Feature } from 'ol';
-import GeoJSON from 'ol/format/geojson';
 import Polygon from 'ol/geom/Polygon';
 import 'ol/ol.css';
 import {
@@ -31,7 +25,6 @@ import { MainContext } from '../../contexts/MainContext';
 import { ProjectLayer } from './ProjectLayer';
 import { downloadGeojsonFile, downloadInJOSM } from './../../utils/download';
 import { getGeojson } from './../../utils/featureCollection';
-import { simplifyGeo } from './../../utils/transformation';
 
 export function MapWrapper({ project, children }) {
   const [map, setMap] = useState();
@@ -48,7 +41,7 @@ export function MapWrapper({ project, children }) {
     dispatchDLInJOSM
   } = useContext(MainContext);
 
-  useLayoutEffect((project, children) => {
+  useLayoutEffect(() => {
     const initWand = new MagicWandInteraction({
       layers: [mainLayer],
       hatchLength: 4,
@@ -87,7 +80,7 @@ export function MapWrapper({ project, children }) {
 
     const initialMap = new Map({
       target: mapElement.current,
-      controls: defaultControls().extend([new FullScreen(),scaleLine]),
+      controls: defaultControls().extend([new FullScreen(), scaleLine]),
       interactions: defaultInteractions(interactions).extend([
         initWand,
         select,
@@ -100,22 +93,6 @@ export function MapWrapper({ project, children }) {
     setMap(initialMap);
     setWand(initWand);
   }, []);
-
-  const zoomChanged =()=>
-  {
-    zoom = map.getZoom();
-    print(zoom)
-    if (zoom == 3)
-    {
-      kml1.setVisibility (true);
-      kml2.setVisibility (false);
-    }
-    else if (zoom == 4)
-    {
-      kml1.setVisibility (false);
-      kml2.setVisibility (true);
-    }
-  }
 
   // Download geojson
   useEffect(() => {

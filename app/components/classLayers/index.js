@@ -1,4 +1,3 @@
-import React from 'react';
 import T from 'prop-types';
 import styled from 'styled-components';
 import { Layer } from './layer';
@@ -33,9 +32,13 @@ export function ClassLayers({ project }) {
   return (
     <LayerBar>
       <Title>Classes</Title>
-      {classLayers.map((classLayer, index) => {
+      {classLayers.map((classLayer) => {
         return (
-          <Layer key={index} name={classLayer.name} color={classLayer.color} />
+          <Layer
+            key={classLayer.name}
+            name={classLayer.name}
+            color={classLayer.color}
+          />
         );
       })}
     </LayerBar>

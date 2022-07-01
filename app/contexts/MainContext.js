@@ -1,4 +1,5 @@
-import React, { createContext, useReducer, useState } from 'react';
+import { createContext, useReducer } from 'react';
+import propTypes from 'prop-types';
 import projects from './../../static/projects.json';
 import {
   downloadGeojsonReducer,
@@ -36,6 +37,10 @@ const MainContextProvider = (props) => {
       {props.children}
     </MainContext.Provider>
   );
+};
+
+MainContextProvider.propTypes = {
+  children: propTypes.node
 };
 
 export default MainContextProvider;

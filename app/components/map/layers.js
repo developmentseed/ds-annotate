@@ -19,7 +19,7 @@ export const vector = new VectorLayer({
 });
 
 export const vectorSegData = new VectorLayer({
-  style: function (feature, resolution) {
+  style: function (feature) {
     return [
       new Style({
         background: 'white',
