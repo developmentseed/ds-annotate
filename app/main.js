@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { DevseedUiThemeProvider } from '@devseed-ui/theme-provider';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+import MainContextProvider from './contexts/Maincontext';
 import { Project } from './components/project';
 import { Header } from './components/header';
 
@@ -15,15 +16,17 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <DevseedUiThemeProvider>
-        <Header />
-        <Routes>
-          <Route exact path='/' element={<Project />} />
-          <Route exact path='/project/:slug' element={<Project />} />
-        </Routes>
-      </DevseedUiThemeProvider>
-    </BrowserRouter>
+    <MainContextProvider>
+      <BrowserRouter>
+        <DevseedUiThemeProvider>
+          <Header />
+          <Routes>
+            <Route exact path='/' element={<Project />} />
+            <Route exact path='/project/:slug' element={<Project />} />
+          </Routes>
+        </DevseedUiThemeProvider>
+      </BrowserRouter>
+    </MainContextProvider>
   );
 }
 

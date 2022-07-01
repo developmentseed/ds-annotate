@@ -69,3 +69,4 @@ tmp
 dist
 parcel-bundle-reports
 coverage/*
+.env

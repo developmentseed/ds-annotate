@@ -1,11 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ProjectContext } from '../contexts/ProjectContext';
 import { MapWrapper } from './map';
-import projects from '../../static/projects.json';
+import { ClassLayers } from './classLayers';
+
+import { MainContext } from './../contexts/Maincontext';
 
 export const Project = () => {
+  const { projects } = useContext(MainContext);
+
   const [project, setProject] = useState();
   let { slug } = useParams();
 
@@ -18,6 +22,7 @@ export const Project = () => {
 
   return (
     <ProjectContext.Provider value={project}>
+      {project && <ClassLayers project={project} />}
       <MapWrapper project={project} />
     </ProjectContext.Provider>
   );
