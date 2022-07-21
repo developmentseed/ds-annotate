@@ -2,16 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@layer components {
+  .menuHeader {
+    @apply text-gray-800 text-sm flex items-center gap-x-2 cursor-pointer p-2 rounded-md mt-2 bg-slate-300;
+  }
+  .subMenuHeader {
+    @apply text-gray-800 text-sm flex items-center gap-x-1 cursor-pointer p-2 pl-8 rounded-md mt-1;
+  }
+  .hoverAnimation {
+    @apply hover:bg-slate-300 hover:bg-opacity-40 rounded-md cursor-pointer xl:w-auto xl:h-auto xl:py-3 xl:px-4 transition duration-200 ease-out;
+  }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  /* .icon {
+    @apply cursor-pointer w-9 h-9 hover:bg-[#1d9bf0] hover:bg-opacity-10 flex items-center justify-center rounded-full transition ease-out;
+  }
+
+  .tag {
+    @apply text-[#1d9bf0] font-normal hover:underline cursor-pointer;
+  } */
 }
