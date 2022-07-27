@@ -8,7 +8,6 @@ import MainContextProvider from './contexts/MainContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
     <MainContextProvider>
       <BrowserRouter>
         <Routes>
@@ -17,7 +16,6 @@ root.render(
         </Routes>
       </BrowserRouter>
     </MainContextProvider>
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

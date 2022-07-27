@@ -4,9 +4,11 @@ import { MainContext } from './../contexts/MainContext';
 import { BsChevronDown, BsViewList } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import { getClassLayers } from './../utils/featureCollection';
 
 export const ProjectsMenu = () => {
-  const { projects, dispatchSetActiveProject } = useContext(MainContext);
+  const { projects, dispatchSetActiveProject, dispatchSetActiveClass } =
+    useContext(MainContext);
   const [openMenu, setOpenMenu] = useState(false);
   const [projectName, SetProjectName] = useState('Projects');
 
@@ -19,12 +21,19 @@ export const ProjectsMenu = () => {
     if (filtered.length) setProject(filtered[0]);
   }, [slug]);
 
-  const setProject = (feature) => {
+  const setProject = (project) => {
     dispatchSetActiveProject({
       type: 'SET_ACTIVE_PROJECT',
-      payload: feature,
+      payload: project,
     });
-    SetProjectName(feature.properties.name);
+
+    const classLayers  = getClassLayers(project)
+    dispatchSetActiveClass({
+      type: 'SET_ACTIVE_CLASS',
+      payload: classLayers[0],
+    });
+
+    SetProjectName(project.properties.name);
   };
 
   return (

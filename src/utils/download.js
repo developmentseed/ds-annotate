@@ -21,7 +21,7 @@ export const downloadInJOSM = (data, project) => {
     body: JSON.stringify({
       public: true,
       files: {
-        ['geojson.geojson']: {
+        geojson: {
           content: data
         }
       }

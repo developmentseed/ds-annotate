@@ -3,7 +3,7 @@ import { useContext, useState, useEffect } from 'react';
 import { MainContext } from '../contexts/MainContext';
 import { BsViewList, BsSquareFill, BsChevronDown } from 'react-icons/bs';
 
-export const ClassObj = ({ classProps }) => {
+export const ClassObj = ({ classProps, setOpenMenu }) => {
   const { activeClass, dispatchSetActiveClass } = useContext(MainContext);
   
   const SetActiveClass = (class_) => {
@@ -19,6 +19,7 @@ export const ClassObj = ({ classProps }) => {
       style={{background:`${ activeClass && activeClass.name === classProps.name ? activeClass.color: ""}`}}
       onClick={() => {
         SetActiveClass(classProps);
+        setOpenMenu(false);
       }}
     >
       <span className="text-1xl block float-left">

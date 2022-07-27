@@ -1,4 +1,4 @@
-import GeoJSON from 'ol/format/geojson';
+import GeoJSON from 'ol/format/GeoJSON';
 
 export const makeFeatureCollection = (feature) => {
   return {
@@ -17,3 +17,15 @@ export const getGeojson = (vectorSegData) => {
   );
   return geojson;
 };
+
+
+export const getClassLayers =(project)=>{
+  return Object.entries(
+    project && project.properties
+      ? project.properties.classes
+      : {}
+  ).map((e) => ({
+    name: e[0],
+    color: e[1],
+  }));
+}
