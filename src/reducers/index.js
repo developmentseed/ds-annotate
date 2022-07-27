@@ -16,6 +16,16 @@ export const activeClassReducer = (state, action) => {
   }
 };
 
+export const itemsReducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_ITEMS':
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+
 export const downloadGeojsonReducer = (state, action) => {
   switch (action.type) {
     case 'DOWNLOAD_GEOJSON':

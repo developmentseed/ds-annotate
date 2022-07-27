@@ -8,7 +8,7 @@ import { vector, mainLayer, getImageryLayer, vectorSegData } from './layers';
 
 const PADDING = { padding: [100, 100, 100, 100] };
 
-export const ProjectLayer = ({ project, projectSegData }) => {
+export const ProjectLayer = ({ project, items }) => {
   const { map } = useContext(MapContext);
 
   useEffect(() => {
@@ -42,14 +42,14 @@ export const ProjectLayer = ({ project, projectSegData }) => {
 
   useEffect(() => {
     if (!map) return;
-    if (projectSegData.length > 0) {
+    if (items.length >= 0) {
       const segDataSource = new VectorSource({
-        features: projectSegData,
+        features: items,
         wrapX: true
       });
       vectorSegData.setSource(segDataSource);
     }
-  }, [map, projectSegData]);
+  }, [map, items]);
 
   return null;
 };

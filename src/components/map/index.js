@@ -3,7 +3,7 @@ import {
   useEffect,
   useRef,
   useLayoutEffect,
-  useContext
+  useContext,
 } from 'react';
 import T from 'prop-types';
 import Map from 'ol/Map';
@@ -16,7 +16,7 @@ import 'ol/ol.css';
 import {
   Modify,
   Select,
-  defaults as defaultInteractions
+  defaults as defaultInteractions,
 } from 'ol/interaction';
 
 import { osm, vector, mainLayer, vectorSegData } from './layers';
@@ -31,16 +31,16 @@ export function MapWrapper({ children }) {
   const mapElement = useRef();
   const mapRef = useRef();
   mapRef.current = map;
-  
   const [wand, setWand] = useState(null);
-  const [projectSegData, setProjectSegData] = useState([]);
   const {
     activeProject,
     activeClass,
+    items,
+    dispatchSetItems,
     dlGeojson,
     dispatchDLGeojson,
     dlInJOSM,
-    dispatchDLInJOSM
+    dispatchDLInJOSM,
   } = useContext(MainContext);
 
   useLayoutEffect(() => {
@@ -49,12 +49,12 @@ export function MapWrapper({ children }) {
       hatchLength: 4,
       hatchTimeout: 300,
       waitClass: 'magic-wand-loading',
-      addClass: 'magic-wand-add'
+      addClass: 'magic-wand-add',
     });
     const view = new View({
       projection: 'EPSG:3857',
       center: [0, 0],
-      zoom: 2
+      zoom: 2,
     });
 
     const interactions = {
@@ -63,21 +63,21 @@ export function MapWrapper({ children }) {
       keyboardZoom: false,
       mouseWheelZoom: false,
       pointer: false,
-      select: false
+      select: false,
     };
 
     const select = new Select({
-      wrapX: false
+      wrapX: false,
     });
 
     const modify = new Modify({
-      features: select.getFeatures()
+      features: select.getFeatures(),
     });
 
     const scaleLine = new ScaleLine({
       units: 'metric',
       minWidth: 40,
-      maxWidth: 40
+      maxWidth: 40,
     });
 
     const initialMap = new Map({
@@ -86,10 +86,10 @@ export function MapWrapper({ children }) {
       interactions: defaultInteractions(interactions).extend([
         initWand,
         select,
-        modify
+        modify,
       ]),
       layers: [osm, mainLayer, vector, vectorSegData],
-      view: view
+      view: view,
     });
 
     setMap(initialMap);
@@ -101,10 +101,13 @@ export function MapWrapper({ children }) {
     if (dlGeojson && vectorSegData.getSource()) {
       dispatchDLGeojson({
         type: 'DOWNLOAD_GEOJSON',
-        payload: { status: false }
+        payload: { status: false },
       });
       var geojson = getGeojson(vectorSegData);
-      const fileName = `${activeProject.properties.name.replace(/\s/g, '_')}.geojson`;
+      const fileName = `${activeProject.properties.name.replace(
+        /\s/g,
+        '_'
+      )}.geojson`;
       downloadGeojsonFile(geojson, fileName);
     }
   }, [dlGeojson]);
@@ -114,7 +117,7 @@ export function MapWrapper({ children }) {
     if (dlInJOSM && vectorSegData.getSource()) {
       dispatchDLInJOSM({
         type: 'DOWNLOAD_IN_JOSM',
-        payload: { status: false }
+        payload: { status: false },
       });
       var geojson = getGeojson(vectorSegData);
       downloadInJOSM(geojson, activeProject);
@@ -123,9 +126,9 @@ export function MapWrapper({ children }) {
 
   useEffect(() => {
     if (activeProject) {
-      setProjectSegData([]);
+      SetItems([]);
     }
-    console.log(activeProject)
+    console.log(activeProject);
   }, [activeProject]);
 
   const drawSegments = (e) => {
@@ -136,43 +139,46 @@ export function MapWrapper({ children }) {
         c.points.map((p) => map.getCoordinateFromPixel([p.x, p.y]))
       );
 
-
-      console.log(activeClass)
       const feature = new Feature({
         geometry: new Polygon(rings),
         project: activeProject.properties.name,
         class: activeClass.name,
-        color: activeClass.color
+        color: activeClass.color,
       });
       // ...simplifyGeo(feature)
-      setProjectSegData([...projectSegData, feature]);
+      SetItems([...items, feature]);
     }
   };
 
+  const SetItems = (items) => {
+    dispatchSetItems({
+      type: 'SET_ITEMS',
+      payload: items,
+    });
+  };
   const handleClick = (e) => {
     console.log(`Start drawing...using ${e.type}`);
   };
 
   return (
     <MapContext.Provider value={{ map }}>
-    <div
+      <div
         ref={mapElement}
-        style={{height: '100%', width: '100%', background:"#456234"}}
+        style={{ height: '100%', width: '100%', background: '#456234' }}
         onContextMenu={handleClick}
         onKeyPress={drawSegments}
         tabIndex={0}
       >
         {activeProject && (
-          <ProjectLayer project={activeProject} projectSegData={projectSegData} />
+          <ProjectLayer project={activeProject} items={items} />
         )}
         {children}
       </div>
-     </MapContext.Provider>
+    </MapContext.Provider>
   );
 }
 
 MapWrapper.propTypes = {
   project: T.object,
-  children: T.node
+  children: T.node,
 };
-
