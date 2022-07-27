@@ -16,16 +16,16 @@ export const downloadInJOSM = (data, project) => {
     headers: {
       Authorization: `Bearer ${process.env.GIST_TOKEN}`,
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       public: true,
       files: {
         geojson: {
-          content: data
-        }
-      }
-    })
+          content: data,
+        },
+      },
+    }),
   })
     .then((response) => response.json())
     .then((data) => {

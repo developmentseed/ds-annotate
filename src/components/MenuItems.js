@@ -1,8 +1,8 @@
 import React from 'react';
 import { BsViewList } from 'react-icons/bs';
-export const ItemsMenu = () => {
+export const MenuItems = () => {
   return (
-    <div>
+    <div className='pt-2 mt-2 space-y-2 border-t border-gray-200'>
       <div className="menuHeader">
         <BsViewList></BsViewList>
         <span className=" text-base font-medium flex-1 duration-200 false">

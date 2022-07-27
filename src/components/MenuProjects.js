@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { getClassLayers } from './../utils/featureCollection';
 
-export const ProjectsMenu = () => {
+export const MenuProjects = () => {
   const { projects, dispatchSetActiveProject, dispatchSetActiveClass } =
     useContext(MainContext);
   const [openMenu, setOpenMenu] = useState(false);

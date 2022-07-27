@@ -1,12 +1,12 @@
 import React from 'react';
 import { useContext, useState, useEffect } from 'react';
-import { MainContext } from './../contexts/MainContext';
+import { MainContext } from '../contexts/MainContext';
 import { BsViewList, BsSquareFill, BsChevronDown } from 'react-icons/bs';
 import { ClassObj } from './ClassObj';
 
-import { getClassLayers } from './../utils/featureCollection';
+import { getClassLayers } from '../utils/featureCollection';
 
-export const ClassesMenu = () => {
+export const MenuClass = () => {
   const { activeProject, activeClass } = useContext(MainContext);
   const [classes, setClasses] = useState([]);
   const [openMenu, setOpenMenu] = useState(false);
@@ -30,7 +30,7 @@ export const ClassesMenu = () => {
           {'Class'}
         </span>
         <span
-          className="text-center font-medium flex-1 duration-200 rounded-md p-1"
+          className="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full pr-4 pl-4"
           style={{ background: `${activeClass ? activeClass.color : ''}` }}
         >
           {activeClass ? activeClass.name : ''}
