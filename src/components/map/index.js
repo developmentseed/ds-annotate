@@ -23,8 +23,6 @@ import { osm, vector, mainLayer, vectorSegData } from './layers';
 import { MapContext } from '../../contexts/MapContext';
 import { MainContext } from '../../contexts/MainContext';
 import { ProjectLayer } from './ProjectLayer';
-import { downloadGeojsonFile, downloadInJOSM } from './../../utils/download';
-import { getGeojson } from './../../utils/featureCollection';
 
 export function MapWrapper({ children }) {
   const [map, setMap] = useState();
@@ -96,33 +94,33 @@ export function MapWrapper({ children }) {
     setWand(initWand);
   }, []);
 
-  // Download geojson
-  useEffect(() => {
-    if (dlGeojson && vectorSegData.getSource()) {
-      dispatchDLGeojson({
-        type: 'DOWNLOAD_GEOJSON',
-        payload: { status: false },
-      });
-      var geojson = getGeojson(vectorSegData);
-      const fileName = `${activeProject.properties.name.replace(
-        /\s/g,
-        '_'
-      )}.geojson`;
-      downloadGeojsonFile(geojson, fileName);
-    }
-  }, [dlGeojson]);
+  // // Download geojson
+  // useEffect(() => {
+  //   if (dlGeojson && vectorSegData.getSource()) {
+  //     dispatchDLGeojson({
+  //       type: 'DOWNLOAD_GEOJSON',
+  //       payload: { status: false },
+  //     });
+  //     var geojson = getGeojson(vectorSegData);
+  //     const fileName = `${activeProject.properties.name.replace(
+  //       /\s/g,
+  //       '_'
+  //     )}.geojson`;
+  //     downloadGeojsonFile(geojson, fileName);
+  //   }
+  // }, [dlGeojson]);
 
-  // Download in JOSM
-  useEffect(() => {
-    if (dlInJOSM && vectorSegData.getSource()) {
-      dispatchDLInJOSM({
-        type: 'DOWNLOAD_IN_JOSM',
-        payload: { status: false },
-      });
-      var geojson = getGeojson(vectorSegData);
-      downloadInJOSM(geojson, activeProject);
-    }
-  }, [dlInJOSM]);
+  // // Download in JOSM
+  // useEffect(() => {
+  //   if (dlInJOSM && vectorSegData.getSource()) {
+  //     dispatchDLInJOSM({
+  //       type: 'DOWNLOAD_IN_JOSM',
+  //       payload: { status: false },
+  //     });
+  //     var geojson = getGeojson(vectorSegData);
+  //     downloadInJOSM(geojson, activeProject);
+  //   }
+  // }, [dlInJOSM]);
 
   useEffect(() => {
     if (activeProject) {

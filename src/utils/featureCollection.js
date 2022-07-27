@@ -9,7 +9,7 @@ export const makeFeatureCollection = (feature) => {
 
 export const getGeojson = (vectorSegData) => {
   var geojson = new GeoJSON().writeFeatures(
-    vectorSegData.getSource().getFeatures(),
+    vectorSegData,
     {
       dataProjection: 'EPSG:4326',
       featureProjection: 'EPSG:3857'
