@@ -23,6 +23,7 @@ import { osm, vector, mainLayer, vectorSegData } from './layers';
 import { MapContext } from '../../contexts/MapContext';
 import { MainContext } from '../../contexts/MainContext';
 import { ProjectLayer } from './ProjectLayer';
+import { simplifyGeo } from './../../utils/transformation';
 
 export function MapWrapper({ children }) {
   const [map, setMap] = useState();
@@ -34,11 +35,7 @@ export function MapWrapper({ children }) {
     activeProject,
     activeClass,
     items,
-    dispatchSetItems,
-    dlGeojson,
-    dispatchDLGeojson,
-    dlInJOSM,
-    dispatchDLInJOSM,
+    dispatchSetItems
   } = useContext(MainContext);
 
   useLayoutEffect(() => {
@@ -94,34 +91,6 @@ export function MapWrapper({ children }) {
     setWand(initWand);
   }, []);
 
-  // // Download geojson
-  // useEffect(() => {
-  //   if (dlGeojson && vectorSegData.getSource()) {
-  //     dispatchDLGeojson({
-  //       type: 'DOWNLOAD_GEOJSON',
-  //       payload: { status: false },
-  //     });
-  //     var geojson = getGeojson(vectorSegData);
-  //     const fileName = `${activeProject.properties.name.replace(
-  //       /\s/g,
-  //       '_'
-  //     )}.geojson`;
-  //     downloadGeojsonFile(geojson, fileName);
-  //   }
-  // }, [dlGeojson]);
-
-  // // Download in JOSM
-  // useEffect(() => {
-  //   if (dlInJOSM && vectorSegData.getSource()) {
-  //     dispatchDLInJOSM({
-  //       type: 'DOWNLOAD_IN_JOSM',
-  //       payload: { status: false },
-  //     });
-  //     var geojson = getGeojson(vectorSegData);
-  //     downloadInJOSM(geojson, activeProject);
-  //   }
-  // }, [dlInJOSM]);
-
   useEffect(() => {
     if (activeProject) {
       SetItems([]);
@@ -143,8 +112,9 @@ export function MapWrapper({ children }) {
         class: activeClass.name,
         color: activeClass.color,
       });
-      // ...simplifyGeo(feature)
-      SetItems([...items, feature]);
+      const f = simplifyGeo(feature)
+      console.log(f)
+      SetItems([...items, ...f]);
     }
   };
 

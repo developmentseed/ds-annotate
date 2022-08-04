@@ -1,4 +1,4 @@
-import GeoJSON from 'ol/format/geojson';
+import GeoJSON from 'ol/format/GeoJSON';
 import simplify from '@turf/simplify';
 import { featureCollection } from '@turf/helpers';
 
@@ -22,8 +22,11 @@ export const geojson2feature = (geojsonFeature) => {
 
 export const simplifyGeo = (feature) => {
   const geojson = feature2geojson(feature);
-  const options = { tolerance: 0.01, highQuality: false };
+  console.log(geojson)
+  const options = { tolerance: 0.00001, highQuality: true };
   const simplified = simplify(geojson, options);
+  console.log(simplified)
+  simplified.properties.color = "#00f"
   const features_simplified = geojson2feature(simplified);
   return [feature, features_simplified[0]];
 };
