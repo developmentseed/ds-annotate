@@ -23,7 +23,7 @@ import { osm, vector, mainLayer, vectorSegData } from './layers';
 import { MapContext } from '../../contexts/MapContext';
 import { MainContext } from '../../contexts/MainContext';
 import { ProjectLayer } from './ProjectLayer';
-import { simplifyGeo } from './../../utils/transformation';
+import { simplifyFeatures } from './../../utils/transformation';
 
 export function MapWrapper({ children }) {
   const [map, setMap] = useState();
@@ -112,9 +112,8 @@ export function MapWrapper({ children }) {
         class: activeClass.name,
         color: activeClass.color,
       });
-      const f = simplifyGeo(feature)
-      console.log(f)
-      SetItems([...items, ...f]);
+      const obj_features = simplifyFeatures(feature)
+      SetItems([...items, ...obj_features]);
     }
   };
 
