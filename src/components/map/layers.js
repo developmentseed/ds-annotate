@@ -61,6 +61,6 @@ export const getImageryLayer = (imagery) => {
   }
 
   if (imagery.type === 'tms') {
-    return new XYZ({ url: imagery.url });
+    return new XYZ({ url: imagery.url ,  crossOrigin: 'anonymous'});
   }
 };

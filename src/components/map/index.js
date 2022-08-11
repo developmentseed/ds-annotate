@@ -23,7 +23,7 @@ import { osm, vector, mainLayer, vectorSegData } from './layers';
 import { MapContext } from '../../contexts/MapContext';
 import { MainContext } from '../../contexts/MainContext';
 import { ProjectLayer } from './ProjectLayer';
-import { simplifyFeatures } from './../../utils/transformation';
+import { simplifyFeature } from './../../utils/transformation';
 
 export function MapWrapper({ children }) {
   const [map, setMap] = useState();
@@ -106,14 +106,14 @@ export function MapWrapper({ children }) {
         c.points.map((p) => map.getCoordinateFromPixel([p.x, p.y]))
       );
 
-      const feature = new Feature({
+      const oLFeature = new Feature({
         geometry: new Polygon(rings),
         project: activeProject.properties.name,
         class: activeClass.name,
         color: activeClass.color,
       });
-      const obj_features = simplifyFeatures(feature)
-      SetItems([...items, ...obj_features]);
+      const newOLFeature = simplifyFeature(oLFeature)
+      SetItems([...items, oLFeature, newOLFeature]);
     }
   };
 

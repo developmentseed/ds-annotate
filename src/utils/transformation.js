@@ -52,11 +52,13 @@ export const simplify = (features, tolerance) => {
   return simplified.features;
 };
 
-export const simplifyFeatures = (obj_feature) => {
-  const feature = feature2geojson(obj_feature);
-  let new_features = getPoly([feature]);
-  new_features = simplify(smooth(new_features), 0.00001);
-  new_features.map((f) => (f.properties.color = '#0000FF'));
-  const features_simplified = geojson2feature(new_features[0]);
-  return [obj_feature, features_simplified[0]];
+
+export const simplifyFeature = (olFeature) => {
+  const feature = feature2geojson(olFeature);
+  let geojsonFeature = simplify(smooth(getPoly([feature])), 0.00001)[0];
+  // new_features.map((f) => (f.properties.color = '#0000FF'));
+  geojsonFeature.properties = feature.properties
+  geojsonFeature.properties.color = '#0000FF' 
+  const newOLFeature = geojson2feature(geojsonFeature)[0];
+  return newOLFeature
 };
