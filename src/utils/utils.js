@@ -1,3 +1,5 @@
+import * as turf from '@turf/turf';
+
 export const downloadGeojsonFile = (data, fileName) => {
   const a = document.createElement('a');
   document.body.appendChild(a);
@@ -44,4 +46,33 @@ export const downloadInJOSM = (data, project) => {
       const url_geojson = `http://127.0.0.1:8111/import?url=${raw_url}`;
       fetch(url_geojson);
     });
+};
+
+export const getProjectTemplate = (searchParams) => {
+  // Set project from Query
+  const classes_items = searchParams.get('classes');
+  const name = searchParams.get('name');
+  const imagery_type = searchParams.get('imagery_type');
+  const imagery_url = searchParams.get('imagery_url');
+  let project_bbox = searchParams.get('project_bbox');
+  let projectFeature = null;
+  // console.log(classes_items ,name ,imagery_type ,imagery_url ,project_bbox)
+  if (classes_items && name && imagery_type && imagery_url && project_bbox) {
+
+    project_bbox = project_bbox.split(',').map((i) => Number(i));
+    projectFeature = turf.bboxPolygon(project_bbox);
+    projectFeature.properties.slug = name;
+    projectFeature.properties.name = name;
+    projectFeature.properties.classes = {};
+    classes_items.split('|').forEach((item) => {
+      const tuple = item.split(',');
+      projectFeature.properties.classes[tuple[0]] = `#${tuple[1]}`;
+    });
+
+    projectFeature.properties.imagery = {
+      type: imagery_type,
+      url: imagery_url,
+    };
+  }
+  return projectFeature;
 };

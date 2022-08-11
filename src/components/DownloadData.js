@@ -3,7 +3,7 @@ import { useContext} from 'react';
 import { MainContext } from '../contexts/MainContext';
 import { BsDownload } from 'react-icons/bs';
 
-import { downloadGeojsonFile, downloadInJOSM } from './../utils/download';
+import { downloadGeojsonFile, downloadInJOSM } from '../utils/utils';
 import { getGeojson } from './../utils/featureCollection';
 
 export const DownloadData = ({ classProps }) => {

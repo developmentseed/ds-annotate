@@ -5,6 +5,8 @@ import { BsChevronDown, BsViewList } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { getClassLayers } from './../utils/featureCollection';
+import { useSearchParams } from 'react-router-dom';
+import { getProjectTemplate } from './../utils/utils';
 
 export const MenuProjects = () => {
   const { projects, dispatchSetActiveProject, dispatchSetActiveClass } =
@@ -27,7 +29,7 @@ export const MenuProjects = () => {
       payload: project,
     });
 
-    const classLayers  = getClassLayers(project)
+    const classLayers = getClassLayers(project);
     dispatchSetActiveClass({
       type: 'SET_ACTIVE_CLASS',
       payload: classLayers[0],
@@ -35,6 +37,15 @@ export const MenuProjects = () => {
 
     SetProjectName(project.properties.name);
   };
+
+  // Load project from query
+  const [searchParams, setSearchParams] = useSearchParams();
+  useEffect(() => {
+    const projectFeature = getProjectTemplate(searchParams);
+    if (projectFeature) {
+      setProject(projectFeature);
+    }
+  }, [searchParams]);
 
   return (
     <div>
