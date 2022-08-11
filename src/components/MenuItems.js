@@ -21,7 +21,7 @@ export const MenuItems = () => {
         </span>
       </div>
 
-      {items.reverse().map((item, index) => {
+      {items.map((item, index) => {
         return <Item  key={index} item={item}></Item>
       })}
     </div>

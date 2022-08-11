@@ -6,7 +6,8 @@ import {
   downloadInJOSMReducer,
   activeClassReducer,
   activeProjectReducer,
-  itemsReducer
+  itemsReducer,
+  highlightedItemReducer,
 } from './../reducers';
 
 export const MainContext = createContext();
@@ -24,6 +25,11 @@ const MainContextProvider = (props) => {
 
   const [items, dispatchSetItems] = useReducer(itemsReducer, []);
 
+  const [highlightedItem, dispatchSetHighlightedItem] = useReducer(
+    highlightedItemReducer,
+    null
+  );
+
   const [dlGeojson, dispatchDLGeojson] = useReducer(
     downloadGeojsonReducer,
     false
@@ -40,6 +46,8 @@ const MainContextProvider = (props) => {
         activeClass,
         dispatchSetActiveClass,
         items,
+        highlightedItem,
+        dispatchSetHighlightedItem,
         dispatchSetItems,
         dlGeojson,
         dispatchDLGeojson,

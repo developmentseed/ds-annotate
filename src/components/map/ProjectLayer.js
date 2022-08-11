@@ -4,11 +4,17 @@ import { GeoJSON } from 'ol/format';
 
 import { MapContext } from '../../contexts/MapContext';
 import { makeFeatureCollection } from '../../utils/featureCollection';
-import { vector, mainLayer, getImageryLayer, vectorSegData } from './layers';
+import {
+  vector,
+  mainLayer,
+  getImageryLayer,
+  vectorSegData,
+  vectorHighlighted,
+} from './layers';
 
 const PADDING = { padding: [100, 100, 100, 100] };
 
-export const ProjectLayer = ({ project, items }) => {
+export const ProjectLayer = ({ project, items, highlightedItem }) => {
   const { map } = useContext(MapContext);
 
   useEffect(() => {
@@ -18,7 +24,7 @@ export const ProjectLayer = ({ project, items }) => {
       const geojsonSource = new VectorSource({
         features: new GeoJSON({ featureProjection: 'EPSG:3857' }).readFeatures(
           makeFeatureCollection(project)
-        )
+        ),
       });
       vector.setSource(geojsonSource);
       map.getView().fit(geojsonSource.getExtent(), PADDING);
@@ -45,11 +51,20 @@ export const ProjectLayer = ({ project, items }) => {
     if (items.length >= 0) {
       const segDataSource = new VectorSource({
         features: items,
-        wrapX: true
+        wrapX: true,
       });
       vectorSegData.setSource(segDataSource);
     }
   }, [map, items]);
+
+  useEffect(() => {
+    if (!map) return;
+    const segDataSource = new VectorSource({
+      features: highlightedItem ? [highlightedItem] : [],
+      wrapX: true,
+    });
+    vectorHighlighted.setSource(segDataSource);
+  }, [map, highlightedItem]);
 
   return null;
 };

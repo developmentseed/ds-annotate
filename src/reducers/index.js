@@ -25,6 +25,14 @@ export const itemsReducer = (state, action) => {
   }
 };
 
+export const highlightedItemReducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_HIGHLIGHTED_ITEM':
+      return action.payload;
+    default:
+      return state;
+  }
+};
 
 export const downloadGeojsonReducer = (state, action) => {
   switch (action.type) {

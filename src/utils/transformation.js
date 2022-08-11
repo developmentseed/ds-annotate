@@ -58,7 +58,7 @@ export const simplifyFeature = (olFeature) => {
   let geojsonFeature = simplify(smooth(getPoly([feature])), 0.00001)[0];
   // new_features.map((f) => (f.properties.color = '#0000FF'));
   geojsonFeature.properties = feature.properties
-  geojsonFeature.properties.color = '#0000FF' 
+  geojsonFeature.properties.color = '#DAFF33' 
   const newOLFeature = geojson2feature(geojsonFeature)[0];
   return newOLFeature
 };

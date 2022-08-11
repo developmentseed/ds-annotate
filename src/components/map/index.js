@@ -19,7 +19,13 @@ import {
   defaults as defaultInteractions,
 } from 'ol/interaction';
 
-import { osm, vector, mainLayer, vectorSegData } from './layers';
+import {
+  osm,
+  vector,
+  mainLayer,
+  vectorSegData,
+  vectorHighlighted,
+} from './layers';
 import { MapContext } from '../../contexts/MapContext';
 import { MainContext } from '../../contexts/MainContext';
 import { ProjectLayer } from './ProjectLayer';
@@ -35,7 +41,8 @@ export function MapWrapper({ children }) {
     activeProject,
     activeClass,
     items,
-    dispatchSetItems
+    dispatchSetItems,
+    highlightedItem,
   } = useContext(MainContext);
 
   useLayoutEffect(() => {
@@ -83,7 +90,7 @@ export function MapWrapper({ children }) {
         select,
         modify,
       ]),
-      layers: [osm, mainLayer, vector, vectorSegData],
+      layers: [osm, mainLayer, vector, vectorSegData, vectorHighlighted],
       view: view,
     });
 
@@ -95,7 +102,6 @@ export function MapWrapper({ children }) {
     if (activeProject) {
       SetItems([]);
     }
-    console.log(activeProject);
   }, [activeProject]);
 
   const drawSegments = (e) => {
@@ -112,7 +118,7 @@ export function MapWrapper({ children }) {
         class: activeClass.name,
         color: activeClass.color,
       });
-      const newOLFeature = simplifyFeature(oLFeature)
+      const newOLFeature = simplifyFeature(oLFeature);
       SetItems([...items, oLFeature, newOLFeature]);
     }
   };
@@ -137,7 +143,11 @@ export function MapWrapper({ children }) {
         tabIndex={0}
       >
         {activeProject && (
-          <ProjectLayer project={activeProject} items={items} />
+          <ProjectLayer
+            project={activeProject}
+            items={items}
+            highlightedItem={highlightedItem}
+          />
         )}
         {children}
       </div>
