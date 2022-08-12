@@ -1,11 +1,10 @@
-import React from 'react';
-import { useContext, useState, useEffect } from 'react';
-import { MainContext } from './../contexts/MainContext';
+import React, { useContext, useState, useEffect } from 'react';
 import { BsChevronDown, BsViewList } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
+
+import { MainContext } from './../contexts/MainContext';
 import { getClassLayers } from './../utils/featureCollection';
-import { useSearchParams } from 'react-router-dom';
 import { getProjectTemplate } from './../utils/utils';
 
 export const MenuProjects = () => {

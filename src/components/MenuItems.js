@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { BsViewList } from 'react-icons/bs';
+
 import { MainContext } from './../contexts/MainContext';
 import Item from './Item';
 
@@ -16,7 +17,7 @@ export const MenuItems = () => {
       </div>
 
       {items.map((item, index) => {
-        return <Item  key={index} item={item}></Item>
+        return <Item key={index} item={item}></Item>
       })}
     </div>
   );

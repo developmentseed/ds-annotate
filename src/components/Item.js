@@ -1,19 +1,12 @@
-import {
-  useState,
-  useEffect,
-  useRef,
-  useLayoutEffect,
-  useContext,
-} from 'react';
+import { useContext, } from 'react';
 
 import { BsTrash, BsEyeFill } from 'react-icons/bs';
 import { MainContext } from './../contexts/MainContext';
 
-const Item = ({ item, index }) => {
+const Item = ({ item }) => {
   const {
     items,
     dispatchSetItems,
-    highlightedItem,
     dispatchSetHighlightedItem,
   } = useContext(MainContext);
 

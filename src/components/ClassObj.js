@@ -1,12 +1,12 @@
 import React from 'react';
-import { useContext, useState, useEffect } from 'react';
+import { useContext } from 'react';
 import { MainContext } from '../contexts/MainContext';
-import { BsViewList, BsSquareFill, BsChevronDown } from 'react-icons/bs';
+import { BsSquareFill } from 'react-icons/bs';
 
 export const ClassObj = ({ classProps, setOpenMenu }) => {
   const { activeClass, dispatchSetActiveClass } = useContext(MainContext);
-  
-  const SetActiveClass = (class_) => {
+
+  const setActiveClass = (class_) => {
     dispatchSetActiveClass({
       type: 'SET_ACTIVE_CLASS',
       payload: class_,
@@ -18,7 +18,7 @@ export const ClassObj = ({ classProps, setOpenMenu }) => {
       className={`subMenuHeader hoverAnimation`}
       style={{background:`${ activeClass && activeClass.name === classProps.name ? activeClass.color: ""}`}}
       onClick={() => {
-        SetActiveClass(classProps);
+        setActiveClass(classProps);
         setOpenMenu(false);
       }}
     >

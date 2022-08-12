@@ -1,5 +1,4 @@
-import React from 'react';
-import { useContext} from 'react';
+import React, { useContext } from 'react';
 import { MainContext } from '../contexts/MainContext';
 import { BsDownload } from 'react-icons/bs';
 

@@ -1,7 +1,6 @@
-import React from 'react';
-import { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { MainContext } from '../contexts/MainContext';
-import { BsViewList, BsSquareFill, BsChevronDown } from 'react-icons/bs';
+import { BsViewList, BsChevronDown } from 'react-icons/bs';
 import { ClassObj } from './ClassObj';
 
 import { getClassLayers } from '../utils/featureCollection';
