@@ -28,6 +28,7 @@ export const DownloadData = ({ classProps }) => {
       <button
         type="button"
         className="px-6 pt-2.5 pb-1 bg-blue-600 text-white font-medium text-xs leading-normal uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex mr-1"
+        title='Load data on JOSM'
       >
         <BsDownload className="w-3 mr-2"></BsDownload>
         JOSM
@@ -38,6 +39,7 @@ export const DownloadData = ({ classProps }) => {
         onClick={() => {
           downloadGeojson();
         }}
+        title='Download data as GeoJSON'
       >
         <BsDownload
           className="w-3 mr-2"

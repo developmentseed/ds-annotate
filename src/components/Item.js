@@ -34,7 +34,7 @@ const Item = ({ item, index }) => {
 
   return (
     <div
-      className="inline-flex justify-center items-center pr-2 pl-2 ml-3 text-sm font-medium rounded-full cursor-pointer"
+      className="inline-flex justify-center items-center pr-2 pl-2 ml-3 text-sm font-medium rounded-full"
       style={{ background: `${item.values_.color}` }}
       onMouseEnter={() => {
         zoomToItem(item);
@@ -44,10 +44,11 @@ const Item = ({ item, index }) => {
       }}
     >
       <BsTrash
-        className="fill-current w-3 h-3 mr-2 cursor-not-allowed"
+        className="fill-current w-3 h-3 mr-2 cursor-pointer"
         onClick={() => {
           deleteItem(item);
         }}
+        title='Delete item'
       ></BsTrash>
       <span
       // onClick={() => {

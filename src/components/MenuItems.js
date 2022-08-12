@@ -1,10 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useRef,
-  useLayoutEffect,
-  useContext,
-} from 'react';
+import { useContext } from 'react';
 import { BsViewList } from 'react-icons/bs';
 import { MainContext } from './../contexts/MainContext';
 import Item from './Item';
@@ -17,7 +11,7 @@ export const MenuItems = () => {
       <div className="menuHeader">
         <BsViewList></BsViewList>
         <span className=" text-base font-medium flex-1 duration-200 false">
-          {'Drawed items'}
+          Drawn items
         </span>
       </div>
 
@@ -27,4 +21,3 @@ export const MenuItems = () => {
     </div>
   );
 };
-

@@ -27,7 +27,7 @@ export const MenuClass = () => {
       >
         <BsViewList></BsViewList>
         <span className=" text-base font-medium flex-1 duration-200 ">
-          {'Class'}
+          Classes
         </span>
         <span
           className="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full pr-4 pl-4"
