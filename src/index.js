@@ -6,6 +6,7 @@ import App from './App';
 import MainContextProvider from './contexts/MainContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
     <MainContextProvider>
       <BrowserRouter basename="/ds-annotate">

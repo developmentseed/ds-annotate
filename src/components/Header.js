@@ -1,5 +1,7 @@
 import React from 'react';
+
 import DevSeedLogo from './../media/layout/ds-logo-pos.svg';
+
 export const Header = ({ openSidebar, setOpenSidebar }) => {
   return (
     <div className="flex items-center mb-5">

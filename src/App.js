@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
+
 import { Sidebar } from './components/Sidebar';
 import { MapWrapper } from './components/map';
+
 function App() {
   return (
     <div className="flex h-screen ">
