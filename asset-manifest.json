@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/ds-annotate/static/css/main.e7cf0dfc.css",
-    "main.js": "/ds-annotate/static/js/main.2d16b4c2.js",
+    "main.js": "/ds-annotate/static/js/main.7fb38ca9.js",
     "static/media/ds-logo-pos.svg": "/ds-annotate/static/media/ds-logo-pos.03097196d83f8596d31a4fee4265bc13.svg",
     "index.html": "/ds-annotate/index.html",
     "main.e7cf0dfc.css.map": "/ds-annotate/static/css/main.e7cf0dfc.css.map",
-    "main.2d16b4c2.js.map": "/ds-annotate/static/js/main.2d16b4c2.js.map"
+    "main.7fb38ca9.js.map": "/ds-annotate/static/js/main.7fb38ca9.js.map"
   },
   "entrypoints": [
     "static/css/main.e7cf0dfc.css",
-    "static/js/main.2d16b4c2.js"
+    "static/js/main.7fb38ca9.js"
   ]
 }
