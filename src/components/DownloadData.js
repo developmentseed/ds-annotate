@@ -17,8 +17,8 @@ export const DownloadData = ({ classProps }) => {
     downloadGeojsonFile(geojson, fileName);
   };
 
-  const josm = (items) => {
-    var geojson = getGeojson(items);
+  const josm = () => {
+    const geojson = getGeojson(items);
     downloadInJOSM(geojson, activeProject);
   };
 
@@ -28,6 +28,9 @@ export const DownloadData = ({ classProps }) => {
         type="button"
         className="px-6 pt-2.5 pb-1 bg-blue-600 text-white font-medium text-xs leading-normal uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex mr-1"
         title='Load data on JOSM'
+        onClick={() => {
+          josm();
+        }}
       >
         <BsDownload className="w-3 mr-2"></BsDownload>
         JOSM
@@ -42,9 +45,6 @@ export const DownloadData = ({ classProps }) => {
       >
         <BsDownload
           className="w-3 mr-2"
-          onClick={() => {
-            josm();
-          }}
         ></BsDownload>
         GeoJson
       </button>

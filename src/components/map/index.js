@@ -119,7 +119,7 @@ export function MapWrapper({ children }) {
         color: activeClass.color,
       });
       const newOLFeature = simplifyFeature(oLFeature);
-      SetItems([...items, oLFeature, newOLFeature]);
+      SetItems([...items, newOLFeature]);
     }
   };
 

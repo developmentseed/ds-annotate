@@ -13,38 +13,27 @@ export const downloadGeojsonFile = (data, fileName) => {
 };
 
 export const downloadInJOSM = (data, project) => {
-  fetch('https://api.github.com/gists', {
-    method: 'post',
+  fetch('https://ckghps0wh6.execute-api.us-east-1.amazonaws.com/ds_annotate/', {
+    method: 'POST',
     headers: {
-      Authorization: `Bearer ${process.env.GIST_TOKEN}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      crossOrigin: 'anonymous',
     },
-    body: JSON.stringify({
-      public: true,
-      files: {
-        geojson: {
-          content: data,
-        },
-      },
-    }),
+    body: data,
   })
-    .then((response) => response.json())
+    .then((response) => {
+      return response.json();
+    })
     .then((data) => {
-      // Set TMS layer
-      const { url, type, layerName } = project.properties.imagery;
-      const layer_name = project.properties.name.replace(/\s/g, '_');
-
-      const layerName_encode = encodeURIComponent(layerName);
-      let query = `?SERVICE=WMS&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=${layerName_encode}&TILED=true&WIDTH=256&HEIGHT=256&CRS=EPSG%3A3857&STYLES=&BBOX={bbox}`;
-      query = encodeURIComponent(query);
-      const url_layer = `​http://127.0.0.1:8111/imagery?title=${layer_name}&type=${type}&url=${url}${query}`;
-
-      fetch(url_layer).then((response) => response);
-
-      const raw_url = data.files['geojson.geojson'].raw_url;
-      const url_geojson = `http://127.0.0.1:8111/import?url=${raw_url}`;
+      const { url, type } = project.properties.imagery;
+      const layer_name = project.properties.name.replace(/ /g, '_');
+      const url_geojson = `http://127.0.0.1:8111/import?url=${data.url}`;
+      console.log(url_geojson)
       fetch(url_geojson);
+      const url_layer = `​http://127.0.0.1:8111/imagery?title=${layer_name}&type=${type}&url=${url}`;
+      console.log(url_layer)
+      fetch(url_layer);
     });
 };
 
@@ -58,7 +47,6 @@ export const getProjectTemplate = (searchParams) => {
   let projectFeature = null;
   // console.log(classes_items ,name ,imagery_type ,imagery_url ,project_bbox)
   if (classes_items && name && imagery_type && imagery_url && project_bbox) {
-
     project_bbox = project_bbox.split(',').map((i) => Number(i));
     projectFeature = turf.bboxPolygon(project_bbox);
     projectFeature.properties.slug = name;

@@ -24,9 +24,9 @@ data aws_iam_policy_document lambda_s3_access {
     actions = [
       "s3:PutObject",
       "s3:PutObjectAcl",
-      "s3:GetObject"
+      "s3:GetObject",
+      "s3:GetObjectAcl",
     ]
-
     resources = [
       "arn:aws:s3:::${var.s3_bucket}/*"
     ]
@@ -81,6 +81,11 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
 resource "aws_apigatewayv2_api" "lambda" {
   name          = "serverless_lambda_gw"
   protocol_type = "HTTP"
+  cors_configuration {
+    allow_headers = ["*"]
+    allow_methods = ["POST"]
+    allow_origins = ["https://devseed.com", "http://localhost:3000" ]
+  }
 }
 
 resource "aws_apigatewayv2_stage" "lambda" {
