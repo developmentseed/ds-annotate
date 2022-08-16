@@ -28,10 +28,10 @@ export const downloadInJOSM = (data, project) => {
     .then((data) => {
       const { url, type } = project.properties.imagery;
       const layer_name = project.properties.name.replace(/ /g, '_');
-      const url_geojson = `http://127.0.0.1:8111/import?url=${data.url}`;
+      const url_geojson = `http:/localhost:8111/import?url=${data.url.replace("https", "http")}`;
       console.log(url_geojson)
       fetch(url_geojson);
-      const url_layer = `​http://127.0.0.1:8111/imagery?title=${layer_name}&type=${type}&url=${url}`;
+      const url_layer = `​http:/localhost:8111/imagery?title=${layer_name}&type=${type}&url=${url}`;
       console.log(url_layer)
       fetch(url_layer);
     });
@@ -45,7 +45,6 @@ export const getProjectTemplate = (searchParams) => {
   const imagery_url = searchParams.get('imagery_url');
   let project_bbox = searchParams.get('project_bbox');
   let projectFeature = null;
-  // console.log(classes_items ,name ,imagery_type ,imagery_url ,project_bbox)
   if (classes_items && name && imagery_type && imagery_url && project_bbox) {
     project_bbox = project_bbox.split(',').map((i) => Number(i));
     projectFeature = turf.bboxPolygon(project_bbox);

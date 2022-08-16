@@ -84,7 +84,7 @@ resource "aws_apigatewayv2_api" "lambda" {
   cors_configuration {
     allow_headers = ["*"]
     allow_methods = ["POST"]
-    allow_origins = ["https://devseed.com", "http://localhost:3000" ]
+    allow_origins = ["http://devseed.com", "https://devseed.com", "http://localhost:3000" ]
   }
 }
 

@@ -3,5 +3,5 @@ variable "aws_region" {
 }
 
 variable "s3_bucket" {
-  default     = "sqs-demo-21"
+  default     = "ds-data-projects"
 }
