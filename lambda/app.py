@@ -9,7 +9,7 @@ def lambda_handler(event, context):
     date_time = now.strftime("%Y-%m-%d_%H-%M-%S")
     s3 = boto3.resource("s3")
     bucket = os.environ["S3_BUCKET"]
-    key = f"geojson/{date_time}.geojson"
+    key = f"ds-annotate/geojson/{date_time}.geojson"
     s3object = s3.Object(bucket, key)
     s3object.put(Body=(bytes(event["body"].encode("UTF-8"))), ACL="public-read")
     url = f"https://{bucket}.s3.amazonaws.com/{key}"

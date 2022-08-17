@@ -13,7 +13,7 @@ export const downloadGeojsonFile = (data, fileName) => {
 };
 
 export const downloadInJOSM = (data, project) => {
-  fetch('https://ckghps0wh6.execute-api.us-east-1.amazonaws.com/ds_annotate/', {
+  fetch("https://bfokggy4ac.execute-api.us-east-1.amazonaws.com/ds_annotate/", {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -28,10 +28,10 @@ export const downloadInJOSM = (data, project) => {
     .then((data) => {
       const { url, type } = project.properties.imagery;
       const layer_name = project.properties.name.replace(/ /g, '_');
-      const url_geojson = `http:/localhost:8111/import?url=${data.url.replace("https", "http")}`;
+      const url_geojson = `http://localhost:8111/import?url=${data.url.replace("https", "http")}`;
       console.log(url_geojson)
       fetch(url_geojson);
-      const url_layer = `​http:/localhost:8111/imagery?title=${layer_name}&type=${type}&url=${url}`;
+      const url_layer = `​http://localhost:8111/imagery?title=${layer_name}&type=${type}&url=${url}`;
       console.log(url_layer)
       fetch(url_layer);
     });

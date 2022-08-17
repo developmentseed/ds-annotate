@@ -35,14 +35,14 @@ data aws_iam_policy_document lambda_s3_access {
 
 ##### Create an IAM policy
 resource aws_iam_policy lambda_s3_iam_policy {
-  name        = "lambda-s3-permissions"
+  name        = "ds_annotate_lambda_s3_permissions"
   description = "Contains S3 put permission for lambda"
   policy      = data.aws_iam_policy_document.lambda_s3_access.json
 }
 
 ##### Create a role
 resource aws_iam_role lambda_role {
-  name               = "lambda-role"
+  name               = "ds_annotate_lambda_role"
   assume_role_policy = data.aws_iam_policy_document.lambda_assume_role.json
 }
 
@@ -53,7 +53,7 @@ resource aws_iam_role_policy_attachment lambda_s3 {
 }
 
 resource "aws_lambda_function" "ds_annotate_lambda" {
-  function_name = "ds-annotate-lambda"
+  function_name = "ds_annotate_lambda"
   filename         = data.archive_file.zip.output_path
   source_code_hash = data.archive_file.zip.output_base64sha256
   role    = aws_iam_role.lambda_role.arn
@@ -79,7 +79,7 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
 
 ##### Api Gateway
 resource "aws_apigatewayv2_api" "lambda" {
-  name          = "serverless_lambda_gw"
+  name          = "ds_annotate_serverless_lambda_gw"
   protocol_type = "HTTP"
   cors_configuration {
     allow_headers = ["*"]
