@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .menuHeader {
+    @apply text-gray-800 text-sm flex items-center gap-x-2 cursor-pointer p-2 rounded-md mt-2 bg-slate-300;
+  }
+  .subMenuHeader {
+    @apply text-gray-800 text-sm flex items-center gap-x-1 cursor-pointer p-2 pl-8 rounded-md mt-1;
+  }
+  .hoverAnimation {
+    @apply hover:bg-slate-300 hover:bg-opacity-40 rounded-md cursor-pointer xl:w-auto xl:h-auto xl:py-3 xl:px-4 transition duration-200 ease-out;
+  }
+
+  /* .icon {
+    @apply cursor-pointer w-9 h-9 hover:bg-[#1d9bf0] hover:bg-opacity-10 flex items-center justify-center rounded-full transition ease-out;
+  }
+
+  .tag {
+    @apply text-[#1d9bf0] font-normal hover:underline cursor-pointer;
+  } */
+}
