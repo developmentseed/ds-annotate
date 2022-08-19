@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { BsChevronDown, BsViewList } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { useParams, useSearchParams } from 'react-router-dom';
@@ -11,18 +11,9 @@ export const MenuProjects = () => {
   const { projects, dispatchSetActiveProject, dispatchSetActiveClass } =
     useContext(MainContext);
   const [openMenu, setOpenMenu] = useState(false);
-  const [projectName, SetProjectName] = useState('Projects');
+  const [projectName, setProjectName] = useState('Projects');
 
-  let { slug } = useParams();
-
-  useEffect(() => {
-    const filtered = projects.features.filter(
-      (p) => p.properties.slug === slug
-    );
-    if (filtered.length) setProject(filtered[0]);
-  }, [slug]);
-
-  const setProject = (project) => {
+  const setProject = useCallback((project) => {
     dispatchSetActiveProject({
       type: 'SET_ACTIVE_PROJECT',
       payload: project,
@@ -34,17 +25,26 @@ export const MenuProjects = () => {
       payload: classLayers[0],
     });
 
-    SetProjectName(project.properties.name);
-  };
+    setProjectName(project.properties.name);
+  }, [dispatchSetActiveClass, dispatchSetActiveProject]);
+
+  let { slug } = useParams();
+
+  useEffect(() => {
+    const filtered = projects.features.filter(
+      (p) => p.properties.slug === slug
+    );
+    if (filtered.length) setProject(filtered[0]);
+  }, [slug, projects.features, setProject]);
 
   // Load project from query
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   useEffect(() => {
     const projectFeature = getProjectTemplate(searchParams);
     if (projectFeature) {
       setProject(projectFeature);
     }
-  }, [searchParams]);
+  }, [searchParams, setProject]);
 
   return (
     <div>
