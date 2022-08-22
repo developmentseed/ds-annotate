@@ -44,10 +44,15 @@ export const getProjectTemplate = (searchParams) => {
   const imagery_type = searchParams.get('imagery_type');
   const imagery_url = searchParams.get('imagery_url');
   let project_bbox = searchParams.get('project_bbox');
+  let project_geometry = searchParams.get('project_geometry');
   let projectFeature = null;
-  if (classes_items && name && imagery_type && imagery_url && project_bbox) {
-    project_bbox = project_bbox.split(',').map((i) => Number(i));
-    projectFeature = turf.bboxPolygon(project_bbox);
+  if (classes_items && name && imagery_type && imagery_url && (project_bbox || project_geometry)) {
+    if (project_bbox) {
+      project_bbox = project_bbox.split(',').map((i) => Number(i));
+      projectFeature = turf.bboxPolygon(project_bbox);
+    } else if (project_geometry) {
+      projectFeature = turf.polygon(JSON.parse(project_geometry));
+    }
     projectFeature.properties.slug = name;
     projectFeature.properties.name = name;
     projectFeature.properties.classes = {};
