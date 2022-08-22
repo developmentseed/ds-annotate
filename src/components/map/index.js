@@ -2,6 +2,7 @@ import {
   useState,
   useEffect,
   useRef,
+  useCallback,
   useLayoutEffect,
   useContext,
 } from 'react';
@@ -98,11 +99,22 @@ export function MapWrapper({ children }) {
     setWand(initWand);
   }, []);
 
+  const setItems = useCallback((items) => {
+    dispatchSetItems({
+      type: 'SET_ITEMS',
+      payload: items,
+    });
+  }, [dispatchSetItems]);
+
   useEffect(() => {
     if (activeProject) {
-      SetItems([]);
+      setItems([]);
     }
-  }, [activeProject]);
+  }, [activeProject, setItems]);
+
+  const handleClick = (e) => {
+    console.log(`Start drawing...using ${e.type}`);
+  };
 
   const drawSegments = (e) => {
     if (e.type === 'keypress') {
@@ -119,18 +131,8 @@ export function MapWrapper({ children }) {
         color: activeClass.color,
       });
       const newOLFeature = simplifyFeature(oLFeature);
-      SetItems([...items, newOLFeature]);
+      setItems([...items, newOLFeature]);
     }
-  };
-
-  const SetItems = (items) => {
-    dispatchSetItems({
-      type: 'SET_ITEMS',
-      payload: items,
-    });
-  };
-  const handleClick = (e) => {
-    console.log(`Start drawing...using ${e.type}`);
   };
 
   return (

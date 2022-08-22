@@ -1,6 +1,6 @@
 import { useContext, } from 'react';
 
-import { BsTrash, BsEyeFill } from 'react-icons/bs';
+import { BsTrash } from 'react-icons/bs';
 import { MainContext } from './../contexts/MainContext';
 
 const Item = ({ item }) => {
