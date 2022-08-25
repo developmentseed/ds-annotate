@@ -62,7 +62,7 @@ export const vectorHighlighted = new VectorLayer({
 
 export const mainLayer = new TileLayer({ zIndex: 2 });
 
-export const getImageryLayer = (imagery) => {
+export const getImagerySourceLayer = (imagery) => {
   if (imagery.type === 'wms') {
     return new TileWMS({
       url: imagery.url,
@@ -76,4 +76,15 @@ export const getImageryLayer = (imagery) => {
   if (imagery.type === 'tms') {
     return new XYZ({ url: imagery.url, crossOrigin: 'anonymous' });
   }
+};
+
+export const cdl_layers = () => {
+  const _2019 = new TileLayer({
+    name: 'cdl_2019',
+    source: new XYZ({
+      url: 'https://api.cogeo.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x?url=s3://ds-data-projects/indigo_mdelimitation/2021_30m_cdls_l4_field_crop_trans_style.tif&resampling_method=bilinear&bidx=1',
+    }),
+    zIndex: 7,
+  });
+  return _2019;
 };

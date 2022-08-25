@@ -9,6 +9,7 @@ import {
   activeProjectReducer,
   itemsReducer,
   highlightedItemReducer,
+  displayExtraLayersReducer
 } from './../reducers';
 
 export const MainContext = createContext();
@@ -36,6 +37,13 @@ const MainContextProvider = (props) => {
     false
   );
 
+
+  const [displayExtraLayers, dispatchDisplayExtraLayers] = useReducer(
+    displayExtraLayersReducer,
+    false
+  );
+  
+
   const [dlInJOSM, dispatchDLInJOSM] = useReducer(downloadInJOSMReducer, false);
 
   return (
@@ -54,6 +62,8 @@ const MainContextProvider = (props) => {
         dispatchDLGeojson,
         dlInJOSM,
         dispatchDLInJOSM,
+        displayExtraLayers,
+         dispatchDisplayExtraLayers
       }}
     >
       {props.children}

@@ -5,6 +5,7 @@ import { MenuProjects } from './MenuProjects';
 import { MenuClass } from './MenuClass';
 import { MenuItems } from './MenuItems';
 import { DownloadData } from './DownloadData';
+import LayersMenu  from './map/LayersMenu';
 
 export const Sidebar = () => {
   return (
@@ -17,6 +18,7 @@ export const Sidebar = () => {
         <MenuClass></MenuClass>
         <MenuItems></MenuItems>
         <DownloadData></DownloadData>
+        <LayersMenu></LayersMenu>
       </div>
     </aside>
   );

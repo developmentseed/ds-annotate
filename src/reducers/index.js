@@ -51,3 +51,13 @@ export const downloadInJOSMReducer = (state, action) => {
       return state;
   }
 };
+
+
+export const displayExtraLayersReducer = (state, action) => {
+  switch (action.type) {
+    case 'DISPLAY_EXTRA_LAYERS':
+      return action.payload;
+    default:
+      return state;
+  }
+};

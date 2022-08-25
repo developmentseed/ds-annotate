@@ -26,8 +26,10 @@ import {
   mainLayer,
   vectorSegData,
   vectorHighlighted,
+  cdl_layers
 } from './layers';
 import { MapContext } from '../../contexts/MapContext';
+import { MagicWandContext } from '../../contexts/MapContext';
 import { MainContext } from '../../contexts/MainContext';
 import { ProjectLayer } from './ProjectLayer';
 import { simplifyFeature } from './../../utils/transformation';
@@ -44,6 +46,7 @@ export function MapWrapper({ children }) {
     items,
     dispatchSetItems,
     highlightedItem,
+    displayExtraLayers
   } = useContext(MainContext);
 
   useLayoutEffect(() => {
@@ -95,6 +98,8 @@ export function MapWrapper({ children }) {
       view: view,
     });
 
+    // initWand.setLayers([mainLayer]);
+
     setMap(initialMap);
     setWand(initWand);
   }, []);
@@ -137,6 +142,7 @@ export function MapWrapper({ children }) {
 
   return (
     <MapContext.Provider value={{ map }}>
+      <MagicWandContext.Provider value={{ wand }}>
       <div
         ref={mapElement}
         style={{ height: '100%', width: '100%', background: '#456234' }}
@@ -149,10 +155,12 @@ export function MapWrapper({ children }) {
             project={activeProject}
             items={items}
             highlightedItem={highlightedItem}
+            displayExtraLayers={displayExtraLayers}
           />
         )}
         {children}
       </div>
+      </MagicWandContext.Provider>
     </MapContext.Provider>
   );
 }
