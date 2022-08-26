@@ -55,10 +55,10 @@ export const simplify = (features, tolerance) => {
 
 export const simplifyFeature = (olFeature) => {
   const feature = feature2geojson(olFeature);
-  let geojsonFeature = simplify(smooth(getPoly([feature])), 0.00001)[0];
-  // new_features.map((f) => (f.properties.color = '#0000FF'));
+  // let geojsonFeature = simplify(smooth(getPoly([feature])), 0.00001)[0];
+  let geojsonFeature = getPoly([feature])[0];
   geojsonFeature.properties = feature.properties
-  geojsonFeature.properties.color = '#DAFF33' 
+  // geojsonFeature.properties.color = '#DAFF33' 
   const newOLFeature = geojson2feature(geojsonFeature)[0];
   return newOLFeature
 };

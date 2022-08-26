@@ -20,4 +20,9 @@
   .tag {
     @apply text-[#1d9bf0] font-normal hover:underline cursor-pointer;
   } */
+
+}
+
+.ol-scale-line {
+  display: none;
 }

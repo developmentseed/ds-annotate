@@ -27,10 +27,11 @@ import {
   vectorSegData,
   vectorHighlighted,
 } from './layers';
-import { MapContext } from '../../contexts/MapContext';
+import { MapContext, MagicWandContext} from '../../contexts/MapContext';
 import { MainContext } from '../../contexts/MainContext';
 import { ProjectLayer } from './ProjectLayer';
 import { simplifyFeature } from './../../utils/transformation';
+import { Viewer } from './Viewer';
 
 export function MapWrapper({ children }) {
   const [map, setMap] = useState();
@@ -45,6 +46,15 @@ export function MapWrapper({ children }) {
     dispatchSetItems,
     highlightedItem,
   } = useContext(MainContext);
+
+  const [viewerScale, setViewerScale] = useState({w:null,h:null});
+
+
+  const scaleLine = new ScaleLine({
+    units: 'metric',
+    minWidth: 40,
+    maxWidth: 40,
+  });
 
   useLayoutEffect(() => {
     const initWand = new MagicWandInteraction({
@@ -77,15 +87,10 @@ export function MapWrapper({ children }) {
       features: select.getFeatures(),
     });
 
-    const scaleLine = new ScaleLine({
-      units: 'metric',
-      minWidth: 40,
-      maxWidth: 40,
-    });
 
     const initialMap = new Map({
       target: mapElement.current,
-      controls: defaultControls().extend([new FullScreen(), scaleLine]),
+      controls: defaultControls().extend([scaleLine]),
       interactions: defaultInteractions(interactions).extend([
         initWand,
         select,
@@ -135,14 +140,21 @@ export function MapWrapper({ children }) {
     }
   };
 
+      useEffect(() => {
+      if (!map) return;
+      map.updateSize();
+      map.render();
+    }, [viewerScale]);
   return (
     <MapContext.Provider value={{ map }}>
+        <MagicWandContext.Provider value={{ wand }}>
       <div
         ref={mapElement}
-        style={{ height: '100%', width: '100%', background: '#456234' }}
+        style={{ height: viewerScale.h ? `${viewerScale.h}px` : '100%' , width: viewerScale.w ? `${viewerScale.w}px` : '100%' , background: '#456234' }}
         onContextMenu={handleClick}
         onKeyPress={drawSegments}
         tabIndex={0}
+        id = "map"
       >
         {activeProject && (
           <ProjectLayer
@@ -153,6 +165,8 @@ export function MapWrapper({ children }) {
         )}
         {children}
       </div>
+      <Viewer viewerScale={viewerScale} setViewerScale={ setViewerScale}></Viewer>
+      </MagicWandContext.Provider>
     </MapContext.Provider>
   );
 }
