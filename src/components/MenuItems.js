@@ -8,7 +8,7 @@ export const MenuItems = () => {
   const { items } = useContext(MainContext);
   
   return (
-    <div className="pt-2 mt-2 space-y-2 border-t border-gray-200">
+    <div>
       <div className="menuHeader">
         <BsViewList></BsViewList>
         <span className=" text-base font-medium flex-1 duration-200 false">

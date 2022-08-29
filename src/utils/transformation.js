@@ -1,23 +1,6 @@
 import GeoJSON from 'ol/format/GeoJSON';
 import * as turf from '@turf/turf';
-
-export const feature2geojson = (feature) => {
-  var geoJsonStr = new GeoJSON().writeFeatures([feature], {
-    dataProjection: 'EPSG:4326',
-    featureProjection: 'EPSG:3857',
-  });
-  const geojsonObj = JSON.parse(geoJsonStr);
-  return geojsonObj.features[0];
-};
-
-export const geojson2feature = (geojsonFeature) => {
-  const fc = turf.featureCollection([geojsonFeature]);
-  const features = new GeoJSON().readFeatures(fc, {
-    featureProjection: 'EPSG:3857',
-    dataProjection: 'EPSG:4326',
-  });
-  return features;
-};
+import { feature2geojson, geojson2feature } from './featureCollection';
 
 export const getPoly = (features) => {
   let new_features = [];
@@ -54,15 +37,15 @@ export const simplify = (features, tolerance) => {
 
 export const simplifyFeature = (olFeature) => {
   const feature = feature2geojson(olFeature);
-  let geojsonFeature = simplify(smooth(getPoly([feature])), 0.00001)[0];
+  // let geojsonFeature = simplify(smooth(getPoly([feature])), 0.00001)[0];
+  let geojsonFeature = getPoly([feature])[0];
   // new_features.map((f) => (f.properties.color = '#0000FF'));
   geojsonFeature.properties = feature.properties;
-  geojsonFeature.properties.color = '#DAFF33';
   const newOLFeature = geojson2feature(geojsonFeature)[0];
   return newOLFeature;
 };
 
-export const union_poligons = (features) => {
+export const union_polygons = (features) => {
   let result = null;
   let props = {};
   features.forEach(function (feature) {
@@ -73,6 +56,12 @@ export const union_poligons = (features) => {
       result = turf.union(result, feature);
     }
   });
-  result.properties = props;
-  return result;
+
+  let new_features = [];
+  if (result.geometry.type === 'MultiPolygon') {
+    new_features = result.geometry.coordinates.map((c, index) => {
+      return turf.polygon(c, { ...props, id: index + 1 });
+    });
+  }
+  return new_features;
 };
