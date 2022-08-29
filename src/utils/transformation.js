@@ -52,13 +52,27 @@ export const simplify = (features, tolerance) => {
   return simplified.features;
 };
 
-
 export const simplifyFeature = (olFeature) => {
   const feature = feature2geojson(olFeature);
   let geojsonFeature = simplify(smooth(getPoly([feature])), 0.00001)[0];
   // new_features.map((f) => (f.properties.color = '#0000FF'));
-  geojsonFeature.properties = feature.properties
-  geojsonFeature.properties.color = '#DAFF33' 
+  geojsonFeature.properties = feature.properties;
+  geojsonFeature.properties.color = '#DAFF33';
   const newOLFeature = geojson2feature(geojsonFeature)[0];
-  return newOLFeature
+  return newOLFeature;
+};
+
+export const union_poligons = (features) => {
+  let result = null;
+  let props = {};
+  features.forEach(function (feature) {
+    if (!result) {
+      result = feature;
+      props = feature.properties;
+    } else {
+      result = turf.union(result, feature);
+    }
+  });
+  result.properties = props;
+  return result;
 };

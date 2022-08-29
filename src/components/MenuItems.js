@@ -6,7 +6,7 @@ import Item from './Item';
 
 export const MenuItems = () => {
   const { items } = useContext(MainContext);
-
+  
   return (
     <div className="pt-2 mt-2 space-y-2 border-t border-gray-200">
       <div className="menuHeader">
@@ -16,9 +16,13 @@ export const MenuItems = () => {
         </span>
       </div>
 
-      {items.map((item, index) => {
-        return <Item key={index} item={item}></Item>
-      })}
+      <div className="max-h-[150px] scroll-smooth hover:scroll-auto overflow-auto overscroll-y-contain">
+        {
+        items.map((item, index) => {
+          return <Item key={index} item={item}></Item>;
+        })
+        }
+      </div>
     </div>
   );
 };

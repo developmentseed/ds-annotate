@@ -48,7 +48,7 @@ const Item = ({ item }) => {
       //   zoomToItem(item);
       // }}
       >
-        {item.ol_uid}
+        {item.values_.id}
       </span>
     </div>
   );

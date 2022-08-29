@@ -46,6 +46,8 @@ export function MapWrapper({ children }) {
     highlightedItem,
   } = useContext(MainContext);
 
+  const [idItem, setIdItem] = useState(1);
+
   useLayoutEffect(() => {
     const initWand = new MagicWandInteraction({
       layers: [mainLayer],
@@ -129,7 +131,10 @@ export function MapWrapper({ children }) {
         project: activeProject.properties.name,
         class: activeClass.name,
         color: activeClass.color,
+        id :idItem
       });
+      const newIdItem = idItem+1
+      setIdItem(newIdItem);
       const newOLFeature = simplifyFeature(oLFeature);
       setItems([...items, newOLFeature]);
     }

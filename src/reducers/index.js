@@ -19,7 +19,10 @@ export const activeClassReducer = (state, action) => {
 export const itemsReducer = (state, action) => {
   switch (action.type) {
     case 'SET_ITEMS':
-      return action.payload;
+      const items = action.payload.sort((a, b) => {
+        return a.values_.id < b.values_.id ? 1 : -1;
+      });
+      return items;
     default:
       return state;
   }
