@@ -66,5 +66,12 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
     vectorHighlighted.setSource(segDataSource);
   }, [map, highlightedItem]);
 
+  useEffect(() => {
+    if (!map) return;
+    map.on('moveend', function (e) {
+      map.updateSize();
+    });
+  }, [map]);
+
   return null;
 };
