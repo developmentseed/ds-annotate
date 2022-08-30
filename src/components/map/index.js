@@ -119,7 +119,6 @@ export function MapWrapper({ children }) {
   };
 
   const drawSegments = (e) => {
-    console.log(e.key)
     if (e.type === 'keypress' && e.key === 's') {
       let contours = wand.getContours();
       if (!contours) return;

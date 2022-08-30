@@ -1,4 +1,3 @@
-import GeoJSON from 'ol/format/GeoJSON';
 import * as turf from '@turf/turf';
 import { feature2geojson, geojson2feature } from './featureCollection';
 
@@ -56,12 +55,16 @@ export const union_polygons = (features) => {
       result = turf.union(result, feature);
     }
   });
-
   let new_features = [];
-  if (result.geometry.type === 'MultiPolygon') {
+  if (result && result.geometry && result.geometry.type === 'MultiPolygon') {
     new_features = result.geometry.coordinates.map((c, index) => {
       return turf.polygon(c, { ...props, id: index + 1 });
     });
+  } else if (result && result.geometry && result.geometry.type === 'Polygon') {
+    result.properties = props;
+    new_features = [result];
+  } else {
+    new_features = features;
   }
   return new_features;
 };

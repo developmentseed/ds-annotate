@@ -1,14 +1,11 @@
-import { useContext, } from 'react';
+import { useContext } from 'react';
 
 import { BsTrash } from 'react-icons/bs';
 import { MainContext } from './../contexts/MainContext';
 
 const Item = ({ item }) => {
-  const {
-    items,
-    dispatchSetItems,
-    dispatchSetHighlightedItem,
-  } = useContext(MainContext);
+  const { items, dispatchSetItems, dispatchSetHighlightedItem } =
+    useContext(MainContext);
 
   const deleteItem = (item) => {
     const newItems = items.filter((i) => i.ol_uid !== item.ol_uid);
@@ -40,16 +37,11 @@ const Item = ({ item }) => {
         className="fill-current w-3 h-3 mr-2 cursor-pointer"
         onClick={() => {
           deleteItem(item);
+          zoomToItem(null);
         }}
-        title='Delete item'
+        title="Delete item"
       ></BsTrash>
-      <span
-      // onClick={() => {
-      //   zoomToItem(item);
-      // }}
-      >
-        {item.values_.id}
-      </span>
+      <span>{item.values_.id}</span>
     </div>
   );
 };

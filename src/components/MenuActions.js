@@ -1,6 +1,5 @@
 import React, { useContext, useCallback } from 'react';
 import { MainContext } from '../contexts/MainContext';
-import { BsDownload } from 'react-icons/bs';
 import { BsViewList } from 'react-icons/bs';
 import { union_polygons } from '../utils/transformation';
 import { getGeojson, getItems } from '../utils/featureCollection';
@@ -25,6 +24,12 @@ export const MenuActions = () => {
     setItems(mergedItems);
   };
 
+  document.addEventListener('keydown', (e) => {
+    // Merge polygonos
+    if (e.key === 'm') {
+      merge_polygons();
+    }
+  });
   return (
     <div>
       <div className="menuHeader">

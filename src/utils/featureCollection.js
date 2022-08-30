@@ -40,7 +40,6 @@ export const getGeojson = (vectorSegData) => {
 
 export const getItems = (geojsonFeatures) => {
   const fc = turf.featureCollection(geojsonFeatures);
-  console.log(fc)
   const features = new GeoJSON().readFeatures(fc, {
     featureProjection: 'EPSG:3857',
     dataProjection: 'EPSG:4326',
