@@ -11,9 +11,9 @@ import { MenuActions } from './MenuActions';
 export const Sidebar = () => {
   return (
     <aside>
-      <div className="overflow-y-auto pt-2 pb-2 pl-3">
+      {/* <div className="overflow-y-auto pt-2 pb-2 pl-3">
         <Header></Header>
-      </div>
+      </div> */}
       <div className="overflow-y-auto pr-2 pl-2">
         <MenuProjects></MenuProjects>
         <div className='border-t border-gray-200 my-3'></div>

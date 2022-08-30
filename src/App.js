@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Sidebar } from './components/Sidebar';
 import { MapWrapper } from './components/map';
+import { Modal } from './components/Modal';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <div className="w-5/6">
          <MapWrapper/>
       </div>
+      <Modal></Modal>
     </div>
   );
 }
