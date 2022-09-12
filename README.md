@@ -1,6 +1,6 @@
 # ds-annotate
 
-Autorização de uso dos dados de Dourados, MS, Brasil.
+Magic wand annotation tool for machine learning training data production.
 
 ## Installation and Usage
 The steps below will walk you through setting up your own instance of the project.
@@ -26,17 +26,6 @@ yarn install
 ```
 
 ## Usage
-
-### Config files
-Configuration is done using [dot.env](https://parceljs.org/features/node-emulation/#.env-files) files.
-
-These files are used to simplify the configuration of the app and should not contain sensitive information.
-
-Run the project locally by copying the `.env` to `.env.local` and setting the following environment variables:
-
-
-| --- | --- |
-| `{{VARIABLE}}` | {{description}} |
 
 ### Starting the app
 
