@@ -1,14 +1,14 @@
-import React from 'react';
-import { useContext } from 'react';
-import { MainContext } from '../contexts/MainContext';
-import { BsSquareFill } from 'react-icons/bs';
+import React from "react";
+import { useContext } from "react";
+import { MainContext } from "../contexts/MainContext";
+import { BsSquareFill } from "react-icons/bs";
 
 export const ClassObj = ({ classProps, setOpenMenu }) => {
   const { activeClass, dispatchSetActiveClass } = useContext(MainContext);
 
   const setActiveClass = (class_) => {
     dispatchSetActiveClass({
-      type: 'SET_ACTIVE_CLASS',
+      type: "SET_ACTIVE_CLASS",
       payload: class_,
     });
   };
@@ -16,7 +16,13 @@ export const ClassObj = ({ classProps, setOpenMenu }) => {
   return (
     <li
       className={`subMenuHeader hoverAnimation`}
-      style={{background:`${ activeClass && activeClass.name === classProps.name ? activeClass.color: ""}`}}
+      style={{
+        background: `${
+          activeClass && activeClass.name === classProps.name
+            ? activeClass.color
+            : ""
+        }`,
+      }}
       onClick={() => {
         setActiveClass(classProps);
         setOpenMenu(false);

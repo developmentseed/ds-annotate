@@ -1,7 +1,7 @@
-import { useContext } from 'react';
+import { useContext } from "react";
 
-import { BsTrash } from 'react-icons/bs';
-import { MainContext } from './../contexts/MainContext';
+import { BsTrash } from "react-icons/bs";
+import { MainContext } from "./../contexts/MainContext";
 
 const Item = ({ item }) => {
   const { items, dispatchSetItems, dispatchSetHighlightedItem } =
@@ -10,14 +10,14 @@ const Item = ({ item }) => {
   const deleteItem = (item) => {
     const newItems = items.filter((i) => i.ol_uid !== item.ol_uid);
     dispatchSetItems({
-      type: 'SET_ITEMS',
+      type: "SET_ITEMS",
       payload: newItems,
     });
   };
 
   const zoomToItem = (item) => {
     dispatchSetHighlightedItem({
-      type: 'SET_HIGHLIGHTED_ITEM',
+      type: "SET_HIGHLIGHTED_ITEM",
       payload: item,
     });
   };

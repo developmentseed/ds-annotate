@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import { MainContext } from '../contexts/MainContext';
-import { BsDownload } from 'react-icons/bs';
+import React, { useContext } from "react";
+import { MainContext } from "../contexts/MainContext";
+import { BsDownload } from "react-icons/bs";
 
-import { downloadGeojsonFile, downloadInJOSM } from '../utils/utils';
-import { olFeatures2geojson } from './../utils/featureCollection';
+import { downloadGeojsonFile, downloadInJOSM } from "../utils/utils";
+import { olFeatures2geojson } from "./../utils/featureCollection";
 
 export const DownloadData = ({ classProps }) => {
   const { items, activeProject } = useContext(MainContext);
@@ -12,7 +12,7 @@ export const DownloadData = ({ classProps }) => {
     const geojson = JSON.stringify(olFeatures2geojson(items));
     const fileName = `${activeProject.properties.name.replace(
       /\s/g,
-      '_'
+      "_"
     )}.geojson`;
     downloadGeojsonFile(geojson, fileName);
   };

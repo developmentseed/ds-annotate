@@ -1,22 +1,22 @@
 export const FEATURES_3857 = {
-  type: 'FeatureCollection',
+  type: "FeatureCollection",
   crs: {
-    type: 'name',
+    type: "name",
     properties: {
-      name: 'EPSG:3857',
+      name: "EPSG:3857",
     },
   },
   features: [
     {
-      type: 'Feature',
+      type: "Feature",
       properties: {
-        project: 'Brussels Prototype',
-        class: 'Building',
-        color: '#FED000',
+        project: "Brussels Prototype",
+        class: "Building",
+        color: "#FED000",
         id: 1,
       },
       geometry: {
-        type: 'Polygon',
+        type: "Polygon",
         coordinates: [
           [
             [-5e6, -1e6],
@@ -28,15 +28,15 @@ export const FEATURES_3857 = {
       },
     },
     {
-      type: 'Feature',
+      type: "Feature",
       properties: {
-        project: 'Brussels Prototype',
-        class: 'Building',
-        color: '#FED000',
+        project: "Brussels Prototype",
+        class: "Building",
+        color: "#FED000",
         id: 1,
       },
       geometry: {
-        type: 'MultiPolygon',
+        type: "MultiPolygon",
         coordinates: [
           [
             [
@@ -72,12 +72,12 @@ export const FEATURES_3857 = {
 };
 
 export const FEATURES_4326 = {
-  type: 'FeatureCollection',
+  type: "FeatureCollection",
   features: [
     {
-      type: 'Feature',
+      type: "Feature",
       geometry: {
-        type: 'Polygon',
+        type: "Polygon",
         coordinates: [
           [
             [4.347192696913387, 50.85846940398093],
@@ -261,16 +261,16 @@ export const FEATURES_4326 = {
         ],
       },
       properties: {
-        project: 'Brussels Prototype',
-        class: 'Vegetation',
-        color: '#FED000',
+        project: "Brussels Prototype",
+        class: "Vegetation",
+        color: "#FED000",
         id: 3,
       },
     },
     {
-      type: 'Feature',
+      type: "Feature",
       geometry: {
-        type: 'Polygon',
+        type: "Polygon",
         coordinates: [
           [
             [4.347192696913387, 50.85861084285369],
@@ -407,16 +407,16 @@ export const FEATURES_4326 = {
         ],
       },
       properties: {
-        project: 'Brussels Prototype',
-        class: 'Vegetation',
-        color: '#FED000',
+        project: "Brussels Prototype",
+        class: "Vegetation",
+        color: "#FED000",
         id: 2,
       },
     },
     {
-      type: 'Feature',
+      type: "Feature",
       geometry: {
-        type: 'Polygon',
+        type: "Polygon",
         coordinates: [
           [
             [4.347106753742246, 50.85865346818329],
@@ -551,9 +551,9 @@ export const FEATURES_4326 = {
         ],
       },
       properties: {
-        project: 'Brussels Prototype',
-        class: 'Road',
-        color: '#FED000',
+        project: "Brussels Prototype",
+        class: "Road",
+        color: "#FED000",
         id: 1,
       },
     },

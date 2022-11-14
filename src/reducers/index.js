@@ -1,6 +1,6 @@
 export const activeProjectReducer = (state, action) => {
   switch (action.type) {
-    case 'SET_ACTIVE_PROJECT':
+    case "SET_ACTIVE_PROJECT":
       return action.payload;
     default:
       return state;
@@ -9,7 +9,7 @@ export const activeProjectReducer = (state, action) => {
 
 export const activeClassReducer = (state, action) => {
   switch (action.type) {
-    case 'SET_ACTIVE_CLASS':
+    case "SET_ACTIVE_CLASS":
       return action.payload;
     default:
       return state;
@@ -18,7 +18,7 @@ export const activeClassReducer = (state, action) => {
 
 export const itemsReducer = (state, action) => {
   switch (action.type) {
-    case 'SET_ITEMS':
+    case "SET_ITEMS":
       const items = action.payload.sort((a, b) => {
         return a.values_.id < b.values_.id ? 1 : -1;
       });
@@ -30,7 +30,7 @@ export const itemsReducer = (state, action) => {
 
 export const highlightedItemReducer = (state, action) => {
   switch (action.type) {
-    case 'SET_HIGHLIGHTED_ITEM':
+    case "SET_HIGHLIGHTED_ITEM":
       return action.payload;
     default:
       return state;
@@ -39,7 +39,7 @@ export const highlightedItemReducer = (state, action) => {
 
 export const downloadGeojsonReducer = (state, action) => {
   switch (action.type) {
-    case 'DOWNLOAD_GEOJSON':
+    case "DOWNLOAD_GEOJSON":
       return action.payload.status;
     default:
       return state;
@@ -48,7 +48,7 @@ export const downloadGeojsonReducer = (state, action) => {
 
 export const downloadInJOSMReducer = (state, action) => {
   switch (action.type) {
-    case 'DOWNLOAD_IN_JOSM':
+    case "DOWNLOAD_IN_JOSM":
       return action.payload.status;
     default:
       return state;

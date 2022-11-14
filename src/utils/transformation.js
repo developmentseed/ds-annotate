@@ -1,7 +1,14 @@
-import * as turf from '@turf/turf';
-import { geojson2olFeatures , olFeatures2geojson} from './featureCollection';
+import * as turf from "@turf/turf";
+import { geojson2olFeatures, olFeatures2geojson } from "./featureCollection";
 
-export const getPoly = (features) => {
+/**
+ * Simplify multipolygon, to do that, We get the area from the out polygon area and
+ * inner polygon, if the inere polygon is less than 20% of area of our polygon,
+ * it should be removed from the multipolygon.
+ * @param {*} features
+ * @returns
+ */
+export const simplifyMultipolygon = (features) => {
   let new_features = [];
   for (let index = 0; index < features.length; index++) {
     const feature = features[index];
@@ -21,6 +28,11 @@ export const getPoly = (features) => {
   return new_features;
 };
 
+/**
+ * Smooth features
+ * @param {*} features
+ * @returns
+ */
 export const smooth = (features) => {
   let smoothed = turf.polygonSmooth(turf.featureCollection(features), {
     iterations: 2,
@@ -28,24 +40,39 @@ export const smooth = (features) => {
   return smoothed.features;
 };
 
+/**
+ * Simplify features according to tolerance
+ * @param {Array} features
+ * @param {number} tolerance
+ * @returns
+ */
 export const simplify = (features, tolerance) => {
   let options = { tolerance: tolerance, highQuality: true };
   let simplified = turf.simplify(turf.featureCollection(features), options);
   return simplified.features;
 };
 
+/**
+ * Simplify OpenLayer Feature
+ * @param {*} olFeature
+ * @returns
+ */
 export const simplifyFeature = (olFeature) => {
   const feature = olFeatures2geojson([olFeature]).features[0];
-  console.log(feature)
-  // let geojsonFeature = simplify(smooth(getPoly([feature])), 0.00001)[0];
-  let geojsonFeature = getPoly([feature])[0];
+  // let geojsonFeature = simplify(smooth(simplifyMultipolygon([feature])), 0.00001)[0];
+  let geojsonFeature = simplifyMultipolygon([feature])[0];
   // new_features.map((f) => (f.properties.color = '#0000FF'));
   geojsonFeature.properties = feature.properties;
   const newOLFeature = geojson2olFeatures(geojsonFeature)[0];
   return newOLFeature;
 };
 
-export const union_polygons = (features) => {
+/**
+ * Merge polygons
+ * @param {Object} Geojson features
+ * @returns
+ */
+export const unionPolygons = (features) => {
   let result = null;
   let props = {};
   features.forEach(function (feature) {
@@ -57,11 +84,11 @@ export const union_polygons = (features) => {
     }
   });
   let new_features = [];
-  if (result && result.geometry && result.geometry.type === 'MultiPolygon') {
+  if (result && result.geometry && result.geometry.type === "MultiPolygon") {
     new_features = result.geometry.coordinates.map((c, index) => {
       return turf.polygon(c, { ...props, id: index + 1 });
     });
-  } else if (result && result.geometry && result.geometry.type === 'Polygon') {
+  } else if (result && result.geometry && result.geometry.type === "Polygon") {
     result.properties = props;
     new_features = [result];
   } else {

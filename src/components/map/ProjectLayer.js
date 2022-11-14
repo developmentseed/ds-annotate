@@ -1,15 +1,15 @@
-import { useEffect, useContext } from 'react';
-import VectorSource from 'ol/source/Vector';
-import { GeoJSON } from 'ol/format';
-import * as turf from '@turf/turf';
-import { MapContext } from '../../contexts/MapContext';
+import { useEffect, useContext } from "react";
+import VectorSource from "ol/source/Vector";
+import { GeoJSON } from "ol/format";
+import * as turf from "@turf/turf";
+import { MapContext } from "../../contexts/MapContext";
 import {
   vector,
   mainLayer,
   getImageryLayer,
   vectorSegData,
   vectorHighlighted,
-} from './layers';
+} from "./layers";
 
 const PADDING = { padding: [100, 100, 100, 100] };
 
@@ -20,7 +20,7 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
     if (!map) return;
     if (project) {
       const geojsonSource = new VectorSource({
-        features: new GeoJSON({ featureProjection: 'EPSG:3857' }).readFeatures(
+        features: new GeoJSON({ featureProjection: "EPSG:3857" }).readFeatures(
           turf.featureCollection([project])
         ),
       });
@@ -66,7 +66,7 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
 
   useEffect(() => {
     if (!map) return;
-    map.on('moveend', function (e) {
+    map.on("moveend", function (e) {
       map.updateSize();
     });
   }, [map]);

@@ -1,5 +1,5 @@
-import GeoJSON from 'ol/format/GeoJSON';
-import * as turf from '@turf/turf';
+import GeoJSON from "ol/format/GeoJSON";
+import * as turf from "@turf/turf";
 
 /**
  *
@@ -9,8 +9,8 @@ import * as turf from '@turf/turf';
 export const geojson2olFeatures = (geojsonFeature) => {
   const fc = turf.featureCollection([geojsonFeature]);
   const oLFeatures = new GeoJSON().readFeatures(fc, {
-    featureProjection: 'EPSG:3857',
-    dataProjection: 'EPSG:4326',
+    featureProjection: "EPSG:3857",
+    dataProjection: "EPSG:4326",
   });
   return oLFeatures;
 };
@@ -22,8 +22,8 @@ export const geojson2olFeatures = (geojsonFeature) => {
  */
 export const olFeatures2geojson = (olFeatures) => {
   var geojson = new GeoJSON().writeFeatures(olFeatures, {
-    dataProjection: 'EPSG:4326',
-    featureProjection: 'EPSG:3857',
+    dataProjection: "EPSG:4326",
+    featureProjection: "EPSG:3857",
   });
   return JSON.parse(geojson);
 };
