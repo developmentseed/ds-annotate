@@ -1,5 +1,5 @@
 import * as turf from '@turf/turf';
-import { feature2geojson, geojson2feature } from './featureCollection';
+import { geojson2olFeatures , olFeatures2geojson} from './featureCollection';
 
 export const getPoly = (features) => {
   let new_features = [];
@@ -35,12 +35,13 @@ export const simplify = (features, tolerance) => {
 };
 
 export const simplifyFeature = (olFeature) => {
-  const feature = feature2geojson(olFeature);
+  const feature = olFeatures2geojson([olFeature]).features[0];
+  console.log(feature)
   // let geojsonFeature = simplify(smooth(getPoly([feature])), 0.00001)[0];
   let geojsonFeature = getPoly([feature])[0];
   // new_features.map((f) => (f.properties.color = '#0000FF'));
   geojsonFeature.properties = feature.properties;
-  const newOLFeature = geojson2feature(geojsonFeature)[0];
+  const newOLFeature = geojson2olFeatures(geojsonFeature)[0];
   return newOLFeature;
 };
 

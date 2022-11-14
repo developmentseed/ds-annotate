@@ -1,9 +1,8 @@
 import { useEffect, useContext } from 'react';
 import VectorSource from 'ol/source/Vector';
 import { GeoJSON } from 'ol/format';
-
+import * as turf from '@turf/turf';
 import { MapContext } from '../../contexts/MapContext';
-import { makeFeatureCollection } from '../../utils/featureCollection';
 import {
   vector,
   mainLayer,
@@ -19,11 +18,10 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
 
   useEffect(() => {
     if (!map) return;
-
     if (project) {
       const geojsonSource = new VectorSource({
         features: new GeoJSON({ featureProjection: 'EPSG:3857' }).readFeatures(
-          makeFeatureCollection(project)
+          turf.featureCollection([project])
         ),
       });
       vector.setSource(geojsonSource);

@@ -2,7 +2,7 @@ import React, { useContext, useCallback } from 'react';
 import { MainContext } from '../contexts/MainContext';
 import { BsViewList } from 'react-icons/bs';
 import { union_polygons } from '../utils/transformation';
-import { getGeojson, getItems } from '../utils/featureCollection';
+import { olFeatures2geojson, geojson2olFeatures } from '../utils/featureCollection';
 
 export const MenuActions = () => {
   const { items, dispatchSetItems } = useContext(MainContext);
@@ -18,9 +18,9 @@ export const MenuActions = () => {
   );
 
   const merge_polygons = () => {
-    const fc = getGeojson(items);
+    const fc = olFeatures2geojson(items);
     const mergedFeatures = union_polygons(fc.features);
-    const mergedItems = getItems(mergedFeatures);
+    const mergedItems = geojson2olFeatures(mergedFeatures);
     setItems(mergedItems);
   };
 
