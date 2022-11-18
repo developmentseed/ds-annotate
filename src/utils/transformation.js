@@ -46,21 +46,24 @@ export const smooth = (features) => {
  * @param {number} tolerance
  * @returns
  */
-export const simplify = (features, tolerance) => {
+export const simplifyFeatures = (features, tolerance) => {
   let options = { tolerance: tolerance, highQuality: true };
   let simplified = turf.simplify(turf.featureCollection(features), options);
   return simplified.features;
 };
 
 /**
- * Simplify OpenLayer Feature
+ * Simplify a OpenLayer Feature
  * @param {*} olFeature
  * @returns
  */
-export const simplifyFeature = (olFeature) => {
+export const simplifyOlFeature = (olFeature) => {
   const feature = olFeatures2geojson([olFeature]).features[0];
-  // let geojsonFeature = simplify(smooth(simplifyMultipolygon([feature])), 0.00001)[0];
-  let geojsonFeature = simplifyMultipolygon([feature])[0];
+  let geojsonFeature = simplifyFeatures(
+    smooth(simplifyMultipolygon([feature])),
+    0.00001
+  )[0];
+  // let geojsonFeature = simplifyMultipolygon([feature])[0];
   // new_features.map((f) => (f.properties.color = '#0000FF'));
   geojsonFeature.properties = feature.properties;
   const newOLFeature = geojson2olFeatures(geojsonFeature)[0];

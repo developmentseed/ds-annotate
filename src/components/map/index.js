@@ -30,7 +30,7 @@ import {
 import { MapContext } from "../../contexts/MapContext";
 import { MainContext } from "../../contexts/MainContext";
 import { ProjectLayer } from "./ProjectLayer";
-import { simplifyFeature } from "./../../utils/transformation";
+import { simplifyFeatures } from "./../../utils/transformation";
 
 export function MapWrapper({ children }) {
   const [map, setMap] = useState();
@@ -138,7 +138,7 @@ export function MapWrapper({ children }) {
       });
       const newIdItem = idItem + 1;
       setIdItem(newIdItem);
-      const newOLFeature = simplifyFeature(oLFeature);
+      const newOLFeature = simplifyFeatures(oLFeature);
       setItems([...items, newOLFeature]);
     }
   };
