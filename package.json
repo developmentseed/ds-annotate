@@ -30,7 +30,7 @@
     "deploy": "yarn build && gh-pages -d build",
     "lint": "eslint src",
     "prettier": "prettier --write 'src/**/*.js'",
-    "test": "npm run lint && react-scripts test --env=jsdom --watchAll --testMatch **/src/**/*.test.js"
+    "test": "npm run lint && react-scripts test --env=jsdom --watchAll=false --testMatch **/src/**/*.test.js"
   },
   "eslintConfig": {
     "extends": [
