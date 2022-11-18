@@ -41,7 +41,6 @@ export const downloadInJOSM = (data, project) => {
 };
 
 export const getProjectTemplate = (searchParams) => {
-  console.log(searchParams);
   // Set project from Query
   const classes_items = searchParams.get("classes");
   const name = searchParams.get("name");
