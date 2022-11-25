@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { MainContext } from '../contexts/MainContext';
-import { BsViewList, BsChevronDown } from 'react-icons/bs';
-import { ClassObj } from './ClassObj';
+import React, { useContext, useState, useEffect } from "react";
+import { MainContext } from "../contexts/MainContext";
+import { BsViewList, BsChevronDown } from "react-icons/bs";
+import { ClassObj } from "./ClassObj";
 
-import { getClassLayers } from '../utils/featureCollection';
+import { getClassLayers } from "../utils/featureCollection";
 
 export const MenuClass = () => {
   const { activeProject, activeClass } = useContext(MainContext);
@@ -30,9 +30,9 @@ export const MenuClass = () => {
         </span>
         <span
           className="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full pr-4 pl-4"
-          style={{ background: `${activeClass ? activeClass.color : ''}` }}
+          style={{ background: `${activeClass ? activeClass.color : ""}` }}
         >
-          {activeClass ? activeClass.name : ''}
+          {activeClass ? activeClass.name : ""}
         </span>
         <BsChevronDown></BsChevronDown>
       </div>
@@ -44,7 +44,7 @@ export const MenuClass = () => {
               classProps={classProps}
               setOpenMenu={setOpenMenu}
             >
-              {' '}
+              {" "}
             </ClassObj>
           ))}
         </ul>

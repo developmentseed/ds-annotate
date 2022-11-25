@@ -1,7 +1,7 @@
-import { createContext, useReducer } from 'react';
-import propTypes from 'prop-types';
+import { createContext, useReducer } from "react";
+import propTypes from "prop-types";
 
-import projects from './../static/projects.json';
+import projects from "./../static/projects.json";
 import {
   downloadGeojsonReducer,
   downloadInJOSMReducer,
@@ -9,7 +9,7 @@ import {
   activeProjectReducer,
   itemsReducer,
   highlightedItemReducer,
-} from './../reducers';
+} from "./../reducers";
 
 export const MainContext = createContext();
 

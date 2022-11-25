@@ -5,20 +5,20 @@ import {
   useCallback,
   useLayoutEffect,
   useContext,
-} from 'react';
-import T from 'prop-types';
-import Map from 'ol/Map';
-import View from 'ol/View';
-import { ScaleLine, FullScreen, defaults as defaultControls } from 'ol/control';
-import MagicWandInteraction from 'ol-magic-wand';
-import { Feature } from 'ol';
-import Polygon from 'ol/geom/Polygon';
-import 'ol/ol.css';
+} from "react";
+import T from "prop-types";
+import Map from "ol/Map";
+import View from "ol/View";
+import { ScaleLine, FullScreen, defaults as defaultControls } from "ol/control";
+import MagicWandInteraction from "ol-magic-wand";
+import { Feature } from "ol";
+import Polygon from "ol/geom/Polygon";
+import "ol/ol.css";
 import {
   Modify,
   Select,
   defaults as defaultInteractions,
-} from 'ol/interaction';
+} from "ol/interaction";
 
 import {
   osm,
@@ -26,11 +26,11 @@ import {
   mainLayer,
   vectorSegData,
   vectorHighlighted,
-} from './layers';
-import { MapContext } from '../../contexts/MapContext';
-import { MainContext } from '../../contexts/MainContext';
-import { ProjectLayer } from './ProjectLayer';
-import { simplifyFeature } from './../../utils/transformation';
+} from "./layers";
+import { MapContext } from "../../contexts/MapContext";
+import { MainContext } from "../../contexts/MainContext";
+import { ProjectLayer } from "./ProjectLayer";
+import { simplifyOlFeature } from "./../../utils/transformation";
 
 export function MapWrapper({ children }) {
   const [map, setMap] = useState();
@@ -53,11 +53,11 @@ export function MapWrapper({ children }) {
       layers: [mainLayer],
       hatchLength: 4,
       hatchTimeout: 300,
-      waitClass: 'magic-wand-loading',
-      addClass: 'magic-wand-add',
+      waitClass: "magic-wand-loading",
+      addClass: "magic-wand-add",
     });
     const view = new View({
-      projection: 'EPSG:3857',
+      projection: "EPSG:3857",
       center: [0, 0],
       zoom: 2,
     });
@@ -80,7 +80,7 @@ export function MapWrapper({ children }) {
     });
 
     const scaleLine = new ScaleLine({
-      units: 'metric',
+      units: "metric",
       minWidth: 40,
       maxWidth: 40,
     });
@@ -101,12 +101,15 @@ export function MapWrapper({ children }) {
     setWand(initWand);
   }, []);
 
-  const setItems = useCallback((items) => {
-    dispatchSetItems({
-      type: 'SET_ITEMS',
-      payload: items,
-    });
-  }, [dispatchSetItems]);
+  const setItems = useCallback(
+    (items) => {
+      dispatchSetItems({
+        type: "SET_ITEMS",
+        payload: items,
+      });
+    },
+    [dispatchSetItems]
+  );
 
   useEffect(() => {
     if (activeProject) {
@@ -119,7 +122,7 @@ export function MapWrapper({ children }) {
   };
 
   const drawSegments = (e) => {
-    if (e.type === 'keypress' && e.key === 's') {
+    if (e.type === "keypress" && e.key === "s") {
       let contours = wand.getContours();
       if (!contours) return;
       let rings = contours.map((c) =>
@@ -131,11 +134,11 @@ export function MapWrapper({ children }) {
         project: activeProject.properties.name,
         class: activeClass.name,
         color: activeClass.color,
-        id :idItem
+        id: idItem,
       });
-      const newIdItem = idItem+1
+      const newIdItem = idItem + 1;
       setIdItem(newIdItem);
-      const newOLFeature = simplifyFeature(oLFeature);
+      const newOLFeature = simplifyOlFeature(oLFeature);
       setItems([...items, newOLFeature]);
     }
   };
@@ -144,7 +147,7 @@ export function MapWrapper({ children }) {
     <MapContext.Provider value={{ map }}>
       <div
         ref={mapElement}
-        style={{ height: '100%', width: '100%', background: '#456234' }}
+        style={{ height: "100%", width: "100%", background: "#456234" }}
         onContextMenu={handleClick}
         onKeyPress={drawSegments}
         tabIndex={0}

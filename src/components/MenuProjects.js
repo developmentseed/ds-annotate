@@ -1,32 +1,35 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { BsChevronDown, BsViewList } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
-import { useParams, useSearchParams } from 'react-router-dom';
+import React, { useContext, useState, useEffect, useCallback } from "react";
+import { BsChevronDown, BsViewList } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 
-import { MainContext } from './../contexts/MainContext';
-import { getClassLayers } from './../utils/featureCollection';
-import { getProjectTemplate } from './../utils/utils';
+import { MainContext } from "./../contexts/MainContext";
+import { getClassLayers } from "./../utils/featureCollection";
+import { getProjectTemplate } from "./../utils/utils";
 
 export const MenuProjects = () => {
   const { projects, dispatchSetActiveProject, dispatchSetActiveClass } =
     useContext(MainContext);
   const [openMenu, setOpenMenu] = useState(false);
-  const [projectName, setProjectName] = useState('Projects');
+  const [projectName, setProjectName] = useState("Projects");
 
-  const setProject = useCallback((project) => {
-    dispatchSetActiveProject({
-      type: 'SET_ACTIVE_PROJECT',
-      payload: project,
-    });
+  const setProject = useCallback(
+    (project) => {
+      dispatchSetActiveProject({
+        type: "SET_ACTIVE_PROJECT",
+        payload: project,
+      });
 
-    const classLayers = getClassLayers(project);
-    dispatchSetActiveClass({
-      type: 'SET_ACTIVE_CLASS',
-      payload: classLayers[0],
-    });
+      const classLayers = getClassLayers(project);
+      dispatchSetActiveClass({
+        type: "SET_ACTIVE_CLASS",
+        payload: classLayers[0],
+      });
 
-    setProjectName(project.properties.name);
-  }, [dispatchSetActiveClass, dispatchSetActiveProject]);
+      setProjectName(project.properties.name);
+    },
+    [dispatchSetActiveClass, dispatchSetActiveProject]
+  );
 
   let { slug } = useParams();
 

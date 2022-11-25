@@ -1,8 +1,11 @@
-import React, { useContext, useCallback } from 'react';
-import { MainContext } from '../contexts/MainContext';
-import { BsViewList } from 'react-icons/bs';
-import { union_polygons } from '../utils/transformation';
-import { getGeojson, getItems } from '../utils/featureCollection';
+import React, { useContext, useCallback } from "react";
+import { MainContext } from "../contexts/MainContext";
+import { BsViewList } from "react-icons/bs";
+import { unionPolygons } from "../utils/transformation";
+import {
+  olFeatures2geojson,
+  geojson2olFeatures,
+} from "../utils/featureCollection";
 
 export const MenuActions = () => {
   const { items, dispatchSetItems } = useContext(MainContext);
@@ -10,24 +13,24 @@ export const MenuActions = () => {
   const setItems = useCallback(
     (items) => {
       dispatchSetItems({
-        type: 'SET_ITEMS',
+        type: "SET_ITEMS",
         payload: items,
       });
     },
     [dispatchSetItems]
   );
 
-  const merge_polygons = () => {
-    const fc = getGeojson(items);
-    const mergedFeatures = union_polygons(fc.features);
-    const mergedItems = getItems(mergedFeatures);
+  const mergPolygons = () => {
+    const fc = olFeatures2geojson(items);
+    const mergedFeatures = unionPolygons(fc.features);
+    const mergedItems = geojson2olFeatures(mergedFeatures);
     setItems(mergedItems);
   };
 
-  document.addEventListener('keydown', (e) => {
+  document.addEventListener("keydown", (e) => {
     // Merge polygonos
-    if (e.key === 'm') {
-      merge_polygons();
+    if (e.key === "m") {
+      mergPolygons();
     }
   });
   return (
@@ -43,7 +46,7 @@ export const MenuActions = () => {
         <button
           className="custom_button"
           onClick={() => {
-            merge_polygons();
+            mergPolygons();
           }}
         >
           Merge (M)

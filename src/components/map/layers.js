@@ -1,7 +1,7 @@
-import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
-import { TileWMS, OSM, XYZ } from 'ol/source';
-import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
-import MultiPoint from 'ol/geom/MultiPoint';
+import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
+import { TileWMS, OSM, XYZ } from "ol/source";
+import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
+import MultiPoint from "ol/geom/MultiPoint";
 
 export const osm = new TileLayer({
   source: new OSM(),
@@ -11,7 +11,7 @@ export const osm = new TileLayer({
 export const vector = new VectorLayer({
   style: new Style({
     stroke: new Stroke({
-      color: '#dd1c77',
+      color: "#dd1c77",
       width: 2,
     }),
   }),
@@ -22,9 +22,9 @@ export const vectorSegData = new VectorLayer({
   style: function (feature) {
     return [
       new Style({
-        background: 'white',
+        background: "white",
         stroke: new Stroke({
-          color: feature.get('color'),
+          color: feature.get("color"),
           // lineDash: [2],
           width: 2,
         }),
@@ -33,7 +33,7 @@ export const vectorSegData = new VectorLayer({
         image: new CircleStyle({
           radius: 3,
           fill: new Fill({
-            color: feature.get('color'),
+            color: feature.get("color"),
           }),
         }),
         geometry: function (feature) {
@@ -63,17 +63,17 @@ export const vectorHighlighted = new VectorLayer({
 export const mainLayer = new TileLayer({ zIndex: 2 });
 
 export const getImageryLayer = (imagery) => {
-  if (imagery.type === 'wms') {
+  if (imagery.type === "wms") {
     return new TileWMS({
       url: imagery.url,
       params: { LAYERS: imagery.layerName, TILED: true },
       ratio: 1,
       serverType: imagery.serverType,
-      crossOrigin: 'anonymous',
+      crossOrigin: "anonymous",
     });
   }
 
-  if (imagery.type === 'tms') {
-    return new XYZ({ url: imagery.url, crossOrigin: 'anonymous' });
+  if (imagery.type === "tms") {
+    return new XYZ({ url: imagery.url, crossOrigin: "anonymous" });
   }
 };
