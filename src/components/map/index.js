@@ -33,7 +33,8 @@ import { ProjectLayer } from "./ProjectLayer";
 import { simplifyOlFeature } from "./../../utils/transformation";
 
 import { getCanvas } from "./../../utils/canvas";
-import {encodeImage} from "../../utils/samApi";
+import { encodeImage, requestDecoderService } from "../../utils/samApi";
+import { encodeImageExample } from "../../utils/encodeRespose";
 
 export function MapWrapper({ children }) {
   const [map, setMap] = useState();
@@ -121,16 +122,21 @@ export function MapWrapper({ children }) {
     }
   }, [activeProject, setItems]);
 
-  
+
   const handleClick = (e) => {
     console.log(activeModule)
-    if (activeModule=="SAM"){
-      // console.log(getCanvas(map))
-      encodeImage(getCanvas(map))
-
+    if (activeModule == "SAM") {
+      // encodeImage(getCanvas(map))
+      requestDecoderService(
+        {
+          "image_embeddings": encodeImageExample,
+          "image_shape": map.getSize(),
+          "input_label": 1,
+          "input_point": [e.clientX, e.clientY]
+        }
+      )
     }
-    console.log(`Start drawing...using ${e.type}`);
-
+    // console.log(`Start drawing...using ${e.type}`);
   };
 
   const drawSegments = (e) => {
@@ -160,7 +166,7 @@ export function MapWrapper({ children }) {
       <div
         ref={mapElement}
         style={{ height: "100%", width: "100%", background: "#456234" }}
-        onContextMenu={handleClick}
+        onClick={handleClick}
         onKeyPress={drawSegments}
         tabIndex={0}
       >

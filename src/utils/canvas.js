@@ -48,7 +48,7 @@ export const getCanvas = (map) => {
   );
   mapContext.globalAlpha = 1;
   mapContext.setTransform(1, 0, 0, 1, 0, 0);
-  const base64 = mapCanvas.toDataURL().split(';base64,')[1];
+  const base64 = mapCanvas.toDataURL("image/jpeg", 0.5).split(';base64,')[1];
   return base64;
 };
 
