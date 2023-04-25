@@ -16,6 +16,15 @@ export const activeClassReducer = (state, action) => {
   }
 };
 
+export const activeModuleReducer = (state, action) => {
+  switch (action.type) {
+    case "SET_ACTIVE_MODULE":
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 export const itemsReducer = (state, action) => {
   switch (action.type) {
     case "SET_ITEMS":

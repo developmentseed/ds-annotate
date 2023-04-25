@@ -9,6 +9,7 @@ import {
   activeProjectReducer,
   itemsReducer,
   highlightedItemReducer,
+  activeModuleReducer
 } from "./../reducers";
 
 export const MainContext = createContext();
@@ -25,6 +26,9 @@ const MainContextProvider = (props) => {
   );
 
   const [items, dispatchSetItems] = useReducer(itemsReducer, []);
+
+  //Set active module to map, SAM or Magic wand
+  const [activeModule, dispatchSetActiveModule] = useReducer(activeModuleReducer, "SAM");
 
   const [highlightedItem, dispatchSetHighlightedItem] = useReducer(
     highlightedItemReducer,
@@ -54,6 +58,8 @@ const MainContextProvider = (props) => {
         dispatchDLGeojson,
         dlInJOSM,
         dispatchDLInJOSM,
+        activeModule, 
+        dispatchSetActiveModule
       }}
     >
       {props.children}

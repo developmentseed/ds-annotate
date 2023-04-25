@@ -32,6 +32,9 @@ import { MainContext } from "../../contexts/MainContext";
 import { ProjectLayer } from "./ProjectLayer";
 import { simplifyOlFeature } from "./../../utils/transformation";
 
+import { getCanvas } from "./../../utils/canvas";
+import {encodeImage} from "../../utils/samApi";
+
 export function MapWrapper({ children }) {
   const [map, setMap] = useState();
   const mapElement = useRef();
@@ -42,6 +45,7 @@ export function MapWrapper({ children }) {
     activeProject,
     activeClass,
     items,
+    activeModule,
     dispatchSetItems,
     highlightedItem,
   } = useContext(MainContext);
@@ -117,8 +121,16 @@ export function MapWrapper({ children }) {
     }
   }, [activeProject, setItems]);
 
+  
   const handleClick = (e) => {
+    console.log(activeModule)
+    if (activeModule=="SAM"){
+      // console.log(getCanvas(map))
+      encodeImage(getCanvas(map))
+
+    }
     console.log(`Start drawing...using ${e.type}`);
+
   };
 
   const drawSegments = (e) => {
