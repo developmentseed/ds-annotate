@@ -2,19 +2,29 @@ import { useEffect, useContext } from "react";
 import VectorSource from "ol/source/Vector";
 import { GeoJSON } from "ol/format";
 import * as turf from "@turf/turf";
+import Feature from "ol/Feature";
+import Point from "ol/geom/Point";
+
 import { MapContext } from "../../contexts/MapContext";
+import { MainContext } from "../../contexts/MainContext";
+
 import {
   vector,
   mainLayer,
   getImageryLayer,
   vectorSegData,
   vectorHighlighted,
+  vectorPointSelector
 } from "./layers";
 
 const PADDING = { padding: [100, 100, 100, 100] };
 
 export const ProjectLayer = ({ project, items, highlightedItem }) => {
   const { map } = useContext(MapContext);
+  const {
+    pointsSelector,
+    dispatchSetPointsSelector
+  } = useContext(MainContext);
 
   useEffect(() => {
     if (!map) return;
@@ -71,5 +81,27 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
     });
   }, [map]);
 
+  // Add point to send request to SAM
+  useEffect(() => {
+    if (!map) return;
+    map.on("click", function (e) {
+      const coordinates = e.coordinate;
+      const point = new Feature(new Point(coordinates));
+      dispatchSetPointsSelector({
+        type: "SET_POINTS_SELECTORS",
+        payload: [...pointsSelector, point],
+      });
+    });
+  }, [pointsSelector]);
+
+  //Display points selector in the map
+  useEffect(() => {
+    if (!map) return;
+    const pointsSelectorDataSource = new VectorSource({
+      features: pointsSelector,
+      wrapX: true,
+    });
+    vectorPointSelector.setSource(pointsSelectorDataSource);
+  }, [pointsSelector]);
   return null;
 };

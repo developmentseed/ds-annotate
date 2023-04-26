@@ -63,3 +63,17 @@ export const downloadInJOSMReducer = (state, action) => {
       return state;
   }
 };
+
+export const pointsSelectorReducer = (state, action) => {
+  switch (action.type) {
+    case "SET_POINTS_SELECTORS":
+      const pointsSelector = action.payload.sort((a, b) => {
+        return a.values_.id < b.values_.id ? 1 : -1;
+      });
+      console.log("pointsSelectorReducer")
+      console.log(pointsSelector)
+      return pointsSelector;
+    default:
+      return state;
+  }
+};

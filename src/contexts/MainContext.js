@@ -9,7 +9,8 @@ import {
   activeProjectReducer,
   itemsReducer,
   highlightedItemReducer,
-  activeModuleReducer
+  activeModuleReducer,
+  pointsSelectorReducer
 } from "./../reducers";
 
 export const MainContext = createContext();
@@ -27,13 +28,11 @@ const MainContextProvider = (props) => {
 
   const [items, dispatchSetItems] = useReducer(itemsReducer, []);
 
-  //Set active module to map, SAM or Magic wand
-  const [activeModule, dispatchSetActiveModule] = useReducer(activeModuleReducer, "SAM");
-
   const [highlightedItem, dispatchSetHighlightedItem] = useReducer(
     highlightedItemReducer,
     null
   );
+
 
   const [dlGeojson, dispatchDLGeojson] = useReducer(
     downloadGeojsonReducer,
@@ -41,6 +40,13 @@ const MainContextProvider = (props) => {
   );
 
   const [dlInJOSM, dispatchDLInJOSM] = useReducer(downloadInJOSMReducer, false);
+
+  //Set active module to map, SAM or Magic wand
+  const [activeModule, dispatchSetActiveModule] = useReducer(activeModuleReducer, "SAM");
+  const [pointsSelector, dispatchSetPointsSelector] = useReducer(
+    pointsSelectorReducer,
+    []
+  );
 
   return (
     <MainContext.Provider
@@ -58,8 +64,10 @@ const MainContextProvider = (props) => {
         dispatchDLGeojson,
         dlInJOSM,
         dispatchDLInJOSM,
-        activeModule, 
-        dispatchSetActiveModule
+        activeModule,
+        dispatchSetActiveModule,
+        pointsSelector,
+        dispatchSetPointsSelector
       }}
     >
       {props.children}

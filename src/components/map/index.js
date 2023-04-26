@@ -26,6 +26,7 @@ import {
   mainLayer,
   vectorSegData,
   vectorHighlighted,
+  vectorPointSelector
 } from "./layers";
 import { MapContext } from "../../contexts/MapContext";
 import { MainContext } from "../../contexts/MainContext";
@@ -50,7 +51,7 @@ export function MapWrapper({ children }) {
     items,
     activeModule,
     dispatchSetItems,
-    highlightedItem,
+    highlightedItem
   } = useContext(MainContext);
 
   const [idItem, setIdItem] = useState(1);
@@ -101,7 +102,7 @@ export function MapWrapper({ children }) {
         select,
         modify,
       ]),
-      layers: [osm, mainLayer, vector, vectorSegData, vectorHighlighted],
+      layers: [osm, mainLayer, vector, vectorSegData, vectorHighlighted, vectorPointSelector],
       view: view,
     });
 
@@ -128,26 +129,26 @@ export function MapWrapper({ children }) {
 
 
   const handleClick = (e) => {
-    console.log(activeModule)
-    if (activeModule == "SAM") {
-      //Fetch predition from SAM
-      //Enable loading
-      setLoading(true);
-      getPrediction(getCanvas(map), {
-        "image_embeddings": encodeImageExample,
-        "image_shape": map.getSize(),
-        "input_label": 1,
-        "input_point": [e.clientX, e.clientY]
-      }).then(response => {
-        console.log("image_embedding");
-        console.log(JSON.stringify(response.image_embedding));
-        console.log("masks")
-        console.log(JSON.stringify(response.masks));
-        setLoading(false);
-      }).catch(error => {
-        setLoading(false);
-    });;
-    }
+    // console.log(activeModule)
+    // if (activeModule == "SAM") {
+    //   //Fetch predition from SAM
+    //   //Enable loading
+    //   setLoading(true);
+    //   getPrediction(getCanvas(map), {
+    //     "image_embeddings": encodeImageExample,
+    //     "image_shape": map.getSize(),
+    //     "input_label": 1,
+    //     "input_point": [e.clientX, e.clientY]
+    //   }).then(response => {
+    //     console.log("image_embedding");
+    //     console.log(JSON.stringify(response.image_embedding));
+    //     console.log("masks")
+    //     console.log(JSON.stringify(response.masks));
+    //     setLoading(false);
+    //   }).catch(error => {
+    //     setLoading(false);
+    // });
+    // }
   };
 
   const drawSegments = (e) => {
@@ -177,7 +178,7 @@ export function MapWrapper({ children }) {
       <div
         ref={mapElement}
         style={{ height: "100%", width: "100%", background: "#456234" }}
-        onClick={handleClick}
+        // onClick={handleClick}
         onKeyPress={drawSegments}
         tabIndex={0}
       >
@@ -187,6 +188,7 @@ export function MapWrapper({ children }) {
             project={activeProject}
             items={items}
             highlightedItem={highlightedItem}
+            // pointsSelector={pointsSelector}
           />
         )}
         {children}
