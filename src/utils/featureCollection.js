@@ -24,6 +24,7 @@ export const olFeatures2geojson = (olFeatures) => {
   var geojson = new GeoJSON().writeFeatures(olFeatures, {
     dataProjection: "EPSG:4326",
     featureProjection: "EPSG:3857",
+    properties: ["px", "py"]
   });
   return JSON.parse(geojson);
 };

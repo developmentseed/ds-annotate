@@ -70,8 +70,6 @@ export const pointsSelectorReducer = (state, action) => {
       const pointsSelector = action.payload.sort((a, b) => {
         return a.values_.id < b.values_.id ? 1 : -1;
       });
-      console.log("pointsSelectorReducer")
-      console.log(pointsSelector)
       return pointsSelector;
     default:
       return state;

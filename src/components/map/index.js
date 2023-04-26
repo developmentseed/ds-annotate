@@ -33,9 +33,10 @@ import { MainContext } from "../../contexts/MainContext";
 import { ProjectLayer } from "./ProjectLayer";
 import { simplifyOlFeature } from "./../../utils/transformation";
 
-import { getCanvas } from "./../../utils/canvas";
-import { getPrediction } from "../../utils/samApi";
-import { encodeImageExample } from "../../utils/encodeRespose";
+// import { getCanvas } from "./../../utils/canvas";
+// import { getPrediction } from "../../utils/samApi";
+// import { encodeImageExample } from "../../utils/encodeRespose";
+import {olFeatures2geojson } from "./../../utils/featureCollection";
 
 import { SpinerLoader } from './../SpinerLoader';
 
@@ -51,7 +52,8 @@ export function MapWrapper({ children }) {
     items,
     activeModule,
     dispatchSetItems,
-    highlightedItem
+    highlightedItem,
+    pointsSelector
   } = useContext(MainContext);
 
   const [idItem, setIdItem] = useState(1);
@@ -130,6 +132,7 @@ export function MapWrapper({ children }) {
 
   const handleClick = (e) => {
     // console.log(activeModule)
+    // pointsSelector
     // if (activeModule == "SAM") {
     //   //Fetch predition from SAM
     //   //Enable loading
@@ -173,13 +176,19 @@ export function MapWrapper({ children }) {
     }
   };
 
+  const handleOnKeyDown = (e) =>{
+    console.log(olFeatures2geojson(pointsSelector))
+    
+  }
+
   return (
     <MapContext.Provider value={{ map }}>
       <div
         ref={mapElement}
         style={{ height: "100%", width: "100%", background: "#456234" }}
-        // onClick={handleClick}
+        onClick={handleClick}
         onKeyPress={drawSegments}
+        onKeyDown={handleOnKeyDown}
         tabIndex={0}
       >
         {loading && <SpinerLoader loading={loading} />}
@@ -188,7 +197,6 @@ export function MapWrapper({ children }) {
             project={activeProject}
             items={items}
             highlightedItem={highlightedItem}
-            // pointsSelector={pointsSelector}
           />
         )}
         {children}

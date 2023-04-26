@@ -86,7 +86,9 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
     if (!map) return;
     map.on("click", function (e) {
       const coordinates = e.coordinate;
+      console.log(e.pixel_)
       const point = new Feature(new Point(coordinates));
+      point.setProperties({ "px": e.pixel_[0], "py": e.pixel_[1] })
       dispatchSetPointsSelector({
         type: "SET_POINTS_SELECTORS",
         payload: [...pointsSelector, point],

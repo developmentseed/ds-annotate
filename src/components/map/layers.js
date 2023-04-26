@@ -89,7 +89,7 @@ export const vectorPointSelector = new VectorLayer({
       }),
       stroke: new Stroke({
         color: '#ffcc33',
-        width: 2
+        width: 1
       })
     }),
   }),
