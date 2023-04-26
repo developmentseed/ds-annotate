@@ -1,6 +1,6 @@
 export const getCanvas = (map) => {
   if (!map) return;
-
+  console.log("Fetch canvas..")
   const mapCanvas = document.createElement('canvas');
   const size = map.getSize();
   mapCanvas.width = size[0];
@@ -48,7 +48,9 @@ export const getCanvas = (map) => {
   );
   mapContext.globalAlpha = 1;
   mapContext.setTransform(1, 0, 0, 1, 0, 0);
-  const base64 = mapCanvas.toDataURL("image/jpeg", 0.5).split(';base64,')[1];
+  const canvas = mapCanvas.toDataURL("image/jpeg", 0.5)
+  const base64 = canvas.split(';base64,')[1];
+  // console.log(canvas)
   return base64;
 };
 

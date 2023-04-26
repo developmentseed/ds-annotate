@@ -33,8 +33,10 @@ import { ProjectLayer } from "./ProjectLayer";
 import { simplifyOlFeature } from "./../../utils/transformation";
 
 import { getCanvas } from "./../../utils/canvas";
-import { encodeImage, requestDecoderService, getPrediction } from "../../utils/samApi";
+import { getPrediction } from "../../utils/samApi";
 import { encodeImageExample } from "../../utils/encodeRespose";
+
+import { SpinerLoader } from './../SpinerLoader';
 
 export function MapWrapper({ children }) {
   const [map, setMap] = useState();
@@ -52,6 +54,7 @@ export function MapWrapper({ children }) {
   } = useContext(MainContext);
 
   const [idItem, setIdItem] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   useLayoutEffect(() => {
     const initWand = new MagicWandInteraction({
@@ -104,6 +107,7 @@ export function MapWrapper({ children }) {
 
     setMap(initialMap);
     setWand(initWand);
+
   }, []);
 
   const setItems = useCallback(
@@ -126,7 +130,9 @@ export function MapWrapper({ children }) {
   const handleClick = (e) => {
     console.log(activeModule)
     if (activeModule == "SAM") {
-      // Fetch predition from SAM
+      //Fetch predition from SAM
+      //Enable loading
+      setLoading(true);
       getPrediction(getCanvas(map), {
         "image_embeddings": encodeImageExample,
         "image_shape": map.getSize(),
@@ -137,7 +143,10 @@ export function MapWrapper({ children }) {
         console.log(JSON.stringify(response.image_embedding));
         console.log("masks")
         console.log(JSON.stringify(response.masks));
-      });
+        setLoading(false);
+      }).catch(error => {
+        setLoading(false);
+    });;
     }
   };
 
@@ -172,6 +181,7 @@ export function MapWrapper({ children }) {
         onKeyPress={drawSegments}
         tabIndex={0}
       >
+        {loading && <SpinerLoader loading={loading} />}
         {activeProject && (
           <ProjectLayer
             project={activeProject}
