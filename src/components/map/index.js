@@ -35,9 +35,7 @@ import { simplifyOlFeature } from "./../../utils/transformation";
 
 import { getCanvas } from "./../../utils/canvas";
 import { getPrediction } from "../../utils/samApi";
-import { encodeImageExample } from "../../utils/encodeRespose";
 import { olFeatures2geojson } from "./../../utils/featureCollection";
-
 import { SpinerLoader } from './../SpinerLoader';
 
 export function MapWrapper({ children }) {
@@ -129,31 +127,6 @@ export function MapWrapper({ children }) {
     }
   }, [activeProject, setItems]);
 
-
-  const handleClick = (e) => {
-    // console.log(activeModule)
-    // pointsSelector
-    // if (activeModule == "SAM") {
-    //   //Fetch predition from SAM
-    //   //Enable loading
-    //   setLoading(true);
-    //   getPrediction(getCanvas(map), {
-    //     "image_embeddings": encodeImageExample,
-    //     "image_shape": map.getSize(),
-    //     "input_label": 1,
-    //     "input_point": [e.clientX, e.clientY]
-    //   }).then(response => {
-    //     console.log("image_embedding");
-    //     console.log(JSON.stringify(response.image_embedding));
-    //     console.log("masks")
-    //     console.log(JSON.stringify(response.masks));
-    //     setLoading(false);
-    //   }).catch(error => {
-    //     setLoading(false);
-    // });
-    // }
-  };
-
   const drawSegments = (e) => {
     if (e.type === "keypress" && e.key === "s") {
       let contours = wand.getContours();
@@ -177,13 +150,13 @@ export function MapWrapper({ children }) {
   };
 
   const handleOnKeyDown = (e) => {
+    //Fetch predition from SAM
     if (e.key === "r") {
-      const fcPoints =olFeatures2geojson(pointsSelector);
-      const coords = fcPoints.features.map(f => [f.properties.px,f.properties.py])
+      const fcPoints = olFeatures2geojson(pointsSelector);
+      const coords = fcPoints.features.map(f => [f.properties.px, f.properties.py])
       console.log(coords)
+      if (activeModule === "SAM") {
 
-      if (activeModule == "SAM") {
-        //Fetch predition from SAM
         //Enable loading
         setLoading(true);
         const requestProps = {

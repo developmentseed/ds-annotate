@@ -2,8 +2,6 @@ import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { TileWMS, OSM, XYZ } from "ol/source";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import MultiPoint from "ol/geom/MultiPoint";
-import { Vector as VectorSource } from "ol/source";
-import { Circle } from "ol/style";
 
 export const osm = new TileLayer({
   source: new OSM(),

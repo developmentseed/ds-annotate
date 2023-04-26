@@ -1,9 +1,8 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
 
 export const ModuleSelector = () => {
-  const { activeProject, activeClass,
-    dispatchSetActiveModule } = useContext(MainContext);
+  const { dispatchSetActiveModule } = useContext(MainContext);
 
   const setActiveModule = (mapingModule) => {
     dispatchSetActiveModule({

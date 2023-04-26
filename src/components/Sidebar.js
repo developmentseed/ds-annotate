@@ -20,12 +20,12 @@ export const Sidebar = () => {
         <MenuClass></MenuClass>
         <div className="border-t border-gray-200 my-3"></div>
         <ModuleSelector></ModuleSelector>
-        {/* <div className="border-t border-gray-200 my-3"></div>
+        <div className="border-t border-gray-200 my-3"></div>
         <MenuItems></MenuItems>
         <div className="border-t border-gray-200 my-3"></div>
         <MenuActions></MenuActions>
         <div className="border-t border-gray-200 my-3"></div>
-        <DownloadData></DownloadData> */}
+        <DownloadData></DownloadData>
       </div>
     </aside>
   );
