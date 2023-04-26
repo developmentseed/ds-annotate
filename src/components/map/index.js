@@ -33,7 +33,7 @@ import { ProjectLayer } from "./ProjectLayer";
 import { simplifyOlFeature } from "./../../utils/transformation";
 
 import { getCanvas } from "./../../utils/canvas";
-import { encodeImage, requestDecoderService } from "../../utils/samApi";
+import { encodeImage, requestDecoderService, getPrediction } from "../../utils/samApi";
 import { encodeImageExample } from "../../utils/encodeRespose";
 
 export function MapWrapper({ children }) {
@@ -126,17 +126,19 @@ export function MapWrapper({ children }) {
   const handleClick = (e) => {
     console.log(activeModule)
     if (activeModule == "SAM") {
-      // encodeImage(getCanvas(map))
-      requestDecoderService(
-        {
-          "image_embeddings": encodeImageExample,
-          "image_shape": map.getSize(),
-          "input_label": 1,
-          "input_point": [e.clientX, e.clientY]
-        }
-      )
+      // Fetch predition from SAM
+      getPrediction(getCanvas(map), {
+        "image_embeddings": encodeImageExample,
+        "image_shape": map.getSize(),
+        "input_label": 1,
+        "input_point": [e.clientX, e.clientY]
+      }).then(response => {
+        console.log("image_embedding");
+        console.log(JSON.stringify(response.image_embedding));
+        console.log("masks")
+        console.log(JSON.stringify(response.masks));
+      });
     }
-    // console.log(`Start drawing...using ${e.type}`);
   };
 
   const drawSegments = (e) => {
