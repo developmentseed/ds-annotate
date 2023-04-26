@@ -33,10 +33,10 @@ import { MainContext } from "../../contexts/MainContext";
 import { ProjectLayer } from "./ProjectLayer";
 import { simplifyOlFeature } from "./../../utils/transformation";
 
-// import { getCanvas } from "./../../utils/canvas";
-// import { getPrediction } from "../../utils/samApi";
-// import { encodeImageExample } from "../../utils/encodeRespose";
-import {olFeatures2geojson } from "./../../utils/featureCollection";
+import { getCanvas } from "./../../utils/canvas";
+import { getPrediction } from "../../utils/samApi";
+import { encodeImageExample } from "../../utils/encodeRespose";
+import { olFeatures2geojson } from "./../../utils/featureCollection";
 
 import { SpinerLoader } from './../SpinerLoader';
 
@@ -98,7 +98,7 @@ export function MapWrapper({ children }) {
 
     const initialMap = new Map({
       target: mapElement.current,
-      controls: defaultControls().extend([new FullScreen(), scaleLine]),
+      controls: defaultControls().extend([new FullScreen()]),
       interactions: defaultInteractions(interactions).extend([
         initWand,
         select,
@@ -176,9 +176,35 @@ export function MapWrapper({ children }) {
     }
   };
 
-  const handleOnKeyDown = (e) =>{
-    console.log(olFeatures2geojson(pointsSelector))
-    
+  const handleOnKeyDown = (e) => {
+    if (e.key === "r") {
+      const fcPoints =olFeatures2geojson(pointsSelector);
+      const coords = fcPoints.features.map(f => [f.properties.px,f.properties.py])
+      console.log(coords)
+
+      if (activeModule == "SAM") {
+        //Fetch predition from SAM
+        //Enable loading
+        setLoading(true);
+        const requestProps = {
+          "image_embeddings": null,
+          "image_shape": map.getSize(),
+          "input_label": 1, //TODO pass the rigth class in context
+          "input_point": coords[0] //TODO Pass all coordinates
+        }
+        console.log(requestProps)
+        getPrediction(getCanvas(map), requestProps).then(response => {
+          console.log("image_embedding");
+          console.log(JSON.stringify(response.image_embedding));
+          console.log("masks")
+          console.log(JSON.stringify(response.masks));
+          setLoading(false);
+        }).catch(error => {
+          console.log(error)
+          setLoading(false);
+        });
+      }
+    }
   }
 
   return (
@@ -186,7 +212,7 @@ export function MapWrapper({ children }) {
       <div
         ref={mapElement}
         style={{ height: "100%", width: "100%", background: "#456234" }}
-        onClick={handleClick}
+        // onClick={handleClick}
         onKeyPress={drawSegments}
         onKeyDown={handleOnKeyDown}
         tabIndex={0}
