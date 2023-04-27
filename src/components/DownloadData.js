@@ -23,27 +23,27 @@ export const DownloadData = ({ classProps }) => {
   };
 
   return (
-    <div className="flex flex-row mt-3">
-      <button
+
+    <div className="container mx-auto flex flex-wrap justify-center gap-1">
+      <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded flex items-center mb-2 w-full sm:w-auto"
         type="button"
-        className="custom_button_2 mr-1"
         title="Load data on JOSM"
         onClick={() => {
           josm();
         }}
       >
-        <BsDownload className="w-3 mt-1 mr-2"></BsDownload>
+        <i className="fas fa-heart"><BsDownload className="w-3 mt-1 mr-2"></BsDownload></i>
         JOSM
       </button>
       <button
+        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded flex items-center mb-2 w-full sm:w-auto"
         type="button"
-        className="custom_button_2"
         onClick={() => {
           downloadGeojson();
         }}
         title="Download data as GeoJSON"
       >
-        <BsDownload className="w-3 mt-1 mr-2"></BsDownload>
+        <i className="fas fa-heart"><BsDownload className="w-3 mt-1 mr-2"></BsDownload></i>
         GeoJson
       </button>
     </div>
