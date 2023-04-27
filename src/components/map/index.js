@@ -185,6 +185,7 @@ export function MapWrapper({ children }) {
       <div
         ref={mapElement}
         style={{ height: "100%", width: "100%", background: "#456234" }}
+        className="parent relative"
         // onClick={handleClick}
         onKeyPress={drawSegments}
         onKeyDown={handleOnKeyDown}

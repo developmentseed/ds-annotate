@@ -9,7 +9,7 @@ export const getCanvas = (map) => {
   Array.prototype.forEach.call(
     map.getViewport().querySelectorAll('.ol-layer canvas, canvas.ol-layer'),
     function (canvas) {
-
+      // console.log(canvas.width, canvas.style.height)
       if (canvas.width > 0) {
         const opacity =
           canvas.parentNode.style.opacity || canvas.style.opacity;
