@@ -6,7 +6,6 @@ import { MenuClass } from "./MenuClass";
 import { MenuItems } from "./MenuItems";
 import { DownloadData } from "./DownloadData";
 import { MenuActions } from "./MenuActions";
-import { ModuleSelector } from "./ModuleSelector";
 
 export const Sidebar = () => {
   return (
@@ -18,8 +17,6 @@ export const Sidebar = () => {
         <MenuProjects></MenuProjects>
         <div className="border-t border-gray-200 my-3"></div>
         <MenuClass></MenuClass>
-        <div className="border-t border-gray-200 my-3"></div>
-        <ModuleSelector></ModuleSelector>
         <div className="border-t border-gray-200 my-3"></div>
         <MenuItems></MenuItems>
         <div className="border-t border-gray-200 my-3"></div>

@@ -33,10 +33,8 @@ import { MainContext } from "../../contexts/MainContext";
 import { ProjectLayer } from "./ProjectLayer";
 import { simplifyOlFeature } from "./../../utils/transformation";
 
-import { getCanvas } from "./../../utils/canvas";
-import { getPrediction } from "../../utils/samApi";
-import { olFeatures2geojson } from "./../../utils/featureCollection";
 import { SpinerLoader } from './../SpinerLoader';
+import { SegmentAM } from "./../SegmentAM";
 
 export function MapWrapper({ children }) {
   const [map, setMap] = useState();
@@ -151,33 +149,6 @@ export function MapWrapper({ children }) {
 
   const handleOnKeyDown = (e) => {
     //Fetch predition from SAM
-    if (e.key === "r") {
-      const fcPoints = olFeatures2geojson(pointsSelector);
-      const coords = fcPoints.features.map(f => [f.properties.px, f.properties.py])
-      console.log(coords)
-      if (activeModule === "SAM") {
-
-        //Enable loading
-        setLoading(true);
-        const requestProps = {
-          "image_embeddings": null,
-          "image_shape": map.getSize(),
-          "input_label": 1, //TODO pass the rigth class in context
-          "input_point": coords[0] //TODO Pass all coordinates
-        }
-        console.log(requestProps)
-        getPrediction(getCanvas(map), requestProps).then(response => {
-          console.log("image_embedding");
-          console.log(JSON.stringify(response.image_embedding));
-          console.log("masks")
-          console.log(JSON.stringify(response.masks));
-          setLoading(false);
-        }).catch(error => {
-          console.log(error)
-          setLoading(false);
-        });
-      }
-    }
   }
 
   return (
@@ -192,6 +163,7 @@ export function MapWrapper({ children }) {
         tabIndex={0}
       >
         {loading && <SpinerLoader loading={loading} />}
+        <SegmentAM setLoading={setLoading} />
         {activeProject && (
           <ProjectLayer
             project={activeProject}
