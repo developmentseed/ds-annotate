@@ -4,20 +4,16 @@ import { MapContext } from "../contexts/MapContext";
 import { getCanvas } from "../utils/canvas";
 import { getPrediction } from "../utils/samApi";
 import { olFeatures2geojson } from "../utils/featureCollection";
-
 export const SegmentAM = ({ setLoading }) => {
   const {
     pointsSelector
   } = useContext(MainContext);
   const { map } = useContext(MapContext);
   const [samApiStatus, setSamApiStatus] = useState(null);
-
-
   const reset = () => {
     setLoading(false);
     setSamApiStatus(null)
   }
-
 
   const requestPrediction = () => {
     setSamApiStatus("Predicting...")
@@ -26,18 +22,17 @@ export const SegmentAM = ({ setLoading }) => {
     console.log(coords)
     //Enable loading
     setLoading(true);
+    const [imgWidth, imgHeight] = map.getSize()
     const requestProps = {
       "image_embeddings": null,
-      "image_shape": map.getSize(),
+      "image_shape": [imgWidth, imgHeight],
       "input_label": 1, //TODO pass the rigth class in context
       "input_point": coords[0] //TODO Pass all coordinates
     }
-    console.log(requestProps)
-    getPrediction(getCanvas(map), requestProps).then(response => {
-      console.log("image_embedding");
-      console.log(JSON.stringify(response.image_embedding));
-      console.log("masks")
-      console.log(JSON.stringify(response.masks));
+
+    const canvas = getCanvas(map)
+    getPrediction(canvas, requestProps).then(response => {
+      console.log(JSON.stringify({ canvas: `data:image/jpeg;base64,${canvas}`, masks: response.masks, image_embedding: response.image_embedding, requestProps: requestProps }));
       reset();
     }).catch(error => {
       reset();

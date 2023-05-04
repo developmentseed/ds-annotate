@@ -1,5 +1,6 @@
 export async function getPrediction(base64_string, decodePayload) {
-    const apiURL = "http://192.168.1.49:7080/predictions"
+    const apiURL = "http://192.168.0.103:7080/predictions"
+    // https://segme-gpuel-ekfao79wi98g-617785108.us-east-1.elb.amazonaws.com/ping
     console.log(`Fetching to ${apiURL}...`)
     const headers = {
         Accept: "application/json",
