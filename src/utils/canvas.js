@@ -1,3 +1,7 @@
+import Tile from "ol/layer/Tile";
+import Map from "ol/Map";
+import cloneDeep from 'lodash/cloneDeep';
+
 export const getCanvas = (map) => {
   if (!map) return;
   console.log("Fetch canvas..")
@@ -48,14 +52,39 @@ export const getCanvas = (map) => {
   );
   mapContext.globalAlpha = 1;
   mapContext.setTransform(1, 0, 0, 1, 0, 0);
-  const canvas = mapCanvas.toDataURL("image/jpeg", 0.5)
+  const canvas = mapCanvas.toDataURL("image/jpeg", 0.9)
   const base64 = canvas.split(';base64,')[1];
-  // console.log(canvas)
   return base64;
 };
 
 
-
-
-
-
+export const getCanvasForLayer = (map, layerTitle) => {
+  if (!map) return;
+  const size = map.getSize();
+  var layerGroup = map.getLayerGroup();
+  var myLayer = null;
+  layerGroup.getLayers().forEach(function (layer) {
+    if (layer && layer.get('title') === layerTitle) {
+      myLayer = layer
+    }
+  });
+  if (myLayer && myLayer instanceof Tile) {
+    const div = document.createElement('div');
+    div.setAttribute('style', `position: absolute; visibility: hidden; height: ${size[1]}px; width: ${size[0]}px; background: #456299;`);
+    div.setAttribute('id', 'map');
+    document.body.appendChild(div);
+    const clonedMap = new Map({
+      target: 'map',
+      layers: [cloneDeep(myLayer)],
+      view: cloneDeep(map.getView())
+    });
+    // Set some time to load the map
+    return new Promise(resolve => setTimeout(function () {
+      const canvasBase64 = getCanvas(clonedMap)
+      clonedMap.dispose();
+      div.remove();
+      resolve(canvasBase64)
+      // return canvasBase64;
+    }, 3000));
+  }
+}

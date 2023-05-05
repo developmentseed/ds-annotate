@@ -173,6 +173,9 @@ export function MapWrapper({ children }) {
         )}
         {children}
       </div>
+      {/* <div style={{ position: 'relative', visibility: 'hidden', height: "100%", width: "100%", background: "#456299" }} id="map"> </div>*/}
+
+      
     </MapContext.Provider>
   );
 }

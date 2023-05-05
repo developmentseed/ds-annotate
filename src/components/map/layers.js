@@ -60,7 +60,7 @@ export const vectorHighlighted = new VectorLayer({
   zIndex: 5,
 });
 
-export const mainLayer = new TileLayer({ zIndex: 2 });
+export const mainLayer = new TileLayer({ zIndex: 2, title: 'main_layer'});
 
 export const getImageryLayer = (imagery) => {
   if (imagery.type === "wms") {

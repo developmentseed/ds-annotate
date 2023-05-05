@@ -1,13 +1,15 @@
 import React, { useContext, useState } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { MapContext } from "../contexts/MapContext";
-import { getCanvas } from "../utils/canvas";
+import { getCanvasForLayer } from "../utils/canvas";
 import { getPrediction } from "../utils/samApi";
 import { olFeatures2geojson } from "../utils/featureCollection";
+
 export const SegmentAM = ({ setLoading }) => {
   const {
     pointsSelector
   } = useContext(MainContext);
+
   const { map } = useContext(MapContext);
   const [samApiStatus, setSamApiStatus] = useState(null);
   const reset = () => {
@@ -15,7 +17,7 @@ export const SegmentAM = ({ setLoading }) => {
     setSamApiStatus(null)
   }
 
-  const requestPrediction = () => {
+  async function requestPrediction() {
     setSamApiStatus("Predicting...")
     const fcPoints = olFeatures2geojson(pointsSelector);
     const coords = fcPoints.features.map(f => [f.properties.px, f.properties.py])
@@ -29,8 +31,7 @@ export const SegmentAM = ({ setLoading }) => {
       "input_label": 1, //TODO pass the rigth class in context
       "input_point": coords[0] //TODO Pass all coordinates
     }
-
-    const canvas = getCanvas(map)
+    const canvas = await getCanvasForLayer(map, "main_layer");
     getPrediction(canvas, requestProps).then(response => {
       console.log(JSON.stringify({ canvas: `data:image/jpeg;base64,${canvas}`, masks: response.masks, image_embedding: response.image_embedding, requestProps: requestProps }));
       reset();
@@ -49,7 +50,7 @@ export const SegmentAM = ({ setLoading }) => {
         onClick={() => {
           requestPrediction();
         }}
-        disabled={samApiStatus || false}
+      // disabled={samApiStatus || false}
       >
         {samApiStatus || "Predict Segments"}
       </button>
