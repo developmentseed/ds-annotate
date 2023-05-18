@@ -45,12 +45,12 @@ export const SegmentAM = ({ setLoading }) => {
     <div className="absolute bottom-1 left-2 booto z-50">
       <button
         type="button"
-        className={`bg-${samApiStatus ? "yellow" : "blue"}-500 hover:bg-${samApiStatus ? "yellow" : "blue"}-600 text-white font-bold py-1 px-2 rounded`}
+        className={`bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 rounded`}
         title="Use SAM"
         onClick={() => {
           requestPrediction();
         }}
-      // disabled={samApiStatus || false}
+      disabled={samApiStatus || false}
       >
         {samApiStatus || "Predict Segments"}
       </button>
