@@ -1,13 +1,11 @@
 import apis from "./../static/apis.json";
 export async function getPrediction(base64_string, decodePayload) {
-    const apiURL = apis.samAPI
-    console.log(`Fetching to ${apiURL}...`)
     const headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
         crossOrigin: "anonymous",
     }
-    return fetch(`${apiURL}/predictions/sam_vit_h_encode`,
+    return fetch(`${apis.gpuEncodeAPI}/predictions/sam_vit_h_encode`,
         {
             method: "POST",
             headers,
@@ -17,7 +15,7 @@ export async function getPrediction(base64_string, decodePayload) {
         .then(response1 => response1.json())
         .then(data1 => {
             decodePayload["image_embeddings"] = data1["image_embedding"]
-            return fetch(`${apiURL}/predictions/sam_vit_h_decode`, {
+            return fetch(`${apis.cpuDecodeAPI}/predictions/sam_vit_h_decode`, {
                 method: "POST",
                 headers,
                 body: JSON.stringify(decodePayload)
