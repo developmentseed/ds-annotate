@@ -15,6 +15,22 @@ export const geojson2olFeatures = (geojsonFeature) => {
   return oLFeatures;
 };
 
+
+/**
+ * Convert list of features to OpenLayers features
+ * @param {Array} array of feature
+ * @returns {Array} Array of openLayer features
+ */
+export const features2olFeatures = (features) => {
+  const fc = turf.featureCollection(features);
+  const oLFeatures = new GeoJSON().readFeatures(fc, {
+    featureProjection: "EPSG:3857",
+    dataProjection: "EPSG:4326",
+  });
+  return oLFeatures;
+};
+
+
 /**
  *
  * @param {Array[olFeatures]} olFeatures
@@ -41,4 +57,24 @@ export const getClassLayers = (project) => {
     name: e[0],
     color: e[1],
   }));
+};
+
+/**
+ *
+ * @param {Object} feature of project
+ * @returns {Array} List of objects of classes
+ */
+export const samToGeojson = (ListGeoms, activeProject, activeClass) => {
+  return ListGeoms.map((strGeom, id) => {
+    const geom = JSON.parse(strGeom);
+    const properties = {
+      class: activeClass.name,
+      color: activeClass.color,
+      project: activeProject.properties.name,
+      ...geom.properties,
+      id
+    };
+    const feature = turf.multiPolygon(geom.coordinates, properties);
+    return feature;
+  });
 };
