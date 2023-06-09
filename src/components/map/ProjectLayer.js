@@ -90,7 +90,7 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
       point.setProperties({ "px": Math.ceil(e.pixel_[0]), "py": Math.ceil(e.pixel_[1]) })
       dispatchSetPointsSelector({
         type: "SET_POINTS_SELECTORS",
-        payload: [...pointsSelector, point],
+        payload: [point],
       });
     });
   }, [pointsSelector]);
