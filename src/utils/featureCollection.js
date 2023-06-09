@@ -64,7 +64,7 @@ export const getClassLayers = (project) => {
  * @param {Object} feature of project
  * @returns {Array} List of objects of classes
  */
-export const samToGeojson = (ListGeoms, activeProject, activeClass) => {
+export const sam2Geojson = (ListGeoms, activeProject, activeClass) => {
   return ListGeoms.map((strGeom, id) => {
     const geom = JSON.parse(strGeom);
     const properties = {
@@ -72,7 +72,7 @@ export const samToGeojson = (ListGeoms, activeProject, activeClass) => {
       color: activeClass.color,
       project: activeProject.properties.name,
       ...geom.properties,
-      id
+      id: id
     };
     const feature = turf.multiPolygon(geom.coordinates, properties);
     return feature;
