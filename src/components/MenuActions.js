@@ -1,10 +1,9 @@
 import React, { useContext, useCallback } from "react";
 import { MainContext } from "../contexts/MainContext";
-import { BsViewList } from "react-icons/bs";
 import { unionPolygons } from "../utils/transformation";
 import {
   olFeatures2geojson,
-  geojson2olFeatures,
+  features2olFeatures
 } from "../utils/featureCollection";
 
 export const MenuActions = () => {
@@ -23,7 +22,7 @@ export const MenuActions = () => {
   const mergPolygons = () => {
     const fc = olFeatures2geojson(items);
     const mergedFeatures = unionPolygons(fc.features);
-    const mergedItems = geojson2olFeatures(mergedFeatures);
+    const mergedItems = features2olFeatures(mergedFeatures);
     setItems(mergedItems);
   };
 
@@ -35,12 +34,6 @@ export const MenuActions = () => {
   });
   return (
     <div>
-      {/* <div className="menuHeader">
-        <BsViewList></BsViewList>
-        <span className="text-sm text-base font-small flex-1 duration-200 false">
-          Polygon Action
-        </span>
-      </div> */}
       <div className="flex flex-row mt-3">
         <button
           className="custom_button"
