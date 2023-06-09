@@ -32,7 +32,6 @@ import { MapContext } from "../../contexts/MapContext";
 import { MainContext } from "../../contexts/MainContext";
 import { ProjectLayer } from "./ProjectLayer";
 import { simplifyOlFeature } from "./../../utils/transformation";
-
 import { SpinerLoader } from './../SpinerLoader';
 import { SegmentAM } from "./../SegmentAM";
 
@@ -150,7 +149,7 @@ export function MapWrapper({ children }) {
   const handleOnKeyDown = (e) => {
     //Fetch predition from SAM
   }
-
+  
   return (
     <MapContext.Provider value={{ map }}>
       <div
@@ -173,9 +172,6 @@ export function MapWrapper({ children }) {
         )}
         {children}
       </div>
-      {/* <div style={{ position: 'relative', visibility: 'hidden', height: "100%", width: "100%", background: "#456299" }} id="map"> </div>*/}
-
-      
     </MapContext.Provider>
   );
 }

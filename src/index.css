@@ -16,3 +16,10 @@
     @apply bg-transparent hover:bg-red-500 text-red-700 text-xs font-semibold hover:text-white py-1 px-1 border border-red-500 hover:border-transparent rounded;
   }
 }
+
+
+.notification-container {
+  width: auto!important;
+  min-width: 290px!important;
+  font-size: 12px!important;
+}
