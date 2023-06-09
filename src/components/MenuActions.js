@@ -37,7 +37,7 @@ export const MenuActions = () => {
     <div>
       <div className="menuHeader">
         <BsViewList></BsViewList>
-        <span className=" text-base font-medium flex-1 duration-200 false">
+        <span className="text-sm text-base font-small flex-1 duration-200 false">
           Polygon Action
         </span>
       </div>

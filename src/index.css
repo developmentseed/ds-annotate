@@ -4,13 +4,13 @@
 
 @layer components {
   .menuHeader {
-    @apply text-gray-800 text-sm flex items-center gap-x-2 cursor-pointer p-2 rounded-md mt-2 bg-slate-300;
+    @apply text-gray-800 text-xs sm:text-base flex items-center gap-x-2 cursor-pointer py-1 px-2 rounded-md mt-2 bg-slate-300;
   }
   .subMenuHeader {
-    @apply text-gray-800 text-sm flex items-center gap-x-1 cursor-pointer p-2 pl-8 rounded-md mt-1;
+    @apply text-gray-800 text-xs flex items-center gap-x-1 cursor-pointer p-1 pl-8 pt-1 pb-1 rounded-md mt-1;
   }
   .hoverAnimation {
-    @apply hover:bg-slate-300 hover:bg-opacity-40 rounded-md cursor-pointer xl:w-auto xl:h-auto xl:py-3 xl:px-4 transition duration-200 ease-out;
+    @apply hover:bg-slate-300 hover:bg-opacity-40 rounded-md cursor-pointer transition duration-200 ease-out;
   }
 
   .custom_button {
