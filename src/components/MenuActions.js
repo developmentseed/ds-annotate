@@ -35,13 +35,12 @@ export const MenuActions = () => {
   });
   return (
     <div>
-      <div className="menuHeader">
+      {/* <div className="menuHeader">
         <BsViewList></BsViewList>
         <span className="text-sm text-base font-small flex-1 duration-200 false">
           Polygon Action
         </span>
-      </div>
-
+      </div> */}
       <div className="flex flex-row mt-3">
         <button
           className="custom_button"
@@ -49,7 +48,7 @@ export const MenuActions = () => {
             mergPolygons();
           }}
         >
-          Merge (M)
+          Merge polygons (M)
         </button>
       </div>
     </div>

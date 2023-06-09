@@ -23,29 +23,13 @@ export const DownloadData = ({ classProps }) => {
   };
 
   return (
-
-    <div className="container mx-auto flex flex-wrap justify-center gap-1">
-      <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded flex items-center mb-2 w-full sm:w-auto"
-        type="button"
-        title="Load data on JOSM"
-        onClick={() => {
-          josm();
-        }}
-      >
-        <i className="fas fa-heart"><BsDownload className="w-3 mt-1 mr-2"></BsDownload></i>
-        JOSM
-      </button>
-      <button
-        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded flex items-center mb-2 w-full sm:w-auto"
-        type="button"
-        onClick={() => {
-          downloadGeojson();
-        }}
-        title="Download data as GeoJSON"
-      >
-        <i className="fas fa-heart"><BsDownload className="w-3 mt-1 mr-2"></BsDownload></i>
-        GeoJson
-      </button>
+    <div className="flex justify-center gap-2">
+      <button className="custom_button" onClick={() => {
+        downloadGeojson();
+      }}>Download as geojson</button>
+      <button className="custom_button" onClick={() => {
+        josm();
+      }}>Download in JOSM</button>
     </div>
   );
 };

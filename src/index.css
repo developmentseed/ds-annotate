@@ -12,19 +12,7 @@
   .hoverAnimation {
     @apply hover:bg-slate-300 hover:bg-opacity-40 rounded-md cursor-pointer transition duration-200 ease-out;
   }
-
   .custom_button {
-    @apply bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-1 px-2 border border-red-500 hover:border-transparent rounded;
+    @apply bg-transparent hover:bg-red-500 text-red-700 text-xs font-semibold hover:text-white py-1 px-1 border border-red-500 hover:border-transparent rounded;
   }
-
-  .custom_button_2 {
-    @apply px-6 pt-2.5 pb-1 custom_button  bg-red-700 text-white active:shadow-lg transition duration-150 ease-in-out flex;
-  }
-  /* .icon {
-    @apply cursor-pointer w-9 h-9 hover:bg-[#1d9bf0] hover:bg-opacity-10 flex items-center justify-center rounded-full transition ease-out;
-  }
-
-  .tag {
-    @apply text-[#1d9bf0] font-normal hover:underline cursor-pointer;
-  } */
 }
