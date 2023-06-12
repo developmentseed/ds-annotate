@@ -1,6 +1,6 @@
 import React, { useContext, useCallback } from "react";
 import { MainContext } from "../contexts/MainContext";
-import { unionPolygons } from "../utils/transformation";
+import { mergePolygonClass } from "../utils/transformation";
 import {
   olFeatures2geojson,
   features2olFeatures
@@ -21,7 +21,7 @@ export const MenuActions = () => {
 
   const mergPolygons = () => {
     const fc = olFeatures2geojson(items);
-    const mergedFeatures = unionPolygons(fc.features);
+    const mergedFeatures = mergePolygonClass(fc.features);
     const mergedItems = features2olFeatures(mergedFeatures);
     setItems(mergedItems);
   };

@@ -9,7 +9,6 @@ import {
   activeProjectReducer,
   itemsReducer,
   highlightedItemReducer,
-  activeModuleReducer,
   pointsSelectorReducer
 } from "./../reducers";
 
@@ -41,8 +40,6 @@ const MainContextProvider = (props) => {
 
   const [dlInJOSM, dispatchDLInJOSM] = useReducer(downloadInJOSMReducer, false);
 
-  //Set active module to map, SAM or Magic wand
-  const [activeModule, dispatchSetActiveModule] = useReducer(activeModuleReducer, "SAM");
   const [pointsSelector, dispatchSetPointsSelector] = useReducer(
     pointsSelectorReducer,
     []
@@ -64,8 +61,6 @@ const MainContextProvider = (props) => {
         dispatchDLGeojson,
         dlInJOSM,
         dispatchDLInJOSM,
-        activeModule,
-        dispatchSetActiveModule,
         pointsSelector,
         dispatchSetPointsSelector
       }}

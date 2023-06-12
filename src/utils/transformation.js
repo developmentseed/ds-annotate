@@ -71,6 +71,28 @@ export const simplifyOlFeature = (olFeature) => {
 };
 
 /**
+ * Merge polygon by class
+ * @param {Object} Geojson features
+ */
+
+export const mergePolygonClass = (features) => {  
+  const grouped = features.reduce((result, current) => {
+    const category = current.properties.class;
+    if (!result[category]) {
+      result[category] = [];
+    }
+    result[category].push(current);
+    return result;
+  }, {});
+
+  let result = [];
+  for (const class_ in grouped) {
+    result = result.concat(unionPolygons(grouped[class_]));
+  }
+  return result;
+}
+
+/**
  * Merge polygons
  * @param {Object} Geojson features
  * @returns

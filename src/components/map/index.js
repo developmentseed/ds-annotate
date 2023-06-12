@@ -51,7 +51,7 @@ export function MapWrapper({ children }) {
     pointsSelector
   } = useContext(MainContext);
 
-  const [idItem, setIdItem] = useState(1);
+  const [idItem, setIdItem] = useState({});
   const [loading, setLoading] = useState(false);
 
   useLayoutEffect(() => {
@@ -132,15 +132,25 @@ export function MapWrapper({ children }) {
         c.points.map((p) => map.getCoordinateFromPixel([p.x, p.y]))
       );
 
+      // Check and set the id number for each class
+      console.log(activeClass.name)
+      if(!idItem[activeClass.name]){
+        idItem[activeClass.name] = 1;
+      }else{
+        idItem[activeClass.name] = idItem[activeClass.name] + 1;
+      }
+
+      console.log(idItem)
       const oLFeature = new Feature({
         geometry: new Polygon(rings),
         project: activeProject.properties.name,
         class: activeClass.name,
         color: activeClass.color,
-        id: idItem,
+        id: idItem[activeClass.name],
       });
-      const newIdItem = idItem + 1;
-      setIdItem(newIdItem);
+      // const newIdItem = idItem + 1;
+      setIdItem(idItem);
+
       const newOLFeature = simplifyOlFeature(oLFeature);
       setItems([...items, newOLFeature]);
     }
