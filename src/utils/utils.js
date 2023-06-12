@@ -77,3 +77,18 @@ export const getProjectTemplate = (searchParams) => {
   }
   return projectFeature;
 };
+
+/**
+ * 
+ * @param {array} items of OpenLayer
+ * @param {object} activeClass 
+ * @returns max item id plus 1
+ */
+export const getMaxIdPerClass = (items, activeClass) => {
+  const items_ = items.map(i => i.values_);
+  if (items_.length === 0) return 1;
+  const filteredItems = items_.filter(obj => obj.class === activeClass.name);
+  if (filteredItems.length === 0) return 1;
+  const maxItem = filteredItems.reduce((max, current) => max.id > current.id ? max : current);
+  return maxItem.id + 1;
+}

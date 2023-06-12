@@ -66,3 +66,12 @@ export const pointsSelectorReducer = (state, action) => {
       return state;
   }
 };
+
+export const ItemsNumClass = (state, action) => {
+  switch (action.type) {
+    case "SET_ITEM_ID":
+      return action.payload;
+    default:
+      return state;
+  }
+};

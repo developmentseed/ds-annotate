@@ -34,6 +34,7 @@ import { ProjectLayer } from "./ProjectLayer";
 import { simplifyOlFeature } from "./../../utils/transformation";
 import { SpinerLoader } from './../SpinerLoader';
 import { SegmentAM } from "./../SegmentAM";
+import {getMaxIdPerClass} from "./../../utils/utils"
 
 export function MapWrapper({ children }) {
   const [map, setMap] = useState();
@@ -50,8 +51,6 @@ export function MapWrapper({ children }) {
     highlightedItem,
     pointsSelector
   } = useContext(MainContext);
-
-  const [idItem, setIdItem] = useState({});
   const [loading, setLoading] = useState(false);
 
   useLayoutEffect(() => {
@@ -131,26 +130,13 @@ export function MapWrapper({ children }) {
       let rings = contours.map((c) =>
         c.points.map((p) => map.getCoordinateFromPixel([p.x, p.y]))
       );
-
-      // Check and set the id number for each class
-      console.log(activeClass.name)
-      if(!idItem[activeClass.name]){
-        idItem[activeClass.name] = 1;
-      }else{
-        idItem[activeClass.name] = idItem[activeClass.name] + 1;
-      }
-
-      console.log(idItem)
       const oLFeature = new Feature({
         geometry: new Polygon(rings),
         project: activeProject.properties.name,
         class: activeClass.name,
         color: activeClass.color,
-        id: idItem[activeClass.name],
-      });
-      // const newIdItem = idItem + 1;
-      setIdItem(idItem);
-
+        id:  getMaxIdPerClass(items,activeClass),
+      });      
       const newOLFeature = simplifyOlFeature(oLFeature);
       setItems([...items, newOLFeature]);
     }

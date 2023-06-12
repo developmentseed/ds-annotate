@@ -32,7 +32,6 @@ const MainContextProvider = (props) => {
     null
   );
 
-
   const [dlGeojson, dispatchDLGeojson] = useReducer(
     downloadGeojsonReducer,
     false
@@ -44,6 +43,8 @@ const MainContextProvider = (props) => {
     pointsSelectorReducer,
     []
   );
+
+  // const [items, dispatchSetItems] = useReducer(itemsReducer, []);
 
   return (
     <MainContext.Provider
