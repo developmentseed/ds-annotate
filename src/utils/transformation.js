@@ -17,10 +17,12 @@ export const simplifyMultipolygon = (features) => {
     let new_coords = [];
     for (let j = 0; j < coordinates.length; j++) {
       const coord = coordinates[j];
-      let area = turf.area(turf.polygon([coord]));
-      if (area > global_area * 0.2) {
-        new_coords.push(coord);
-      }
+      if (coord.length >= 4) {
+        let area = turf.area(turf.polygon([coord]));
+        if (area > global_area * 0.2) {
+          new_coords.push(coord);
+        }
+      };
     }
     feature.geometry.coordinates = new_coords;
     new_features.push(feature);
@@ -60,7 +62,8 @@ export const simplifyFeatures = (features, tolerance) => {
 export const simplifyOlFeature = (olFeature) => {
   const feature = olFeatures2geojson([olFeature]).features[0];
   let geojsonFeature = simplifyFeatures(
-    smooth(simplifyMultipolygon([feature])),
+    // smooth(simplifyMultipolygon([feature])),
+    simplifyMultipolygon([feature]),
     0.000001
   )[0];
   // let geojsonFeature = simplifyMultipolygon([feature])[0];
@@ -75,7 +78,7 @@ export const simplifyOlFeature = (olFeature) => {
  * @param {Object} Geojson features
  */
 
-export const mergePolygonClass = (features) => {  
+export const mergePolygonClass = (features) => {
   const grouped = features.reduce((result, current) => {
     const category = current.properties.class;
     if (!result[category]) {
