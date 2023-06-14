@@ -26,12 +26,12 @@ export const vectorSegData = new VectorLayer({
         stroke: new Stroke({
           color: feature.get("color"),
           // lineDash: [2],
-          width: 2,
+          width: 1,
         }),
       }),
       new Style({
         image: new CircleStyle({
-          radius: 3,
+          radius: 2,
           fill: new Fill({
             color: feature.get("color"),
           }),
