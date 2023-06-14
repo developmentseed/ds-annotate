@@ -92,3 +92,18 @@ export const getMaxIdPerClass = (items, activeClass) => {
   const maxItem = filteredItems.reduce((max, current) => max.id > current.id ? max : current);
   return maxItem.id + 1;
 }
+
+/**
+ * convert color code to RGBA
+ * @param {string} colorCode 
+ * @param {float} opacity 
+ * @returns 
+ */
+export const convertColorToRGBA = (colorCode, opacity) => {
+  colorCode = colorCode.replace('#', '');
+  const red = parseInt(colorCode.substring(0, 2), 16);
+  const green = parseInt(colorCode.substring(2, 4), 16);
+  const blue = parseInt(colorCode.substring(4, 6), 16);
+  const rgba = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
+  return rgba;
+}
