@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { MapContext } from "../contexts/MapContext";
 import { getCanvasForLayer } from "../utils/canvas";
-import { getPrediction } from "../utils/samApi";
+import { getPrediction, getEncode, getDecode } from "../utils/samApi";
 import { olFeatures2geojson, sam2Geojson, features2olFeatures } from "../utils/featureCollection";
 import { downloadGeojsonFile } from '../utils/utils'
 // import resp from '../static/resp_array.json'
@@ -31,9 +31,9 @@ export const SegmentAM = ({ setLoading }) => {
     //Enable loading
     setLoading(true);
     const [imgWidth, imgHeight] = map.getSize()
-
     // Get the view CRS and extent
     const view = map.getView();
+    const zoom = view.getZoom();
     const projection = view.getProjection();
     const crs = projection.getCode();
     const extent = view.calculateExtent(map.getSize());
@@ -42,24 +42,45 @@ export const SegmentAM = ({ setLoading }) => {
       "input_label": 1,
       "input_point": coords[0],
       "crs": crs,
-      "bbox": extent
+      "bbox": extent,
+      "zoom": zoom
+    }
+    try {
+      const canvasBase64 = await getCanvasForLayer(map, "main_layer");
+      const encodeRespJson = await getEncode(canvasBase64);
+      requestProps.image_embeddings = encodeRespJson.image_embedding;
+      // downloadGeojsonFile(JSON.stringify(requestProps), "requestProps.json");
+      const decodeRespJson = await getDecode(requestProps);
+      const features = sam2Geojson(decodeRespJson.geojsons, activeProject, activeClass);
+      const sam_items = features2olFeatures(features);
+
+      reset();
+      dispatchSetItems({
+        type: "SET_ITEMS",
+        payload: [...items, ...sam_items],
+      });
+
+    } catch (error) {
+      console.log(error)
+      reset();
     }
 
-    const canvasBase64 = await getCanvasForLayer(map, "main_layer");
-    getPrediction(canvasBase64, requestProps).then(response => {
-      if (response && response.masks && response.masks.geojsons) {
-        const features = sam2Geojson(response.masks.geojsons, activeProject, activeClass);
-        // downloadGeojsonFile(JSON.stringify(features), "adc.json")
-        const sam_items = features2olFeatures(features)
-        dispatchSetItems({
-          type: "SET_ITEMS",
-          payload: [...items,...sam_items],
-        });
-      }
-      reset();
-    }).catch(error => {
-      reset();
-    });
+
+
+    // getPrediction(canvasBase64, requestProps).then(response => {
+    //   if (response && response.masks && response.masks.geojsons) {
+    //     const features = sam2Geojson(response.masks.geojsons, activeProject, activeClass);
+    //     // downloadGeojsonFile(JSON.stringify(features), "adc.json")
+    //     const sam_items = features2olFeatures(features)
+    //     dispatchSetItems({
+    //       type: "SET_ITEMS",
+    //       payload: [...items, ...sam_items],
+    //     });
+    //   }
+    //   reset();
+    // }).catch(error => {
+    //   reset();
+    // });
   };
 
   return (
