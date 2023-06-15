@@ -1,5 +1,7 @@
 import apis from "./../static/apis.json";
 import { NotificationManager } from 'react-notifications';
+import { olFeatures2geojson } from "./featureCollection";
+
 const headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -49,6 +51,28 @@ export async function getPrediction(base64_string, decodePayload) {
 }
 
 
+export const getPropertiesRequest =  (map,pointsSelector) => {
+    const fcPoints = olFeatures2geojson(pointsSelector);
+    const coords = fcPoints.features.map(f => [f.properties.px, f.properties.py])
+    const [imgWidth, imgHeight] = map.getSize()
+    // Get the view CRS and extent
+    const view = map.getView();
+    const zoom = view.getZoom();
+    const projection = view.getProjection();
+    const crs = projection.getCode();
+    const bbox = view.calculateExtent(map.getSize());
+    console.log(bbox)
+    return {
+        "image_shape": [imgWidth, imgHeight],
+        "input_label": 1,
+        "input_point": coords[0],
+        crs,
+        bbox,
+        zoom
+    };
+}
+
+
 export async function getEncode(base64_string) {
     const encodeURL = `${apis.gpuEncodeAPI}/predictions/sam_vit_h_encode`;
     try {
@@ -63,7 +87,7 @@ export async function getEncode(base64_string) {
             throw new Error(`Error: ${encodeResponse.status}`);
         }
         const encodeRespJson = await encodeResponse.json();
-        return encodeRespJson
+        return encodeRespJson;
     } catch (error) {
         console.log(error);
     }

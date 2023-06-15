@@ -53,9 +53,10 @@ export const getCanvas = (map) => {
   mapContext.globalAlpha = 1;
   mapContext.setTransform(1, 0, 0, 1, 0, 0);
   const canvas = mapCanvas.toDataURL("image/jpeg", 0.9)
+  return canvas;
   // console.log(canvas)
-  const base64 = canvas.split(';base64,')[1];
-  return base64;
+  // const base64 = canvas.split(';base64,')[1];
+  // return base64;
 };
 
 
@@ -81,10 +82,10 @@ export const getCanvasForLayer = (map, layerTitle) => {
     });
     // Set some time to load the map
     return new Promise(resolve => setTimeout(function () {
-      const base64 = getCanvas(clonedMap)
+      const canvas = getCanvas(clonedMap)
       clonedMap.dispose();
       div.remove();
-      resolve(base64)
+      resolve(canvas)
     }, 3000));
   }
 }

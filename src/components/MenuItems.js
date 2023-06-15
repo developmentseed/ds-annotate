@@ -6,7 +6,6 @@ import Item from "./Item";
 
 export const MenuItems = () => {
   const { items } = useContext(MainContext);
-
   return (
     <div>
       <div className="menuHeader">

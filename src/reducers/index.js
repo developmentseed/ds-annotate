@@ -75,3 +75,13 @@ export const ItemsNumClass = (state, action) => {
       return state;
   }
 };
+
+export const encodeItemsReducer = (state, action) => {
+  switch (action.type) {
+    case "CACHING_ENCODED":
+      return action.payload;
+    default:
+      return state;
+  }
+};
+

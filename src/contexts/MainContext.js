@@ -9,7 +9,8 @@ import {
   activeProjectReducer,
   itemsReducer,
   highlightedItemReducer,
-  pointsSelectorReducer
+  pointsSelectorReducer,
+  encodeItemsReducer
 } from "./../reducers";
 
 export const MainContext = createContext();
@@ -44,7 +45,7 @@ const MainContextProvider = (props) => {
     []
   );
 
-  // const [items, dispatchSetItems] = useReducer(itemsReducer, []);
+  const [encodeItems, dispatchEncodeItems] = useReducer(encodeItemsReducer, []);
 
   return (
     <MainContext.Provider
@@ -63,7 +64,9 @@ const MainContextProvider = (props) => {
         dlInJOSM,
         dispatchDLInJOSM,
         pointsSelector,
-        dispatchSetPointsSelector
+        dispatchSetPointsSelector,
+        encodeItems,
+        dispatchEncodeItems
       }}
     >
       {props.children}

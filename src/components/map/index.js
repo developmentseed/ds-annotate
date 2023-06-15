@@ -35,6 +35,7 @@ import { simplifyOlFeature } from "./../../utils/transformation";
 import { SpinerLoader } from './../SpinerLoader';
 import { SegmentAM } from "./../SegmentAM";
 import {getMaxIdPerClass} from "./../../utils/utils"
+import { MenuEncodeItems } from "./../MenuEncodeItems";
 
 export function MapWrapper({ children }) {
   const [map, setMap] = useState();
@@ -49,7 +50,8 @@ export function MapWrapper({ children }) {
     activeModule,
     dispatchSetItems,
     highlightedItem,
-    pointsSelector
+    pointsSelector,
+    encodeItems
   } = useContext(MainContext);
   const [loading, setLoading] = useState(false);
 
@@ -92,7 +94,7 @@ export function MapWrapper({ children }) {
 
     const initialMap = new Map({
       target: mapElement.current,
-      controls: defaultControls().extend([new FullScreen()]),
+      controls: defaultControls().extend([]),
       interactions: defaultInteractions(interactions).extend([
         initWand,
         select,
@@ -146,19 +148,23 @@ export function MapWrapper({ children }) {
     //Fetch predition from SAM
   }
   
+  const handleClick = (e) => {
+    // setLoading(true);
+  }
+
   return (
     <MapContext.Provider value={{ map }}>
       <div
         ref={mapElement}
         style={{ height: "100%", width: "100%", background: "#456234" }}
         className="parent relative"
-        // onClick={handleClick}
+        onClick={handleClick}
         onKeyPress={drawSegments}
         onKeyDown={handleOnKeyDown}
         tabIndex={0}
       >
         {loading && <SpinerLoader loading={loading} />}
-        <SegmentAM setLoading={setLoading} />
+        <SegmentAM setLoading={setLoading}/>
         {activeProject && (
           <ProjectLayer
             project={activeProject}
@@ -168,6 +174,7 @@ export function MapWrapper({ children }) {
         )}
         {children}
       </div>
+      <MenuEncodeItems />
     </MapContext.Provider>
   );
 }
