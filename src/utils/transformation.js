@@ -59,12 +59,12 @@ export const simplifyFeatures = (features, tolerance) => {
  * @param {*} olFeature
  * @returns
  */
-export const simplifyOlFeature = (olFeature) => {
+export const simplifyOlFeature = (olFeature, tolerance) => {
   const feature = olFeatures2geojson([olFeature]).features[0];
   let geojsonFeature = simplifyFeatures(
     // smooth(simplifyMultipolygon([feature])),
     simplifyMultipolygon([feature]),
-    0.000001
+    tolerance
   )[0];
   // let geojsonFeature = simplifyMultipolygon([feature])[0];
   // new_features.map((f) => (f.properties.color = '#0000FF'));

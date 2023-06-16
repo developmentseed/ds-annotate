@@ -145,7 +145,7 @@ export function MapWrapper({ children }) {
         color: activeClass.color,
         id: getMaxIdPerClass(items, activeClass),
       });
-      const newOLFeature = simplifyOlFeature(oLFeature);
+      const newOLFeature = simplifyOlFeature(oLFeature, 0.000001);
       setItems([...items, newOLFeature]);
     }
   };
