@@ -64,17 +64,26 @@ export const getClassLayers = (project) => {
  * @param {Object} feature of project
  * @returns {Array} List of objects of classes
  */
-export const sam2Geojson = (ListGeoms, activeProject, activeClass) => {
-  return ListGeoms.map((strGeom, id) => {
+export const sam2Geojson = (ListGeoms, activeProject, activeClass, classMaxId) => {
+  let scores = [];
+  const features = [];
+  for (let index = 0; index < ListGeoms.length; index++) {
+    const strGeom = ListGeoms[index];
     const geom = JSON.parse(strGeom);
     const properties = {
       class: activeClass.name,
       color: activeClass.color,
       project: activeProject.properties.name,
       ...geom.properties,
-      id: id
+      id: classMaxId
     };
+    scores = geom.properties.confidence_scores;
     const feature = turf.multiPolygon(geom.coordinates, properties);
-    return feature;
-  });
+    features.push(feature)
+  }
+  const maxNumber = Math.max(...scores);
+  const maxIndex = scores.indexOf(maxNumber);
+  const maxScoreFeature = features[maxIndex];
+  return [maxScoreFeature];
+  // return features
 };

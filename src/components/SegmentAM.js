@@ -4,8 +4,9 @@ import { MapContext } from "../contexts/MapContext";
 import { getCanvasForLayer } from "../utils/canvas";
 import { getPrediction, getEncode, getDecode, getPropertiesRequest } from "../utils/samApi";
 import { olFeatures2geojson, sam2Geojson, features2olFeatures } from "../utils/featureCollection";
-import { downloadGeojsonFile } from '../utils/utils'
+import { downloadGeojsonFile,getMaxIdPerClass } from '../utils/utils'
 // import resp from '../static/resp_array.json'
+// import {getMaxIdPerClass} from "./utils"
 
 export const SegmentAM = ({ setLoading }) => {
 
@@ -35,9 +36,9 @@ export const SegmentAM = ({ setLoading }) => {
       try {
         const canvas = await getCanvasForLayer(map, "main_layer");
         const base64 = canvas.split(';base64,')[1];
+        requestProps.base64 = base64
         const encodeRespJson = await getEncode(base64);
         requestProps.image_embeddings = encodeRespJson.image_embedding;
-        // downloadGeojsonFile(JSON.stringify(requestProps), "requestProps.json");
         const encodeItem = Object.assign({}, requestProps, { canvas });
         dispatchEncodeItems({
           type: "CACHING_ENCODED",
@@ -52,11 +53,13 @@ export const SegmentAM = ({ setLoading }) => {
     //=================== Need decode ===================
     try {
       const decodeRespJson = await getDecode(requestProps);
-      const features = sam2Geojson(decodeRespJson.geojsons, activeProject, activeClass);
-      const sam_items = features2olFeatures(features);
+      const classMaxId = getMaxIdPerClass(items,activeClass)
+      const features = sam2Geojson(decodeRespJson.geojsons, activeProject, activeClass, classMaxId);
+      // downloadGeojsonFile(JSON.stringify(features), "decode.json");
+      const samItems = features2olFeatures(features);
       dispatchSetItems({
         type: "SET_ITEMS",
-        payload: [...items, ...sam_items],
+        payload: [...items, ...samItems],
       });
       reset();
     } catch (error) {
@@ -66,7 +69,6 @@ export const SegmentAM = ({ setLoading }) => {
 
   useEffect(() => {
     if (!map) return;
-    console.log("click.....")
     const requestProps = getPropertiesRequest(map, pointsSelector);
     const { bbox, zoom } = requestProps;
     const existEncodeItems = encodeItems.filter(e => {

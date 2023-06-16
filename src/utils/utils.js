@@ -32,10 +32,8 @@ export const downloadInJOSM = (data, project) => {
         "https",
         "http"
       )}`;
-      console.log(url_geojson);
       fetch(url_geojson);
       const url_layer = `​http://localhost:8111/imagery?title=${layer_name}&type=${type}&url=${url}`;
-      console.log(url_layer);
       fetch(url_layer);
     });
 };

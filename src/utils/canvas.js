@@ -4,7 +4,6 @@ import cloneDeep from 'lodash/cloneDeep';
 
 export const getCanvas = (map) => {
   if (!map) return;
-  console.log("Fetch canvas..")
   const mapCanvas = document.createElement('canvas');
   const size = map.getSize();
   mapCanvas.width = size[0];
@@ -13,7 +12,6 @@ export const getCanvas = (map) => {
   Array.prototype.forEach.call(
     map.getViewport().querySelectorAll('.ol-layer canvas, canvas.ol-layer'),
     function (canvas) {
-      // console.log(canvas.width, canvas.style.height)
       if (canvas.width > 0) {
         const opacity =
           canvas.parentNode.style.opacity || canvas.style.opacity;
@@ -54,9 +52,6 @@ export const getCanvas = (map) => {
   mapContext.setTransform(1, 0, 0, 1, 0, 0);
   const canvas = mapCanvas.toDataURL("image/jpeg", 0.9)
   return canvas;
-  // console.log(canvas)
-  // const base64 = canvas.split(';base64,')[1];
-  // return base64;
 };
 
 

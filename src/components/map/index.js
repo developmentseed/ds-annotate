@@ -34,7 +34,7 @@ import { ProjectLayer } from "./ProjectLayer";
 import { simplifyOlFeature } from "./../../utils/transformation";
 import { SpinerLoader } from './../SpinerLoader';
 import { SegmentAM } from "./../SegmentAM";
-import {getMaxIdPerClass} from "./../../utils/utils"
+import { getMaxIdPerClass } from "./../../utils/utils"
 import { MenuEncodeItems } from "./../MenuEncodeItems";
 
 export function MapWrapper({ children }) {
@@ -137,8 +137,8 @@ export function MapWrapper({ children }) {
         project: activeProject.properties.name,
         class: activeClass.name,
         color: activeClass.color,
-        id:  getMaxIdPerClass(items,activeClass),
-      });      
+        id: getMaxIdPerClass(items, activeClass),
+      });
       const newOLFeature = simplifyOlFeature(oLFeature);
       setItems([...items, newOLFeature]);
     }
@@ -147,7 +147,7 @@ export function MapWrapper({ children }) {
   const handleOnKeyDown = (e) => {
     //Fetch predition from SAM
   }
-  
+
   const handleClick = (e) => {
     // setLoading(true);
   }
@@ -164,7 +164,7 @@ export function MapWrapper({ children }) {
         tabIndex={0}
       >
         {loading && <SpinerLoader loading={loading} />}
-        <SegmentAM setLoading={setLoading}/>
+        <SegmentAM setLoading={setLoading} />
         {activeProject && (
           <ProjectLayer
             project={activeProject}
