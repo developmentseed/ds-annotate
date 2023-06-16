@@ -46,9 +46,9 @@ export const vectorSegData = new VectorLayer({
       }),
       new Style({
         fill: new Fill({
-          color: convertColorToRGBA(colorCode,transparency)
-        })
-      })
+          color: convertColorToRGBA(colorCode,transparency),
+        }),
+      }),
     ];
   },
   zIndex: 5,
@@ -90,12 +90,12 @@ export const vectorPointSelector = new VectorLayer({
     image: new CircleStyle({
       radius: 4,
       fill: new Fill({
-        color: 'rgba(255, 255, 255, 0.1)'
+        color: 'rgba(255, 255, 255, 0.1)',
       }),
       stroke: new Stroke({
         color: '#ffcc33',
-        width: 1
-      })
+        width: 1,
+      }),
     }),
   }),
   zIndex: 10,

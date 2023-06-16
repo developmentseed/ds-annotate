@@ -14,7 +14,7 @@ import {
   getImageryLayer,
   vectorSegData,
   vectorHighlighted,
-  vectorPointSelector
+  vectorPointSelector,
 } from "./layers";
 
 const PADDING = { padding: [100, 100, 100, 100] };
@@ -23,7 +23,7 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
   const { map } = useContext(MapContext);
   const {
     pointsSelector,
-    dispatchSetPointsSelector
+    dispatchSetPointsSelector,
   } = useContext(MainContext);
 
   useEffect(() => {

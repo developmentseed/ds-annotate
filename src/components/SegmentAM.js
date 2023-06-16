@@ -17,7 +17,7 @@ export const SegmentAM = ({ setLoading }) => {
     dispatchSetItems,
     items,
     encodeItems,
-    dispatchEncodeItems
+    dispatchEncodeItems,
   } = useContext(MainContext);
 
 
@@ -45,7 +45,7 @@ export const SegmentAM = ({ setLoading }) => {
           payload: [...encodeItems, encodeItem],
         });
       } catch (error) {
-        console.log(error)
+        console.log(error);
         reset();
       }
 

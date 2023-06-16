@@ -10,7 +10,7 @@ import {
   itemsReducer,
   highlightedItemReducer,
   pointsSelectorReducer,
-  encodeItemsReducer
+  encodeItemsReducer,
 } from "./../reducers";
 
 export const MainContext = createContext();
@@ -66,7 +66,7 @@ const MainContextProvider = (props) => {
         pointsSelector,
         dispatchSetPointsSelector,
         encodeItems,
-        dispatchEncodeItems
+        dispatchEncodeItems,
       }}
     >
       {props.children}

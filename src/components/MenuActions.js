@@ -3,7 +3,7 @@ import { MainContext } from "../contexts/MainContext";
 import { mergePolygonClass } from "../utils/transformation";
 import {
   olFeatures2geojson,
-  features2olFeatures
+  features2olFeatures,
 } from "../utils/featureCollection";
 
 export const MenuActions = () => {

@@ -40,7 +40,7 @@ export const olFeatures2geojson = (olFeatures) => {
   var geojson = new GeoJSON().writeFeatures(olFeatures, {
     dataProjection: "EPSG:4326",
     featureProjection: "EPSG:3857",
-    properties: ["px", "py"]
+    properties: ["px", "py"],
   });
   return JSON.parse(geojson);
 };
@@ -75,7 +75,7 @@ export const sam2Geojson = (ListGeoms, activeProject, activeClass, classMaxId) =
       color: activeClass.color,
       project: activeProject.properties.name,
       ...geom.properties,
-      id: classMaxId
+      id: classMaxId,
     };
     scores = geom.properties.confidence_scores;
     const feature = turf.multiPolygon(geom.coordinates, properties);

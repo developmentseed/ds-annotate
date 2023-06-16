@@ -1,3 +1,9 @@
 {
-  "extends": ["react-app", "react-app/jest"]
+  "extends": [
+    "react-app",
+    "react-app/jest"
+  ],
+  "rules": {
+    "comma-dangle": ["error", "always-multiline"]
+  }
 }

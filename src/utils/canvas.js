@@ -73,7 +73,7 @@ export const getCanvasForLayer = (map, layerTitle) => {
     const clonedMap = new Map({
       target: 'map',
       layers: [cloneDeep(myLayer)],
-      view: cloneDeep(map.getView())
+      view: cloneDeep(map.getView()),
     });
     // Set some time to load the map
     return new Promise(resolve => setTimeout(function () {

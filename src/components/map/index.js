@@ -26,7 +26,7 @@ import {
   mainLayer,
   vectorSegData,
   vectorHighlighted,
-  vectorPointSelector
+  vectorPointSelector,
 } from "./layers";
 import { MapContext } from "../../contexts/MapContext";
 import { MainContext } from "../../contexts/MainContext";
@@ -51,7 +51,7 @@ export function MapWrapper({ children }) {
     dispatchSetItems,
     highlightedItem,
     pointsSelector,
-    encodeItems
+    encodeItems,
   } = useContext(MainContext);
   const [loading, setLoading] = useState(false);
 

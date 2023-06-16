@@ -24,13 +24,13 @@ export const getPropertiesRequest = (map, pointsSelector) => {
         "input_point": coords[0],
         crs,
         bbox,
-        zoom
+        zoom,
     };
     return reqProps;
 }
 
 
-export async function getEncode(base64_string) {
+export const getEncode = async (base64_string) => {
     const encodeURL = `${apis.gpuEncodeAPI}/predictions/sam_vit_h_encode`;
     try {
         // Encode
@@ -50,7 +50,7 @@ export async function getEncode(base64_string) {
     }
 }
 
-export async function getDecode(decodePayload) {
+export const getDecode = async (decodePayload) => {
     const decodeURL = `${apis.cpuDecodeAPI}/predictions/sam_vit_h_decode`;
     try {
         // Decode

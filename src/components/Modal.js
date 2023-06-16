@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
-export function Modal() {
+export const Modal = () => {
   const [displayModal, setDisplayModal] = useState(() => {
     const saved = localStorage.getItem("modalDisplay");
     if (!saved) return "block";

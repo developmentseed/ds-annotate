@@ -30,7 +30,7 @@ export const EncodeItem = ({ encodeItem, index }) => {
       className={`w-100 h-100 object-cover opacity-100 transition-opacity duration-500 ease-in-out transform hover:opacity-100 mb-2 ${encodeItem.selected ? "border border-blue-300 border-2" : ""}`}
       style={{
         width: "100px",
-        height: "100px"
+        height: "100px",
       }}
       onClick={() => {
         zoomTo(encodeItem);
