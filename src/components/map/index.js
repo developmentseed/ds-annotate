@@ -32,9 +32,9 @@ import { MapContext } from "../../contexts/MapContext";
 import { MainContext } from "../../contexts/MainContext";
 import { ProjectLayer } from "./ProjectLayer";
 import { simplifyOlFeature } from "./../../utils/transformation";
-import { SpinerLoader } from './../SpinerLoader';
+import { SpinerLoader } from "./../SpinerLoader";
 import { SegmentAM } from "./../SegmentAM";
-import { getMaxIdPerClass } from "./../../utils/utils"
+import { getMaxIdPerClass } from "./../../utils/utils";
 import { MenuEncodeItems } from "./../MenuEncodeItems";
 
 export function MapWrapper({ children }) {
@@ -100,13 +100,19 @@ export function MapWrapper({ children }) {
         select,
         modify,
       ]),
-      layers: [osm, mainLayer, vector, vectorSegData, vectorHighlighted, vectorPointSelector],
+      layers: [
+        osm,
+        mainLayer,
+        vector,
+        vectorSegData,
+        vectorHighlighted,
+        vectorPointSelector,
+      ],
       view: view,
     });
 
     setMap(initialMap);
     setWand(initWand);
-
   }, []);
 
   const setItems = useCallback(
@@ -146,11 +152,11 @@ export function MapWrapper({ children }) {
 
   const handleOnKeyDown = (e) => {
     //Fetch predition from SAM
-  }
+  };
 
   const handleClick = (e) => {
     // setLoading(true);
-  }
+  };
 
   return (
     <MapContext.Provider value={{ map }}>

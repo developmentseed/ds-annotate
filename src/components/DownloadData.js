@@ -23,12 +23,22 @@ export const DownloadData = ({ classProps }) => {
 
   return (
     <div className="flex justify-center gap-2">
-      <button className="custom_button" onClick={() => {
-        downloadGeojson();
-      }}>Download as geojson</button>
-      <button className="custom_button" onClick={() => {
-        josm();
-      }}>Download in JOSM</button>
+      <button
+        className="custom_button"
+        onClick={() => {
+          downloadGeojson();
+        }}
+      >
+        Download as geojson
+      </button>
+      <button
+        className="custom_button"
+        onClick={() => {
+          josm();
+        }}
+      >
+        Download in JOSM
+      </button>
     </div>
   );
 };

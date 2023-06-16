@@ -2,7 +2,7 @@ import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { TileWMS, OSM, XYZ } from "ol/source";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import MultiPoint from "ol/geom/MultiPoint";
-import {convertColorToRGBA} from "../../utils/utils"
+import { convertColorToRGBA } from "../../utils/utils";
 export const osm = new TileLayer({
   source: new OSM(),
   zIndex: 1,
@@ -20,7 +20,7 @@ export const vector = new VectorLayer({
 
 export const vectorSegData = new VectorLayer({
   style: function (feature) {
-    const colorCode =feature.get("color");
+    const colorCode = feature.get("color");
     const transparency = 0.1;
     return [
       new Style({
@@ -46,7 +46,7 @@ export const vectorSegData = new VectorLayer({
       }),
       new Style({
         fill: new Fill({
-          color: convertColorToRGBA(colorCode,transparency),
+          color: convertColorToRGBA(colorCode, transparency),
         }),
       }),
     ];
@@ -67,7 +67,7 @@ export const vectorHighlighted = new VectorLayer({
   zIndex: 5,
 });
 
-export const mainLayer = new TileLayer({ zIndex: 2, title: 'main_layer' });
+export const mainLayer = new TileLayer({ zIndex: 2, title: "main_layer" });
 
 export const getImageryLayer = (imagery) => {
   if (imagery.type === "wms") {
@@ -90,14 +90,13 @@ export const vectorPointSelector = new VectorLayer({
     image: new CircleStyle({
       radius: 4,
       fill: new Fill({
-        color: 'rgba(255, 255, 255, 0.1)',
+        color: "rgba(255, 255, 255, 0.1)",
       }),
       stroke: new Stroke({
-        color: '#ffcc33',
+        color: "#ffcc33",
         width: 1,
       }),
     }),
   }),
   zIndex: 10,
 });
-

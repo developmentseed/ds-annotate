@@ -84,4 +84,3 @@ export const encodeItemsReducer = (state, action) => {
       return state;
   }
 };
-

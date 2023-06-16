@@ -3,8 +3,8 @@ import React from "react";
 import { Sidebar } from "./components/Sidebar";
 import { MapWrapper } from "./components/map";
 import { Modal } from "./components/Modal";
-import 'react-notifications/lib/notifications.css';
-import {NotificationContainer} from 'react-notifications';
+import "react-notifications/lib/notifications.css";
+import { NotificationContainer } from "react-notifications";
 
 function App() {
   return (

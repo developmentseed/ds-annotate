@@ -22,7 +22,7 @@ export const simplifyMultipolygon = (features) => {
         if (area > global_area * 0.2) {
           new_coords.push(coord);
         }
-      };
+      }
     }
     feature.geometry.coordinates = new_coords;
     new_features.push(feature);
@@ -93,7 +93,7 @@ export const mergePolygonClass = (features) => {
     result = result.concat(unionPolygons(grouped[class_]));
   }
   return result;
-}
+};
 
 /**
  * Merge polygons

@@ -2,14 +2,19 @@ import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { MapContext } from "../contexts/MapContext";
 import { getCanvasForLayer } from "../utils/canvas";
-import { getPrediction, getEncode, getDecode, getPropertiesRequest } from "../utils/samApi";
-import { olFeatures2geojson, sam2Geojson, features2olFeatures } from "../utils/featureCollection";
-import { downloadGeojsonFile,getMaxIdPerClass } from '../utils/utils'
-// import resp from '../static/resp_array.json'
-// import {getMaxIdPerClass} from "./utils"
-
+import {
+  getPrediction,
+  getEncode,
+  getDecode,
+  getPropertiesRequest,
+} from "../utils/samApi";
+import {
+  olFeatures2geojson,
+  sam2Geojson,
+  features2olFeatures,
+} from "../utils/featureCollection";
+import { downloadGeojsonFile, getMaxIdPerClass } from "../utils/utils";
 export const SegmentAM = ({ setLoading }) => {
-
   const {
     pointsSelector,
     activeProject,
@@ -20,14 +25,13 @@ export const SegmentAM = ({ setLoading }) => {
     dispatchEncodeItems,
   } = useContext(MainContext);
 
-
   const { map } = useContext(MapContext);
   const [samApiStatus, setSamApiStatus] = useState(null);
 
   const reset = () => {
     setLoading(false);
-    setSamApiStatus(null)
-  }
+    setSamApiStatus(null);
+  };
 
   const requestSAM = async (requestProps, isEncode) => {
     setLoading(true);
@@ -35,8 +39,8 @@ export const SegmentAM = ({ setLoading }) => {
     if (isEncode) {
       try {
         const canvas = await getCanvasForLayer(map, "main_layer");
-        const base64 = canvas.split(';base64,')[1];
-        requestProps.base64 = base64
+        const base64 = canvas.split(";base64,")[1];
+        requestProps.base64 = base64;
         const encodeRespJson = await getEncode(base64);
         requestProps.image_embeddings = encodeRespJson.image_embedding;
         const encodeItem = Object.assign({}, requestProps, { canvas });
@@ -48,13 +52,17 @@ export const SegmentAM = ({ setLoading }) => {
         console.log(error);
         reset();
       }
-
     }
     //=================== Need decode ===================
     try {
       const decodeRespJson = await getDecode(requestProps);
-      const classMaxId = getMaxIdPerClass(items,activeClass)
-      const features = sam2Geojson(decodeRespJson.geojsons, activeProject, activeClass, classMaxId);
+      const classMaxId = getMaxIdPerClass(items, activeClass);
+      const features = sam2Geojson(
+        decodeRespJson.geojsons,
+        activeProject,
+        activeClass,
+        classMaxId
+      );
       // downloadGeojsonFile(JSON.stringify(features), "decode.json");
       const samItems = features2olFeatures(features);
       dispatchSetItems({
@@ -65,21 +73,20 @@ export const SegmentAM = ({ setLoading }) => {
     } catch (error) {
       reset();
     }
-  }
+  };
 
   useEffect(() => {
     if (!map) return;
     const requestProps = getPropertiesRequest(map, pointsSelector);
     const { bbox, zoom } = requestProps;
-    const existEncodeItems = encodeItems.filter(e => {
-      return e.zoom === zoom && JSON.stringify(e.bbox) === JSON.stringify(bbox)
+    const existEncodeItems = encodeItems.filter((e) => {
+      return e.zoom === zoom && JSON.stringify(e.bbox) === JSON.stringify(bbox);
     });
     if (existEncodeItems.length > 0) {
       requestProps.image_embeddings = existEncodeItems[0].image_embeddings;
       requestSAM(requestProps, false);
     }
   }, [pointsSelector]);
-
 
   const requestPrediction = async () => {
     const requestProps = getPropertiesRequest(map, pointsSelector);
@@ -94,7 +101,7 @@ export const SegmentAM = ({ setLoading }) => {
         onClick={() => {
           requestPrediction();
         }}
-      // disabled={samApiStatus || false}
+        // disabled={samApiStatus || false}
       >
         {samApiStatus || "Segment Anything"}
       </button>

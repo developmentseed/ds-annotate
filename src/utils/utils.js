@@ -77,31 +77,33 @@ export const getProjectTemplate = (searchParams) => {
 };
 
 /**
- * 
+ *
  * @param {array} items of OpenLayer
- * @param {object} activeClass 
+ * @param {object} activeClass
  * @returns max item id plus 1
  */
 export const getMaxIdPerClass = (items, activeClass) => {
-  const items_ = items.map(i => i.values_);
+  const items_ = items.map((i) => i.values_);
   if (items_.length === 0) return 1;
-  const filteredItems = items_.filter(obj => obj.class === activeClass.name);
+  const filteredItems = items_.filter((obj) => obj.class === activeClass.name);
   if (filteredItems.length === 0) return 1;
-  const maxItem = filteredItems.reduce((max, current) => max.id > current.id ? max : current);
+  const maxItem = filteredItems.reduce((max, current) =>
+    max.id > current.id ? max : current
+  );
   return maxItem.id + 1;
-}
+};
 
 /**
  * convert color code to RGBA
- * @param {string} colorCode 
- * @param {float} opacity 
- * @returns 
+ * @param {string} colorCode
+ * @param {float} opacity
+ * @returns
  */
 export const convertColorToRGBA = (colorCode, opacity) => {
-  colorCode = colorCode.replace('#', '');
+  colorCode = colorCode.replace("#", "");
   const red = parseInt(colorCode.substring(0, 2), 16);
   const green = parseInt(colorCode.substring(2, 4), 16);
   const blue = parseInt(colorCode.substring(4, 6), 16);
   const rgba = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
   return rgba;
-}
+};

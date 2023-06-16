@@ -21,10 +21,7 @@ const PADDING = { padding: [100, 100, 100, 100] };
 
 export const ProjectLayer = ({ project, items, highlightedItem }) => {
   const { map } = useContext(MapContext);
-  const {
-    pointsSelector,
-    dispatchSetPointsSelector,
-  } = useContext(MainContext);
+  const { pointsSelector, dispatchSetPointsSelector } = useContext(MainContext);
 
   useEffect(() => {
     if (!map) return;
@@ -87,7 +84,10 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
     map.on("click", function (e) {
       const coordinates = e.coordinate;
       const point = new Feature(new Point(coordinates));
-      point.setProperties({ "px": Math.ceil(e.pixel_[0]), "py": Math.ceil(e.pixel_[1]) })
+      point.setProperties({
+        px: Math.ceil(e.pixel_[0]),
+        py: Math.ceil(e.pixel_[1]),
+      });
       dispatchSetPointsSelector({
         type: "SET_POINTS_SELECTORS",
         payload: [point],
