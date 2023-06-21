@@ -14,6 +14,8 @@ import {
   features2olFeatures,
 } from "../utils/featureCollection";
 import { downloadGeojsonFile, getMaxIdPerClass } from "../utils/utils";
+import { openDB, addData, getAllData } from "./../store/indexedDB";
+
 export const SegmentAM = ({ setLoading }) => {
   const {
     pointsSelector,
@@ -33,6 +35,32 @@ export const SegmentAM = ({ setLoading }) => {
     setSamApiStatus(null);
   };
 
+  useEffect(() => {
+    console.log("read db");
+    const fetchData = async () => {
+      try {
+        const db = await openDB();
+        const listEncodeItems = await getAllData(db);
+        dispatchEncodeItems({
+          type: "CACHING_ENCODED",
+          payload: listEncodeItems,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleSaveData = async (data) => {
+    try {
+      const db = await openDB();
+      await addData(db, data);
+    } catch (error) {
+      console.error("Failed to save data:", error);
+    }
+  };
+
   const requestSAM = async (requestProps, isEncode) => {
     setLoading(true);
     //=================== Need encode ===================
@@ -40,7 +68,6 @@ export const SegmentAM = ({ setLoading }) => {
       try {
         const canvas = await getCanvasForLayer(map, "main_layer");
         const base64 = canvas.split(";base64,")[1];
-        requestProps.base64 = base64;
         const encodeRespJson = await getEncode(base64);
         requestProps.image_embeddings = encodeRespJson.image_embedding;
         const encodeItem = Object.assign({}, requestProps, { canvas });
@@ -48,6 +75,8 @@ export const SegmentAM = ({ setLoading }) => {
           type: "CACHING_ENCODED",
           payload: [...encodeItems, encodeItem],
         });
+        // Save in indexedDB
+        handleSaveData({ ...encodeItem, id: encodeItems.length });
       } catch (error) {
         console.log(error);
         reset();
