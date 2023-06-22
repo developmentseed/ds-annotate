@@ -39,8 +39,8 @@ export const SegmentAM = ({ setLoading }) => {
     console.log("read db");
     const fetchData = async () => {
       try {
-        const db = await openDB();
-        const listEncodeItems = await getAllData(db);
+        const db = await openDB("encodeiItems");
+        const listEncodeItems = await getAllData(db, "encodeiItems");
         dispatchEncodeItems({
           type: "CACHING_ENCODED",
           payload: listEncodeItems,
@@ -54,8 +54,8 @@ export const SegmentAM = ({ setLoading }) => {
 
   const handleSaveData = async (data) => {
     try {
-      const db = await openDB();
-      await addData(db, data);
+      const db = await openDB("encodeiItems");
+      await addData(db, "encodeiItems", data);
     } catch (error) {
       console.error("Failed to save data:", error);
     }
@@ -84,7 +84,6 @@ export const SegmentAM = ({ setLoading }) => {
     }
     //=================== Need decode ===================
     try {
-      console.log(requestProps);
       const decodeRespJson = await getDecode(requestProps);
       const classMaxId = getMaxIdPerClass(items, activeClass);
       const features = sam2Geojson(

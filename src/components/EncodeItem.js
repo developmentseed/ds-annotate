@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { MapContext } from "../contexts/MapContext";
-import { BsViewList, BsTrash } from "react-icons/bs";
+import { BsTrash } from "react-icons/bs";
+import { openDB, deleteData } from "./../store/indexedDB";
 
 export const EncodeItem = ({ encodeItem, index }) => {
   const { encodeItems, dispatchEncodeItems } = useContext(MainContext);
@@ -24,14 +25,20 @@ export const EncodeItem = ({ encodeItem, index }) => {
     });
   };
 
-  const handleRemove = () => {
-    console.log(encodeItems);
-    const updatedEncodeItems = encodeItems.filter((_, i) => i !== index);
-    console.log(updatedEncodeItems);
-    // dispatchEncodeItems({
-    //   type: "CACHING_ENCODED",
-    //   payload: updatedEncodeItems,
-    // });
+  const handleRemoveEncodeItem = async (encodeItem) => {
+    const updatedEncodeItems = encodeItems.filter((item, i) => {
+      return item.id !== encodeItem.id;
+    });
+    dispatchEncodeItems({
+      type: "CACHING_ENCODED",
+      payload: updatedEncodeItems,
+    });
+    try {
+      const db = await openDB("encodeiItems");
+      await deleteData(db, "encodeiItems", encodeItem.id);
+    } catch (error) {
+      console.error("Failed to delete encode item:", error);
+    }
   };
 
   return (
@@ -49,10 +56,10 @@ export const EncodeItem = ({ encodeItem, index }) => {
         onClick={() => zoomTo(encodeItem)}
       />
       <button
-        className="absolute bottom-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded w-4 h-4 cursor-pointer flex items-center justify-center"
-        onClick={handleRemove}
+        className="absolute bottom-1 right-1 bg-red-500 hover:bg-red-600 w-4 h-4 text-white rounded flex items-center justify-center"
+        onClick={() => handleRemoveEncodeItem(encodeItem)}
       >
-        <BsTrash />
+        <BsTrash className="fill-current w-3 h-3 cursor-pointer" />
       </button>
     </div>
   );

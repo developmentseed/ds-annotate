@@ -1,4 +1,4 @@
-export const openDB = () => {
+export const openDB = (tableName) => {
   return new Promise((resolve, reject) => {
     const request = window.indexedDB.open("dsAnnotateDB", 1);
     request.onerror = (event) => {
@@ -10,8 +10,8 @@ export const openDB = () => {
     };
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
-      if (!db.objectStoreNames.contains("encodeiItems")) {
-        const objectStore = db.createObjectStore("encodeiItems", {
+      if (!db.objectStoreNames.contains(tableName)) {
+        const objectStore = db.createObjectStore(tableName, {
           keyPath: "id",
         });
         objectStore.createIndex("idIndex", "id", { unique: false });
@@ -20,10 +20,10 @@ export const openDB = () => {
   });
 };
 
-export const addData = (db, data) => {
+export const addData = (db, tableName, data) => {
   return new Promise((resolve, reject) => {
-    const transaction = db.transaction(["encodeiItems"], "readwrite");
-    const objectStore = transaction.objectStore("encodeiItems");
+    const transaction = db.transaction([tableName], "readwrite");
+    const objectStore = transaction.objectStore(tableName);
     const addRequest = objectStore.add(data);
     addRequest.onsuccess = (event) => {
       resolve();
@@ -34,10 +34,10 @@ export const addData = (db, data) => {
   });
 };
 
-export const getAllData = (db) => {
+export const getAllData = (db, tableName) => {
   return new Promise((resolve, reject) => {
-    const transaction = db.transaction(["encodeiItems"]);
-    const objectStore = transaction.objectStore("encodeiItems");
+    const transaction = db.transaction([tableName]);
+    const objectStore = transaction.objectStore(tableName);
     const getAllRequest = objectStore.getAll();
     getAllRequest.onsuccess = (event) => {
       const result = event.target.result;
@@ -45,6 +45,20 @@ export const getAllData = (db) => {
     };
     getAllRequest.onerror = (event) => {
       console.log(event);
+      reject(event.target.error);
+    };
+  });
+};
+
+export const deleteData = (db, tableName, key) => {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction([tableName], "readwrite");
+    const objectStore = transaction.objectStore(tableName);
+    const deleteRequest = objectStore.delete(key);
+    deleteRequest.onsuccess = (event) => {
+      resolve();
+    };
+    deleteRequest.onerror = (event) => {
       reject(event.target.error);
     };
   });
