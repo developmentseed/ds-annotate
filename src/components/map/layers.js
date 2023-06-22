@@ -1,6 +1,6 @@
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { TileWMS, OSM, XYZ } from "ol/source";
-import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
+import { Circle as CircleStyle, Fill, Stroke, Style, Icon } from "ol/style";
 import MultiPoint from "ol/geom/MultiPoint";
 import { convertColorToRGBA } from "../../utils/utils";
 export const osm = new TileLayer({
@@ -85,17 +85,20 @@ export const getImageryLayer = (imagery) => {
   }
 };
 
+// Pointer
+const crossSVG =
+  "data:image/svg+xml," +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40">' +
+      '<line x1="10" y1="10" x2="30" y2="30" style="stroke:#0199fe;stroke-width:3"/>' +
+      '<line x1="30" y1="10" x2="10" y2="30" style="stroke:#0199fe;stroke-width:3"/>' +
+      "</svg>"
+  );
 export const vectorPointSelector = new VectorLayer({
   style: new Style({
-    image: new CircleStyle({
-      radius: 4,
-      fill: new Fill({
-        color: "rgba(255, 255, 255, 0.1)",
-      }),
-      stroke: new Stroke({
-        color: "#ffcc33",
-        width: 1,
-      }),
+    image: new Icon({
+      src: crossSVG,
+      imgSize: [40, 40],
     }),
   }),
   zIndex: 10,
