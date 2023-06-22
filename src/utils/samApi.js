@@ -22,7 +22,7 @@ export const getPropertiesRequest = (map, pointsSelector) => {
   const crs = projection.getCode();
   const bbox = view.calculateExtent(map.getSize());
   const reqProps = {
-    image_shape: [imgWidth, imgHeight],
+    image_shape: [imgHeight, imgWidth],
     input_label: 1,
     input_point: coords[0],
     crs,

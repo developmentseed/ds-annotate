@@ -1,6 +1,6 @@
 {
     "gpuEncodeAPI": "https://sas-gpu.ds.io",
-    "cpuDecodeAPI": "https://sas.ds.io",
+    "cpuDecodeAPI": "http://192.168.1.95:7080",
     "samAPI": "http://segme-gpuel-ekfao79wi98g-617785108.us-east-1.elb.amazonaws.com",
     "geojsonAPI": "https://bfokggy4ac.execute-api.us-east-1.amazonaws.com"
 }

@@ -84,6 +84,7 @@ export const SegmentAM = ({ setLoading }) => {
     }
     //=================== Need decode ===================
     try {
+      console.log(requestProps);
       const decodeRespJson = await getDecode(requestProps);
       const classMaxId = getMaxIdPerClass(items, activeClass);
       const features = sam2Geojson(

@@ -40,7 +40,6 @@ export const getAllData = (db) => {
     const objectStore = transaction.objectStore("encodeiItems");
     const getAllRequest = objectStore.getAll();
     getAllRequest.onsuccess = (event) => {
-      console.log(event);
       const result = event.target.result;
       resolve(result);
     };

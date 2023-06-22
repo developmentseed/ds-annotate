@@ -72,6 +72,7 @@ export const sam2Geojson = (
   const features = [];
   for (let index = 0; index < ListGeoms.length; index++) {
     const strGeom = ListGeoms[index];
+    // console.log(strGeom)
     const geom = JSON.parse(strGeom);
     const properties = {
       class: activeClass.name,
