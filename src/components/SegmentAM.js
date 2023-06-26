@@ -37,7 +37,6 @@ export const SegmentAM = ({ setLoading }) => {
 
   // Load indexedDB for encode Items
   useEffect(() => {
-    console.log("read db");
     const fetchData = async () => {
       try {
         const db = await startDB();
@@ -97,13 +96,9 @@ export const SegmentAM = ({ setLoading }) => {
         activeClass,
         classMaxId
       );
-      console.log(features);
       const props = { ...features[0] };
-      console.log({ ...props, id: props.properties.id });
       handleSaveData({ ...props, id: props.properties.id }, "items");
-
       // downloadGeojsonFile(JSON.stringify(features), "decode.json");
-
       const samItems = features2olFeatures(features);
       dispatchSetItems({
         type: "SET_ITEMS",

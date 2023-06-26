@@ -31,10 +31,7 @@ import {
 import { MapContext } from "../../contexts/MapContext";
 import { MainContext } from "../../contexts/MainContext";
 import { ProjectLayer } from "./ProjectLayer";
-import {
-  simplifyOlFeature,
-  simplifyFeatures,
-} from "./../../utils/transformation";
+import { simplifyFeatures } from "./../../utils/transformation";
 import { features2olFeatures, olFeatures2Features } from "../../utils/convert";
 import { startDB, addData } from "./../../store/indexedDB";
 
@@ -163,16 +160,15 @@ export function MapWrapper({ children }) {
 
         //Simplify features
         const features = olFeatures2Features([oLFeature]);
-        const simpleFeatures = simplifyFeatures(features, 0.000001);
+        // const simpleFeatures = simplifyFeatures(features, 0.000001);
         // Insert the first items
-        const feature = simpleFeatures[0];
+        const feature = features[0];
         const oLFeatures = features2olFeatures([feature]);
         setItems([...items, oLFeatures[0]]);
         //insert feature into the DB
         const db = await startDB();
         await addData(db, "items", {
           ...feature,
-          // id: `${feature.properties.id}-${feature.properties.class}`,
         });
       } catch (error) {
         console.error("An error occurred", error);

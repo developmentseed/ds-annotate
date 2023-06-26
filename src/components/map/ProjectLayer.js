@@ -53,12 +53,16 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
 
   useEffect(() => {
     if (!map) return;
-    if (items.length >= 0) {
-      const segDataSource = new VectorSource({
-        features: items,
-        wrapX: true,
-      });
-      vectorSegData.setSource(segDataSource);
+    try {
+      if (items.length >= 0) {
+        const segDataSource = new VectorSource({
+          features: items,
+          wrapX: true,
+        });
+        vectorSegData.setSource(segDataSource);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }, [map, items]);
 

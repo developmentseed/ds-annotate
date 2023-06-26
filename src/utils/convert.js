@@ -22,7 +22,6 @@ export const geojson2olFeatures = (geojsonFeature) => {
  */
 export const features2olFeatures = (features) => {
   const fc = turf.featureCollection(features);
-  console.log(fc);
   const oLFeatures = new GeoJSON().readFeatures(fc, {
     featureProjection: "EPSG:3857",
     dataProjection: "EPSG:4326",
@@ -87,7 +86,6 @@ export const sam2Geojson = (
   const features = [];
   for (let index = 0; index < ListGeoms.length; index++) {
     const strGeom = ListGeoms[index];
-    // console.log(strGeom)
     const geom = JSON.parse(strGeom);
     const properties = {
       class: activeClass.name,

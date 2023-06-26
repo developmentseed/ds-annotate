@@ -1,7 +1,7 @@
 import React, { useContext, useCallback } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { mergePolygonClass } from "../utils/transformation";
-import { olFeatures2geojson, features2olFeatures } from "../utils/convert";
+import { olFeatures2Features, features2olFeatures } from "../utils/convert";
 
 export const MenuActions = () => {
   const { items, dispatchSetItems } = useContext(MainContext);
@@ -17,10 +17,11 @@ export const MenuActions = () => {
   );
 
   const mergPolygons = () => {
-    const fc = olFeatures2geojson(items);
-    const mergedFeatures = mergePolygonClass(fc.features);
+    const features = olFeatures2Features(items);
+    const mergedFeatures = mergePolygonClass(features);
     const mergedItems = features2olFeatures(mergedFeatures);
     setItems(mergedItems);
+    // Save merged features in DB
   };
 
   document.addEventListener("keydown", (e) => {

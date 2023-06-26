@@ -15,7 +15,12 @@ export const MenuItems = () => {
       try {
         const db = await startDB();
         const items_ = await getAllData(db, "items");
-        const olFeatures = features2olFeatures(items_);
+        const filterItems_ = items_.filter((item) => {
+          if (item.geometry.coordinates.length > 0) {
+            return item;
+          }
+        });
+        const olFeatures = features2olFeatures(filterItems_);
         dispatchSetItems({
           type: "SET_ITEMS",
           payload: olFeatures,
