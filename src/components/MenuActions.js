@@ -2,6 +2,7 @@ import React, { useContext, useCallback } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { mergePolygonClass } from "../utils/transformation";
 import { olFeatures2Features, features2olFeatures } from "../utils/convert";
+import { storeItems } from "./../store/indexedDB";
 
 export const MenuActions = () => {
   const { items, dispatchSetItems } = useContext(MainContext);
@@ -22,6 +23,11 @@ export const MenuActions = () => {
     const mergedItems = features2olFeatures(mergedFeatures);
     setItems(mergedItems);
     // Save merged features in DB
+    storeItems.deleteAllData();
+    mergedFeatures.forEach((item) => {
+      const id = `${item.properties.id}${item.properties.class}`;
+      storeItems.addData({ ...item, id });
+    });
   };
 
   document.addEventListener("keydown", (e) => {

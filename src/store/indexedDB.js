@@ -33,7 +33,6 @@ class Store {
   }
 
   addData(item) {
-    console.log(item);
     return new Promise((resolve, reject) => {
       const request = this.transaction("readwrite").add(item);
       request.onsuccess = () => resolve(request.result);

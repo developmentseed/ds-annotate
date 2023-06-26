@@ -14,7 +14,11 @@ import {
   features2olFeatures,
 } from "../utils/convert";
 import { downloadGeojsonFile, getMaxIdPerClass } from "../utils/utils";
-import { openDatabase, storeEncodeItems } from "./../store/indexedDB";
+import {
+  openDatabase,
+  storeEncodeItems,
+  storeItems,
+} from "./../store/indexedDB";
 
 export const SegmentAM = ({ setLoading }) => {
   const {
@@ -54,7 +58,6 @@ export const SegmentAM = ({ setLoading }) => {
 
   const handleSaveData = async (data, table) => {
     try {
-      await openDatabase();
       await storeEncodeItems.addData(data);
     } catch (error) {
       console.error("Failed to save data:", error);
@@ -76,11 +79,10 @@ export const SegmentAM = ({ setLoading }) => {
           type: "CACHING_ENCODED",
           payload: [...encodeItems, encodeItem],
         });
-
         // Save in indexedDB
         storeEncodeItems.addData({ ...encodeItem, id: encodeItems.length });
       } catch (error) {
-        console.erro(error);
+        console.log(error);
         reset();
       }
     }
@@ -94,14 +96,16 @@ export const SegmentAM = ({ setLoading }) => {
         activeClass,
         classMaxId
       );
-      // const props = { ...features[0] };
-      storeEncodeItems.addData(features);
       // downloadGeojsonFile(JSON.stringify(features), "decode.json");
-      const samItems = features2olFeatures(features);
+      const olFeatures = features2olFeatures(features);
       dispatchSetItems({
         type: "SET_ITEMS",
-        payload: [...items, ...samItems],
+        payload: [...items, ...olFeatures],
       });
+      // save in DB
+      const feature = features[0];
+      const id = `${feature.properties.id}${feature.properties.class}`;
+      storeItems.addData({ ...feature, id });
       reset();
     } catch (error) {
       reset();
@@ -134,7 +138,7 @@ export const SegmentAM = ({ setLoading }) => {
         onClick={() => {
           requestPrediction();
         }}
-        // disabled={samApiStatus || false}
+        disabled={samApiStatus || false}
       >
         {samApiStatus || "Segment Anything"}
       </button>

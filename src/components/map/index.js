@@ -38,7 +38,7 @@ import { openDatabase, storeItems } from "./../../store/indexedDB";
 import { SpinerLoader } from "./../SpinerLoader";
 import { SegmentAM } from "./../SegmentAM";
 import { getMaxIdPerClass } from "./../../utils/utils";
-// import { MenuEncodeItems } from "./../MenuEncodeItems";
+import { MenuEncodeItems } from "./../MenuEncodeItems";
 
 export function MapWrapper({ children }) {
   const [map, setMap] = useState();
@@ -201,7 +201,7 @@ export function MapWrapper({ children }) {
         )}
         {children}
       </div>
-      {/* <MenuEncodeItems /> */}
+      <MenuEncodeItems />
     </MapContext.Provider>
   );
 }
