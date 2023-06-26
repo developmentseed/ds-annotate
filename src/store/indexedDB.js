@@ -8,7 +8,7 @@ export const openDatabase = () => {
 
     request.onupgradeneeded = (event) => {
       db = event.target.result;
-      db.createObjectStore("items", { autoIncrement: true });
+      db.createObjectStore("items", { keyPath: "id" });
       db.createObjectStore("encodeItems", { keyPath: "id" });
     };
 

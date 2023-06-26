@@ -14,7 +14,7 @@ import {
   features2olFeatures,
 } from "../utils/convert";
 import { downloadGeojsonFile, getMaxIdPerClass } from "../utils/utils";
-import { startDB, addData, getAllData } from "./../store/indexedDB";
+import { openDatabase, storeEncodeItems } from "./../store/indexedDB";
 
 export const SegmentAM = ({ setLoading }) => {
   const {
@@ -39,8 +39,8 @@ export const SegmentAM = ({ setLoading }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const db = await startDB();
-        const listEncodeItems = await getAllData(db, "encodeiItems");
+        await openDatabase();
+        const listEncodeItems = await storeEncodeItems.getAllData();
         dispatchEncodeItems({
           type: "CACHING_ENCODED",
           payload: listEncodeItems,
@@ -54,8 +54,8 @@ export const SegmentAM = ({ setLoading }) => {
 
   const handleSaveData = async (data, table) => {
     try {
-      const db = await startDB();
-      await addData(db, table, data);
+      await openDatabase();
+      await storeEncodeItems.addData(data);
     } catch (error) {
       console.error("Failed to save data:", error);
     }
@@ -76,11 +76,9 @@ export const SegmentAM = ({ setLoading }) => {
           type: "CACHING_ENCODED",
           payload: [...encodeItems, encodeItem],
         });
+
         // Save in indexedDB
-        handleSaveData(
-          { ...encodeItem, id: encodeItems.length },
-          "encodeiItems"
-        );
+        storeEncodeItems.addData({ ...encodeItem, id: encodeItems.length });
       } catch (error) {
         console.erro(error);
         reset();
@@ -96,8 +94,8 @@ export const SegmentAM = ({ setLoading }) => {
         activeClass,
         classMaxId
       );
-      const props = { ...features[0] };
-      handleSaveData({ ...props, id: props.properties.id }, "items");
+      // const props = { ...features[0] };
+      storeEncodeItems.addData(features);
       // downloadGeojsonFile(JSON.stringify(features), "decode.json");
       const samItems = features2olFeatures(features);
       dispatchSetItems({

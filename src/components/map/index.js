@@ -36,7 +36,7 @@ import { features2olFeatures, olFeatures2Features } from "../../utils/convert";
 import { openDatabase, storeItems } from "./../../store/indexedDB";
 
 import { SpinerLoader } from "./../SpinerLoader";
-// import { SegmentAM } from "./../SegmentAM";
+import { SegmentAM } from "./../SegmentAM";
 import { getMaxIdPerClass } from "./../../utils/utils";
 // import { MenuEncodeItems } from "./../MenuEncodeItems";
 
@@ -154,7 +154,6 @@ export function MapWrapper({ children }) {
           color: activeClass.color,
           id: getMaxIdPerClass(items, activeClass),
         });
-
         //Simplify features
         const features = olFeatures2Features([oLFeature]);
         // const simpleFeatures = simplifyFeatures(features, 0.000001);
@@ -164,7 +163,8 @@ export function MapWrapper({ children }) {
         setItems([...items, oLFeatures[0]]);
         //insert feature into the DB
         await openDatabase();
-        await storeItems.addData(feature);
+        const id = `${feature.properties.id}${feature.properties.class}`;
+        await storeItems.addData({ ...feature, id });
       } catch (error) {
         console.log(error);
       }
@@ -191,7 +191,7 @@ export function MapWrapper({ children }) {
         tabIndex={0}
       >
         {loading && <SpinerLoader loading={loading} />}
-        {/* <SegmentAM setLoading={setLoading} /> */}
+        <SegmentAM setLoading={setLoading} />
         {activeProject && (
           <ProjectLayer
             project={activeProject}
