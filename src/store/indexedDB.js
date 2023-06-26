@@ -1,57 +1,79 @@
 const DBName = "dsAnnotateDB";
 const DBVersion = 1;
+let db;
 
-export const startDB = () => {
+export const openDatabase = () => {
   return new Promise((resolve, reject) => {
-    let openRequest = indexedDB.open(DBName, DBVersion);
-    openRequest.onerror = (event) => {
-      reject(event.target.error);
-    };
-    openRequest.onsuccess = (event) => {
-      const db = event.target.result;
-      resolve(db);
-    };
-    openRequest.onupgradeneeded = (event) => {
-      const db = event.target.result;
-      db.createObjectStore("encodeItems", {
-        keyPath: "id",
-        autoIncrement: true,
-      });
+    const request = indexedDB.open(DBName, DBVersion);
+
+    request.onupgradeneeded = (event) => {
+      db = event.target.result;
       db.createObjectStore("items", { autoIncrement: true });
-      resolve("Database setup complete");
+      db.createObjectStore("encodeItems", { keyPath: "id" });
+    };
+
+    request.onsuccess = (event) => {
+      db = event.target.result;
+      resolve();
+    };
+
+    request.onerror = (event) => {
+      reject("Database error: ", event.target.error);
     };
   });
 };
 
-export const addData = (db, storeName, data) => {
-  return new Promise((resolve, reject) => {
-    let transaction = db.transaction([storeName], "readwrite");
-    let objectStore = transaction.objectStore(storeName);
-    let request = objectStore.add(data);
+class Store {
+  constructor(storeName) {
+    this.storeName = storeName;
+  }
 
-    request.onsuccess = () => resolve("Data addition successful");
-    request.onerror = () => reject("Data addition failed");
-  });
-};
+  transaction(mode) {
+    return db.transaction(this.storeName, mode).objectStore(this.storeName);
+  }
 
-export const getAllData = (db, storeName) => {
-  return new Promise((resolve, reject) => {
-    let transaction = db.transaction(storeName);
-    let objectStore = transaction.objectStore(storeName);
-    let request = objectStore.getAll();
+  addData(item) {
+    console.log(item);
+    return new Promise((resolve, reject) => {
+      const request = this.transaction("readwrite").add(item);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
 
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject("Data fetch failed");
-  });
-};
+  getAllData() {
+    return new Promise((resolve, reject) => {
+      const request = this.transaction("readonly").getAll();
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
 
-export const deleteData = (db, storeName, id) => {
-  return new Promise((resolve, reject) => {
-    let transaction = db.transaction([storeName], "readwrite");
-    let objectStore = transaction.objectStore(storeName);
-    let request = objectStore.delete(id);
+  deleteData(id) {
+    return new Promise((resolve, reject) => {
+      const request = this.transaction("readwrite").delete(id);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
 
-    request.onsuccess = () => resolve("Data deletion successful");
-    request.onerror = () => reject("Data deletion failed");
-  });
-};
+  deleteAllData() {
+    return new Promise((resolve, reject) => {
+      const request = this.transaction("readwrite").clear();
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  addListData(list) {
+    return new Promise((resolve, reject) => {
+      const store = this.transaction("readwrite");
+      list.forEach((item) => store.add(item));
+      store.transaction.oncomplete = () => resolve();
+      store.transaction.onerror = () => reject(store.transaction.error);
+    });
+  }
+}
+
+export const storeItems = new Store("items");
+export const storeEncodeItems = new Store("encodeItems");

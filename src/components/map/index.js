@@ -33,12 +33,12 @@ import { MainContext } from "../../contexts/MainContext";
 import { ProjectLayer } from "./ProjectLayer";
 import { simplifyFeatures } from "./../../utils/transformation";
 import { features2olFeatures, olFeatures2Features } from "../../utils/convert";
-import { startDB, addData } from "./../../store/indexedDB";
+import { openDatabase, storeItems } from "./../../store/indexedDB";
 
 import { SpinerLoader } from "./../SpinerLoader";
-import { SegmentAM } from "./../SegmentAM";
+// import { SegmentAM } from "./../SegmentAM";
 import { getMaxIdPerClass } from "./../../utils/utils";
-import { MenuEncodeItems } from "./../MenuEncodeItems";
+// import { MenuEncodeItems } from "./../MenuEncodeItems";
 
 export function MapWrapper({ children }) {
   const [map, setMap] = useState();
@@ -50,11 +50,8 @@ export function MapWrapper({ children }) {
     activeProject,
     activeClass,
     items,
-    activeModule,
     dispatchSetItems,
     highlightedItem,
-    pointsSelector,
-    encodeItems,
   } = useContext(MainContext);
   const [loading, setLoading] = useState(false);
 
@@ -166,12 +163,10 @@ export function MapWrapper({ children }) {
         const oLFeatures = features2olFeatures([feature]);
         setItems([...items, oLFeatures[0]]);
         //insert feature into the DB
-        const db = await startDB();
-        await addData(db, "items", {
-          ...feature,
-        });
+        await openDatabase();
+        await storeItems.addData(feature);
       } catch (error) {
-        console.error("An error occurred", error);
+        console.log(error);
       }
     }
   };
@@ -196,7 +191,7 @@ export function MapWrapper({ children }) {
         tabIndex={0}
       >
         {loading && <SpinerLoader loading={loading} />}
-        <SegmentAM setLoading={setLoading} />
+        {/* <SegmentAM setLoading={setLoading} /> */}
         {activeProject && (
           <ProjectLayer
             project={activeProject}
@@ -206,7 +201,7 @@ export function MapWrapper({ children }) {
         )}
         {children}
       </div>
-      <MenuEncodeItems />
+      {/* <MenuEncodeItems /> */}
     </MapContext.Provider>
   );
 }

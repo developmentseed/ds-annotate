@@ -1,20 +1,20 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useLayoutEffect } from "react";
 import { BsViewList } from "react-icons/bs";
 
 import { MainContext } from "./../contexts/MainContext";
 import Item from "./Item";
-import { startDB, getAllData } from "./../store/indexedDB";
+import { openDatabase, storeItems } from "./../store/indexedDB";
 import { features2olFeatures } from "./../utils/convert";
 
 export const MenuItems = () => {
   const { items, dispatchSetItems } = useContext(MainContext);
 
   // Load items data from DB
-  useEffect(() => {
+  useLayoutEffect(() => {
     const fetchData = async () => {
       try {
-        const db = await startDB();
-        const items_ = await getAllData(db, "items");
+        await openDatabase();
+        const items_ = await storeItems.getAllData();
         const filterItems_ = items_.filter((item) => {
           if (item.geometry.coordinates.length > 0) {
             return item;
