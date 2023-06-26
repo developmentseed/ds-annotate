@@ -3,7 +3,7 @@ import {
   simplifyOlFeature,
   unionPolygons,
 } from "../transformation";
-import { geojson2olFeatures } from "../featureCollection";
+import { geojson2olFeatures } from "../convert";
 
 import { FEATURES_4326 } from "./fixtures";
 

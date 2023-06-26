@@ -31,7 +31,13 @@ import {
 import { MapContext } from "../../contexts/MapContext";
 import { MainContext } from "../../contexts/MainContext";
 import { ProjectLayer } from "./ProjectLayer";
-import { simplifyOlFeature } from "./../../utils/transformation";
+import {
+  simplifyOlFeature,
+  simplifyFeatures,
+} from "./../../utils/transformation";
+import { features2olFeatures, olFeatures2Features } from "../../utils/convert";
+import { startDB, addData } from "./../../store/indexedDB";
+
 import { SpinerLoader } from "./../SpinerLoader";
 import { SegmentAM } from "./../SegmentAM";
 import { getMaxIdPerClass } from "./../../utils/utils";
@@ -112,7 +118,7 @@ export function MapWrapper({ children }) {
     });
 
     // Add hash map in the url
-    initialMap.on('moveend', function () {
+    initialMap.on("moveend", function () {
       const view = initialMap.getView();
       const zoom = view.getZoom();
       const coord = view.getCenter();
@@ -139,22 +145,38 @@ export function MapWrapper({ children }) {
     }
   }, [activeProject, setItems]);
 
-  const drawSegments = (e) => {
+  const drawSegments = async (e) => {
     if (e.type === "keypress" && e.key === "s") {
       let contours = wand.getContours();
       if (!contours) return;
       let rings = contours.map((c) =>
         c.points.map((p) => map.getCoordinateFromPixel([p.x, p.y]))
       );
-      const oLFeature = new Feature({
-        geometry: new Polygon(rings),
-        project: activeProject.properties.name,
-        class: activeClass.name,
-        color: activeClass.color,
-        id: getMaxIdPerClass(items, activeClass),
-      });
-      const newOLFeature = simplifyOlFeature(oLFeature, 0.000001);
-      setItems([...items, newOLFeature]);
+      try {
+        const oLFeature = new Feature({
+          geometry: new Polygon(rings),
+          project: activeProject.properties.name,
+          class: activeClass.name,
+          color: activeClass.color,
+          id: getMaxIdPerClass(items, activeClass),
+        });
+
+        //Simplify features
+        const features = olFeatures2Features([oLFeature]);
+        const simpleFeatures = simplifyFeatures(features, 0.000001);
+        // Insert the first items
+        const feature = simpleFeatures[0];
+        const oLFeatures = features2olFeatures([feature]);
+        setItems([...items, oLFeatures[0]]);
+        //insert feature into the DB
+        const db = await startDB();
+        await addData(db, "items", {
+          ...feature,
+          // id: `${feature.properties.id}-${feature.properties.class}`,
+        });
+      } catch (error) {
+        console.error("An error occurred", error);
+      }
     }
   };
 

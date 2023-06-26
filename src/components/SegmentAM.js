@@ -12,9 +12,9 @@ import {
   olFeatures2geojson,
   sam2Geojson,
   features2olFeatures,
-} from "../utils/featureCollection";
+} from "../utils/convert";
 import { downloadGeojsonFile, getMaxIdPerClass } from "../utils/utils";
-import { openDB, addData, getAllData } from "./../store/indexedDB";
+import { startDB, addData, getAllData } from "./../store/indexedDB";
 
 export const SegmentAM = ({ setLoading }) => {
   const {
@@ -35,11 +35,12 @@ export const SegmentAM = ({ setLoading }) => {
     setSamApiStatus(null);
   };
 
+  // Load indexedDB for encode Items
   useEffect(() => {
     console.log("read db");
     const fetchData = async () => {
       try {
-        const db = await openDB("encodeiItems");
+        const db = await startDB();
         const listEncodeItems = await getAllData(db, "encodeiItems");
         dispatchEncodeItems({
           type: "CACHING_ENCODED",
@@ -52,18 +53,19 @@ export const SegmentAM = ({ setLoading }) => {
     fetchData();
   }, []);
 
-  const handleSaveData = async (data) => {
+  const handleSaveData = async (data, table) => {
     try {
-      const db = await openDB("encodeiItems");
-      await addData(db, "encodeiItems", data);
+      const db = await startDB();
+      await addData(db, table, data);
     } catch (error) {
       console.error("Failed to save data:", error);
     }
   };
 
+  // Request segment-anything-services
   const requestSAM = async (requestProps, isEncode) => {
     setLoading(true);
-    //=================== Need encode ===================
+    //=================== Encode ===================
     if (isEncode) {
       try {
         const canvas = await getCanvasForLayer(map, "main_layer");
@@ -76,13 +78,16 @@ export const SegmentAM = ({ setLoading }) => {
           payload: [...encodeItems, encodeItem],
         });
         // Save in indexedDB
-        handleSaveData({ ...encodeItem, id: encodeItems.length });
+        handleSaveData(
+          { ...encodeItem, id: encodeItems.length },
+          "encodeiItems"
+        );
       } catch (error) {
-        console.log(error);
+        console.erro(error);
         reset();
       }
     }
-    //=================== Need decode ===================
+    //=================== Decode ===================
     try {
       const decodeRespJson = await getDecode(requestProps);
       const classMaxId = getMaxIdPerClass(items, activeClass);
@@ -92,7 +97,13 @@ export const SegmentAM = ({ setLoading }) => {
         activeClass,
         classMaxId
       );
+      console.log(features);
+      const props = { ...features[0] };
+      console.log({ ...props, id: props.properties.id });
+      handleSaveData({ ...props, id: props.properties.id }, "items");
+
       // downloadGeojsonFile(JSON.stringify(features), "decode.json");
+
       const samItems = features2olFeatures(features);
       dispatchSetItems({
         type: "SET_ITEMS",

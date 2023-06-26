@@ -1,5 +1,5 @@
 import * as turf from "@turf/turf";
-import { geojson2olFeatures, olFeatures2geojson } from "./featureCollection";
+import { geojson2olFeatures, olFeatures2geojson } from "./convert";
 
 /**
  * Simplify multipolygon, to do that, We get the area from the out polygon area and

@@ -3,7 +3,7 @@ import { MainContext } from "../contexts/MainContext";
 import { BsViewList, BsChevronDown } from "react-icons/bs";
 import { ClassObj } from "./ClassObj";
 
-import { getClassLayers } from "../utils/featureCollection";
+import { getClassLayers } from "../utils/convert";
 
 export const MenuClass = () => {
   const { activeProject, activeClass } = useContext(MainContext);

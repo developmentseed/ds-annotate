@@ -1,6 +1,6 @@
 import apis from "./../static/apis.json";
 import { NotificationManager } from "react-notifications";
-import { olFeatures2geojson } from "./featureCollection";
+import { olFeatures2geojson } from "./convert";
 
 const headers = {
   Accept: "application/json",

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { MapContext } from "../contexts/MapContext";
 import { BsTrash } from "react-icons/bs";
-import { openDB, deleteData } from "./../store/indexedDB";
+import { startDB, deleteData } from "./../store/indexedDB";
 
 export const EncodeItem = ({ encodeItem, index }) => {
   const { encodeItems, dispatchEncodeItems } = useContext(MainContext);
@@ -34,7 +34,7 @@ export const EncodeItem = ({ encodeItem, index }) => {
       payload: updatedEncodeItems,
     });
     try {
-      const db = await openDB("encodeiItems");
+      const db = await startDB();
       await deleteData(db, "encodeiItems", encodeItem.id);
     } catch (error) {
       console.error("Failed to delete encode item:", error);

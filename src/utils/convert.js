@@ -22,11 +22,26 @@ export const geojson2olFeatures = (geojsonFeature) => {
  */
 export const features2olFeatures = (features) => {
   const fc = turf.featureCollection(features);
+  console.log(fc);
   const oLFeatures = new GeoJSON().readFeatures(fc, {
     featureProjection: "EPSG:3857",
     dataProjection: "EPSG:4326",
   });
   return oLFeatures;
+};
+
+/**
+ *
+ * @param {Array[olFeatures]} olFeatures
+ * @returns {List} list of features
+ */
+export const olFeatures2Features = (olFeatures) => {
+  var geojson = new GeoJSON().writeFeatures(olFeatures, {
+    dataProjection: "EPSG:4326",
+    featureProjection: "EPSG:3857",
+    properties: ["px", "py"],
+  });
+  return JSON.parse(geojson).features;
 };
 
 /**

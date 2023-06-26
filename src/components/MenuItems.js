@@ -1,11 +1,32 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { BsViewList } from "react-icons/bs";
 
 import { MainContext } from "./../contexts/MainContext";
 import Item from "./Item";
+import { startDB, getAllData } from "./../store/indexedDB";
+import { features2olFeatures } from "./../utils/convert";
 
 export const MenuItems = () => {
-  const { items } = useContext(MainContext);
+  const { items, dispatchSetItems } = useContext(MainContext);
+
+  // Load items data from DB
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const db = await startDB();
+        const items_ = await getAllData(db, "items");
+        const olFeatures = features2olFeatures(items_);
+        dispatchSetItems({
+          type: "SET_ITEMS",
+          payload: olFeatures,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <div>
       <div className="menuHeader">

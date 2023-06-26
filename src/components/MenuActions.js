@@ -1,10 +1,7 @@
 import React, { useContext, useCallback } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { mergePolygonClass } from "../utils/transformation";
-import {
-  olFeatures2geojson,
-  features2olFeatures,
-} from "../utils/featureCollection";
+import { olFeatures2geojson, features2olFeatures } from "../utils/convert";
 
 export const MenuActions = () => {
   const { items, dispatchSetItems } = useContext(MainContext);

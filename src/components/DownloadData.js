@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
 
 import { downloadGeojsonFile, downloadInJOSM } from "../utils/utils";
-import { olFeatures2geojson } from "./../utils/featureCollection";
+import { olFeatures2geojson } from "./../utils/convert";
 
 export const DownloadData = ({ classProps }) => {
   const { items, activeProject } = useContext(MainContext);
