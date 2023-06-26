@@ -33,7 +33,7 @@ export const vectorSegData = new VectorLayer({
       }),
       new Style({
         image: new CircleStyle({
-          radius: 1.5,
+          radius: 1.2,
           fill: new Fill({
             color: colorCode,
           }),
