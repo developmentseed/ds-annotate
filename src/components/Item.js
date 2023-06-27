@@ -9,7 +9,6 @@ const Item = ({ item }) => {
     useContext(MainContext);
 
   const deleteItem = (item) => {
-    storeItems.deleteData(item.id_);
     const newItems = items.filter((i) => {
       return i.id_ !== item.id_;
     });
@@ -17,6 +16,9 @@ const Item = ({ item }) => {
       type: "SET_ITEMS",
       payload: newItems,
     });
+    // Delete from DB
+    const id = `${item.values_.id}${item.values_.class}`;
+    storeItems.deleteData(id);
   };
 
   const zoomToItem = (item) => {
