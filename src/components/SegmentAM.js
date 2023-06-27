@@ -19,6 +19,7 @@ import {
   storeEncodeItems,
   storeItems,
 } from "./../store/indexedDB";
+import { guid } from "./../utils/utils";
 
 export const SegmentAM = ({ setLoading }) => {
   const {
@@ -89,12 +90,12 @@ export const SegmentAM = ({ setLoading }) => {
     //=================== Decode ===================
     try {
       const decodeRespJson = await getDecode(requestProps);
-      const classMaxId = getMaxIdPerClass(items, activeClass);
+      const id = guid();
       const features = sam2Geojson(
         decodeRespJson.geojsons,
         activeProject,
         activeClass,
-        classMaxId
+        id
       );
       // downloadGeojsonFile(JSON.stringify(features), "decode.json");
       const olFeatures = features2olFeatures(features);
@@ -104,7 +105,6 @@ export const SegmentAM = ({ setLoading }) => {
       });
       // save in DB
       const feature = features[0];
-      const id = `${feature.properties.id}${feature.properties.class}`;
       storeItems.addData({ ...feature, id });
       reset();
     } catch (error) {

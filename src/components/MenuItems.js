@@ -53,7 +53,7 @@ export const MenuItems = () => {
         className="max-h-[150px] scroll-smooth hover:scroll-auto overflow-auto overscroll-y-contain"
       >
         {items.map((item, index) => {
-          return <Item key={index} index={index} item={item}></Item>;
+          return <Item key={index} index={index + 1} item={item}></Item>;
         })}
       </div>
     </div>

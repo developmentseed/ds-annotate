@@ -76,12 +76,7 @@ export const getClassLayers = (project) => {
  * @param {Object} feature of project
  * @returns {Array} List of objects of classes
  */
-export const sam2Geojson = (
-  ListGeoms,
-  activeProject,
-  activeClass,
-  classMaxId
-) => {
+export const sam2Geojson = (ListGeoms, activeProject, activeClass, id) => {
   let scores = [];
   const features = [];
   for (let index = 0; index < ListGeoms.length; index++) {
@@ -92,7 +87,7 @@ export const sam2Geojson = (
       color: activeClass.color,
       project: activeProject.properties.name,
       ...geom.properties,
-      id: classMaxId,
+      id: id,
     };
     scores = geom.properties.confidence_scores;
     const feature = turf.multiPolygon(geom.coordinates, properties);
