@@ -99,7 +99,7 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
     });
   }, [pointsSelector]);
 
-  //Display points selector in the map
+  // Display points selector in the map
   useEffect(() => {
     if (!map) return;
     const pointsSelectorDataSource = new VectorSource({

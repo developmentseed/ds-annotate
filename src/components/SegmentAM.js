@@ -87,12 +87,12 @@ export const SegmentAM = ({ setLoading }) => {
         activeClass,
         id
       );
-      // downloadGeojsonFile(JSON.stringify(features), "decode.json");
       const olFeatures = features2olFeatures(features);
       dispatchSetItems({
         type: "SET_ITEMS",
         payload: [...items, ...olFeatures],
       });
+
       // save in DB
       const feature = features[0];
       storeItems.addData({ ...feature, id });

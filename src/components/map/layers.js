@@ -27,7 +27,6 @@ export const vectorSegData = new VectorLayer({
         background: "white",
         stroke: new Stroke({
           color: colorCode,
-          // lineDash: [2],
           width: 1,
         }),
       }),

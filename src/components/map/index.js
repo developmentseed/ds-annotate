@@ -85,12 +85,6 @@ export function MapWrapper({ children }) {
       features: select.getFeatures(),
     });
 
-    // const scaleLine = new ScaleLine({
-    //   units: "metric",
-    //   minWidth: 40,
-    //   maxWidth: 40,
-    // });
-
     const initialMap = new Map({
       target: mapElement.current,
       controls: defaultControls().extend([]),
@@ -157,7 +151,6 @@ export function MapWrapper({ children }) {
         });
         //Simplify features
         const features = olFeatures2Features([oLFeature]);
-        // const simpleFeatures = simplifyFeatures(features, 0.000001);
         // Insert the first items
         const feature = features[0];
         const oLFeatures = features2olFeatures([feature]);

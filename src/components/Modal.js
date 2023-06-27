@@ -35,29 +35,75 @@ export const Modal = () => {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
-                  <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                    DS-annotate tool is used to draw polygons using{" "}
+                  <p className="my-4 text-slate-500 text-md leading-relaxed">
+                    The DS-Annotate tool empowers users to draw intricate
+                    polygons over tiles using the{" "}
+                    <a
+                      className="text-red-500"
+                      href="https://github.com/facebookresearch/segment-anything"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {`SegmentAnything Model (SAM) `}
+                    </a>
+                    and the{" "}
                     <a
                       className="text-red-500"
                       href="https://github.com/Tamersoul/ol-magic-wand"
                       target="_blank"
                       rel="noreferrer"
                     >
-                      {`Magic Wand `}
-                    </a>
-                    functionality over tiles. It allows to easily draw any
-                    complex polygons on the map. For using DS-Annotate tool
-                    select the project and the class in the sidebar menu, and
-                    wait until all tiles loaded in the window view and then
-                    right click on the field that you want to select, once you
-                    have your selection push key "s" it will draw the polygon.
+                      {` Magic Wand `}
+                    </a>{" "}
+                    functionality. This tool simplifies the process of creating
+                    complex polygons on maps, making it an essential asset for
+                    detailed annotation.
                   </p>
-                  <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                    DS-annotate tool Allows to download the drawn polygon in a
-                    Geojson file and in JOSM file.
+                  <p className="my-4 text-slate-500 text-md leading-relaxed">
+                    To get started with DS-Annotate, follow these steps:
+                  </p>
+                  <ul className="list-disc list-inside space-y-2">
+                    <li className="text-md text-slate-500 leading-relaxed">
+                      Select the desired project and class from the sidebar
+                      menu.
+                    </li>
+                    <li className="text-md text-slate-500 leading-relaxed">
+                      Wait for all tiles to load in the window view.
+                    </li>
+                  </ul>
+
+                  <p className="my-4 text-slate-500 text-md leading-relaxed">
+                    Once your workspace is set up, you can begin annotating in
+                    two ways:
                   </p>
 
-                  <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                  <ul className="list-disc list-inside space-y-2">
+                    <li className="text-md text-slate-500 leading-relaxed">
+                      <span className="text-red-500">Magic Wand</span>:
+                      Right-click on the area you want to select. After making
+                      your selection, press the 's' key to draw your polygon.
+                    </li>
+                    <li className="text-md text-slate-500 leading-relaxed">
+                      <span className="text-red-500">
+                        SegmentAnything Model
+                      </span>{" "}
+                      : Click on the area you wish to map. After this, press the
+                      'Segment Anything' button to activate the model and start
+                      drawing your polygon.
+                    </li>
+                  </ul>
+
+                  <p className="my-4 text-slate-500 text-md leading-relaxed">
+                    Both of these tools offer precise and efficient mapping,
+                    enhancing the overall annotation experience.
+                  </p>
+
+                  <p className="my-4 text-slate-500 text-md leading-relaxed">
+                    The DS-Annotate tool provides the ability to export drawn
+                    polygons in both GeoJSON and in Java OpenStreetMap Editor.
+                  </p>
+
+                  <p className="my-4 text-slate-500 text-md leading-relaxed">
                     <a
                       className="text-red-500"
                       href="https://github.com/developmentseed/ds-annotate/issues"
