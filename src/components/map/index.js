@@ -9,7 +9,7 @@ import {
 import T from "prop-types";
 import Map from "ol/Map";
 import View from "ol/View";
-import { ScaleLine, FullScreen, defaults as defaultControls } from "ol/control";
+import { ScaleLine, defaults as defaultControls } from "ol/control";
 import MagicWandInteraction from "ol-magic-wand";
 import { Feature } from "ol";
 import Polygon from "ol/geom/Polygon";
@@ -31,7 +31,6 @@ import {
 import { MapContext } from "../../contexts/MapContext";
 import { MainContext } from "../../contexts/MainContext";
 import { ProjectLayer } from "./ProjectLayer";
-import { simplifyFeatures } from "./../../utils/transformation";
 import { features2olFeatures, olFeatures2Features } from "../../utils/convert";
 import { openDatabase, storeItems } from "./../../store/indexedDB";
 
@@ -86,11 +85,11 @@ export function MapWrapper({ children }) {
       features: select.getFeatures(),
     });
 
-    const scaleLine = new ScaleLine({
-      units: "metric",
-      minWidth: 40,
-      maxWidth: 40,
-    });
+    // const scaleLine = new ScaleLine({
+    //   units: "metric",
+    //   minWidth: 40,
+    //   maxWidth: 40,
+    // });
 
     const initialMap = new Map({
       target: mapElement.current,

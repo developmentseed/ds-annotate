@@ -2,18 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { MapContext } from "../contexts/MapContext";
 import { getCanvasForLayer } from "../utils/canvas";
-import {
-  getPrediction,
-  getEncode,
-  getDecode,
-  getPropertiesRequest,
-} from "../utils/samApi";
-import {
-  olFeatures2geojson,
-  sam2Geojson,
-  features2olFeatures,
-} from "../utils/convert";
-import { downloadGeojsonFile, getMaxIdPerClass } from "../utils/utils";
+import { getEncode, getDecode, getPropertiesRequest } from "../utils/samApi";
+import { sam2Geojson, features2olFeatures } from "../utils/convert";
 import {
   openDatabase,
   storeEncodeItems,

@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { EncodeItem } from "./EncodeItem";
 export const MenuEncodeItems = () => {
-  const { encodeItems, dispatchEncodeItems } = useContext(MainContext);
+  const { encodeItems } = useContext(MainContext);
   return (
     <div className="mt-8">
       <div
