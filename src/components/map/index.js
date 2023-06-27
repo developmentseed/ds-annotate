@@ -37,7 +37,7 @@ import { openDatabase, storeItems } from "./../../store/indexedDB";
 
 import { SpinerLoader } from "./../SpinerLoader";
 import { SegmentAM } from "./../SegmentAM";
-import { getMaxIdPerClass } from "./../../utils/utils";
+import { guid } from "./../../utils/utils";
 import { MenuEncodeItems } from "./../MenuEncodeItems";
 
 export function MapWrapper({ children }) {
@@ -146,13 +146,15 @@ export function MapWrapper({ children }) {
       let rings = contours.map((c) =>
         c.points.map((p) => map.getCoordinateFromPixel([p.x, p.y]))
       );
+      if (rings.length === 0) return;
       try {
+        const id = guid();
         const oLFeature = new Feature({
           geometry: new Polygon(rings),
           project: activeProject.properties.name,
           class: activeClass.name,
           color: activeClass.color,
-          id: getMaxIdPerClass(items, activeClass),
+          id: id,
         });
         //Simplify features
         const features = olFeatures2Features([oLFeature]);
@@ -162,8 +164,6 @@ export function MapWrapper({ children }) {
         const oLFeatures = features2olFeatures([feature]);
         setItems([...items, oLFeatures[0]]);
         //insert feature into the DB
-        await openDatabase();
-        const id = `${feature.properties.id}${feature.properties.class}`;
         await storeItems.addData({ ...feature, id });
       } catch (error) {
         console.log(error);

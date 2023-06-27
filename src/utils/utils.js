@@ -84,13 +84,13 @@ export const getProjectTemplate = (searchParams) => {
  */
 export const getMaxIdPerClass = (items, activeClass) => {
   const items_ = items.map((i) => i.values_);
-  if (items_.length === 0) return 1;
-  const filteredItems = items_.filter((obj) => obj.class === activeClass.name);
-  if (filteredItems.length === 0) return 1;
-  const maxItem = filteredItems.reduce((max, current) =>
-    max.id > current.id ? max : current
-  );
-  return maxItem.id + 1;
+  // if (items_.length === 0) return 1;
+  // const filteredItems = items_.filter((obj) => obj.class === activeClass.name);
+  // if (filteredItems.length === 0) return 1;
+  // const maxItem = filteredItems.reduce((max, current) =>
+  //   max.id > current.id ? max : current
+  // );
+  return items_.length + 1;
 };
 
 /**
@@ -106,4 +106,17 @@ export const convertColorToRGBA = (colorCode, opacity) => {
   const blue = parseInt(colorCode.substring(4, 6), 16);
   const rgba = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
   return rgba;
+};
+
+/**
+ *
+ * @returns Strign of 4 characters
+ */
+export const guid = () => {
+  var w = () => {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  };
+  return `${w().substring(0, 4)}`;
 };

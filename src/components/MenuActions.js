@@ -21,12 +21,12 @@ export const MenuActions = () => {
     const features = olFeatures2Features(items);
     const mergedFeatures = mergePolygonClass(features);
     const mergedItems = features2olFeatures(mergedFeatures);
+
     setItems(mergedItems);
     // Save merged features in DB
     storeItems.deleteAllData();
     mergedFeatures.forEach((item) => {
-      const id = `${item.properties.id}${item.properties.class}`;
-      storeItems.addData({ ...item, id });
+      storeItems.addData({ ...item, id: item.properties.id });
     });
   };
 

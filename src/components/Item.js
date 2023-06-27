@@ -4,21 +4,20 @@ import { BsTrash } from "react-icons/bs";
 import { MainContext } from "./../contexts/MainContext";
 import { storeItems } from "./../store/indexedDB";
 
-const Item = ({ item }) => {
+const Item = ({ item, index }) => {
   const { items, dispatchSetItems, dispatchSetHighlightedItem } =
     useContext(MainContext);
 
   const deleteItem = (item) => {
     const newItems = items.filter((i) => {
-      return i.id_ !== item.id_;
+      return i.values_.id !== item.values_.id;
     });
     dispatchSetItems({
       type: "SET_ITEMS",
       payload: newItems,
     });
     // Delete from DB
-    const id = `${item.values_.id}${item.values_.class}`;
-    storeItems.deleteData(id);
+    storeItems.deleteData(item.values_.id);
   };
 
   const zoomToItem = (item) => {
@@ -47,7 +46,7 @@ const Item = ({ item }) => {
         }}
         title="Delete item"
       ></BsTrash>
-      <span>{item.values_.id}</span>
+      <span>{index}</span>
     </div>
   );
 };

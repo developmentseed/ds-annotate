@@ -1,4 +1,4 @@
-import { useContext, useEffect, useLayoutEffect } from "react";
+import { useContext, useEffect, useLayoutEffect, useRef } from "react";
 import { BsViewList } from "react-icons/bs";
 
 import { MainContext } from "./../contexts/MainContext";
@@ -8,6 +8,7 @@ import { features2olFeatures } from "./../utils/convert";
 
 export const MenuItems = () => {
   const { items, dispatchSetItems } = useContext(MainContext);
+  const scrollDivRef = useRef(null);
 
   // Load items data from DB
   useLayoutEffect(() => {
@@ -32,6 +33,12 @@ export const MenuItems = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (scrollDivRef.current) {
+      const scrollDiv = scrollDivRef.current;
+      scrollDiv.scrollTop = scrollDiv.scrollHeight;
+    }
+  }, [items]);
   return (
     <div>
       <div className="menuHeader">
@@ -41,9 +48,12 @@ export const MenuItems = () => {
         </span>
       </div>
 
-      <div className="max-h-[150px] scroll-smooth hover:scroll-auto overflow-auto overscroll-y-contain">
+      <div
+        ref={scrollDivRef}
+        className="max-h-[150px] scroll-smooth hover:scroll-auto overflow-auto overscroll-y-contain"
+      >
         {items.map((item, index) => {
-          return <Item key={index} item={item}></Item>;
+          return <Item key={index} index={index} item={item}></Item>;
         })}
       </div>
     </div>

@@ -1,5 +1,6 @@
 import * as turf from "@turf/turf";
 import { geojson2olFeatures, olFeatures2geojson } from "./convert";
+import { guid } from "./utils";
 
 /**
  * Simplify multipolygon, to do that, We get the area from the out polygon area and
@@ -114,7 +115,7 @@ export const unionPolygons = (features) => {
   let new_features = [];
   if (result && result.geometry && result.geometry.type === "MultiPolygon") {
     new_features = result.geometry.coordinates.map((c, index) => {
-      return turf.polygon(c, { ...props, id: index + 1 });
+      return turf.polygon(c, { ...props, id: guid() });
     });
   } else if (result && result.geometry && result.geometry.type === "Polygon") {
     result.properties = props;
