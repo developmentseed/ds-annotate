@@ -157,6 +157,7 @@ export function MapWrapper({ children }) {
         setItems([...items, oLFeatures[0]]);
         //insert feature into the DB
         await storeItems.addData({ ...feature, id });
+        wand.clearMask();
       } catch (error) {
         console.log(error);
       }

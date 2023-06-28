@@ -96,13 +96,17 @@
       "properties": {
         "slug": "unsch",
         "classes": {
-          "Road": "#FED000",
-          "Vegetation": "#17FF00"
+          "Road": "#9602E8",
+          "Tree": "#17FF00",
+          "Pear cactus": "#278605",
+          "Barley filed": "#FED000",
+          "People": "#E222F0",
+          "Car": "#2021EA"
         },
         "name": "Unsch",
         "imagery": {
           "type": "tms",
-          "url": "https://titiler.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x?url=https%3A%2F%2Fds-data-projects.s3.amazonaws.com%2Ftest_u%2Funsch.tiff&bidx=1&bidx=2&bidx=4"
+          "url": "https://titiler.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x?url=https%3A%2F%2Fds-data-projects.s3.amazonaws.com%2Ftest_u%2Funsch.tiff&bidx=1&bidx=2&bidx=3"
         }
       },
       "geometry": {
@@ -110,24 +114,24 @@
         "coordinates": [
           [
             [
-              -74.22680854797363,
-              -13.147271777634202
+              -74.22528031590025,
+              -13.140721362244065
             ],
             [
-              -74.2177963256836,
-              -13.147271777634202
+              -74.22528031590025,
+              -13.14444679746704
             ],
             [
-              -74.2177963256836,
-              -13.139247875305998
+              -74.22132827886564,
+              -13.14444679746704
             ],
             [
-              -74.22680854797363,
-              -13.139247875305998
+              -74.22132827886564,
+              -13.140721362244065
             ],
             [
-              -74.22680854797363,
-              -13.147271777634202
+              -74.22528031590025,
+              -13.140721362244065
             ]
           ]
         ]
