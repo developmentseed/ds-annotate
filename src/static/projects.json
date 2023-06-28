@@ -94,12 +94,12 @@
     {
       "type": "Feature",
       "properties": {
-        "slug": "Unsch",
+        "slug": "unsch",
         "classes": {
           "Road": "#FED000",
           "Vegetation": "#17FF00"
         },
-        "name": "Ayacucho, Peru",
+        "name": "Unsch",
         "imagery": {
           "type": "tms",
           "url": "https://titiler.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x?url=https%3A%2F%2Fds-data-projects.s3.amazonaws.com%2Ftest_u%2Funsch.tiff&bidx=1&bidx=2&bidx=4"
@@ -136,11 +136,11 @@
     {
       "type": "Feature",
       "properties": {
-        "slug": "Indigo",
+        "slug": "farms",
         "classes": {
           "Farm": "#17FF00"
         },
-        "name": "Indigo, manual",
+        "name": "Farms",
         "imagery": {
           "type": "tms",
           "url": "https://gis.apfo.usda.gov/arcgis/rest/services/NAIP/USDA_CONUS_PRIME/ImageServer/tile/{z}/{y}/{x}?blankTile=false"
