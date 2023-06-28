@@ -25,7 +25,7 @@ export const ClassObj = ({ classProps, setOpenMenu }) => {
       }}
       onClick={() => {
         setActiveClass(classProps);
-        setOpenMenu(false);
+        // setOpenMenu(false);
       }}
     >
       <span className="text-xs block float-left">

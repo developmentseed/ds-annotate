@@ -72,7 +72,8 @@ export const getImageryLayer = (imagery) => {
   if (imagery.type === "wms") {
     return new TileWMS({
       url: imagery.url,
-      params: { LAYERS: imagery.layerName, TILED: true },
+      // params: { LAYERS: imagery.layerName, TILED: true },
+      params: imagery.params,
       ratio: 1,
       serverType: imagery.serverType,
       crossOrigin: "anonymous",
