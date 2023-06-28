@@ -71,7 +71,7 @@ export const SegmentAM = ({ setLoading }) => {
           payload: [...encodeItems, encodeItem],
         });
         // Save in indexedDB
-        storeEncodeItems.addData({ ...encodeItem, id: encodeItems.length });
+        storeEncodeItems.addData({ ...encodeItem, id: guid() });
       } catch (error) {
         console.log(error);
         reset();

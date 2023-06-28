@@ -5,10 +5,11 @@
       "type": "Feature",
       "properties": {
         "classes": {
-          "Road": "#FED000",
           "Water": "#04F5EA",
           "Building": "#E000FF",
-          "Vegetation": "#17FF00"
+          "Vegetation": "#17FF00",
+          "Car": "#ffb350",
+          "Road": "#FED000"
         },
         "slug": "brussels",
         "name": "Brussels Prototype",
@@ -96,9 +97,8 @@
       "properties": {
         "slug": "unsch",
         "classes": {
-          "Road": "#9602E8",
           "Tree": "#17FF00",
-          "Pear cactus": "#278605",
+          "Pear cactus": "#ffb350",
           "Barley filed": "#FED000",
           "People": "#E222F0",
           "Car": "#2021EA"
@@ -545,7 +545,7 @@
       "properties": {
         "classes": {
           "water": "#00ffff",
-          "forest": "#093edc",
+          "forest": "#5d9e7e",
           "pasture": "#00ff22",
           "jungle": "#248a2a",
           "agriculture": "#f5fb4b",
@@ -565,44 +565,109 @@
         "coordinates": [
           [
             [
-              -97.3551271072396,
-              18.92906536575616
+              -102.215338,
+              19.584979
             ],
             [
-              -97.70206588253725,
-              18.964381089980364
+              -102.065496,
+              19.584979
             ],
             [
-              -98.18591323283964,
-              18.868717070154943
+              -102.065496,
+              19.68694
             ],
             [
-              -98.21391725954544,
-              18.492894531411025
+              -102.215338,
+              19.68694
             ],
             [
-              -97.93543277175053,
-              18.133988663323834
+              -102.215338,
+              19.584979
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "classes": {
+          "vessel": "#ffb350"
+
+        },
+        "slug": "vessels",
+        "name": "Vessels - Sentinel2",
+        "imagery": {
+          "type": "tms",
+          "url": "https://planetarycomputer.microsoft.com/api/data/v1/mosaic/tiles/82ebdc445544365e45be4db6d22536ec/{z}/{x}/{y}?assets=B04&assets=B03&assets=B02&color_formula=Gamma+RGB+3.2+Saturation+0.8+Sigmoidal+RGB+25+0.35&collection=sentinel-2-l2a"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates":  [
+          [
+            [
+              -73.73805753373306,
+              40.58517186308694
             ],
             [
-              -97.61494224389743,
-              18.061526901910582
+              -73.73805753373306,
+              40.42698865422577
             ],
             [
-              -96.83705261318586,
-              18.046735110588713
+              -73.38991503922333,
+              40.42698865422577
             ],
             [
-              -96.72970384414776,
-              18.52240085842793
+              -73.38991503922333,
+              40.58517186308694
             ],
             [
-              -96.83238527540148,
-              18.936423424438118
+              -73.73805753373306,
+              40.58517186308694
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "classes": {
+          "Green Field": "#b9fec8",
+          "Harvested": "#FBD900",
+          "Bare filed": "#D52FFE"
+        },
+        "slug": "Farms",
+        "name": "Farms - Sentinel2",
+        "imagery": {
+          "type": "tms",
+          "url": "https://planetarycomputer.microsoft.com/api/data/v1/mosaic/tiles/82ebdc445544365e45be4db6d22536ec/{z}/{x}/{y}?assets=B04&assets=B03&assets=B02&color_formula=Gamma+RGB+3.2+Saturation+0.8+Sigmoidal+RGB+25+0.35&collection=sentinel-2-l2a"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates":  [
+          [
+            [
+              -102.29232820719133,
+              19.063550307243275
             ],
             [
-              -97.3551271072396,
-              18.92906536575616
+              -102.29232820719133,
+              19.02652643034432
+            ],
+            [
+              -102.23968552362133,
+              19.02652643034432
+            ],
+            [
+              -102.23968552362133,
+              19.063550307243275
+            ],
+            [
+              -102.29232820719133,
+              19.063550307243275
             ]
           ]
         ]
