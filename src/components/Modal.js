@@ -44,7 +44,7 @@ export const Modal = () => {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      {`SegmentAnything Model (SAM) `}
+                      {`Segment Anything Model (SAM)`}
                     </a>
                     and the{" "}
                     <a
