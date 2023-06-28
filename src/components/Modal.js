@@ -85,7 +85,7 @@ export const Modal = () => {
                     </li>
                     <li className="text-md text-slate-500 leading-relaxed">
                       <span className="text-red-500">
-                        SegmentAnything Model
+                        Segment Anything Model
                       </span>{" "}
                       : Click on the area you wish to map. After this, press the
                       'Segment Anything' button to activate the model and start
