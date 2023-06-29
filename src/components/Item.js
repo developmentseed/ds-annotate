@@ -2,17 +2,22 @@ import { useContext } from "react";
 
 import { BsTrash } from "react-icons/bs";
 import { MainContext } from "./../contexts/MainContext";
+import { storeItems } from "./../store/indexedDB";
 
-const Item = ({ item }) => {
+const Item = ({ item, index }) => {
   const { items, dispatchSetItems, dispatchSetHighlightedItem } =
     useContext(MainContext);
 
   const deleteItem = (item) => {
-    const newItems = items.filter((i) => i.ol_uid !== item.ol_uid);
+    const newItems = items.filter((i) => {
+      return i.values_.id !== item.values_.id;
+    });
     dispatchSetItems({
       type: "SET_ITEMS",
       payload: newItems,
     });
+    // Delete from DB
+    storeItems.deleteData(item.values_.id);
   };
 
   const zoomToItem = (item) => {
@@ -24,7 +29,7 @@ const Item = ({ item }) => {
 
   return (
     <div
-      className="inline-flex justify-center items-center pr-2 pl-2 ml-3 text-sm font-medium rounded-full"
+      className="inline-flex justify-center items-center pr-1 pl-1 ml-1 text-xs font-medium rounded-full cursor-pointer"
       style={{ background: `${item.values_.color}` }}
       onMouseEnter={() => {
         zoomToItem(item);
@@ -34,14 +39,14 @@ const Item = ({ item }) => {
       }}
     >
       <BsTrash
-        className="fill-current w-3 h-3 mr-2 cursor-pointer"
+        className="fill-current w-3 h-3 mr-1 cursor-pointer"
         onClick={() => {
           deleteItem(item);
           zoomToItem(null);
         }}
         title="Delete item"
       ></BsTrash>
-      <span>{item.values_.id}</span>
+      <span>{index}</span>
     </div>
   );
 };

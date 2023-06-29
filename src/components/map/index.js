@@ -9,7 +9,7 @@ import {
 import T from "prop-types";
 import Map from "ol/Map";
 import View from "ol/View";
-import { ScaleLine, FullScreen, defaults as defaultControls } from "ol/control";
+import { defaults as defaultControls } from "ol/control";
 import MagicWandInteraction from "ol-magic-wand";
 import { Feature } from "ol";
 import Polygon from "ol/geom/Polygon";
@@ -26,11 +26,18 @@ import {
   mainLayer,
   vectorSegData,
   vectorHighlighted,
+  vectorPointSelector,
 } from "./layers";
 import { MapContext } from "../../contexts/MapContext";
 import { MainContext } from "../../contexts/MainContext";
 import { ProjectLayer } from "./ProjectLayer";
-import { simplifyOlFeature } from "./../../utils/transformation";
+import { features2olFeatures, olFeatures2Features } from "../../utils/convert";
+import { storeItems } from "./../../store/indexedDB";
+
+import { SpinerLoader } from "./../SpinerLoader";
+import { SegmentAM } from "./../SegmentAM";
+import { guid } from "./../../utils/utils";
+import { MenuEncodeItems } from "./../MenuEncodeItems";
 
 export function MapWrapper({ children }) {
   const [map, setMap] = useState();
@@ -45,8 +52,7 @@ export function MapWrapper({ children }) {
     dispatchSetItems,
     highlightedItem,
   } = useContext(MainContext);
-
-  const [idItem, setIdItem] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   useLayoutEffect(() => {
     const initWand = new MagicWandInteraction({
@@ -79,22 +85,31 @@ export function MapWrapper({ children }) {
       features: select.getFeatures(),
     });
 
-    const scaleLine = new ScaleLine({
-      units: "metric",
-      minWidth: 40,
-      maxWidth: 40,
-    });
-
     const initialMap = new Map({
       target: mapElement.current,
-      controls: defaultControls().extend([new FullScreen(), scaleLine]),
+      controls: defaultControls().extend([]),
       interactions: defaultInteractions(interactions).extend([
         initWand,
         select,
         modify,
       ]),
-      layers: [osm, mainLayer, vector, vectorSegData, vectorHighlighted],
+      layers: [
+        osm,
+        mainLayer,
+        vector,
+        vectorSegData,
+        vectorHighlighted,
+        vectorPointSelector,
+      ],
       view: view,
+    });
+
+    // Add hash map in the url
+    initialMap.on("moveend", function () {
+      const view = initialMap.getView();
+      const zoom = view.getZoom();
+      const coord = view.getCenter();
+      window.location.hash = `#map=${zoom}/${coord[0]}/${coord[1]}`;
     });
 
     setMap(initialMap);
@@ -117,30 +132,44 @@ export function MapWrapper({ children }) {
     }
   }, [activeProject, setItems]);
 
-  const handleClick = (e) => {
-    console.log(`Start drawing...using ${e.type}`);
-  };
-
-  const drawSegments = (e) => {
+  const drawSegments = async (e) => {
     if (e.type === "keypress" && e.key === "s") {
       let contours = wand.getContours();
       if (!contours) return;
       let rings = contours.map((c) =>
         c.points.map((p) => map.getCoordinateFromPixel([p.x, p.y]))
       );
-
-      const oLFeature = new Feature({
-        geometry: new Polygon(rings),
-        project: activeProject.properties.name,
-        class: activeClass.name,
-        color: activeClass.color,
-        id: idItem,
-      });
-      const newIdItem = idItem + 1;
-      setIdItem(newIdItem);
-      const newOLFeature = simplifyOlFeature(oLFeature);
-      setItems([...items, newOLFeature]);
+      if (rings.length === 0) return;
+      try {
+        const id = guid();
+        const oLFeature = new Feature({
+          geometry: new Polygon(rings),
+          project: activeProject.properties.name,
+          class: activeClass.name,
+          color: activeClass.color,
+          id: id,
+        });
+        //Simplify features
+        const features = olFeatures2Features([oLFeature]);
+        // Insert the first items
+        const feature = features[0];
+        const oLFeatures = features2olFeatures([feature]);
+        setItems([...items, oLFeatures[0]]);
+        //insert feature into the DB
+        await storeItems.addData({ ...feature, id });
+        wand.clearMask();
+      } catch (error) {
+        console.log(error);
+      }
     }
+  };
+
+  const handleOnKeyDown = (e) => {
+    //Fetch predition from SAM
+  };
+
+  const handleClick = (e) => {
+    // setLoading(true);
   };
 
   return (
@@ -148,10 +177,14 @@ export function MapWrapper({ children }) {
       <div
         ref={mapElement}
         style={{ height: "100%", width: "100%", background: "#456234" }}
-        onContextMenu={handleClick}
+        className="parent relative"
+        onClick={handleClick}
         onKeyPress={drawSegments}
+        onKeyDown={handleOnKeyDown}
         tabIndex={0}
       >
+        {loading && <SpinerLoader loading={loading} />}
+        <SegmentAM setLoading={setLoading} />
         {activeProject && (
           <ProjectLayer
             project={activeProject}
@@ -161,6 +194,7 @@ export function MapWrapper({ children }) {
         )}
         {children}
       </div>
+      <MenuEncodeItems />
     </MapContext.Provider>
   );
 }

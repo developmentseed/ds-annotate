@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "http://devseed.com/ds-annotate/",
   "dependencies": {
+    "@emotion/react": "^11.10.6",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -13,14 +14,17 @@
     "@turf/turf": "^6.5.0",
     "@types/geojson": "^7946.0.10",
     "history": "^5.3.0",
+    "lodash": "^4.17.21",
     "ol": "^6.13.0",
     "ol-magic-wand": "^1.0.5",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
+    "react-notifications": "^1.7.4",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-spinners": "^0.13.8",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -28,7 +32,7 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "deploy": "yarn build && gh-pages -d build",
-    "lint": "eslint src",
+    "lint": "npx eslint . && yarn run prettier",
     "prettier": "prettier --write 'src/**/*.js'",
     "test": "npm run lint && react-scripts test --env=jsdom --watchAll=false --testMatch **/src/**/*.test.js"
   },

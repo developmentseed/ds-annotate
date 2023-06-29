@@ -1,11 +1,8 @@
 import React, { useContext, useCallback } from "react";
 import { MainContext } from "../contexts/MainContext";
-import { BsViewList } from "react-icons/bs";
-import { unionPolygons } from "../utils/transformation";
-import {
-  olFeatures2geojson,
-  geojson2olFeatures,
-} from "../utils/featureCollection";
+import { mergePolygonClass } from "../utils/transformation";
+import { olFeatures2Features, features2olFeatures } from "../utils/convert";
+import { storeItems } from "./../store/indexedDB";
 
 export const MenuActions = () => {
   const { items, dispatchSetItems } = useContext(MainContext);
@@ -20,36 +17,33 @@ export const MenuActions = () => {
     [dispatchSetItems]
   );
 
-  const mergPolygons = () => {
-    const fc = olFeatures2geojson(items);
-    const mergedFeatures = unionPolygons(fc.features);
-    const mergedItems = geojson2olFeatures(mergedFeatures);
+  const mergePolygons = () => {
+    const features = olFeatures2Features(items);
+    const mergedFeatures = mergePolygonClass(features);
+    const mergedItems = features2olFeatures(mergedFeatures);
+
     setItems(mergedItems);
+    // Save merged features in DB
+    storeItems.deleteAllData();
+    mergedFeatures.forEach((item) => {
+      storeItems.addData({ ...item, id: item.properties.id });
+    });
   };
 
   document.addEventListener("keydown", (e) => {
     // Merge polygonos
     if (e.key === "m") {
-      mergPolygons();
+      mergePolygons();
     }
   });
   return (
     <div>
-      <div className="menuHeader">
-        <BsViewList></BsViewList>
-        <span className=" text-base font-medium flex-1 duration-200 false">
-          Polygon Action
-        </span>
-      </div>
-
       <div className="flex flex-row mt-3">
         <button
           className="custom_button"
-          onClick={() => {
-            mergPolygons();
-          }}
+          onClick={() => mergePolygons()}
         >
-          Merge (M)
+          Merge polygons (M)
         </button>
       </div>
     </div>

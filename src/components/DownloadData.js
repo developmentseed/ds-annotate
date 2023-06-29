@@ -1,20 +1,16 @@
 import React, { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
-import { BsDownload } from "react-icons/bs";
 
 import { downloadGeojsonFile, downloadInJOSM } from "../utils/utils";
-import { olFeatures2geojson } from "./../utils/featureCollection";
+import { olFeatures2geojson } from "./../utils/convert";
 
 export const DownloadData = ({ classProps }) => {
   const { items, activeProject } = useContext(MainContext);
 
   const downloadGeojson = () => {
     const geojson = JSON.stringify(olFeatures2geojson(items));
-    const fileName = `${activeProject.properties.name.replace(
-      /\s/g,
-      "_"
-    )}.geojson`;
-    downloadGeojsonFile(geojson, fileName);
+    const projectName = activeProject.properties.name.replace(/\s/g, "_");
+    downloadGeojsonFile(geojson, `${projectName}.geojson`);
   };
 
   const josm = () => {
@@ -23,28 +19,18 @@ export const DownloadData = ({ classProps }) => {
   };
 
   return (
-    <div className="flex flex-row mt-3">
+    <div className="grid grid-cols-2 gap-2">
       <button
-        type="button"
-        className="custom_button_2 mr-1"
-        title="Load data on JOSM"
-        onClick={() => {
-          josm();
-        }}
+        className="custom_button"
+        onClick={() => downloadGeojson()}
       >
-        <BsDownload className="w-3 mt-1 mr-2"></BsDownload>
-        JOSM
+        Download GeoJSON
       </button>
       <button
-        type="button"
-        className="custom_button_2"
-        onClick={() => {
-          downloadGeojson();
-        }}
-        title="Download data as GeoJSON"
+        className="custom_button"
+        onClick={() => josm()}
       >
-        <BsDownload className="w-3 mt-1 mr-2"></BsDownload>
-        GeoJson
+        Export to JOSM
       </button>
     </div>
   );

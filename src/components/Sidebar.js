@@ -11,18 +11,18 @@ export const Sidebar = () => {
   return (
     <aside>
       <div className="overflow-y-auto pt-2 pb-2 pl-3">
-        <Header></Header>
+        <Header />
       </div>
       <div className="overflow-y-auto pr-2 pl-2">
-        <MenuProjects></MenuProjects>
-        <div className="border-t border-gray-200 my-3"></div>
-        <MenuClass></MenuClass>
-        <div className="border-t border-gray-200 my-3"></div>
-        <MenuItems></MenuItems>
-        <div className="border-t border-gray-200 my-3"></div>
-        <MenuActions></MenuActions>
-        <div className="border-t border-gray-200 my-3"></div>
-        <DownloadData></DownloadData>
+        <MenuProjects />
+        <div className="border-t border-gray-200 my-1"></div>
+        <MenuClass />
+        <div className="border-t border-gray-200 my-1"></div>
+        <MenuItems />
+        <div className="border-t border-gray-200 my-1"></div>
+        <MenuActions />
+        <div className="border-t border-gray-200 my-1"></div>
+        <DownloadData />
       </div>
     </aside>
   );

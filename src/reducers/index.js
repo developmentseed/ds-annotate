@@ -19,10 +19,10 @@ export const activeClassReducer = (state, action) => {
 export const itemsReducer = (state, action) => {
   switch (action.type) {
     case "SET_ITEMS":
-      const items = action.payload.sort((a, b) => {
-        return a.values_.id < b.values_.id ? 1 : -1;
-      });
-      return items;
+      // const items = action.payload.sort((a, b) => {
+      //   return a.values_.id < b.values_.id ? 1 : -1;
+      // });
+      return action.payload;
     default:
       return state;
   }
@@ -50,6 +50,36 @@ export const downloadInJOSMReducer = (state, action) => {
   switch (action.type) {
     case "DOWNLOAD_IN_JOSM":
       return action.payload.status;
+    default:
+      return state;
+  }
+};
+
+export const pointsSelectorReducer = (state, action) => {
+  switch (action.type) {
+    case "SET_POINTS_SELECTORS":
+      const pointsSelector = action.payload.sort((a, b) => {
+        return a.values_.id < b.values_.id ? 1 : -1;
+      });
+      return pointsSelector;
+    default:
+      return state;
+  }
+};
+
+export const ItemsNumClass = (state, action) => {
+  switch (action.type) {
+    case "SET_ITEM_ID":
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+export const encodeItemsReducer = (state, action) => {
+  switch (action.type) {
+    case "CACHING_ENCODED":
+      return action.payload;
     default:
       return state;
   }

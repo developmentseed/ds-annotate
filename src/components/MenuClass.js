@@ -3,7 +3,7 @@ import { MainContext } from "../contexts/MainContext";
 import { BsViewList, BsChevronDown } from "react-icons/bs";
 import { ClassObj } from "./ClassObj";
 
-import { getClassLayers } from "../utils/featureCollection";
+import { getClassLayers } from "../utils/convert";
 
 export const MenuClass = () => {
   const { activeProject, activeClass } = useContext(MainContext);
@@ -25,11 +25,11 @@ export const MenuClass = () => {
         }}
       >
         <BsViewList></BsViewList>
-        <span className=" text-base font-medium flex-1 duration-200 ">
+        <span className="text-sm text-base font-small flex-1 duration-200 false">
           Classes
         </span>
         <span
-          className="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full pr-4 pl-4"
+          className="inline-flex justify-center items-center px-2 ml-3 text-xs font-medium text-gray-800 bg-gray-200 rounded-full pr-4 pl-4"
           style={{ background: `${activeClass ? activeClass.color : ""}` }}
         >
           {activeClass ? activeClass.name : ""}
@@ -37,7 +37,7 @@ export const MenuClass = () => {
         <BsChevronDown></BsChevronDown>
       </div>
       {openMenu && (
-        <ul className="pt-2">
+        <ul className="pt-1">
           {classes.map((classProps, index) => (
             <ClassObj
               key={index}

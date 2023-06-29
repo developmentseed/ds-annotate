@@ -1,5 +1,6 @@
 import * as turf from "@turf/turf";
-import { geojson2olFeatures, olFeatures2geojson } from "./featureCollection";
+import { geojson2olFeatures, olFeatures2geojson } from "./convert";
+import { guid } from "./utils";
 
 /**
  * Simplify multipolygon, to do that, We get the area from the out polygon area and
@@ -17,9 +18,11 @@ export const simplifyMultipolygon = (features) => {
     let new_coords = [];
     for (let j = 0; j < coordinates.length; j++) {
       const coord = coordinates[j];
-      let area = turf.area(turf.polygon([coord]));
-      if (area > global_area * 0.2) {
-        new_coords.push(coord);
+      if (coord.length >= 4) {
+        let area = turf.area(turf.polygon([coord]));
+        if (area > global_area * 0.2) {
+          new_coords.push(coord);
+        }
       }
     }
     feature.geometry.coordinates = new_coords;
@@ -57,17 +60,40 @@ export const simplifyFeatures = (features, tolerance) => {
  * @param {*} olFeature
  * @returns
  */
-export const simplifyOlFeature = (olFeature) => {
+export const simplifyOlFeature = (olFeature, tolerance) => {
   const feature = olFeatures2geojson([olFeature]).features[0];
   let geojsonFeature = simplifyFeatures(
-    smooth(simplifyMultipolygon([feature])),
-    0.00001
+    // smooth(simplifyMultipolygon([feature])),
+    simplifyMultipolygon([feature]),
+    tolerance
   )[0];
   // let geojsonFeature = simplifyMultipolygon([feature])[0];
   // new_features.map((f) => (f.properties.color = '#0000FF'));
   geojsonFeature.properties = feature.properties;
   const newOLFeature = geojson2olFeatures(geojsonFeature)[0];
   return newOLFeature;
+};
+
+/**
+ * Merge polygon by class
+ * @param {Object} Geojson features
+ */
+
+export const mergePolygonClass = (features) => {
+  const grouped = features.reduce((result, current) => {
+    const category = current.properties.class;
+    if (!result[category]) {
+      result[category] = [];
+    }
+    result[category].push(current);
+    return result;
+  }, {});
+
+  let result = [];
+  for (const class_ in grouped) {
+    result = result.concat(unionPolygons(grouped[class_]));
+  }
+  return result;
 };
 
 /**
@@ -89,7 +115,7 @@ export const unionPolygons = (features) => {
   let new_features = [];
   if (result && result.geometry && result.geometry.type === "MultiPolygon") {
     new_features = result.geometry.coordinates.map((c, index) => {
-      return turf.polygon(c, { ...props, id: index + 1 });
+      return turf.polygon(c, { ...props, id: guid() });
     });
   } else if (result && result.geometry && result.geometry.type === "Polygon") {
     result.properties = props;

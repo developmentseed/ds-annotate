@@ -25,15 +25,13 @@ export const ClassObj = ({ classProps, setOpenMenu }) => {
       }}
       onClick={() => {
         setActiveClass(classProps);
-        setOpenMenu(false);
+        // setOpenMenu(false);
       }}
     >
-      <span className="text-1xl block float-left">
+      <span className="text-xs block float-left">
         <BsSquareFill style={{ color: classProps.color }}></BsSquareFill>
       </span>
-      <span className={`font-medium flex-1 duration-200`}>
-        {classProps.name}
-      </span>
+      <span className={`flex-1 duration-200`}>{classProps.name}</span>
     </li>
   );
 };

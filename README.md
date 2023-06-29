@@ -1,6 +1,6 @@
 # ds-annotate
 
-Magic wand annotation tool for machine learning training data production.
+Magic wand and Segment Anything Model (SAM) annotation tool for machine learning training data.
 
 ## Installation and Usage
 The steps below will walk you through setting up your own instance of the project.

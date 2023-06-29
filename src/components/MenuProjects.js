@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useParams, useSearchParams } from "react-router-dom";
 
 import { MainContext } from "./../contexts/MainContext";
-import { getClassLayers } from "./../utils/featureCollection";
+import { getClassLayers } from "./../utils/convert";
 import { getProjectTemplate } from "./../utils/utils";
 
 export const MenuProjects = () => {
@@ -58,14 +58,14 @@ export const MenuProjects = () => {
         }}
       >
         <BsViewList></BsViewList>
-        <span className=" text-base font-medium flex-1 duration-200 false">
+        <span className="text-sm text-base font-small flex-1 duration-200">
           {projectName}
         </span>
         <BsChevronDown></BsChevronDown>
       </div>
       {openMenu && (
         <div>
-          <ul className="pt-2">
+          <ul className="pt-1">
             {projects.features.map((feature, index) => (
               <li
                 key={index}

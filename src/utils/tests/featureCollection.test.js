@@ -1,4 +1,4 @@
-import { olFeatures2geojson, geojson2olFeatures } from "../featureCollection";
+import { olFeatures2geojson, geojson2olFeatures } from "../convert";
 import { FEATURES_3857, FEATURES_4326 } from "./fixtures";
 import GeoJSON from "ol/format/GeoJSON";
 import VectorSource from "ol/source/Vector";
