@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="flex h-screen">
       <div className="w-64 bg-gray-2000" aria-label="Sidebar">
-        <Sidebar></Sidebar>
+        <Sidebar />
       </div>
       <div className="flex-1 bg-gray-100">
         <MapWrapper />

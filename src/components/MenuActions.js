@@ -17,7 +17,7 @@ export const MenuActions = () => {
     [dispatchSetItems]
   );
 
-  const mergPolygons = () => {
+  const mergePolygons = () => {
     const features = olFeatures2Features(items);
     const mergedFeatures = mergePolygonClass(features);
     const mergedItems = features2olFeatures(mergedFeatures);
@@ -33,7 +33,7 @@ export const MenuActions = () => {
   document.addEventListener("keydown", (e) => {
     // Merge polygonos
     if (e.key === "m") {
-      mergPolygons();
+      mergePolygons();
     }
   });
   return (
@@ -41,9 +41,7 @@ export const MenuActions = () => {
       <div className="flex flex-row mt-3">
         <button
           className="custom_button"
-          onClick={() => {
-            mergPolygons();
-          }}
+          onClick={() => mergePolygons()}
         >
           Merge polygons (M)
         </button>

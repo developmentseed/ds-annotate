@@ -16,11 +16,9 @@ export const MenuItems = () => {
       try {
         await openDatabase();
         const items_ = await storeItems.getAllData();
-        const filterItems_ = items_.filter((item) => {
-          if (item.geometry.coordinates.length > 0) {
-            return item;
-          }
-        });
+        const filterItems_ = items_.filter((item) => 
+          item.geometry.coordinates.length > 0
+        );
         const olFeatures = features2olFeatures(filterItems_);
         dispatchSetItems({
           type: "SET_ITEMS",

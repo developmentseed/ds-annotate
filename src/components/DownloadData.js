@@ -9,11 +9,8 @@ export const DownloadData = ({ classProps }) => {
 
   const downloadGeojson = () => {
     const geojson = JSON.stringify(olFeatures2geojson(items));
-    const fileName = `${activeProject.properties.name.replace(
-      /\s/g,
-      "_"
-    )}.geojson`;
-    downloadGeojsonFile(geojson, fileName);
+    const projectName = activeProject.properties.name.replace(/\s/g, "_");
+    downloadGeojsonFile(geojson, `${projectName}.geojson`);
   };
 
   const josm = () => {
@@ -22,22 +19,18 @@ export const DownloadData = ({ classProps }) => {
   };
 
   return (
-    <div className="flex justify-center gap-2">
+    <div className="grid grid-cols-2 gap-2">
       <button
         className="custom_button"
-        onClick={() => {
-          downloadGeojson();
-        }}
+        onClick={() => downloadGeojson()}
       >
-        Download as geojson
+        Download GeoJSON
       </button>
       <button
         className="custom_button"
-        onClick={() => {
-          josm();
-        }}
+        onClick={() => josm()}
       >
-        Download in JOSM
+        Export to JOSM
       </button>
     </div>
   );

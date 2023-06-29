@@ -9,7 +9,7 @@ import {
 import T from "prop-types";
 import Map from "ol/Map";
 import View from "ol/View";
-import { ScaleLine, defaults as defaultControls } from "ol/control";
+import { defaults as defaultControls } from "ol/control";
 import MagicWandInteraction from "ol-magic-wand";
 import { Feature } from "ol";
 import Polygon from "ol/geom/Polygon";
@@ -32,7 +32,7 @@ import { MapContext } from "../../contexts/MapContext";
 import { MainContext } from "../../contexts/MainContext";
 import { ProjectLayer } from "./ProjectLayer";
 import { features2olFeatures, olFeatures2Features } from "../../utils/convert";
-import { openDatabase, storeItems } from "./../../store/indexedDB";
+import { storeItems } from "./../../store/indexedDB";
 
 import { SpinerLoader } from "./../SpinerLoader";
 import { SegmentAM } from "./../SegmentAM";
