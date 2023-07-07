@@ -20,16 +20,10 @@ export const DownloadData = ({ classProps }) => {
 
   return (
     <div className="grid grid-cols-2 gap-2">
-      <button
-        className="custom_button"
-        onClick={() => downloadGeojson()}
-      >
+      <button className="custom_button" onClick={() => downloadGeojson()}>
         Download GeoJSON
       </button>
-      <button
-        className="custom_button"
-        onClick={() => josm()}
-      >
+      <button className="custom_button" onClick={() => josm()}>
         Export to JOSM
       </button>
     </div>

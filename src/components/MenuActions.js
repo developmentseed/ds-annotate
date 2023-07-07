@@ -39,10 +39,7 @@ export const MenuActions = () => {
   return (
     <div>
       <div className="flex flex-row mt-3">
-        <button
-          className="custom_button"
-          onClick={() => mergePolygons()}
-        >
+        <button className="custom_button" onClick={() => mergePolygons()}>
           Merge polygons (M)
         </button>
       </div>

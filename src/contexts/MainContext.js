@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useState } from "react";
 import propTypes from "prop-types";
 
 import projects from "./../static/projects.json";
@@ -47,6 +47,12 @@ const MainContextProvider = (props) => {
 
   const [encodeItems, dispatchEncodeItems] = useReducer(encodeItemsReducer, []);
 
+  const [displayModal, setDisplayModal] = useState(() => {
+    const saved = localStorage.getItem("modalDisplay");
+    if (!saved) return "block";
+    return "none";
+  });
+
   return (
     <MainContext.Provider
       value={{
@@ -67,6 +73,8 @@ const MainContextProvider = (props) => {
         dispatchSetPointsSelector,
         encodeItems,
         dispatchEncodeItems,
+        displayModal,
+        setDisplayModal,
       }}
     >
       {props.children}

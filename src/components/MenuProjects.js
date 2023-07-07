@@ -58,7 +58,7 @@ export const MenuProjects = () => {
         }}
       >
         <BsViewList></BsViewList>
-        <span className="text-sm text-base font-small flex-1 duration-200">
+        <span className="text-sm text-base font-small flex-1 duration-200 text-slate-900">
           {projectName}
         </span>
         <BsChevronDown></BsChevronDown>

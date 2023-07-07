@@ -29,7 +29,7 @@ const Item = ({ item, index }) => {
 
   return (
     <div
-      className="inline-flex justify-center items-center pr-1 pl-1 ml-1 text-xs font-medium rounded-full cursor-pointer"
+      className="inline-flex justify-center items-center pr-1 pl-1 ml-1 text-xs text-slate-900 font-medium rounded-full cursor-pointer"
       style={{ background: `${item.values_.color}` }}
       onMouseEnter={() => {
         zoomToItem(item);
