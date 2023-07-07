@@ -22,7 +22,7 @@ export const Modal = () => {
                 <h3 className="text-3xl font-semibold">DS Annotate Tool</h3>
 
                 <BsXLg
-                  className="p-1 ml-auto border-0 text-black-900 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                  className="p-1 cursor-pointer ml-auto border-0 text-black-900 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                   onClick={() => modalStatus("none")}
                 />
               </div>

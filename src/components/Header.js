@@ -15,15 +15,14 @@ export const Header = () => {
           className="text-4xl cursor-pointer block float-left mr-2 h-9"
         />
       </a>
-      <span className="self-center text-xl font-semibold whitespace-nowrap">
+      <span className="self-center text-xl text-slate-900 font-semibold whitespace-nowrap">
         DS-Annotate
       </span>
-      <div className="self-center text-lg ml-3 cursor-pointer">
+      <div className="self-center text-lg pt-1 text-slate-400 ml-3 cursor-pointer">
         <BsInfoCircleFill
           onClick={() => {
             setDisplayModal("block");
           }}
-          color="#47a95a"
         />
       </div>
     </div>
