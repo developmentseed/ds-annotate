@@ -11,6 +11,7 @@ import {
   highlightedItemReducer,
   pointsSelectorReducer,
   encodeItemsReducer,
+  activeEncodeImage,
 } from "./../reducers";
 
 export const MainContext = createContext();
@@ -47,6 +48,11 @@ const MainContextProvider = (props) => {
 
   const [encodeItems, dispatchEncodeItems] = useReducer(encodeItemsReducer, []);
 
+  const [activeEncodeImageItem, dispatchActiveEncodeImageItem] = useReducer(
+    activeEncodeImage,
+    null
+  );
+
   const [displayModal, setDisplayModal] = useState(() => {
     const saved = localStorage.getItem("modalDisplay");
     if (!saved) return "block";
@@ -75,6 +81,8 @@ const MainContextProvider = (props) => {
         dispatchEncodeItems,
         displayModal,
         setDisplayModal,
+        activeEncodeImageItem,
+        dispatchActiveEncodeImageItem,
       }}
     >
       {props.children}

@@ -16,6 +16,7 @@ import {
   vectorHighlighted,
   vectorPointSelector,
   encodeMapViews,
+  encodeMapViewHighlighted,
 } from "./layers";
 
 import { bbox2polygon, getOLFeatures } from "../../utils/convert";
@@ -24,8 +25,12 @@ const PADDING = { padding: [100, 100, 100, 100] };
 
 export const ProjectLayer = ({ project, items, highlightedItem }) => {
   const { map } = useContext(MapContext);
-  const { pointsSelector, dispatchSetPointsSelector, encodeItems } =
-    useContext(MainContext);
+  const {
+    pointsSelector,
+    dispatchSetPointsSelector,
+    encodeItems,
+    activeEncodeImageItem,
+  } = useContext(MainContext);
 
   useEffect(() => {
     if (!map) return;
@@ -114,7 +119,6 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
   }, [pointsSelector]);
 
   // Update vector layer to desplay the bbox of the decode images
-
   useEffect(() => {
     if (!map) return;
 
@@ -129,6 +133,27 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
     });
     encodeMapViews.setSource(dataSource);
   }, [encodeItems]);
+
+  useEffect(() => {
+    if (!map) return;
+
+    if (!activeEncodeImageItem) {
+      // if (encodeMapViewHighlighted && encodeMapViewHighlighted.getSource().getFeatures().length > 0) {
+      //   encodeMapViewHighlighted.getSource().clear();
+
+      // }
+      return;
+    }
+
+    const feature = bbox2polygon(activeEncodeImageItem.bbox);
+    const olFeatures = getOLFeatures([feature]);
+    encodeMapViewHighlighted.setSource(
+      new VectorSource({
+        features: olFeatures,
+        wrapX: true,
+      })
+    );
+  }, [activeEncodeImageItem]);
 
   return null;
 };

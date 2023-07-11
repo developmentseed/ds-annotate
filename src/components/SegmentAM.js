@@ -31,6 +31,8 @@ export const SegmentAM = ({ setLoading }) => {
     items,
     encodeItems,
     dispatchEncodeItems,
+    activeEncodeImageItem,
+    dispatchActiveEncodeImageItem,
   } = useContext(MainContext);
 
   const { map } = useContext(MapContext);
@@ -81,7 +83,10 @@ export const SegmentAM = ({ setLoading }) => {
         // const encodeRespJson = await getEncode(base64);
         // requestProps.image_embeddings = encodeRespJson.image_embedding;
 
-        const encodeItem = Object.assign({}, requestProps, { canvas });
+        const encodeItem = Object.assign({}, requestProps, {
+          canvas,
+          id: guid(),
+        });
 
         //Merge existing encode items and new
         newEncodeItems = [...encodeItems, encodeItem];
@@ -92,8 +97,14 @@ export const SegmentAM = ({ setLoading }) => {
           payload: newEncodeItems,
         });
 
+        // Set as active encode image items
+        dispatchActiveEncodeImageItem({
+          type: "SET_ACTIVE_ENCODE_IMAGE",
+          payload: encodeItem,
+        });
+
         // Save in indexedDB
-        storeEncodeItems.addData({ ...encodeItem, id: guid() });
+        storeEncodeItems.addData({ ...encodeItem });
       } catch (error) {
         reset();
       }
@@ -127,15 +138,13 @@ export const SegmentAM = ({ setLoading }) => {
   useEffect(() => {
     if (!map) return;
     const requestProps = getPropertiesRequest(map, pointsSelector);
-
-    const encodeItem = encodeItems.filter((ei) => {
-      pointIsInEncodeBbox(ei, pointsSelector);
-    });
-
-    const { bbox, zoom, input_point } = requestProps;
-
+    const input_point = pointIsInEncodeBbox(
+      activeEncodeImageItem,
+      pointsSelector
+    );
+    console.log(input_point);
+    const { bbox, zoom } = requestProps;
     // let point = turf.point([longitude, latitude]);
-
     const existEncodeItems = encodeItems.filter((e) => {
       return e.zoom === zoom && JSON.stringify(e.bbox) === JSON.stringify(bbox);
     });

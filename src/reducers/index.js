@@ -31,3 +31,5 @@ export const pointsSelectorReducer = createReducer(
 export const ItemsNumClass = createReducer("SET_ITEM_ID");
 
 export const encodeItemsReducer = createReducer("CACHING_ENCODED");
+
+export const activeEncodeImage = createReducer("SET_ACTIVE_ENCODE_IMAGE");

@@ -1,26 +1,19 @@
 import * as turf from "@turf/turf";
-import { bbox as bboxExtent } from "ol/extent";
-import View from "ol/View";
-import { fromLonLat } from "ol/proj";
-
-import Feature from "ol/Feature";
-import Polygon from "ol/geom/Polygon";
-import { olFeatures2geojson } from "./convert";
 
 export function lngLatToPixel(flatCoordinates, bbox, image_shape) {
   // Extract the bounding box coordinates
   const [minLng, minLat, maxLng, maxLat] = bbox;
   const [mapWidth, mapHeight] = image_shape;
   const [lng, lat] = flatCoordinates;
+
   // Calculate the percentage of the point's position in the bounding box
   const xFactor = (lng - minLng) / (maxLng - minLng);
   const yFactor = (lat - minLat) / (maxLat - minLat);
 
   // Convert the percentage to pixel position
   const x = xFactor * mapWidth;
-  const y = (1 - yFactor) * mapHeight; // We subtract from 1 because pixel coordinate system starts from top
-
-  return { x, y };
+  const y = (1 - yFactor) * mapHeight;
+  return [Math.round(x), Math.round(y)];
 }
 
 /**
@@ -50,11 +43,10 @@ export const pointIsInEncodeBbox = (encodeItem, pointsSelector) => {
   ];
 
   const poly = turf.polygon(polygonCoords);
-
   const isPointInPolygon = turf.booleanPointInPolygon(pt, poly);
-
-  const pixels = lngLatToPixel(flatCoordinates, bbox, image_shape);
-
-  console.log(pixels);
-  return isPointInPolygon;
+  let pixels = {};
+  if (isPointInPolygon) {
+    pixels = lngLatToPixel(flatCoordinates, bbox, image_shape);
+  }
+  return pixels;
 };

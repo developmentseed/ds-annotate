@@ -122,11 +122,11 @@ export const encodeMapViewHighlighted = new VectorLayer({
   style: new Style({
     stroke: new Stroke({
       width: 3,
-      color: [248, 111, 3, 1],
+      color: [255, 191, 0, 1],
     }),
-    fill: new Fill({
-      color: [248, 111, 3, 0],
-    }),
+    // fill: new Fill({
+    //   color: [84, 3, 117, 0],
+    // }),
   }),
   zIndex: 8,
 });
