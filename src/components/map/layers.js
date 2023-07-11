@@ -94,6 +94,7 @@ const crossSVG =
       '<line x1="30" y1="10" x2="10" y2="30" style="stroke:#0199fe;stroke-width:3"/>' +
       "</svg>"
   );
+
 export const vectorPointSelector = new VectorLayer({
   style: new Style({
     image: new Icon({
@@ -102,4 +103,30 @@ export const vectorPointSelector = new VectorLayer({
     }),
   }),
   zIndex: 10,
+});
+
+export const encodeMapViews = new VectorLayer({
+  style: new Style({
+    stroke: new Stroke({
+      width: 3,
+      color: [46, 249, 35, 1],
+    }),
+    fill: new Fill({
+      color: [46, 249, 35, 0],
+    }),
+  }),
+  zIndex: 7,
+});
+
+export const encodeMapViewHighlighted = new VectorLayer({
+  style: new Style({
+    stroke: new Stroke({
+      width: 3,
+      color: [248, 111, 3, 1],
+    }),
+    fill: new Fill({
+      color: [248, 111, 3, 0],
+    }),
+  }),
+  zIndex: 8,
 });

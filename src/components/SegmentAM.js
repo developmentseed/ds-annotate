@@ -1,9 +1,20 @@
 import React, { useContext, useState, useEffect } from "react";
+import * as turf from "@turf/turf";
+import VectorSource from "ol/source/Vector";
+
 import { MainContext } from "../contexts/MainContext";
 import { MapContext } from "../contexts/MapContext";
 import { getCanvasForLayer } from "../utils/canvas";
 import { getEncode, getDecode, getPropertiesRequest } from "../utils/samApi";
-import { sam2Geojson, features2olFeatures } from "../utils/convert";
+import {
+  sam2Geojson,
+  features2olFeatures,
+  bbox2polygon,
+  getOLFeatures,
+} from "../utils/convert";
+import { pointIsInEncodeBbox } from "../utils/calculation";
+import { encodeMapViews } from "./map/layers";
+
 import {
   openDatabase,
   storeEncodeItems,
@@ -36,6 +47,7 @@ export const SegmentAM = ({ setLoading }) => {
       try {
         await openDatabase();
         const listEncodeItems = await storeEncodeItems.getAllData();
+
         dispatchEncodeItems({
           type: "CACHING_ENCODED",
           payload: listEncodeItems,
@@ -58,57 +70,76 @@ export const SegmentAM = ({ setLoading }) => {
   // Request segment-anything-services
   const requestSAM = async (requestProps, isEncode) => {
     setLoading(true);
+
+    let newEncodeItems = encodeItems;
+
     //=================== Encode ===================
     if (isEncode) {
       try {
         const canvas = await getCanvasForLayer(map, "main_layer");
         const base64 = canvas.split(";base64,")[1];
-        const encodeRespJson = await getEncode(base64);
-        requestProps.image_embeddings = encodeRespJson.image_embedding;
+        // const encodeRespJson = await getEncode(base64);
+        // requestProps.image_embeddings = encodeRespJson.image_embedding;
+
         const encodeItem = Object.assign({}, requestProps, { canvas });
+
+        //Merge existing encode items and new
+        newEncodeItems = [...encodeItems, encodeItem];
+
+        // Set reduce items
         dispatchEncodeItems({
           type: "CACHING_ENCODED",
-          payload: [...encodeItems, encodeItem],
+          payload: newEncodeItems,
         });
+
         // Save in indexedDB
         storeEncodeItems.addData({ ...encodeItem, id: guid() });
       } catch (error) {
-        console.log(error);
         reset();
       }
     }
     //=================== Decode ===================
-    try {
-      const decodeRespJson = await getDecode(requestProps);
-      const id = guid();
-      const features = sam2Geojson(
-        decodeRespJson.geojsons,
-        activeProject,
-        activeClass,
-        id
-      );
-      const olFeatures = features2olFeatures(features);
-      dispatchSetItems({
-        type: "SET_ITEMS",
-        payload: [...items, ...olFeatures],
-      });
+    // try {
+    //   const decodeRespJson = await getDecode(requestProps);
+    //   const id = guid();
+    //   const features = sam2Geojson(
+    //     decodeRespJson.geojsons,
+    //     activeProject,
+    //     activeClass,
+    //     id
+    //   );
+    //   const olFeatures = features2olFeatures(features);
+    //   dispatchSetItems({
+    //     type: "SET_ITEMS",
+    //     payload: [...items, ...olFeatures],
+    //   });
 
-      // save in DB
-      const feature = features[0];
-      storeItems.addData({ ...feature, id });
-      reset();
-    } catch (error) {
-      reset();
-    }
+    //   // save in DB
+    //   const feature = features[0];
+    //   storeItems.addData({ ...feature, id });
+    //   reset();
+    // } catch (error) {
+    //   reset();
+    // }
+    reset();
   };
 
   useEffect(() => {
     if (!map) return;
     const requestProps = getPropertiesRequest(map, pointsSelector);
-    const { bbox, zoom } = requestProps;
+
+    const encodeItem = encodeItems.filter((ei) => {
+      pointIsInEncodeBbox(ei, pointsSelector);
+    });
+
+    const { bbox, zoom, input_point } = requestProps;
+
+    // let point = turf.point([longitude, latitude]);
+
     const existEncodeItems = encodeItems.filter((e) => {
       return e.zoom === zoom && JSON.stringify(e.bbox) === JSON.stringify(bbox);
     });
+
     if (existEncodeItems.length > 0) {
       requestProps.image_embeddings = existEncodeItems[0].image_embeddings;
       requestSAM(requestProps, false);

@@ -8,6 +8,12 @@ const headers = {
   crossOrigin: "anonymous",
 };
 
+/**
+ *
+ * @param {*} map
+ * @param {*} pointsSelector
+ * @returns objects of properties for decode request
+ */
 export const getPropertiesRequest = (map, pointsSelector) => {
   const fcPoints = olFeatures2geojson(pointsSelector);
   const coords = fcPoints.features.map((f) => [
@@ -32,6 +38,11 @@ export const getPropertiesRequest = (map, pointsSelector) => {
   return reqProps;
 };
 
+/**
+ * Request encode API
+ * @param {*} base64_string
+ * @returns
+ */
 export const getEncode = async (base64_string) => {
   const encodeURL = `${apis.gpuEncodeAPI}/predictions/sam_vit_h_encode`;
   try {
@@ -56,6 +67,11 @@ export const getEncode = async (base64_string) => {
   }
 };
 
+/**
+ * Request decode API
+ * @param {*} decodePayload
+ * @returns
+ */
 export const getDecode = async (decodePayload) => {
   const decodeURL = `${apis.cpuDecodeAPI}/predictions/sam_vit_h_decode`;
   try {

@@ -15,13 +15,17 @@ import {
   vectorSegData,
   vectorHighlighted,
   vectorPointSelector,
+  encodeMapViews,
 } from "./layers";
+
+import { bbox2polygon, getOLFeatures } from "../../utils/convert";
 
 const PADDING = { padding: [100, 100, 100, 100] };
 
 export const ProjectLayer = ({ project, items, highlightedItem }) => {
   const { map } = useContext(MapContext);
-  const { pointsSelector, dispatchSetPointsSelector } = useContext(MainContext);
+  const { pointsSelector, dispatchSetPointsSelector, encodeItems } =
+    useContext(MainContext);
 
   useEffect(() => {
     if (!map) return;
@@ -108,5 +112,23 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
     });
     vectorPointSelector.setSource(pointsSelectorDataSource);
   }, [pointsSelector]);
+
+  // Update vector layer to desplay the bbox of the decode images
+
+  useEffect(() => {
+    if (!map) return;
+
+    const features = encodeItems.map((ei) => {
+      return bbox2polygon(ei.bbox);
+    });
+
+    const olFeatures = getOLFeatures(features);
+    const dataSource = new VectorSource({
+      features: olFeatures,
+      wrapX: true,
+    });
+    encodeMapViews.setSource(dataSource);
+  }, [encodeItems]);
+
   return null;
 };

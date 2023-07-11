@@ -31,7 +31,9 @@ export const ClassObj = ({ classProps, setOpenMenu }) => {
       <span className="text-xs block float-left">
         <BsSquareFill style={{ color: classProps.color }}></BsSquareFill>
       </span>
-      <span className="flex-1 duration-200 text-slate-900">{classProps.name}</span>
+      <span className="flex-1 duration-200 text-slate-900">
+        {classProps.name}
+      </span>
     </li>
   );
 };

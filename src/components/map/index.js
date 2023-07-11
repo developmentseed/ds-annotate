@@ -27,6 +27,8 @@ import {
   vectorSegData,
   vectorHighlighted,
   vectorPointSelector,
+  encodeMapViews,
+  encodeMapViewHighlighted,
 } from "./layers";
 import { MapContext } from "../../contexts/MapContext";
 import { MainContext } from "../../contexts/MainContext";
@@ -100,6 +102,8 @@ export function MapWrapper({ children }) {
         vectorSegData,
         vectorHighlighted,
         vectorPointSelector,
+        encodeMapViews,
+        encodeMapViewHighlighted,
       ],
       view: view,
     });
