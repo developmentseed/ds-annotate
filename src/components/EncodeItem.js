@@ -28,7 +28,11 @@ export const EncodeItem = ({ encodeItem, index }) => {
 
   const handleRemoveEncodeItem = async (encodeItem) => {
     if (encodeItem.id == activeEncodeImageItem.id) {
-      NotificationManager.warning(`You can't remove active encode view`, 30000);
+      NotificationManager.warning(
+        `You can't remove active encode view`,
+        "",
+        10000
+      );
       return;
     }
     const updatedEncodeItems = encodeItems.filter((item, i) => {
@@ -50,27 +54,30 @@ export const EncodeItem = ({ encodeItem, index }) => {
       <img
         src={encodeItem.canvas}
         alt={`Encode Image ${index + 1}`}
-        className={`w-100 h-100 object-cover opacity-100 transition-opacity duration-500 ease-in-out transform hover:opacity-100 mb-2 
-        ${
-          activeEncodeImageItem && encodeItem.id == activeEncodeImageItem.id
-            ? "border border-blue-300 border-2"
-            : ""
-        }`}
+        className={`w-full h-full object-cover opacity-100 transition-opacity duration-500 ease-in-out transform hover:opacity-90 mb-2 
+      ${
+        activeEncodeImageItem && encodeItem.id == activeEncodeImageItem.id
+          ? "border border-blue-500 border-2"
+          : "border border-gray-300 border-2"
+      }`}
         style={{
           width: "100px",
           height: "100px",
         }}
         onClick={() => zoomTo(encodeItem)}
       />
-      <button
-        className="absolute bottom-1 right-1 bg-red-500 hover:bg-red-600 w-50 h-50 text-white rounded flex items-center justify-center"
-        onClick={() => handleRemoveEncodeItem(encodeItem)}
-      >
-        <div>{encodeItem.zoom}</div>
 
-        <div>{JSON.stringify(encodeItem.image_shape)}</div>
-        <BsTrash className="fill-current w-3 h-3 cursor-pointer" />
-      </button>
+      <div className="absolute top-1 left-1 p-1 text-xxs bg-yellow-500 e rounded opacity-80 backdrop-filter backdrop-blur-md flex items-center space-x-2">
+        <p className="font-bold text-gray">{`[${encodeItem.image_shape[1]},${
+          encodeItem.image_shape[0]
+        }] - z${Math.round(encodeItem.zoom)} `}</p>
+      </div>
+      <div className="absolute bottom-1 right-1 p-1 text-xs bg-red-500 rounded opacity-90 backdrop-filter backdrop-blur-md flex items-center space-x-2">
+        <BsTrash
+          onClick={() => handleRemoveEncodeItem(encodeItem)}
+          className="text-white fill-current w-3 h-3 cursor-pointer"
+        />
+      </div>
     </div>
   );
 };

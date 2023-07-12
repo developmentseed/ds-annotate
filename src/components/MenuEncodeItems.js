@@ -6,9 +6,16 @@ export const MenuEncodeItems = () => {
   return (
     <div className="mt-8">
       <div
-        className="absolute bg-white bg-opacity-50 p-1 right-0 top-0 scroll-smooth hover:scroll-auto overflow-auto overscroll-y-contain"
+        className="absolute bg-white bg-opacity-70 p-1 mt-2 mr-1 right-0 top-0 scroll-smooth hover:scroll-auto overflow-auto overscroll-y-contain"
         style={{ maxHeight: `calc(100% - 30px)`, height: `auto` }}
       >
+        {encodeItems.length > 0 ? (
+          <h1 className="text-xs font-bold text-center text-back mb-2">
+            Encode Images
+          </h1>
+        ) : (
+          <></>
+        )}
         <div className="w-100">
           {encodeItems.map((encodeItem, index) => (
             <EncodeItem key={index} encodeItem={encodeItem} />

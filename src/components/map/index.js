@@ -115,7 +115,7 @@ export function MapWrapper({ children }) {
       const view = initialMap.getView();
       const zoom = view.getZoom();
       const coord = view.getCenter();
-      window.location.hash = `#map=${zoom}/${coord[0]}/${coord[1]}`;
+      window.location.hash = `#map=${Math.round(zoom)}/${coord[0]}/${coord[1]}`;
     });
 
     setMap(initialMap);
