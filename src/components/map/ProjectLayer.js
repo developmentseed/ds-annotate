@@ -5,7 +5,6 @@ import * as turf from "@turf/turf";
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
 
-import { MapContext } from "../../contexts/MapContext";
 import { MainContext } from "../../contexts/MainContext";
 
 import {
@@ -24,8 +23,8 @@ import { bbox2polygon, getOLFeatures } from "../../utils/convert";
 const PADDING = { padding: [100, 100, 100, 100] };
 
 export const ProjectLayer = ({ project, items, highlightedItem }) => {
-  const { map } = useContext(MapContext);
   const {
+    map,
     pointsSelector,
     dispatchSetPointsSelector,
     encodeItems,
@@ -77,11 +76,6 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
 
   useEffect(() => {
     if (!map) return;
-    console.log(
-      "%cProjectLayer.js line:80 highlightedItem",
-      "color: white; background-color: #007acc;",
-      highlightedItem
-    );
     const segDataSource = new VectorSource({
       features:
         Object.keys(highlightedItem).length !== 0 ? [highlightedItem] : [],
@@ -142,15 +136,7 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
 
   useEffect(() => {
     if (!map) return;
-
-    if (!activeEncodeImageItem) {
-      // if (encodeMapViewHighlighted && encodeMapViewHighlighted.getSource().getFeatures().length > 0) {
-      //   encodeMapViewHighlighted.getSource().clear();
-
-      // }
-      return;
-    }
-
+    if (!activeEncodeImageItem) return;
     const feature = bbox2polygon(activeEncodeImageItem.bbox);
     const olFeatures = getOLFeatures([feature]);
     encodeMapViewHighlighted.setSource(

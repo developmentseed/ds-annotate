@@ -17,6 +17,10 @@ import {
 export const MainContext = createContext();
 
 const MainContextProvider = (props) => {
+  const [map, setMap] = useState();
+
+  const [spinnerLoading, setSpinnerLoading] = useState(false);
+
   const [activeProject, dispatchSetActiveProject] = useReducer(
     activeProjectReducer,
     null
@@ -62,6 +66,8 @@ const MainContextProvider = (props) => {
   return (
     <MainContext.Provider
       value={{
+        map,
+        setMap,
         projects,
         activeProject,
         dispatchSetActiveProject,
@@ -83,6 +89,8 @@ const MainContextProvider = (props) => {
         setDisplayModal,
         activeEncodeImageItem,
         dispatchActiveEncodeImageItem,
+        spinnerLoading,
+        setSpinnerLoading,
       }}
     >
       {props.children}

@@ -6,6 +6,7 @@ import { MenuClass } from "./MenuClass";
 import { MenuItems } from "./MenuItems";
 import { DownloadData } from "./DownloadData";
 import { MenuActions } from "./MenuActions";
+import { SegmentAM } from "./SegmentAM";
 
 export const Sidebar = () => {
   return (
@@ -23,6 +24,8 @@ export const Sidebar = () => {
         <MenuActions />
         <div className="border-t border-gray-200 my-1"></div>
         <DownloadData />
+        <div className="border-t border-gray-200 my-1"></div>
+        <SegmentAM />
       </div>
     </aside>
   );

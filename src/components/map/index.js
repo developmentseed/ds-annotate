@@ -30,7 +30,6 @@ import {
   encodeMapViews,
   encodeMapViewHighlighted,
 } from "./layers";
-import { MapContext } from "../../contexts/MapContext";
 import { MainContext } from "../../contexts/MainContext";
 import { ProjectLayer } from "./ProjectLayer";
 import { features2olFeatures, olFeatures2Features } from "../../utils/convert";
@@ -42,19 +41,22 @@ import { guid } from "./../../utils/utils";
 import { MenuEncodeItems } from "./../MenuEncodeItems";
 
 export function MapWrapper({ children }) {
-  const [map, setMap] = useState();
-  const mapElement = useRef();
-  const mapRef = useRef();
-  mapRef.current = map;
-  const [wand, setWand] = useState(null);
+  // Import values from main context
   const {
+    map,
+    setMap,
     activeProject,
     activeClass,
     items,
     dispatchSetItems,
     highlightedItem,
+    spinnerLoading,
   } = useContext(MainContext);
-  const [loading, setLoading] = useState(false);
+
+  const mapElement = useRef();
+  const mapRef = useRef();
+  mapRef.current = map;
+  const [wand, setWand] = useState(null);
 
   useLayoutEffect(() => {
     const initWand = new MagicWandInteraction({
@@ -177,7 +179,7 @@ export function MapWrapper({ children }) {
   };
 
   return (
-    <MapContext.Provider value={{ map }}>
+    <>
       <div
         ref={mapElement}
         style={{ height: "100%", width: "100%", background: "#456234" }}
@@ -187,8 +189,7 @@ export function MapWrapper({ children }) {
         onKeyDown={handleOnKeyDown}
         tabIndex={0}
       >
-        {loading && <SpinerLoader loading={loading} />}
-        <SegmentAM setLoading={setLoading} />
+        {spinnerLoading && <SpinerLoader spinnerLoading={spinnerLoading} />}
         {activeProject && (
           <ProjectLayer
             project={activeProject}
@@ -199,7 +200,7 @@ export function MapWrapper({ children }) {
         {children}
       </div>
       <MenuEncodeItems />
-    </MapContext.Provider>
+    </>
   );
 }
 

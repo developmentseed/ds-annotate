@@ -1,18 +1,18 @@
 import React, { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
-import { MapContext } from "../contexts/MapContext";
 import { BsTrash } from "react-icons/bs";
 import { storeEncodeItems } from "./../store/indexedDB";
 import { NotificationManager } from "react-notifications";
 
 export const EncodeItem = ({ encodeItem, index }) => {
   const {
+    map,
     encodeItems,
     dispatchEncodeItems,
     activeEncodeImageItem,
     dispatchActiveEncodeImageItem,
   } = useContext(MainContext);
-  const { map } = useContext(MapContext);
+  // const { map } = useContext(MapContext);
 
   const zoomTo = (encodeItem) => {
     if (!map) return;
