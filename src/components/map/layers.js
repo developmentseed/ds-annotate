@@ -38,7 +38,7 @@ export const vectorSegData = new VectorLayer({
           }),
         }),
         geometry: function (feature) {
-          // return the coordinates of the first ring of the polygon
+          // Return the coordinates of the first ring of the polygon
           const coordinates = feature.getGeometry().getCoordinates()[0];
           return new MultiPoint(coordinates);
         },

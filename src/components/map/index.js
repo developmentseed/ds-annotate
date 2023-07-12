@@ -2,7 +2,6 @@ import {
   useState,
   useEffect,
   useRef,
-  useCallback,
   useLayoutEffect,
   useContext,
 } from "react";
@@ -11,8 +10,6 @@ import Map from "ol/Map";
 import View from "ol/View";
 import { defaults as defaultControls } from "ol/control";
 import MagicWandInteraction from "ol-magic-wand";
-import { Feature } from "ol";
-import Polygon from "ol/geom/Polygon";
 import "ol/ol.css";
 import {
   Modify,
@@ -32,21 +29,17 @@ import {
 } from "./layers";
 import { MainContext } from "../../contexts/MainContext";
 import { ProjectLayer } from "./ProjectLayer";
-import { features2olFeatures, olFeatures2Features } from "../../utils/convert";
-import { storeItems } from "./../../store/indexedDB";
-
 import { SpinerLoader } from "./../SpinerLoader";
-import { SegmentAM } from "./../SegmentAM";
-import { guid } from "./../../utils/utils";
 import { MenuEncodeItems } from "./../MenuEncodeItems";
+import { MagicWand } from "./MagicWand";
 
 export function MapWrapper({ children }) {
   // Import values from main context
   const {
     map,
     setMap,
+    setWand,
     activeProject,
-    activeClass,
     items,
     dispatchSetItems,
     highlightedItem,
@@ -56,8 +49,11 @@ export function MapWrapper({ children }) {
   const mapElement = useRef();
   const mapRef = useRef();
   mapRef.current = map;
-  const [wand, setWand] = useState(null);
 
+  // State for events on the map
+  const [event, setEvent] = useState(null);
+
+  // Initialize all the map components
   useLayoutEffect(() => {
     const initWand = new MagicWandInteraction({
       layers: [mainLayer],
@@ -122,52 +118,17 @@ export function MapWrapper({ children }) {
     setWand(initWand);
   }, []);
 
-  const setItems = useCallback(
-    (items) => {
-      dispatchSetItems({
-        type: "SET_ITEMS",
-        payload: items,
-      });
-    },
-    [dispatchSetItems]
-  );
-
   useEffect(() => {
     if (activeProject) {
-      setItems([]);
+      dispatchSetItems({
+        type: "SET_ITEMS",
+        payload: [],
+      });
     }
-  }, [activeProject, setItems]);
+  }, [activeProject]);
 
-  const drawSegments = async (e) => {
-    if (e.type === "keypress" && e.key === "s") {
-      let contours = wand.getContours();
-      if (!contours) return;
-      let rings = contours.map((c) =>
-        c.points.map((p) => map.getCoordinateFromPixel([p.x, p.y]))
-      );
-      if (rings.length === 0) return;
-      try {
-        const id = guid();
-        const oLFeature = new Feature({
-          geometry: new Polygon(rings),
-          project: activeProject.properties.name,
-          class: activeClass.name,
-          color: activeClass.color,
-          id: id,
-        });
-        //Simplify features
-        const features = olFeatures2Features([oLFeature]);
-        // Insert the first items
-        const feature = features[0];
-        const oLFeatures = features2olFeatures([feature]);
-        setItems([...items, oLFeatures[0]]);
-        //insert feature into the DB
-        await storeItems.addData({ ...feature, id });
-        wand.clearMask();
-      } catch (error) {
-        console.log(error);
-      }
-    }
+  const drawSegments = (e) => {
+    setEvent(e);
   };
 
   const handleOnKeyDown = (e) => {
@@ -189,6 +150,7 @@ export function MapWrapper({ children }) {
         onKeyDown={handleOnKeyDown}
         tabIndex={0}
       >
+        <MagicWand event={event} />
         {spinnerLoading && <SpinerLoader spinnerLoading={spinnerLoading} />}
         {activeProject && (
           <ProjectLayer

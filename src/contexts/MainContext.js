@@ -19,6 +19,8 @@ export const MainContext = createContext();
 const MainContextProvider = (props) => {
   const [map, setMap] = useState();
 
+  const [wand, setWand] = useState(null);
+
   const [spinnerLoading, setSpinnerLoading] = useState(false);
 
   const [activeProject, dispatchSetActiveProject] = useReducer(
@@ -68,6 +70,8 @@ const MainContextProvider = (props) => {
       value={{
         map,
         setMap,
+        wand,
+        setWand,
         projects,
         activeProject,
         dispatchSetActiveProject,

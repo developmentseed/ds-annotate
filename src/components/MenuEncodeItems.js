@@ -11,7 +11,7 @@ export const MenuEncodeItems = () => {
       >
         {encodeItems.length > 0 ? (
           <h1 className="text-xs font-bold text-center text-back mb-2">
-            Encode Images
+            Encode Areas
           </h1>
         ) : (
           <></>
