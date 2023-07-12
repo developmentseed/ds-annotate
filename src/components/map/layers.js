@@ -38,7 +38,7 @@ export const vectorSegData = new VectorLayer({
           }),
         }),
         geometry: function (feature) {
-          // return the coordinates of the first ring of the polygon
+          // Return the coordinates of the first ring of the polygon
           const coordinates = feature.getGeometry().getCoordinates()[0];
           return new MultiPoint(coordinates);
         },
@@ -122,11 +122,8 @@ export const encodeMapViewHighlighted = new VectorLayer({
   style: new Style({
     stroke: new Stroke({
       width: 3,
-      color: [255, 191, 0, 1],
+      color: [59, 130, 246, 1],
     }),
-    // fill: new Fill({
-    //   color: [84, 3, 117, 0],
-    // }),
   }),
   zIndex: 8,
 });

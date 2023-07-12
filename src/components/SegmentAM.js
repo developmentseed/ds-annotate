@@ -1,20 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
-import * as turf from "@turf/turf";
-import VectorSource from "ol/source/Vector";
 
 import { MainContext } from "../contexts/MainContext";
-import { MapContext } from "../contexts/MapContext";
 import { getCanvasForLayer } from "../utils/canvas";
 import { getEncode, getDecode, getPropertiesRequest } from "../utils/samApi";
-import {
-  sam2Geojson,
-  features2olFeatures,
-  bbox2polygon,
-  getOLFeatures,
-} from "../utils/convert";
+import { sam2Geojson, features2olFeatures } from "../utils/convert";
 import { pointIsInEncodeBbox } from "../utils/calculation";
-import { encodeMapViews } from "./map/layers";
-
 import {
   openDatabase,
   storeEncodeItems,
@@ -22,8 +12,9 @@ import {
 } from "./../store/indexedDB";
 import { guid } from "./../utils/utils";
 
-export const SegmentAM = ({ setLoading }) => {
+export const SegmentAM = () => {
   const {
+    map,
     pointsSelector,
     activeProject,
     activeClass,
@@ -33,13 +24,13 @@ export const SegmentAM = ({ setLoading }) => {
     dispatchEncodeItems,
     activeEncodeImageItem,
     dispatchActiveEncodeImageItem,
+    setSpinnerLoading,
   } = useContext(MainContext);
 
-  const { map } = useContext(MapContext);
   const [samApiStatus, setSamApiStatus] = useState(null);
 
   const reset = () => {
-    setLoading(false);
+    setSpinnerLoading(false);
     setSamApiStatus(null);
   };
 
@@ -61,17 +52,9 @@ export const SegmentAM = ({ setLoading }) => {
     fetchData();
   }, []);
 
-  const handleSaveData = async (data, table) => {
-    try {
-      await storeEncodeItems.addData(data);
-    } catch (error) {
-      console.error("Failed to save data:", error);
-    }
-  };
-
   // Request segment-anything-services
   const requestSAM = async (requestProps, isEncode) => {
-    setLoading(true);
+    setSpinnerLoading(true);
 
     let newEncodeItems = encodeItems;
 
