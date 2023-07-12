@@ -3,17 +3,18 @@ import * as turf from "@turf/turf";
 export function lngLatToPixel(flatCoordinates, bbox, image_shape) {
   // Extract the bounding box coordinates
   const [minLng, minLat, maxLng, maxLat] = bbox;
-  const [mapWidth, mapHeight] = image_shape;
+  const [mapHeight, mapWidth] = image_shape;
   const [lng, lat] = flatCoordinates;
-
   // Calculate the percentage of the point's position in the bounding box
   const xFactor = (lng - minLng) / (maxLng - minLng);
   const yFactor = (lat - minLat) / (maxLat - minLat);
-
   // Convert the percentage to pixel position
   const x = xFactor * mapWidth;
   const y = (1 - yFactor) * mapHeight;
-  return [Math.round(x), Math.round(y)];
+  return {
+    y: Math.round(y),
+    x: Math.round(x),
+  };
 }
 
 /**

@@ -31,7 +31,7 @@ const MainContextProvider = (props) => {
 
   const [highlightedItem, dispatchSetHighlightedItem] = useReducer(
     highlightedItemReducer,
-    null
+    {}
   );
 
   const [dlGeojson, dispatchDLGeojson] = useReducer(

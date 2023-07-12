@@ -77,8 +77,14 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
 
   useEffect(() => {
     if (!map) return;
+    console.log(
+      "%cProjectLayer.js line:80 highlightedItem",
+      "color: white; background-color: #007acc;",
+      highlightedItem
+    );
     const segDataSource = new VectorSource({
-      features: highlightedItem ? [highlightedItem] : [],
+      features:
+        Object.keys(highlightedItem).length !== 0 ? [highlightedItem] : [],
       wrapX: true,
     });
     vectorHighlighted.setSource(segDataSource);

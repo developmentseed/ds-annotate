@@ -35,7 +35,7 @@ const Item = ({ item, index }) => {
         zoomToItem(item);
       }}
       onMouseLeave={() => {
-        zoomToItem(null);
+        zoomToItem({});
       }}
     >
       <BsTrash

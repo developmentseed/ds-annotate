@@ -63,9 +63,12 @@ export const EncodeItem = ({ encodeItem, index }) => {
         onClick={() => zoomTo(encodeItem)}
       />
       <button
-        className="absolute bottom-1 right-1 bg-red-500 hover:bg-red-600 w-4 h-4 text-white rounded flex items-center justify-center"
+        className="absolute bottom-1 right-1 bg-red-500 hover:bg-red-600 w-50 h-50 text-white rounded flex items-center justify-center"
         onClick={() => handleRemoveEncodeItem(encodeItem)}
       >
+        <div>{encodeItem.zoom}</div>
+
+        <div>{JSON.stringify(encodeItem.image_shape)}</div>
         <BsTrash className="fill-current w-3 h-3 cursor-pointer" />
       </button>
     </div>
