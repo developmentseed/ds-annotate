@@ -27,6 +27,7 @@ export const SegmentAM = () => {
     setSpinnerLoading,
   } = useContext(MainContext);
 
+  // const { map } = useContext(MapContext);
   const [samApiStatus, setSamApiStatus] = useState(null);
 
   const reset = () => {
@@ -145,17 +146,16 @@ export const SegmentAM = () => {
   };
 
   return (
-    <div className="absolute bottom-1 left-2 z-50">
+    <>
       <button
-        type="button"
-        className="custom_button bg-red-500 text-white"
+        className="custom_button"
         onClick={() => {
           requestPrediction();
         }}
         disabled={samApiStatus || false}
       >
-        {samApiStatus || "Segment Anything"}
+        {samApiStatus || "Request SAM prediction"}
       </button>
-    </div>
+    </>
   );
 };
