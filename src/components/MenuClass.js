@@ -36,6 +36,7 @@ export const MenuClass = () => {
         </span>
         <BsChevronDown></BsChevronDown>
       </div>
+
       {openMenu && (
         <ul className="pt-1">
           {classes.map((classProps, index) => (

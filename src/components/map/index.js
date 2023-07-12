@@ -161,7 +161,7 @@ export function MapWrapper({ children }) {
         )}
         {children}
       </div>
-      <MenuEncodeItems />
+      {/* <MenuEncodeItems /> */}
     </>
   );
 }

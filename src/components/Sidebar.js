@@ -7,6 +7,7 @@ import { MenuItems } from "./MenuItems";
 import { MenuExpData } from "./MenuExpData";
 import { MenuActions } from "./MenuActions";
 import { SegmentAM } from "./SegmentAM";
+import { MenuEncodeItems } from "./MenuEncodeItems";
 
 const MenuSection = ({ children }) => (
   <>
@@ -29,19 +30,20 @@ export const Sidebar = () => {
             <MenuClass />
           </MenuSection>
           <MenuSection>
+            <MenuEncodeItems />
+          </MenuSection>
+          <MenuSection>
             <MenuItems />
           </MenuSection>
           <MenuSection>
             <MenuActions />
           </MenuSection>
+
           <MenuSection>
             <MenuExpData />
           </MenuSection>
         </div>
       </aside>
-      <div className="fixed bottom-2 mx-auto pr-2 pl-2">
-        <SegmentAM />
-      </div>
     </>
   );
 };

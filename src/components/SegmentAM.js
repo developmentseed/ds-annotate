@@ -154,7 +154,7 @@ export const SegmentAM = () => {
         }}
         disabled={samApiStatus || false}
       >
-        {samApiStatus || "Request SAM prediction"}
+        {samApiStatus || "Request Segment Anything Prediction"}
       </button>
     </>
   );

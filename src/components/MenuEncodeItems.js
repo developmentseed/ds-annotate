@@ -1,27 +1,40 @@
-import { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { EncodeItem } from "./EncodeItem";
+import { BsChevronDown, BsViewList } from "react-icons/bs";
+import { SegmentAM } from "./SegmentAM";
 export const MenuEncodeItems = () => {
   const { encodeItems } = useContext(MainContext);
+  const [openMenu, setOpenMenu] = useState(false);
   return (
-    <div className="mt-8">
+    <>
       <div
-        className="absolute bg-white bg-opacity-70 p-1 mt-2 mr-1 right-0 top-0 scroll-smooth hover:scroll-auto overflow-auto overscroll-y-contain"
-        style={{ maxHeight: `calc(100% - 30px)`, height: `auto` }}
+        className="menuHeader"
+        onClick={() => {
+          setOpenMenu(!openMenu);
+        }}
       >
-        {encodeItems.length > 0 ? (
-          <h1 className="text-xs font-bold text-center text-back mb-2">
-            Encode Areas
-          </h1>
-        ) : (
-          <></>
-        )}
-        <div className="w-100">
-          {encodeItems.map((encodeItem, index) => (
-            <EncodeItem key={index} encodeItem={encodeItem} />
-          ))}
-        </div>
+        <BsViewList></BsViewList>
+        <span className="text-sm text-base font-small flex-1 duration-200 false">
+          Encode Areas
+        </span>
+        <BsChevronDown></BsChevronDown>
       </div>
-    </div>
+      {openMenu ? (
+        <>
+          {" "}
+          <div className="max-h-[230px] scroll-smooth hover:scroll-auto overflow-auto overscroll-y-contain">
+            {encodeItems.map((encodeItem, index) => (
+              <EncodeItem key={index} encodeItem={encodeItem} />
+            ))}
+          </div>
+          <div className="mx-auto pr-2 pl-2">
+            <SegmentAM />
+          </div>
+        </>
+      ) : (
+        ""
+      )}
+    </>
   );
 };
