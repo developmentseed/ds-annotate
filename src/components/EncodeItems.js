@@ -3,7 +3,7 @@ import { MainContext } from "../contexts/MainContext";
 import { EncodeItem } from "./EncodeItem";
 import { SegmentAM } from "./SegmentAM";
 import { MenuTemplate } from "./MenuTemplate";
-export const MenuEncodeItems = () => {
+export const EncodeItems = () => {
   const { encodeItems } = useContext(MainContext);
   return (
     <MenuTemplate title={"Encode Areas"} badge={""}>

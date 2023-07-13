@@ -30,7 +30,6 @@ import {
 import { MainContext } from "../../contexts/MainContext";
 import { ProjectLayer } from "./ProjectLayer";
 import { SpinerLoader } from "./../SpinerLoader";
-import { MenuEncodeItems } from "./../MenuEncodeItems";
 import { MagicWand } from "./MagicWand";
 
 export function MapWrapper({ children }) {

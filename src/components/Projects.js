@@ -3,12 +3,12 @@ import { BsChevronDown, BsViewList } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { useParams, useSearchParams } from "react-router-dom";
 
-import { MainContext } from "./../contexts/MainContext";
-import { getClassLayers } from "./../utils/convert";
-import { getProjectTemplate } from "./../utils/utils";
+import { MainContext } from "../contexts/MainContext";
+import { getClassLayers } from "../utils/convert";
+import { getProjectTemplate } from "../utils/utils";
 import { MenuTemplate } from "./MenuTemplate";
 
-export const MenuProjects = () => {
+export const Projects = () => {
   const { projects, dispatchSetActiveProject, dispatchSetActiveClass } =
     useContext(MainContext);
   const [projectName, setProjectName] = useState("Projects");

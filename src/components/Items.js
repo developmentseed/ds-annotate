@@ -1,12 +1,12 @@
 import { useContext, useEffect, useLayoutEffect, useRef } from "react";
-import { MainContext } from "./../contexts/MainContext";
+import { MainContext } from "../contexts/MainContext";
 import Item from "./Item";
-import { openDatabase, storeItems } from "./../store/indexedDB";
-import { features2olFeatures } from "./../utils/convert";
+import { openDatabase, storeItems } from "../store/indexedDB";
+import { features2olFeatures } from "../utils/convert";
 import { MenuTemplate } from "./MenuTemplate";
 import React from "react";
 
-export const MenuItems = () => {
+export const Items = () => {
   const { items, dispatchSetItems } = useContext(MainContext);
   const scrollDivRef = useRef(null);
 

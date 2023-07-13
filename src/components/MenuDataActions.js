@@ -2,9 +2,9 @@ import React, { useContext, useCallback } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { mergePolygonClass } from "../utils/transformation";
 import { olFeatures2Features, features2olFeatures } from "../utils/convert";
-import { storeItems } from "./../store/indexedDB";
+import { storeItems } from "../store/indexedDB";
 
-export const MenuActions = () => {
+export const MenuDataActions = () => {
   const { items, dispatchSetItems } = useContext(MainContext);
 
   const setItems = useCallback(

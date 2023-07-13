@@ -1,13 +1,12 @@
 import React from "react";
 
 import { Header } from "./Header";
-import { MenuProjects } from "./MenuProjects";
-import { MenuClass } from "./MenuClass";
-import { MenuItems } from "./MenuItems";
+import { Projects } from "./Projects";
+import { Classes } from "./Classes";
+import { Items } from "./Items";
 import { MenuExpData } from "./MenuExpData";
-import { MenuActions } from "./MenuActions";
-import { SegmentAM } from "./SegmentAM";
-import { MenuEncodeItems } from "./MenuEncodeItems";
+import { MenuDataActions } from "./MenuDataActions";
+import { EncodeItems } from "./EncodeItems";
 
 const MenuSection = ({ children }) => (
   <>
@@ -24,21 +23,20 @@ export const Sidebar = () => {
         </div>
         <div className="overflow-y-auto pr-2 pl-2">
           <MenuSection>
-            <MenuProjects />
+            <Projects />
           </MenuSection>
           <MenuSection>
-            <MenuClass />
+            <Classes />
           </MenuSection>
           <MenuSection>
-            <MenuEncodeItems />
+            <EncodeItems />
           </MenuSection>
           <MenuSection>
-            <MenuItems />
+            <Items />
           </MenuSection>
           <MenuSection>
-            <MenuActions />
+            <MenuDataActions />
           </MenuSection>
-
           <MenuSection>
             <MenuExpData />
           </MenuSection>
