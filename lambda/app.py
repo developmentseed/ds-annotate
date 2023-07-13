@@ -1,20 +1,24 @@
-import boto3
-from datetime import datetime
-import os
 import json
-
+import os
+from datetime import datetime
+import boto3
 
 def lambda_handler(event, context):
     now = datetime.now()
     date_time = now.strftime("%Y-%m-%d_%H-%M-%S")
-    s3 = boto3.resource("s3")
+    s3 = boto3.client("s3")
     bucket = os.environ["S3_BUCKET"]
-    key = f"ds-annotate/geojson/{date_time}.geojson"
-    s3object = s3.Object(bucket, key)
-    s3object.put(Body=(bytes(event["body"].encode("UTF-8"))), ACL="public-read")
-    url = f"https://{bucket}.s3.amazonaws.com/{key}"
+    obj = json.loads(event["body"])
+    key = obj.get("filename", f"{date_time}")
+    s3.put_object(
+        Body=(bytes(json.dumps(obj["data"]).encode("UTF-8"))), Bucket=bucket, Key=key
+    )
+    # Generate the presigned URL
+    presigned_url = s3.generate_presigned_url(
+        "get_object", Params={"Bucket": bucket, "Key": key}, ExpiresIn=3600
+    )
     return {
         "statusCode": 200,
         "headers": {"Content-Type": "application/json"},
-        "body": json.dumps({"url": url}),
+        "body": json.dumps({"url": presigned_url}),
     }
