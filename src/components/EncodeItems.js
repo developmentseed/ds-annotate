@@ -1,13 +1,14 @@
 import React, { useContext, useState } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { EncodeItem } from "./EncodeItem";
-import { SegmentAM } from "./SegmentAM";
+import { EncodeCanvas } from "./EncodeCanvas";
 import { MenuTemplate } from "./MenuTemplate";
+import { EncodeExpImp } from "./EncodeExpImp";
 
 export const Badge = () => {
   const { activeEncodeImageItem } = useContext(MainContext);
   return (
-    <span className="inline-flex text-xxs bg-blue-400 justify-center items-center font-medium text-slate-900 bg-gray-200 rounded pr-1 pl-1">
+    <span className="inline-flex justify-center bg-blue-400 items-center px-0 ml-1 text-xs font-medium text-slate-800 bg-gray-200 rounded pt-0 pr-1 pl-1">
       {activeEncodeImageItem
         ? `Active-z${Math.round(activeEncodeImageItem.zoom)}`
         : ""}
@@ -25,8 +26,9 @@ export const EncodeItems = () => {
             <EncodeItem key={index} encodeItem={encodeItem} />
           ))}
         </div>
-        <div className="mx-auto pr-2 pl-2">
-          <SegmentAM />
+        <div className="grid grid-cols-2 gap-2">
+          <EncodeExpImp />
+          <EncodeCanvas />
         </div>
       </>
     </MenuTemplate>

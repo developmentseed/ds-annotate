@@ -5,14 +5,10 @@ import { getCanvasForLayer } from "../utils/canvas";
 import { getEncode, getDecode, getPropertiesRequest } from "../utils/samApi";
 import { sam2Geojson, features2olFeatures } from "../utils/convert";
 import { pointIsInEncodeBbox } from "../utils/calculation";
-import {
-  openDatabase,
-  storeEncodeItems,
-  storeItems,
-} from "./../store/indexedDB";
-import { guid } from "./../utils/utils";
+import { openDatabase, storeEncodeItems, storeItems } from "../store/indexedDB";
+import { guid } from "../utils/utils";
 
-export const SegmentAM = () => {
+export const EncodeCanvas = () => {
   const {
     map,
     pointsSelector,
@@ -154,7 +150,7 @@ export const SegmentAM = () => {
         }}
         disabled={samApiStatus || false}
       >
-        {samApiStatus || "Request Segment Anything Prediction"}
+        {samApiStatus || "Request SAM"}
       </button>
     </>
   );
