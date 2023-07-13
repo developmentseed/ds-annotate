@@ -1,10 +1,10 @@
 import { useContext, useEffect, useLayoutEffect, useRef } from "react";
-import { BsViewList } from "react-icons/bs";
-
 import { MainContext } from "./../contexts/MainContext";
 import Item from "./Item";
 import { openDatabase, storeItems } from "./../store/indexedDB";
 import { features2olFeatures } from "./../utils/convert";
+import { MenuTemplate } from "./MenuTemplate";
+import React from "react";
 
 export const MenuItems = () => {
   const { items, dispatchSetItems } = useContext(MainContext);
@@ -38,14 +38,7 @@ export const MenuItems = () => {
     }
   }, [items]);
   return (
-    <div>
-      <div className="menuHeader">
-        <BsViewList></BsViewList>
-        <span className="text-sm text-base font-small flex-1 duration-200 false">
-          Drawn items
-        </span>
-      </div>
-
+    <MenuTemplate title={"Drawn items"} badge={""}>
       <div
         ref={scrollDivRef}
         className="max-h-[150px] scroll-smooth hover:scroll-auto overflow-auto overscroll-y-contain"
@@ -54,6 +47,6 @@ export const MenuItems = () => {
           return <Item key={index} index={index + 1} item={item}></Item>;
         })}
       </div>
-    </div>
+    </MenuTemplate>
   );
 };

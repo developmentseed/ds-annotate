@@ -6,11 +6,11 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { MainContext } from "./../contexts/MainContext";
 import { getClassLayers } from "./../utils/convert";
 import { getProjectTemplate } from "./../utils/utils";
+import { MenuTemplate } from "./MenuTemplate";
 
 export const MenuProjects = () => {
   const { projects, dispatchSetActiveProject, dispatchSetActiveClass } =
     useContext(MainContext);
-  const [openMenu, setOpenMenu] = useState(false);
   const [projectName, setProjectName] = useState("Projects");
 
   const setProject = useCallback(
@@ -50,39 +50,24 @@ export const MenuProjects = () => {
   }, [searchParams, setProject]);
 
   return (
-    <div>
-      <div
-        className="menuHeader"
-        onClick={() => {
-          setOpenMenu(!openMenu);
-        }}
-      >
-        <BsViewList></BsViewList>
-        <span className="text-sm text-base font-small flex-1 duration-200 text-slate-900">
-          {projectName}
-        </span>
-        <BsChevronDown></BsChevronDown>
+    <MenuTemplate title={projectName} badge={""}>
+      <div>
+        <ul className="pt-1">
+          {projects.features.map((feature, index) => (
+            <li
+              key={index}
+              className="subMenuHeader hoverAnimation"
+              onClick={() => {
+                setProject(feature);
+              }}
+            >
+              <Link to={`/project/${feature.properties.slug}`}>
+                {feature.properties.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
-      {openMenu && (
-        <div>
-          <ul className="pt-1">
-            {projects.features.map((feature, index) => (
-              <li
-                key={index}
-                className="subMenuHeader hoverAnimation"
-                onClick={() => {
-                  setOpenMenu(!openMenu);
-                  setProject(feature);
-                }}
-              >
-                <Link to={`/project/${feature.properties.slug}`}>
-                  {feature.properties.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
+    </MenuTemplate>
   );
 };
