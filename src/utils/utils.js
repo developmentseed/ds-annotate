@@ -1,5 +1,12 @@
 import * as turf from "@turf/turf";
+import { NotificationManager } from "react-notifications";
+import apis from "./../static/apis.json";
 
+/**
+ * Download file
+ * @param {object} data
+ * @param {string} fileName
+ */
 export const downloadGeojsonFile = (data, fileName) => {
   const a = document.createElement("a");
   document.body.appendChild(a);
@@ -10,6 +17,37 @@ export const downloadGeojsonFile = (data, fileName) => {
   a.download = fileName;
   a.click();
   window.URL.revokeObjectURL(url);
+};
+
+/**
+ * Upload data to s3
+ * @param {object} data
+ * @param {string} fileName
+ * @returns Url of the uploaded file
+ */
+export const uploadtoS3 = async (data, filename) => {
+  const url = `${apis.geojsonAPI}/ds_annotate/`;
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        crossOrigin: "anonymous",
+      },
+      body: JSON.stringify({ data, filename }),
+    });
+
+    if (response.ok) {
+      return response.json();
+    } else {
+      console.log("%cutils.js line:44 response", "color: #007acc;", response);
+      throw new Error("Request failed with status " + response.status);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
 };
 
 export const downloadInJOSM = (data, project) => {
@@ -26,6 +64,7 @@ export const downloadInJOSM = (data, project) => {
       return response.json();
     })
     .then((data) => {
+      console.log("%cutils.js line:67 data", "color: #007acc;", data);
       const { url, type } = project.properties.imagery;
       const layer_name = project.properties.name.replace(/ /g, "_");
       const url_geojson = `http://localhost:8111/import?url=${data.url.replace(
@@ -119,4 +158,13 @@ export const guid = () => {
       .substring(1);
   };
   return `${w().substring(0, 4)}`;
+};
+
+/**
+ * replace empty space with _
+ * @param {String} name
+ * @returns
+ */
+export const simplyName = (name) => {
+  return name.replace(/\s/g, "_");
 };

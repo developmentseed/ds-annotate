@@ -12,7 +12,6 @@ export const EncodeItem = ({ encodeItem }) => {
     activeEncodeImageItem,
     dispatchActiveEncodeImageItem,
   } = useContext(MainContext);
-  // const { map } = useContext(MapContext);
 
   const zoomTo = (encodeItem) => {
     if (!map) return;

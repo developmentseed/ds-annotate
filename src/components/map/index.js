@@ -42,7 +42,6 @@ export function MapWrapper({ children }) {
     items,
     dispatchSetItems,
     highlightedItem,
-    spinnerLoading,
   } = useContext(MainContext);
 
   const mapElement = useRef();
@@ -150,7 +149,7 @@ export function MapWrapper({ children }) {
         tabIndex={0}
       >
         <MagicWand event={event} />
-        {spinnerLoading && <SpinerLoader spinnerLoading={spinnerLoading} />}
+        {/* {spinnerLoading && <SpinerLoader spinnerLoading={spinnerLoading} />} */}
         {activeProject && (
           <ProjectLayer
             project={activeProject}
