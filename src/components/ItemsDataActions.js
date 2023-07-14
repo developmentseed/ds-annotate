@@ -5,7 +5,7 @@ import { olFeatures2Features, features2olFeatures } from "../utils/convert";
 import { storeItems } from "../store/indexedDB";
 
 export const ItemsDataActions = () => {
-  const { items, dispatchSetItems } = useContext(MainContext);
+  const { items, dispatchSetItems, activeProject } = useContext(MainContext);
 
   const setItems = useCallback(
     (items) => {
@@ -24,11 +24,16 @@ export const ItemsDataActions = () => {
 
     setItems(mergedItems);
     // Save merged features in DB
-    storeItems.deleteAllData();
+    storeItems.deleteDataByProject(activeProject.properties.name);
     mergedFeatures.forEach((item) => {
-      storeItems.addData({ ...item, id: item.properties.id });
+      storeItems.addData({
+        ...item,
+        id: item.properties.id,
+        project: activeProject.properties.name,
+      });
     });
   };
+
   return (
     <div className="flex flex-row mt-3">
       <button className="custom_button w-full" onClick={() => mergePolygons()}>

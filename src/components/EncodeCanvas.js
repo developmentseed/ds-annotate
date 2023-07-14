@@ -31,24 +31,6 @@ export const EncodeCanvas = () => {
     setSamApiStatus(null);
   };
 
-  // Load indexedDB for encode Items
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await openDatabase();
-        const listEncodeItems = await storeEncodeItems.getAllData();
-
-        dispatchEncodeItems({
-          type: "CACHING_ENCODED",
-          payload: listEncodeItems,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
-
   // Request segment-anything-services
   const requestSAM = async (requestProps, isEncode) => {
     setSpinnerLoading(true);
@@ -66,6 +48,7 @@ export const EncodeCanvas = () => {
         const encodeItem = Object.assign({}, requestProps, {
           canvas,
           id: guid(),
+          project: activeProject.properties.name,
         });
 
         //Merge existing encode items and new

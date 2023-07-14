@@ -8,7 +8,7 @@ import React from "react";
 import { ItemsDataActions } from "./ItemsDataActions";
 
 export const Items = () => {
-  const { items, dispatchSetItems } = useContext(MainContext);
+  const { items, dispatchSetItems, activeProject } = useContext(MainContext);
   const scrollDivRef = useRef(null);
 
   // Load items data from DB
@@ -16,7 +16,9 @@ export const Items = () => {
     const fetchData = async () => {
       try {
         await openDatabase();
-        const items_ = await storeItems.getAllData();
+        const items_ = await storeItems.getDataByProject(
+          activeProject.properties.name
+        );
         const filterItems_ = items_.filter(
           (item) => item.geometry.coordinates.length > 0
         );
@@ -30,7 +32,7 @@ export const Items = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [activeProject]);
 
   useEffect(() => {
     if (scrollDivRef.current) {

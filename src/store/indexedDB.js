@@ -8,8 +8,16 @@ export const openDatabase = () => {
 
     request.onupgradeneeded = (event) => {
       db = event.target.result;
-      db.createObjectStore("items", { keyPath: "id" });
-      db.createObjectStore("encodeItems", { keyPath: "id" });
+      //Items
+      const objectStoreItems = db.createObjectStore("items", { keyPath: "id" });
+      objectStoreItems.createIndex("project", "project", { unique: false });
+      //Encode images Items
+      const objectStoreEncodeItems = db.createObjectStore("encodeItems", {
+        keyPath: "id",
+      });
+      objectStoreEncodeItems.createIndex("project", "project", {
+        unique: false,
+      });
     };
 
     request.onsuccess = (event) => {
@@ -48,10 +56,39 @@ class Store {
     });
   }
 
+  getDataByProject(project) {
+    return new Promise((resolve, reject) => {
+      const store = this.transaction("readonly");
+      const index = store.index("project");
+      const request = index.getAll(IDBKeyRange.only(project));
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
   deleteData(id) {
     return new Promise((resolve, reject) => {
       const request = this.transaction("readwrite").delete(id);
       request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  deleteDataByProject(project) {
+    return new Promise((resolve, reject) => {
+      const store = this.transaction("readwrite");
+      const index = store.index("project");
+
+      const request = index.openCursor(IDBKeyRange.only(project));
+      request.onsuccess = () => {
+        const cursor = request.result;
+        if (cursor) {
+          store.delete(cursor.primaryKey);
+          cursor.continue();
+        } else {
+          resolve();
+        }
+      };
       request.onerror = () => reject(request.error);
     });
   }

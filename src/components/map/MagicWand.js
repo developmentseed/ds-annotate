@@ -43,7 +43,11 @@ export const MagicWand = ({ event }) => {
           });
 
           //Insert feature into the DB
-          await storeItems.addData({ ...feature, id });
+          await storeItems.addData({
+            ...feature,
+            id,
+            project: activeProject.properties.name,
+          });
           wand.clearMask();
         } catch (error) {
           console.log(error);

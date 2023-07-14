@@ -1,9 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { EncodeItem } from "./EncodeItem";
 import { EncodeCanvas } from "./EncodeCanvas";
 import { MenuTemplate } from "./MenuTemplate";
 import { EncodeExpImp } from "./EncodeExpImp";
+import { openDatabase, storeEncodeItems, storeItems } from "../store/indexedDB";
 
 export const Badge = () => {
   const { activeEncodeImageItem } = useContext(MainContext);
@@ -17,7 +18,29 @@ export const Badge = () => {
 };
 
 export const EncodeItems = () => {
-  const { encodeItems } = useContext(MainContext);
+  const { encodeItems, dispatchEncodeItems, activeProject } =
+    useContext(MainContext);
+
+  // Load indexedDB for encode Items
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await openDatabase();
+        const listEncodeItems = await storeEncodeItems.getDataByProject(
+          activeProject.properties.name
+        );
+
+        dispatchEncodeItems({
+          type: "CACHING_ENCODED",
+          payload: listEncodeItems,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [activeProject]);
+
   return (
     <MenuTemplate title={"Encode Areas"} badge={<Badge />}>
       <>
