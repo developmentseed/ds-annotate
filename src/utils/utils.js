@@ -1,5 +1,4 @@
 import * as turf from "@turf/turf";
-import { geojsonAPI } from "./../config";
 
 /**
  * Download file

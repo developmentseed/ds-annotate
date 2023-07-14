@@ -16,8 +16,8 @@ export const EncodeItem = ({ encodeItem }) => {
   const zoomTo = (encodeItem) => {
     if (!map) return;
     const { bbox, zoom } = encodeItem;
-    map.getView().fit(bbox);
     map.getView().setZoom(zoom);
+    map.getView().fit(bbox, { padding: [5, 5, 5, 5] });
     // Set as active encode image items
     dispatchActiveEncodeImageItem({
       type: "SET_ACTIVE_ENCODE_IMAGE",

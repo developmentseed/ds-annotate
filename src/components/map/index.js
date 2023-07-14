@@ -29,7 +29,6 @@ import {
 } from "./layers";
 import { MainContext } from "../../contexts/MainContext";
 import { ProjectLayer } from "./ProjectLayer";
-import { SpinerLoader } from "./../SpinerLoader";
 import { MagicWand } from "./MagicWand";
 
 export function MapWrapper({ children }) {

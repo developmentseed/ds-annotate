@@ -109,10 +109,7 @@ export const encodeMapViews = new VectorLayer({
   style: new Style({
     stroke: new Stroke({
       width: 3,
-      color: [46, 249, 35, 1],
-    }),
-    fill: new Fill({
-      color: [46, 249, 35, 0],
+      color: [255, 191, 11, 1],
     }),
   }),
   zIndex: 7,
@@ -122,7 +119,7 @@ export const encodeMapViewHighlighted = new VectorLayer({
   style: new Style({
     stroke: new Stroke({
       width: 3,
-      color: [59, 130, 246, 1],
+      color: [46, 249, 35, 1],
     }),
   }),
   zIndex: 8,
