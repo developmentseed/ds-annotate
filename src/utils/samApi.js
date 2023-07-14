@@ -1,4 +1,4 @@
-import apis from "./../static/apis.json";
+import { gpuEncodeAPI, cpuDecodeAPI } from "./../config";
 import { NotificationManager } from "react-notifications";
 import { olFeatures2geojson } from "./convert";
 
@@ -44,7 +44,7 @@ export const getPropertiesRequest = (map, pointsSelector) => {
  * @returns
  */
 export const getEncode = async (base64_string) => {
-  const encodeURL = `${apis.gpuEncodeAPI}/predictions/sam_vit_h_encode`;
+  const encodeURL = `${gpuEncodeAPI}/predictions/sam_vit_h_encode`;
   try {
     // Encode
     const encodeResponse = await fetch(encodeURL, {
@@ -73,7 +73,7 @@ export const getEncode = async (base64_string) => {
  * @returns
  */
 export const getDecode = async (decodePayload) => {
-  const decodeURL = `${apis.cpuDecodeAPI}/predictions/sam_vit_h_decode`;
+  const decodeURL = `${cpuDecodeAPI}/predictions/sam_vit_h_decode`;
   try {
     // Decode
     const decodeResponse = await fetch(decodeURL, {

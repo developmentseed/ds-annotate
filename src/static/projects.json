@@ -617,7 +617,11 @@
         "imagery": {
           "type": "tms",
           "url": "https://planetarycomputer.microsoft.com/api/data/v1/mosaic/tiles/82ebdc445544365e45be4db6d22536ec/{z}/{x}/{y}?assets=B04&assets=B03&assets=B02&color_formula=Gamma+RGB+3.2+Saturation+0.8+Sigmoidal+RGB+25+0.35&collection=sentinel-2-l2a"
-        }
+        },
+        "encodeImages": [
+          "https://ds-annotate.s3.amazonaws.com/encode_images/Vessels_-_Sentinel2/1867.json",
+          "https://ds-annotate.s3.amazonaws.com/encode_images/Vessels_-_Sentinel2/1d42.json"
+        ]
       },
       "geometry": {
         "type": "Polygon",
@@ -660,7 +664,13 @@
         "imagery": {
           "type": "tms",
           "url": "https://planetarycomputer.microsoft.com/api/data/v1/mosaic/tiles/82ebdc445544365e45be4db6d22536ec/{z}/{x}/{y}?assets=B04&assets=B03&assets=B02&color_formula=Gamma+RGB+3.2+Saturation+0.8+Sigmoidal+RGB+25+0.35&collection=sentinel-2-l2a"
-        }
+        },
+        "encodeImages": [
+          "https://ds-annotate.s3.amazonaws.com/encode_images/Farms_-_Sentinel2/595a.json",
+          "https://ds-annotate.s3.amazonaws.com/encode_images/Farms_-_Sentinel2/7069.json",
+          "https://ds-annotate.s3.amazonaws.com/encode_images/Farms_-_Sentinel2/d3e6.json",
+          "https://ds-annotate.s3.amazonaws.com/encode_images/Farms_-_Sentinel2/f622.json"
+        ]
       },
       "geometry": {
         "type": "Polygon",

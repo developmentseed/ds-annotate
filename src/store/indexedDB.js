@@ -1,10 +1,9 @@
-const DBName = "dsAnnotateDB";
-const DBVersion = 1;
+import { indexedDBName, indexedDBVersion } from "./../config";
 let db;
 
 export const openDatabase = () => {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DBName, DBVersion);
+    const request = indexedDB.open(indexedDBName, indexedDBVersion);
 
     request.onupgradeneeded = (event) => {
       db = event.target.result;

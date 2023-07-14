@@ -1,6 +1,5 @@
 import * as turf from "@turf/turf";
-import { NotificationManager } from "react-notifications";
-import apis from "./../static/apis.json";
+import { geojsonAPI } from "./../config";
 
 /**
  * Download file
@@ -26,7 +25,7 @@ export const downloadGeojsonFile = (data, fileName) => {
  * @returns Url of the uploaded file
  */
 export const uploadtoS3 = async (data, filename) => {
-  const url = `${apis.geojsonAPI}/ds_annotate/`;
+  const url = `${geojsonAPI}/ds_annotate/`;
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -51,7 +50,7 @@ export const uploadtoS3 = async (data, filename) => {
 };
 
 export const downloadInJOSM = (data, project) => {
-  fetch("https://bfokggy4ac.execute-api.us-east-1.amazonaws.com/ds_annotate/", {
+  fetch(`${geojsonAPI}/ds_annotate/`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -64,7 +63,6 @@ export const downloadInJOSM = (data, project) => {
       return response.json();
     })
     .then((data) => {
-      console.log("%cutils.js line:67 data", "color: #007acc;", data);
       const { url, type } = project.properties.imagery;
       const layer_name = project.properties.name.replace(/ /g, "_");
       const url_geojson = `http://localhost:8111/import?url=${data.url.replace(
