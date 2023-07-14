@@ -1,8 +1,6 @@
 import React, { useContext, useState, useEffect, useCallback } from "react";
-import { BsChevronDown, BsViewList } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { useParams, useSearchParams } from "react-router-dom";
-
+import { useSearchParams } from "react-router-dom";
 import { MainContext } from "../contexts/MainContext";
 import { getClassLayers } from "../utils/convert";
 import { getProjectTemplate } from "../utils/utils";
@@ -43,19 +41,23 @@ export const Projects = () => {
     [dispatchSetActiveClass, dispatchSetActiveProject]
   );
 
-  let { slug } = useParams();
-
-  useEffect(() => {
-    const filtered = projects.features.filter(
-      (p) => p.properties.slug === slug
-    );
-    if (filtered.length) setProject(filtered[0]);
-  }, [slug, projects.features, setProject]);
-
   // Load project from query
   const [searchParams] = useSearchParams();
+
   useEffect(() => {
-    const projectFeature = getProjectTemplate(searchParams);
+    let projectFeature = getProjectTemplate(searchParams);
+    if (!projectFeature) {
+      //If the project was not set in the URL, find the projects by slug on the existing list,
+      const projectSlug = searchParams.get("project");
+      if (projectSlug) {
+        const listProjectFound = projects.features.filter((p) => {
+          return p.properties.slug === projectSlug;
+        });
+        if (listProjectFound.length > 0) {
+          projectFeature = listProjectFound[0];
+        }
+      }
+    }
     if (projectFeature) {
       setProject(projectFeature);
     }
@@ -72,12 +74,9 @@ export const Projects = () => {
               onClick={() => {
                 setProject(feature);
               }}
-              to={`/project/${feature.properties.slug}`}
+              to={`?project=${feature.properties.slug}`}
             >
               {feature.properties.name}
-              {/* <Link to={`/project/${feature.properties.slug}`} className="w-full">
-                
-              </Link> */}
             </Link>
           ))}
         </ul>

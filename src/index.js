@@ -13,7 +13,7 @@ root.render(
     <BrowserRouter basename="/ds-annotate">
       <Routes>
         <Route exact path="/" element={<App />} />
-        <Route exact path="/project/:slug" element={<App />} />
+        <Route exact path="?project=:slug" element={<App />} />
       </Routes>
     </BrowserRouter>
   </MainContextProvider>

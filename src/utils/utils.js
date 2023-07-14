@@ -78,7 +78,7 @@ export const downloadInJOSM = (data, project) => {
 export const getProjectTemplate = (searchParams) => {
   // Set project from Query
   const classes_items = searchParams.get("classes");
-  const name = searchParams.get("name");
+  const project = searchParams.get("project");
   const imagery_type = searchParams.get("imagery_type");
   const imagery_url = searchParams.get("imagery_url");
   let project_bbox = searchParams.get("project_bbox");
@@ -86,7 +86,7 @@ export const getProjectTemplate = (searchParams) => {
   let projectFeature = null;
   if (
     classes_items &&
-    name &&
+    project &&
     imagery_type &&
     imagery_url &&
     (project_bbox || project_geometry)
@@ -97,8 +97,8 @@ export const getProjectTemplate = (searchParams) => {
     } else if (project_geometry) {
       projectFeature = turf.polygon(JSON.parse(project_geometry));
     }
-    projectFeature.properties.slug = name;
-    projectFeature.properties.name = name;
+    projectFeature.properties.slug = project;
+    projectFeature.properties.name = project;
     projectFeature.properties.classes = {};
     classes_items.split("|").forEach((item) => {
       const tuple = item.split(",");

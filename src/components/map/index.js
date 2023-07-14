@@ -149,7 +149,6 @@ export function MapWrapper({ children }) {
         tabIndex={0}
       >
         <MagicWand event={event} />
-        {/* {spinnerLoading && <SpinerLoader spinnerLoading={spinnerLoading} />} */}
         {activeProject && (
           <ProjectLayer
             project={activeProject}
@@ -159,7 +158,6 @@ export function MapWrapper({ children }) {
         )}
         {children}
       </div>
-      {/* <MenuEncodeItems /> */}
     </>
   );
 }
