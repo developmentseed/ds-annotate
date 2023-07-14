@@ -104,13 +104,13 @@ export function MapWrapper({ children }) {
       view: view,
     });
 
-    // Add hash map in the url
-    initialMap.on("moveend", function () {
-      const view = initialMap.getView();
-      const zoom = view.getZoom();
-      const coord = view.getCenter();
-      window.location.hash = `#map=${Math.round(zoom)}/${coord[0]}/${coord[1]}`;
-    });
+    // // Add hash map in the url
+    // initialMap.on("moveend", function () {
+    //   const view = initialMap.getView();
+    //   const zoom = view.getZoom();
+    //   const coord = view.getCenter();
+    //   window.location.hash = `#map=${Math.round(zoom)}/${coord[0]}/${coord[1]}`;
+    // });
 
     setMap(initialMap);
     setWand(initWand);

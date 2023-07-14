@@ -65,18 +65,20 @@ export const Projects = () => {
     <MenuTemplate title={projectName} badge={""}>
       <div>
         <ul className="pt-1">
-          {projects.features.map((feature, index) => (
-            <li
-              key={index}
+          {projects.features.map((feature) => (
+            <Link
+              key={feature.properties.slug}
               className="subMenuHeader hoverAnimation"
               onClick={() => {
                 setProject(feature);
               }}
+              to={`/project/${feature.properties.slug}`}
             >
-              <Link to={`/project/${feature.properties.slug}`}>
-                {feature.properties.name}
-              </Link>
-            </li>
+              {feature.properties.name}
+              {/* <Link to={`/project/${feature.properties.slug}`} className="w-full">
+                
+              </Link> */}
+            </Link>
           ))}
         </ul>
       </div>
