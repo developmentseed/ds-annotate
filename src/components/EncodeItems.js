@@ -1,10 +1,10 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { EncodeItem } from "./EncodeItem";
 import { EncodeCanvas } from "./EncodeCanvas";
 import { MenuTemplate } from "./MenuTemplate";
 import { EncodeExpImp } from "./EncodeExpImp";
-import { openDatabase, storeEncodeItems, storeItems } from "../store/indexedDB";
+import { openDatabase, storeEncodeItems } from "../store/indexedDB";
 import { fetchListURLS } from "../utils/samApi";
 import { getFileNameFromURL } from "../utils/utils";
 

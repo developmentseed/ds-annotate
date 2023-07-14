@@ -33,9 +33,9 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "deploy": "yarn build && gh-pages -d build",
-    "lint": "npx eslint . && yarn run prettier",
-    "prettier": "prettier --write 'src/**/*.js'",
-    "test": "npm run lint && react-scripts test --env=jsdom --watchAll=false --testMatch **/src/**/*.test.js"
+    "lint": "npx eslint . && yarn prettier",
+    "prettier": "yarn clean && prettier --write 'src/**/*.js'",
+    "test": "yarn lint && react-scripts test --env=jsdom --watchAll=false --testMatch **/src/**/*.test.js"
   },
   "eslintConfig": {
     "extends": [

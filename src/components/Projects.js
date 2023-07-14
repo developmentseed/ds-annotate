@@ -9,17 +9,23 @@ import { getProjectTemplate } from "../utils/utils";
 import { MenuTemplate } from "./MenuTemplate";
 
 export const Projects = () => {
-  const { projects, dispatchSetActiveProject, dispatchSetActiveClass } =
-    useContext(MainContext);
+  const {
+    projects,
+    dispatchSetActiveProject,
+    dispatchSetActiveClass,
+    dispatchActiveEncodeImageItem,
+  } = useContext(MainContext);
   const [projectName, setProjectName] = useState("Projects");
 
   const setProject = useCallback(
     (project) => {
+      //Set active project
       dispatchSetActiveProject({
         type: "SET_ACTIVE_PROJECT",
         payload: project,
       });
 
+      //Set Active class the first in the list
       const classLayers = getClassLayers(project);
       dispatchSetActiveClass({
         type: "SET_ACTIVE_CLASS",
@@ -27,6 +33,12 @@ export const Projects = () => {
       });
 
       setProjectName(project.properties.name);
+
+      //Set active encode image to null
+      dispatchActiveEncodeImageItem({
+        type: "SET_ACTIVE_ENCODE_IMAGE",
+        payload: null,
+      });
     },
     [dispatchSetActiveClass, dispatchSetActiveProject]
   );
@@ -47,7 +59,7 @@ export const Projects = () => {
     if (projectFeature) {
       setProject(projectFeature);
     }
-  }, [searchParams, setProject]);
+  }, [searchParams]);
 
   return (
     <MenuTemplate title={projectName} badge={""}>
