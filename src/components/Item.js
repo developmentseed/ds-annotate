@@ -1,5 +1,4 @@
 import { useContext } from "react";
-
 import { BsTrash } from "react-icons/bs";
 import { MainContext } from "./../contexts/MainContext";
 import { storeItems } from "./../store/indexedDB";

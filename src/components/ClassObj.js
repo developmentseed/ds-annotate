@@ -1,7 +1,7 @@
-import React from "react";
-import { useContext } from "react";
-import { MainContext } from "../contexts/MainContext";
+import React, { useContext } from "react";
 import { BsSquareFill } from "react-icons/bs";
+
+import { MainContext } from "../contexts/MainContext";
 
 export const ClassObj = ({ classProps }) => {
   const { activeClass, dispatchSetActiveClass } = useContext(MainContext);

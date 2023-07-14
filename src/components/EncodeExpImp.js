@@ -21,8 +21,7 @@ export const EncodeExpImp = () => {
 
   const exportToS3 = async () => {
     setSpinnerLoading(true);
-
-    const resp = await uploadtoS3(
+    await uploadtoS3(
       activeEncodeImageItem,
       `encode_images/${simplyName(activeProject.properties.name)}/${
         activeEncodeImageItem.id

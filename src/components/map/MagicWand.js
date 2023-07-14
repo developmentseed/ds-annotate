@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Feature } from "ol";
 import Polygon from "ol/geom/Polygon";
 

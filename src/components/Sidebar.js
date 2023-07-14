@@ -5,7 +5,6 @@ import { Projects } from "./Projects";
 import { Classes } from "./Classes";
 import { Items } from "./Items";
 import { MenuExpData } from "./MenuExpData";
-import { ItemsDataActions } from "./ItemsDataActions";
 import { EncodeItems } from "./EncodeItems";
 
 const MenuSection = ({ children }) => (

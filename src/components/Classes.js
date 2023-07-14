@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
+
 import { MainContext } from "../contexts/MainContext";
 import { ClassObj } from "./ClassObj";
-
 import { getClassLayers } from "../utils/convert";
 import { MenuTemplate } from "./MenuTemplate";
 

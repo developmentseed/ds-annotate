@@ -23,7 +23,6 @@ export const EncodeCanvas = () => {
     setSpinnerLoading,
   } = useContext(MainContext);
 
-  // const { map } = useContext(MapContext);
   const [samApiStatus, setSamApiStatus] = useState(null);
 
   const reset = () => {

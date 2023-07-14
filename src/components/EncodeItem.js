@@ -26,7 +26,7 @@ export const EncodeItem = ({ encodeItem }) => {
   };
 
   const handleRemoveEncodeItem = async (encodeItem) => {
-    if (encodeItem.id == activeEncodeImageItem.id) {
+    if (encodeItem.id === activeEncodeImageItem.id) {
       NotificationManager.warning(
         `You can't remove active encode view`,
         "",
@@ -55,8 +55,8 @@ export const EncodeItem = ({ encodeItem }) => {
         alt={`Encode Image`}
         className={`w-full h-full object-cover opacity-100 transition-opacity duration-500 ease-in-out transform hover:opacity-90 mb-2 
       ${
-        activeEncodeImageItem && encodeItem.id == activeEncodeImageItem.id
-          ? "border border-blue-500 border-2"
+        activeEncodeImageItem && encodeItem.id === activeEncodeImageItem.id
+          ? "border border-green-500 border-2"
           : "border border-gray-300 border-2"
       }`}
         style={{
