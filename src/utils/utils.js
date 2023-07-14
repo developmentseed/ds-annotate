@@ -18,63 +18,6 @@ export const downloadGeojsonFile = (data, fileName) => {
   window.URL.revokeObjectURL(url);
 };
 
-/**
- * Upload data to s3
- * @param {object} data
- * @param {string} fileName
- * @returns Url of the uploaded file
- */
-export const uploadtoS3 = async (data, filename) => {
-  const url = `${geojsonAPI}/ds_annotate/`;
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        crossOrigin: "anonymous",
-      },
-      body: JSON.stringify({ data, filename }),
-    });
-
-    if (response.ok) {
-      return response.json();
-    } else {
-      console.log("%cutils.js line:44 response", "color: #007acc;", response);
-      throw new Error("Request failed with status " + response.status);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-  return null;
-};
-
-export const downloadInJOSM = (data, project) => {
-  fetch(`${geojsonAPI}/ds_annotate/`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      crossOrigin: "anonymous",
-    },
-    body: data,
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      const { url, type } = project.properties.imagery;
-      const layer_name = project.properties.name.replace(/ /g, "_");
-      const url_geojson = `http://localhost:8111/import?url=${data.url.replace(
-        "https",
-        "http"
-      )}`;
-      fetch(url_geojson);
-      const url_layer = `​http://localhost:8111/imagery?title=${layer_name}&type=${type}&url=${url}`;
-      fetch(url_layer);
-    });
-};
-
 export const getProjectTemplate = (searchParams) => {
   // Set project from Query
   const classes_items = searchParams.get("classes");
@@ -111,23 +54,6 @@ export const getProjectTemplate = (searchParams) => {
     };
   }
   return projectFeature;
-};
-
-/**
- *
- * @param {array} items of OpenLayer
- * @param {object} activeClass
- * @returns max item id plus 1
- */
-export const getMaxIdPerClass = (items, activeClass) => {
-  const items_ = items.map((i) => i.values_);
-  // if (items_.length === 0) return 1;
-  // const filteredItems = items_.filter((obj) => obj.class === activeClass.name);
-  // if (filteredItems.length === 0) return 1;
-  // const maxItem = filteredItems.reduce((max, current) =>
-  //   max.id > current.id ? max : current
-  // );
-  return items_.length + 1;
 };
 
 /**

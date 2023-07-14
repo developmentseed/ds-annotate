@@ -41,13 +41,13 @@ Ds-Anotate tool can be used the [online](http://devseed.com/ds-annotate) version
 
 ```
 classes=farm,00FFFF|tree,FF00FF
-name=Farms mapping
+project=Farms_mapping
 imagery_type=tms
 imagery_url=https://gis.apfo.usda.gov/arcgis/rest/services/NAIP/USDA_CONUS_PRIME/ImageServer/tile/{z}/{y}/{x}?blankTile=false
 project_bbox=-90.319317,38.482965,-90.247220,38.507418
 ```
 
-[http://devseed.com/ds-annotate?classes=farm,00FFFF|tree,FF00FF&name=Farms-mapping&imagery_type=tms&imagery_url=https://gis.apfo.usda.gov/arcgis/rest/services/NAIP/USDA_CONUS_PRIME/ImageServer/tile/{z}/{y}/{x}?blankTile=false&project_bbox=-90.319317,38.482965,-90.247220,38.507418](http://devseed.com/ds-annotate?classes=farm,00FFFF|tree,FF00FF&name=Farms-mapping&imagery_type=tms&imagery_url=https://gis.apfo.usda.gov/arcgis/rest/services/NAIP/USDA_CONUS_PRIME/ImageServer/tile/{z}/{y}/{x}?blankTile=false&project_bbox=-90.319317,38.482965,-90.247220,38.507418)
+[http://devseed.com/ds-annotate?classes=farm,00FFFF|tree,FF00FF&project=Farms-mapping&imagery_type=tms&imagery_url=https://gis.apfo.usda.gov/arcgis/rest/services/NAIP/USDA_CONUS_PRIME/ImageServer/tile/{z}/{y}/{x}?blankTile=false&project_bbox=-90.319317,38.482965,-90.247220,38.507418](http://devseed.com/ds-annotate?classes=farm,00FFFF|tree,FF00FF&project=Farms-mapping&imagery_type=tms&imagery_url=https://gis.apfo.usda.gov/arcgis/rest/services/NAIP/USDA_CONUS_PRIME/ImageServer/tile/{z}/{y}/{x}?blankTile=false&project_bbox=-90.319317,38.482965,-90.247220,38.507418)
 ### Starting the app
 
 ```

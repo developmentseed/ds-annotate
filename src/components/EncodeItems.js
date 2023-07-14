@@ -5,7 +5,7 @@ import { EncodeCanvas } from "./EncodeCanvas";
 import { MenuTemplate } from "./MenuTemplate";
 import { EncodeExpImp } from "./EncodeExpImp";
 import { openDatabase, storeEncodeItems } from "../store/indexedDB";
-import { fetchListURLS } from "../utils/samApi";
+import { fetchListURLS } from "../utils/requests";
 import { getFileNameFromURL } from "../utils/utils";
 
 export const Badge = () => {

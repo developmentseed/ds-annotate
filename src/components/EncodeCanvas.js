@@ -2,10 +2,10 @@ import React, { useContext, useState, useEffect } from "react";
 
 import { MainContext } from "../contexts/MainContext";
 import { getCanvasForLayer } from "../utils/canvas";
-import { getEncode, getDecode, getPropertiesRequest } from "../utils/samApi";
+import { getEncode, getDecode, getPropertiesRequest } from "../utils/requests";
 import { sam2Geojson, features2olFeatures } from "../utils/convert";
 import { pointIsInEncodeBbox } from "../utils/calculation";
-import { openDatabase, storeEncodeItems, storeItems } from "../store/indexedDB";
+import { storeEncodeItems, storeItems } from "../store/indexedDB";
 import { guid } from "../utils/utils";
 
 export const EncodeCanvas = () => {

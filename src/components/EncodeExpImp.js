@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 import { MainContext } from "../contexts/MainContext";
-import { uploadtoS3, downloadGeojsonFile, simplyName } from "./../utils/utils";
+import { uploadtoS3 } from "./../utils/requests";
+import { simplyName, downloadGeojsonFile } from "./../utils/utils";
+
 import { BsChevronDown } from "react-icons/bs";
 
 export const EncodeExpImp = () => {

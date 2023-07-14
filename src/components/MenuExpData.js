@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
-
-import { downloadGeojsonFile, downloadInJOSM } from "../utils/utils";
+import { downloadInJOSM } from "../utils/requests";
+import { downloadGeojsonFile } from "../utils/utils";
 import { olFeatures2geojson } from "../utils/convert";
 
 export const MenuExpData = () => {

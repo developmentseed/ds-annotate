@@ -1,6 +1,7 @@
-import { gpuEncodeAPI, cpuDecodeAPI } from "./../config";
+import { gpuEncodeAPI, cpuDecodeAPI } from "../config";
 import { NotificationManager } from "react-notifications";
 import { olFeatures2geojson } from "./convert";
+import { geojsonAPI } from "./../config";
 
 const headers = {
   Accept: "application/json",
@@ -112,4 +113,66 @@ export const fetchListURLS = async (urls) => {
   } catch (error) {
     console.error("Error fetching data: ", error);
   }
+};
+
+/**
+ * Upload data to s3
+ * @param {object} data
+ * @param {string} fileName
+ * @returns Url of the uploaded file
+ */
+export const uploadtoS3 = async (data, filename) => {
+  const url = `${geojsonAPI}/ds_annotate/`;
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        crossOrigin: "anonymous",
+      },
+      body: JSON.stringify({ data, filename }),
+    });
+
+    if (response.ok) {
+      return response.json();
+    } else {
+      console.log("%cutils.js line:44 response", "color: #007acc;", response);
+      throw new Error("Request failed with status " + response.status);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
+};
+
+/**
+ * Download data in JOSM
+ * @param {*} data
+ * @param {*} project
+ */
+export const downloadInJOSM = (data, project) => {
+  fetch(`${geojsonAPI}/ds_annotate/`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      crossOrigin: "anonymous",
+    },
+    body: data,
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      const { url, type } = project.properties.imagery;
+      const layer_name = project.properties.name.replace(/ /g, "_");
+      const url_geojson = `http://localhost:8111/import?url=${data.url.replace(
+        "https",
+        "http"
+      )}`;
+      fetch(url_geojson);
+      const url_layer = `​http://localhost:8111/imagery?title=${layer_name}&type=${type}&url=${url}`;
+      fetch(url_layer);
+    });
 };
