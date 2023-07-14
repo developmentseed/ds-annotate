@@ -13,6 +13,7 @@ export const Items = () => {
 
   // Load items data from DB
   useLayoutEffect(() => {
+    if (!activeProject) return;
     const fetchData = async () => {
       try {
         await openDatabase();

@@ -22,11 +22,10 @@ export const EncodeExpImp = () => {
 
     const resp = await uploadtoS3(
       activeEncodeImageItem,
-      `encode_images/${simplyName(activeProject.properties.name)}_${
+      `encode_images/${simplyName(activeProject.properties.name)}/${
         activeEncodeImageItem.id
       }.json`
     );
-    console.log("%cEncodeExpImp.js line:22 resp", "color: #007acc;", resp);
     setSpinnerLoading(false);
   };
 

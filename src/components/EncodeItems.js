@@ -5,6 +5,8 @@ import { EncodeCanvas } from "./EncodeCanvas";
 import { MenuTemplate } from "./MenuTemplate";
 import { EncodeExpImp } from "./EncodeExpImp";
 import { openDatabase, storeEncodeItems, storeItems } from "../store/indexedDB";
+import { fetchListURLS } from "../utils/samApi";
+import { getFileNameFromURL } from "../utils/utils";
 
 export const Badge = () => {
   const { activeEncodeImageItem } = useContext(MainContext);
@@ -23,16 +25,37 @@ export const EncodeItems = () => {
 
   // Load indexedDB for encode Items
   useEffect(() => {
+    if (!activeProject) return;
+
     const fetchData = async () => {
       try {
+        //List encode images from indexDB
         await openDatabase();
-        const listEncodeItems = await storeEncodeItems.getDataByProject(
+        let listEncodeItems = await storeEncodeItems.getDataByProject(
           activeProject.properties.name
         );
+        const existingEIid = listEncodeItems.map((e) => e.id);
+        let listEncodeItemsFromurl = [];
+
+        // Check if the project has encodeImages, and request if it has encode URLs that do not exist in the IndexedDB
+        if (activeProject.properties.encodeImages) {
+          const urls = activeProject.properties.encodeImages.filter((url) => {
+            const id = getFileNameFromURL(url);
+            if (!existingEIid.includes(id)) return true;
+            return false;
+          });
+          listEncodeItemsFromurl = await fetchListURLS(urls);
+          listEncodeItems = listEncodeItems.concat(listEncodeItemsFromurl);
+        }
 
         dispatchEncodeItems({
           type: "CACHING_ENCODED",
           payload: listEncodeItems,
+        });
+
+        // Store request encode images in IndexedDB
+        listEncodeItemsFromurl.forEach((ei) => {
+          storeEncodeItems.addData(ei);
         });
       } catch (error) {
         console.log(error);

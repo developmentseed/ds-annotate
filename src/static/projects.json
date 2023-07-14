@@ -20,7 +20,11 @@
             "LAYERS": "Urbis:Ortho2020"
           },
           "serverType": "geoserver"
-        }
+        },
+        "encodeImages": [
+          "https://ds-annotate.s3.amazonaws.com/encode_images/Brussels_Prototype/c50a.json",
+          "https://ds-annotate.s3.amazonaws.com/encode_images/Brussels_Prototype/c9b5.json"
+        ]
       },
       "geometry": {
         "type": "Polygon",
@@ -62,7 +66,11 @@
         "imagery": {
           "type": "tms",
           "url": "https://sitmappe.comune.bologna.it/tms/tileserver/Ortofoto2017/{z}/{x}/{y}.png"
-        }
+        },
+        "encodeImages": [
+          "https://ds-annotate.s3.amazonaws.com/encode_images/Bologna,_IT/1521.json",
+          "https://ds-annotate.s3.amazonaws.com/encode_images/Bologna,_IT/5a86.json"
+        ]
       },
       "geometry": {
         "type": "Polygon",
@@ -107,7 +115,12 @@
         "imagery": {
           "type": "tms",
           "url": "https://titiler.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x?url=https%3A%2F%2Fds-data-projects.s3.amazonaws.com%2Ftest_u%2Funsch.tiff&bidx=1&bidx=2&bidx=3"
-        }
+        },
+        "encodeImages": [
+          "https://ds-annotate.s3.amazonaws.com/encode_images/Unsch/b2ab.json",
+          "https://ds-annotate.s3.amazonaws.com/encode_images/Unsch/c943.json",
+          "https://ds-annotate.s3.amazonaws.com/encode_images/Unsch/d228.json"
+        ]
       },
       "geometry": {
         "type": "Polygon",
@@ -148,7 +161,12 @@
         "imagery": {
           "type": "tms",
           "url": "https://gis.apfo.usda.gov/arcgis/rest/services/NAIP/USDA_CONUS_PRIME/ImageServer/tile/{z}/{y}/{x}?blankTile=false"
-        }
+        },
+        "encodeImages": [
+          "https://ds-annotate.s3.amazonaws.com/encode_images/Farms/39fe.json",
+          "https://ds-annotate.s3.amazonaws.com/encode_images/Farms/6b52.json",
+          "https://ds-annotate.s3.amazonaws.com/encode_images/Farms/7b5b.json"
+        ]
       },
       "geometry": {
         "type": "Polygon",
@@ -593,7 +611,6 @@
       "properties": {
         "classes": {
           "vessel": "#ffb350"
-
         },
         "slug": "vessels",
         "name": "Vessels - Sentinel2",
@@ -604,7 +621,7 @@
       },
       "geometry": {
         "type": "Polygon",
-        "coordinates":  [
+        "coordinates": [
           [
             [
               -73.73805753373306,
@@ -647,7 +664,7 @@
       },
       "geometry": {
         "type": "Polygon",
-        "coordinates":  [
+        "coordinates": [
           [
             [
               -102.29232820719133,

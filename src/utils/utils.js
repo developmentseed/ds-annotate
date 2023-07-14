@@ -168,3 +168,11 @@ export const guid = () => {
 export const simplyName = (name) => {
   return name.replace(/\s/g, "_");
 };
+
+export const getFileNameFromURL = (url) => {
+  const urlObject = new URL(url);
+  const pathname = urlObject.pathname;
+  const filenameWithExtension = pathname.split("/").pop();
+  const filename = filenameWithExtension.split(".").slice(0, -1).join(".");
+  return filename;
+};

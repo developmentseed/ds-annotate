@@ -95,3 +95,21 @@ export const getDecode = async (decodePayload) => {
     console.log(error);
   }
 };
+
+export const fetchListURLS = async (urls) => {
+  try {
+    const fetchPromises = urls.map(async (url) => {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      return data;
+    });
+
+    const results = await Promise.all(fetchPromises);
+    return results;
+  } catch (error) {
+    console.error("Error fetching data: ", error);
+  }
+};
