@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { uploadtoS3, downloadGeojsonFile, simplyName } from "./../utils/utils";
+import { BsChevronDown } from "react-icons/bs";
 
 export const EncodeExpImp = () => {
   const {
@@ -37,26 +38,19 @@ export const EncodeExpImp = () => {
   };
 
   return (
-    <div className="relative inline-block">
+    <div
+      className="relative inline-block"
+      onMouseLeave={() => setIsOpen(false)} // Add this line
+    >
       <button
         className="custom_button px-1 inline-flex"
         onClick={toggleDropdown}
       >
         Export Images
-        <svg
-          className="w-4 h-4 ml-2 -mr-1 text-red"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
+        <BsChevronDown
+          size="1.5em"
+          className="w-3 h-3 ml-2 mt-[3px] text-red"
+        />
       </button>
 
       {isOpen && (
