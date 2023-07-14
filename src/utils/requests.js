@@ -126,11 +126,7 @@ export const uploadtoS3 = async (data, filename) => {
   try {
     const response = await fetch(url, {
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        crossOrigin: "anonymous",
-      },
+      headers,
       body: JSON.stringify({ data, filename }),
     });
 
@@ -154,11 +150,7 @@ export const uploadtoS3 = async (data, filename) => {
 export const downloadInJOSM = (data, project) => {
   fetch(`${geojsonAPI}/ds_annotate/`, {
     method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      crossOrigin: "anonymous",
-    },
+    headers,
     body: data,
   })
     .then((response) => {
