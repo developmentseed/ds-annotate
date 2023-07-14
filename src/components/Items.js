@@ -5,6 +5,7 @@ import { openDatabase, storeItems } from "../store/indexedDB";
 import { features2olFeatures } from "../utils/convert";
 import { MenuTemplate } from "./MenuTemplate";
 import React from "react";
+import { ItemsDataActions } from "./ItemsDataActions";
 
 export const Items = () => {
   const { items, dispatchSetItems } = useContext(MainContext);
@@ -46,6 +47,9 @@ export const Items = () => {
         {items.map((item, index) => {
           return <Item key={index} index={index + 1} item={item}></Item>;
         })}
+      </div>
+      <div className="grid">
+        <ItemsDataActions />
       </div>
     </MenuTemplate>
   );

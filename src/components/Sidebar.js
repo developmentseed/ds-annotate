@@ -5,7 +5,7 @@ import { Projects } from "./Projects";
 import { Classes } from "./Classes";
 import { Items } from "./Items";
 import { MenuExpData } from "./MenuExpData";
-import { MenuDataActions } from "./MenuDataActions";
+import { ItemsDataActions } from "./ItemsDataActions";
 import { EncodeItems } from "./EncodeItems";
 
 const MenuSection = ({ children }) => (
@@ -18,10 +18,8 @@ export const Sidebar = () => {
   return (
     <>
       <aside>
-        <div className="overflow-y-auto pt-2 pb-2 pl-3">
-          <Header />
-        </div>
-        <div className="overflow-y-auto pr-2 pl-2">
+        <Header />
+        <div className="overflow-y-auto pr-2 pl-2 scroll-smooth hover:scroll-auto overscroll-y-contain h-[calc(100vh-50px)]">
           <MenuSection>
             <Projects />
           </MenuSection>
@@ -33,9 +31,6 @@ export const Sidebar = () => {
           </MenuSection>
           <MenuSection>
             <Items />
-          </MenuSection>
-          <MenuSection>
-            <MenuDataActions />
           </MenuSection>
           <MenuSection>
             <MenuExpData />

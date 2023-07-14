@@ -4,7 +4,7 @@ import { mergePolygonClass } from "../utils/transformation";
 import { olFeatures2Features, features2olFeatures } from "../utils/convert";
 import { storeItems } from "../store/indexedDB";
 
-export const MenuDataActions = () => {
+export const ItemsDataActions = () => {
   const { items, dispatchSetItems } = useContext(MainContext);
 
   const setItems = useCallback(
@@ -29,20 +29,11 @@ export const MenuDataActions = () => {
       storeItems.addData({ ...item, id: item.properties.id });
     });
   };
-
-  document.addEventListener("keydown", (e) => {
-    // Merge polygonos
-    if (e.key === "m") {
-      mergePolygons();
-    }
-  });
   return (
-    <div>
-      <div className="flex flex-row mt-3">
-        <button className="custom_button" onClick={() => mergePolygons()}>
-          Merge polygons (M)
-        </button>
-      </div>
+    <div className="flex flex-row mt-3">
+      <button className="custom_button w-full" onClick={() => mergePolygons()}>
+        Merge overlap polygons
+      </button>
     </div>
   );
 };
