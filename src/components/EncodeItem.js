@@ -72,13 +72,19 @@ export const EncodeItem = ({ encodeItem }) => {
         }}
         onClick={() => zoomTo(encodeItem)}
       />
-
-      <div className="absolute top-1 left-1 p-1 text-xxs bg-yellow-500 e rounded opacity-80 backdrop-filter backdrop-blur-md flex items-center space-x-2">
-        <p className="font-bold text-gray">{`[${encodeItem.image_shape[1]},${
-          encodeItem.image_shape[0]
-        }] - z${Math.round(encodeItem.zoom)} `}</p>
+      <div
+        className={`absolute w-22 top-1 mr-1 ml-1  pl-1 pr-1 text-xxs bg-${
+          activeEncodeImageItem.id === encodeItem.id ? "green" : "yellow"
+        }-500 rounded opacity-80 backdrop-filter backdrop-blur-md flex items-center space-x-2`}
+      >
+        <p className="font-bold text-gray">
+          {activeEncodeImageItem.id === encodeItem.id
+            ? "Active"
+            : `[${encodeItem.image_shape[1]},${
+                encodeItem.image_shape[0]
+              }] - z${Math.round(encodeItem.zoom)} `}
+        </p>
       </div>
-
       <div className="absolute bottom-1 right-1 p-1 text-xs bg-red-500 rounded opacity-90 backdrop-filter backdrop-blur-md flex items-center space-x-2">
         <BsTrash
           onClick={() => handleRemoveEncodeItem(encodeItem)}

@@ -20,7 +20,7 @@ export const MenuExpData = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-2">
+    <div className="grid grid-cols-2 gap-2 mt-6">
       <button className="custom_button" onClick={() => downloadGeojson()}>
         <div style={{ display: "flex", alignItems: "center" }}>
           <BsFileArrowDown style={{ marginRight: "5px" }} /> GeoJSON

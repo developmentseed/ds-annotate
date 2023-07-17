@@ -14,9 +14,7 @@ export const Badge = () => {
   return (
     <span className="inline-flex justify-center bg-green-400 items-center px-0 ml-1 text-xs font-medium text-slate-800 bg-gray-200 rounded pt-0 pr-1 pl-1">
       {activeEncodeImageItem
-        ? `${activeEncodeImageItem.id}-z${Math.round(
-            activeEncodeImageItem.zoom
-          )}`
+        ? `z${Math.round(activeEncodeImageItem.zoom)}`
         : ""}
     </span>
   );
