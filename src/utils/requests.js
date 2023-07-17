@@ -96,23 +96,30 @@ export const getDecode = async (decodePayload) => {
     console.log(error);
   }
 };
-
+/**
+ *
+ * @param {list} urls
+ * @returns list of response json
+ */
 export const fetchListURLS = async (urls) => {
-  try {
-    const fetchPromises = urls.map(async (url) => {
+  const fetchPromises = urls.map(async (url) => {
+    try {
       const response = await fetch(url);
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        console.error(`HTTP error! status: ${response.status}`);
+        return undefined;
       }
       const data = await response.json();
       return data;
-    });
+    } catch (error) {
+      console.error("Error fetching data from URL: ", url, " Error: ", error);
+      return undefined;
+    }
+  });
 
-    const results = await Promise.all(fetchPromises);
-    return results;
-  } catch (error) {
-    console.error("Error fetching data: ", error);
-  }
+  let results = await Promise.all(fetchPromises);
+  results = results.filter((r) => r !== undefined);
+  return results;
 };
 
 /**

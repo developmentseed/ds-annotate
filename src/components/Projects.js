@@ -5,6 +5,7 @@ import { MainContext } from "../contexts/MainContext";
 import { getClassLayers } from "../utils/convert";
 import { getProjectTemplate } from "../utils/utils";
 import { MenuTemplate } from "./MenuTemplate";
+import { BsFolder2 } from "react-icons/bs";
 
 export const Projects = () => {
   const {
@@ -64,7 +65,7 @@ export const Projects = () => {
   }, [searchParams]);
 
   return (
-    <MenuTemplate title={projectName} badge={""}>
+    <MenuTemplate title={projectName} badge={""} icon={<BsFolder2 />}>
       <div>
         <ul className="pt-1">
           {projects.features.map((feature) => (

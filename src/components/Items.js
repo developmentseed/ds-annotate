@@ -6,6 +6,7 @@ import { features2olFeatures } from "../utils/convert";
 import { MenuTemplate } from "./MenuTemplate";
 import React from "react";
 import { ItemsDataActions } from "./ItemsDataActions";
+import { BsLayoutWtf } from "react-icons/bs";
 
 export const Items = () => {
   const { items, dispatchSetItems, activeProject } = useContext(MainContext);
@@ -42,7 +43,7 @@ export const Items = () => {
     }
   }, [items]);
   return (
-    <MenuTemplate title={"Drawn items"} badge={""}>
+    <MenuTemplate title={"Drawn items"} badge={""} icon={<BsLayoutWtf />}>
       <div
         ref={scrollDivRef}
         className="max-h-[150px] scroll-smooth hover:scroll-auto overflow-auto overscroll-y-contain"

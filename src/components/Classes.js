@@ -4,6 +4,7 @@ import { MainContext } from "../contexts/MainContext";
 import { ClassObj } from "./ClassObj";
 import { getClassLayers } from "../utils/convert";
 import { MenuTemplate } from "./MenuTemplate";
+import { BsListUl } from "react-icons/bs";
 
 export const Badge = ({ activeClass }) => {
   return (
@@ -24,7 +25,11 @@ export const Classes = () => {
     setClasses(classLayers);
   }, [activeProject]);
   return (
-    <MenuTemplate title={"Classes"} badge={<Badge activeClass={activeClass} />}>
+    <MenuTemplate
+      title={"Classes"}
+      badge={<Badge activeClass={activeClass} />}
+      icon={<BsListUl />}
+    >
       <ul className="pt-1">
         {classes.map((classProps, index) => (
           <ClassObj key={index} classProps={classProps} />

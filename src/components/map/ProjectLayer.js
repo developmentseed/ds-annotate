@@ -122,7 +122,13 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
   useEffect(() => {
     if (!map) return;
 
+    console.log(
+      "%cProjectLayer.js line:125 encodeItems",
+      "color: #007acc;",
+      encodeItems
+    );
     const features = encodeItems.map((ei) => {
+      console.log("%cProjectLayer.js line:127 ei", "color: #007acc;", ei);
       return bbox2polygon(ei.bbox);
     });
 

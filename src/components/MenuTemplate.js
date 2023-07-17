@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { BsChevronDown, BsViewList } from "react-icons/bs";
+import { BsChevronDown, BsChevronUp, BsViewList } from "react-icons/bs";
 
-export const MenuTemplate = ({ title, badge, children }) => {
+export const MenuTemplate = ({ title, badge, icon, children }) => {
   const [openMenu, setOpenMenu] = useState(false);
   return (
     <div>
@@ -11,12 +11,12 @@ export const MenuTemplate = ({ title, badge, children }) => {
           setOpenMenu(!openMenu);
         }}
       >
-        <BsViewList></BsViewList>
+        {icon}
         <span className="text-sm text-base font-small flex-1 duration-200 false">
           {title}
         </span>
         {badge}
-        <BsChevronDown></BsChevronDown>
+        {openMenu ? <BsChevronUp /> : <BsChevronDown />}
       </div>
       {openMenu && <div>{children}</div>}
     </div>
