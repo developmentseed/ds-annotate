@@ -10,7 +10,7 @@ export const MenuTemplate = ({
   children,
 }) => {
   return (
-    <div>
+    <>
       <div
         className="menuHeader"
         onClick={() => {
@@ -25,6 +25,7 @@ export const MenuTemplate = ({
         {openMenu ? <BsChevronUp /> : <BsChevronDown />}
       </div>
       {openMenu && <div>{children}</div>}
-    </div>
+      {openMenu && <div className="border-t border-gray-200 my-1"></div>}
+    </>
   );
 };
