@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { BsTrash } from "react-icons/bs";
 import { storeEncodeItems } from "./../store/indexedDB";
-import { NotificationManager } from "react-notifications";
 
 export const EncodeItem = ({ encodeItem }) => {
   const {
@@ -26,12 +25,7 @@ export const EncodeItem = ({ encodeItem }) => {
   };
 
   const handleRemoveEncodeItem = async (encodeItem) => {
-    if (encodeItem.id === activeEncodeImageItem.id) {
-      // NotificationManager.warning(
-      //   `You can't remove active encode view`,
-      //   "",
-      //   10000
-      // );
+    if (activeEncodeImageItem && encodeItem.id === activeEncodeImageItem.id) {
       dispatchActiveEncodeImageItem({
         type: "SET_ACTIVE_ENCODE_IMAGE",
         payload: null,
@@ -41,6 +35,15 @@ export const EncodeItem = ({ encodeItem }) => {
     const updatedEncodeItems = encodeItems.filter((item, i) => {
       return item.id !== encodeItem.id;
     });
+
+    //Remove if is the only image to delete
+    if (encodeItems.length === 1) {
+      dispatchActiveEncodeImageItem({
+        type: "SET_ACTIVE_ENCODE_IMAGE",
+        payload: null,
+      });
+    }
+
     dispatchEncodeItems({
       type: "CACHING_ENCODED",
       payload: updatedEncodeItems,
