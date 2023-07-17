@@ -74,11 +74,13 @@ export const EncodeItem = ({ encodeItem }) => {
       />
       <div
         className={`absolute w-22 top-1 mr-1 ml-1  pl-1 pr-1 text-xxs bg-${
-          activeEncodeImageItem.id === encodeItem.id ? "green" : "yellow"
+          activeEncodeImageItem && activeEncodeImageItem.id === encodeItem.id
+            ? "green"
+            : "yellow"
         }-500 rounded opacity-80 backdrop-filter backdrop-blur-md flex items-center space-x-2`}
       >
         <p className="font-bold text-gray">
-          {activeEncodeImageItem.id === encodeItem.id
+          {activeEncodeImageItem && activeEncodeImageItem.id === encodeItem.id
             ? "Active"
             : `[${encodeItem.image_shape[1]},${
                 encodeItem.image_shape[0]
