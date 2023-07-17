@@ -57,7 +57,7 @@ export const getEncode = async (base64_string) => {
       NotificationManager.error(
         `${encodeURL}`,
         `Encode server error ${encodeResponse.status}`,
-        30000
+        10000
       );
       throw new Error(`Error: ${encodeResponse.status}`);
     }

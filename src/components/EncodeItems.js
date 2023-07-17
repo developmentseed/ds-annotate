@@ -70,7 +70,7 @@ export const EncodeItems = () => {
 
   return (
     <MenuTemplate
-      title={"Encode Areas"}
+      title={"SAM AOIs"}
       badge={<Badge />}
       icon={<BsLayers />}
       openMenu={openMenu}

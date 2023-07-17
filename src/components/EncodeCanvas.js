@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import { NotificationManager } from "react-notifications";
 
 import { MainContext } from "../contexts/MainContext";
 import { getCanvasForLayer } from "../utils/canvas";
@@ -29,6 +30,8 @@ export const EncodeCanvas = () => {
     setSpinnerLoading(false);
     setSamApiStatus(null);
   };
+
+  const [notificationShown, setNotificationShown] = useState(false);
 
   // Request segment-anything-services
   const requestSAM = async (requestProps, isEncode) => {
@@ -97,6 +100,21 @@ export const EncodeCanvas = () => {
     reset();
   };
 
+  const showNotification = () => {
+    if (!notificationShown) {
+      NotificationManager.warning(
+        `Click inside an AOI, or click the 'New SAM AOI' button to create a new AOI.`,
+        "",
+        4000
+      );
+      setNotificationShown(true);
+
+      // Reactivate the notification after a minute
+      setTimeout(() => {
+        setNotificationShown(false);
+      }, 10 * 1000); // 60 seconds times 1000 milliseconds per second
+    }
+  };
   useEffect(() => {
     if (!map) return;
     if (!activeEncodeImageItem) return;
@@ -115,6 +133,8 @@ export const EncodeCanvas = () => {
         input_point,
       };
       requestSAM(newRequestProps, false);
+    } else {
+      showNotification();
     }
   }, [pointsSelector]);
 
@@ -132,7 +152,7 @@ export const EncodeCanvas = () => {
         }}
         disabled={samApiStatus || false}
       >
-        {samApiStatus || "Request SAM"}
+        New SAM AOI
       </button>
     </>
   );
