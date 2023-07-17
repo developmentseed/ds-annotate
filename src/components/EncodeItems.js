@@ -77,7 +77,7 @@ export const EncodeItems = () => {
       setOpenMenu={setOpenMenu}
     >
       <>
-        <div className="max-h-[230px] scroll-smooth hover:scroll-auto overflow-auto overscroll-y-contain">
+        <div className="max-h-[230px] scroll-smooth hover:scroll-auto overflow-auto overscroll-y-contain mt-1 justify-center items-center ml-2">
           {encodeItems.map((encodeItem, index) => (
             <EncodeItem key={index} encodeItem={encodeItem} />
           ))}

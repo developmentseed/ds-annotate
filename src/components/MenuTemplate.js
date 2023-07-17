@@ -9,7 +9,6 @@ export const MenuTemplate = ({
   setOpenMenu,
   children,
 }) => {
-  // const [openMenu, setOpenMenu] = useState(false);
   return (
     <div>
       <div
