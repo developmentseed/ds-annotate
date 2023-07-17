@@ -4,6 +4,7 @@ import { uploadtoS3 } from "./../utils/requests";
 import { simplyName, downloadGeojsonFile } from "./../utils/utils";
 
 import { BsChevronDown } from "react-icons/bs";
+import EncodeImport from "./EncodeImport";
 
 export const EncodeExpImp = () => {
   const {
@@ -42,16 +43,20 @@ export const EncodeExpImp = () => {
       className="relative inline-block"
       onMouseLeave={() => setIsOpen(false)} // Add this line
     >
-      <button
-        className="custom_button px-1 inline-flex"
-        onClick={toggleDropdown}
-      >
-        Export Images
-        <BsChevronDown
-          size="1.5em"
-          className="w-3 h-3 ml-2 mt-[3px] text-red"
-        />
-      </button>
+      {encodeItems.length === 0 ? (
+        <EncodeImport />
+      ) : (
+        <button
+          className="custom_button px-1 inline-flex"
+          onClick={toggleDropdown}
+        >
+          Export AOIs
+          <BsChevronDown
+            size="1.5em"
+            className="w-6 h-3 ml-2 mt-[3px] text-red"
+          />
+        </button>
+      )}
 
       {isOpen && (
         <div className="absolute text-xs right-0  left-0 mt-0 bg-white border border-gray-200 rounded shadow-lg">
