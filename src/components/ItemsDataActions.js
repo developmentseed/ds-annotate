@@ -37,7 +37,7 @@ export const ItemsDataActions = () => {
   return (
     <div className="flex flex-row mt-3">
       <button className="custom_button w-full" onClick={() => mergePolygons()}>
-        Merge overlap polygons
+        Merge overlapping features
       </button>
     </div>
   );

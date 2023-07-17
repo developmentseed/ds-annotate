@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { BsChevronDown, BsChevronUp, BsViewList } from "react-icons/bs";
+import React from "react";
+import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 
 export const MenuTemplate = ({
   title,

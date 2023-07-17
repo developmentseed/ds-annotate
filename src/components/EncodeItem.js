@@ -56,7 +56,7 @@ export const EncodeItem = ({ encodeItem }) => {
         className={`w-full h-full object-cover opacity-100 transition-opacity duration-500 ease-in-out transform hover:opacity-90 mb-2 
       ${
         activeEncodeImageItem && encodeItem.id === activeEncodeImageItem.id
-          ? "border border-green-500 border-2"
+          ? "border border-green-400 border-2"
           : "border border-gray-300 border-2"
       }`}
         style={{
