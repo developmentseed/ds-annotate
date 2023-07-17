@@ -86,7 +86,7 @@ export const getDecode = async (decodePayload) => {
       NotificationManager.error(
         `${decodeURL} `,
         `Decode server error ${decodeResponse.status}`,
-        30000
+        10000
       );
       throw new Error(`Error: ${decodeResponse.status}`);
     }

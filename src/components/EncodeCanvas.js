@@ -100,41 +100,46 @@ export const EncodeCanvas = () => {
     reset();
   };
 
-  const showNotification = () => {
+  const showNotification = (text, duration) => {
     if (!notificationShown) {
-      NotificationManager.warning(
-        `Click inside an AOI, or click the 'New SAM AOI' button to create a new AOI.`,
-        "",
-        4000
-      );
+      NotificationManager.warning(text, "Map interaction", duration);
       setNotificationShown(true);
-
-      // Reactivate the notification after a minute
+      // Reactivate the notification after a 10 sec
       setTimeout(() => {
         setNotificationShown(false);
-      }, 10 * 1000); // 60 seconds times 1000 milliseconds per second
+      }, 10 * 1000);
     }
   };
   useEffect(() => {
     if (!map) return;
-    if (!activeEncodeImageItem) return;
-    const { x, y } = pointIsInEncodeBbox(activeEncodeImageItem, pointsSelector);
-    if (x && y) {
-      const input_point = [x, y];
-      const { image_embeddings, image_shape, input_label, crs, bbox, zoom } =
-        activeEncodeImageItem;
-      const newRequestProps = {
-        image_embeddings,
-        image_shape,
-        input_label,
-        crs,
-        bbox,
-        zoom,
-        input_point,
-      };
-      requestSAM(newRequestProps, false);
+    if (activeEncodeImageItem) {
+      const { x, y } = pointIsInEncodeBbox(
+        activeEncodeImageItem,
+        pointsSelector
+      );
+      if (x && y) {
+        const input_point = [x, y];
+        const { image_embeddings, image_shape, input_label, crs, bbox, zoom } =
+          activeEncodeImageItem;
+        const newRequestProps = {
+          image_embeddings,
+          image_shape,
+          input_label,
+          crs,
+          bbox,
+          zoom,
+          input_point,
+        };
+        requestSAM(newRequestProps, false);
+      } else {
+        showNotification(
+          `Click inside of active AOI to enable Segment Anything Model.`
+        );
+      }
     } else {
-      showNotification();
+      showNotification(
+        "Right-click to use Magic Wand or click on 'New SAM AOI' to enable Segment Anything Model."
+      );
     }
   }, [pointsSelector]);
 
