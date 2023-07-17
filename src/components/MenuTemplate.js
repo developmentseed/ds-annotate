@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { BsChevronDown, BsChevronUp, BsViewList } from "react-icons/bs";
 
-export const MenuTemplate = ({ title, badge, icon, children }) => {
-  const [openMenu, setOpenMenu] = useState(false);
+export const MenuTemplate = ({
+  title,
+  badge,
+  icon,
+  openMenu,
+  setOpenMenu,
+  children,
+}) => {
+  // const [openMenu, setOpenMenu] = useState(false);
   return (
     <div>
       <div

@@ -20,15 +20,20 @@ export const Badge = ({ activeClass }) => {
 export const Classes = () => {
   const { activeProject, activeClass } = useContext(MainContext);
   const [classes, setClasses] = useState([]);
+  const [openMenu, setOpenMenu] = useState(true);
+
   useEffect(() => {
     const classLayers = getClassLayers(activeProject);
     setClasses(classLayers);
+    setOpenMenu(true);
   }, [activeProject]);
   return (
     <MenuTemplate
       title={"Classes"}
       badge={<Badge activeClass={activeClass} />}
       icon={<BsListUl />}
+      openMenu={openMenu}
+      setOpenMenu={setOpenMenu}
     >
       <ul className="pt-1">
         {classes.map((classProps, index) => (

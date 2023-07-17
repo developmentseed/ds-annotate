@@ -15,6 +15,7 @@ export const Projects = () => {
     dispatchActiveEncodeImageItem,
   } = useContext(MainContext);
   const [projectName, setProjectName] = useState("Projects");
+  const [openMenu, setOpenMenu] = useState(false);
 
   const setProject = useCallback(
     (project) => {
@@ -65,7 +66,13 @@ export const Projects = () => {
   }, [searchParams]);
 
   return (
-    <MenuTemplate title={projectName} badge={""} icon={<BsFolder2 />}>
+    <MenuTemplate
+      title={projectName}
+      badge={""}
+      icon={<BsFolder2 />}
+      openMenu={openMenu}
+      setOpenMenu={setOpenMenu}
+    >
       <div>
         <ul className="pt-1">
           {projects.features.map((feature) => (
@@ -74,6 +81,7 @@ export const Projects = () => {
               className="subMenuHeader hoverAnimation"
               onClick={() => {
                 setProject(feature);
+                setOpenMenu(false);
               }}
               to={`?project=${feature.properties.slug}`}
             >

@@ -1,4 +1,10 @@
-import { useContext, useEffect, useLayoutEffect, useRef } from "react";
+import {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { MainContext } from "../contexts/MainContext";
 import Item from "./Item";
 import { openDatabase, storeItems } from "../store/indexedDB";
@@ -11,6 +17,7 @@ import { BsLayoutWtf } from "react-icons/bs";
 export const Items = () => {
   const { items, dispatchSetItems, activeProject } = useContext(MainContext);
   const scrollDivRef = useRef(null);
+  const [openMenu, setOpenMenu] = useState(true);
 
   // Load items data from DB
   useLayoutEffect(() => {
@@ -34,6 +41,7 @@ export const Items = () => {
       }
     };
     fetchData();
+    setOpenMenu(true);
   }, [activeProject]);
 
   useEffect(() => {
@@ -43,7 +51,13 @@ export const Items = () => {
     }
   }, [items]);
   return (
-    <MenuTemplate title={"Drawn items"} badge={""} icon={<BsLayoutWtf />}>
+    <MenuTemplate
+      title={"Drawn items"}
+      badge={""}
+      icon={<BsLayoutWtf />}
+      openMenu={openMenu}
+      setOpenMenu={setOpenMenu}
+    >
       <div
         ref={scrollDivRef}
         className="max-h-[150px] scroll-smooth hover:scroll-auto overflow-auto overscroll-y-contain"
