@@ -115,12 +115,7 @@
         "imagery": {
           "type": "tms",
           "url": "https://titiler.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x?url=https%3A%2F%2Fds-data-projects.s3.amazonaws.com%2Ftest_u%2Funsch.tiff&bidx=1&bidx=2&bidx=3"
-        },
-        "encodeImages": [
-          "https://ds-annotate.s3.amazonaws.com/encode_images/Unsch/b2ab.json",
-          "https://ds-annotate.s3.amazonaws.com/encode_images/Unsch/c943.json",
-          "https://ds-annotate.s3.amazonaws.com/encode_images/Unsch/d228.json"
-        ]
+        }
       },
       "geometry": {
         "type": "Polygon",

@@ -27,13 +27,17 @@ export const EncodeItem = ({ encodeItem }) => {
 
   const handleRemoveEncodeItem = async (encodeItem) => {
     if (encodeItem.id === activeEncodeImageItem.id) {
-      NotificationManager.warning(
-        `You can't remove active encode view`,
-        "",
-        10000
-      );
-      return;
+      // NotificationManager.warning(
+      //   `You can't remove active encode view`,
+      //   "",
+      //   10000
+      // );
+      dispatchActiveEncodeImageItem({
+        type: "SET_ACTIVE_ENCODE_IMAGE",
+        payload: null,
+      });
     }
+
     const updatedEncodeItems = encodeItems.filter((item, i) => {
       return item.id !== encodeItem.id;
     });

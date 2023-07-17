@@ -135,9 +135,12 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
 
   useEffect(() => {
     if (!map) return;
-    if (!activeEncodeImageItem) return;
-    const feature = bbox2polygon(activeEncodeImageItem.bbox);
-    const olFeatures = getOLFeatures([feature]);
+    let features = [];
+    if (activeEncodeImageItem) {
+      features = [bbox2polygon(activeEncodeImageItem.bbox)];
+    }
+
+    const olFeatures = getOLFeatures(features);
     encodeMapViewHighlighted.setSource(
       new VectorSource({
         features: olFeatures,

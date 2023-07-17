@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
+import { BsChevronDown } from "react-icons/bs";
+
 import { MainContext } from "../contexts/MainContext";
 import { uploadtoS3 } from "./../utils/requests";
 import { simplyName, downloadGeojsonFile } from "./../utils/utils";
-
-import { BsChevronDown } from "react-icons/bs";
 import EncodeImport from "./EncodeImport";
 
 export const EncodeExpImp = () => {
@@ -67,7 +67,7 @@ export const EncodeExpImp = () => {
                 exportToS3();
               }}
             >
-              Export to s3
+              Export to S3
             </li>
             <li
               className="py-2 custom_button border-none px-1"

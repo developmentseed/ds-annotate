@@ -1,5 +1,8 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
+import { NotificationManager } from "react-notifications";
+
 import { MainContext } from "../contexts/MainContext";
+import { storeEncodeItems } from "../store/indexedDB";
 
 const EncodeImport = () => {
   const { dispatchEncodeItems } = useContext(MainContext);
@@ -14,14 +17,28 @@ const EncodeImport = () => {
 
     reader.onload = (evt) => {
       const encodeItems = JSON.parse(evt.target.result);
-      dispatchEncodeItems({
-        type: "CACHING_ENCODED",
-        payload: encodeItems,
-      });
+      if (
+        encodeItems.length > 0 &&
+        encodeItems[0].id &&
+        encodeItems[0].image_shape
+      ) {
+        dispatchEncodeItems({
+          type: "CACHING_ENCODED",
+          payload: encodeItems,
+        });
+        //Save data in indexDB
+        encodeItems.forEach((e) => storeEncodeItems.addData({ ...e }));
+      } else {
+        NotificationManager.error(
+          "The imported file does not contain the required format.",
+          `File format error`,
+          10000
+        );
+      }
     };
 
     reader.onerror = () => {
-      console.error("File reading error");
+      NotificationManager.error(`File reading error`, 10000);
     };
 
     reader.readAsText(file);
