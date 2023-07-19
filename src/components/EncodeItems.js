@@ -75,10 +75,13 @@ export const EncodeItems = () => {
       setOpenMenu={setOpenMenu}
     >
       <>
-        <div className="max-h-[230px] scroll-smooth hover:scroll-auto overflow-auto overscroll-y-contain mt-1 justify-center items-center ml-2">
+        <div className="max-h-[230px] scroll-smooth hover:scroll-auto overflow-auto overscroll-y-contain my-2 justify-center items-center ml-2">
           {encodeItems.map((encodeItem, index) => (
             <EncodeItem key={index} encodeItem={encodeItem} />
           ))}
+          {!encodeItems?.length && (
+            <p className="text-sm text-center text-slate-500 my-1">No AOI is available yet</p>
+          )}
         </div>
         <div className="grid grid-cols-2 gap-2">
           <EncodeExpImp />

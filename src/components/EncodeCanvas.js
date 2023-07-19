@@ -136,10 +136,6 @@ export const EncodeCanvas = () => {
           `Click inside of active AOI to enable Segment Anything Model.`
         );
       }
-    } else {
-      showNotification(
-        "Right-click to use Magic Wand or click on 'New SAM AOI' to enable Segment Anything Model."
-      );
     }
   }, [pointsSelector]);
 
