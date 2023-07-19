@@ -1,86 +1,36 @@
-export const activeProjectReducer = (state, action) => {
-  switch (action.type) {
-    case "SET_ACTIVE_PROJECT":
-      return action.payload;
-    default:
-      return state;
-  }
-};
+export const createReducer =
+  (type, sortingFunction = null, defaultValue = null) =>
+  (state, action) => {
+    if (action.type === type) {
+      if (sortingFunction) {
+        return action.payload.sort(sortingFunction);
+      } else {
+        return action.payload || defaultValue;
+      }
+    }
+    return state;
+  };
 
-export const activeClassReducer = (state, action) => {
-  switch (action.type) {
-    case "SET_ACTIVE_CLASS":
-      return action.payload;
-    default:
-      return state;
-  }
-};
+export const activeProjectReducer = createReducer("SET_ACTIVE_PROJECT");
 
-export const itemsReducer = (state, action) => {
-  switch (action.type) {
-    case "SET_ITEMS":
-      // const items = action.payload.sort((a, b) => {
-      //   return a.values_.id < b.values_.id ? 1 : -1;
-      // });
-      return action.payload;
-    default:
-      return state;
-  }
-};
+export const activeClassReducer = createReducer("SET_ACTIVE_CLASS");
 
-export const highlightedItemReducer = (state, action) => {
-  switch (action.type) {
-    case "SET_HIGHLIGHTED_ITEM":
-      return action.payload;
-    default:
-      return state;
-  }
-};
+export const itemsReducer = createReducer("SET_ITEMS", null, []);
 
-export const downloadGeojsonReducer = (state, action) => {
-  switch (action.type) {
-    case "DOWNLOAD_GEOJSON":
-      return action.payload.status;
-    default:
-      return state;
-  }
-};
+export const highlightedItemReducer = createReducer("SET_HIGHLIGHTED_ITEM");
 
-export const downloadInJOSMReducer = (state, action) => {
-  switch (action.type) {
-    case "DOWNLOAD_IN_JOSM":
-      return action.payload.status;
-    default:
-      return state;
-  }
-};
+export const downloadGeojsonReducer = createReducer("DOWNLOAD_GEOJSON");
 
-export const pointsSelectorReducer = (state, action) => {
-  switch (action.type) {
-    case "SET_POINTS_SELECTORS":
-      const pointsSelector = action.payload.sort((a, b) => {
-        return a.values_.id < b.values_.id ? 1 : -1;
-      });
-      return pointsSelector;
-    default:
-      return state;
-  }
-};
+export const downloadInJOSMReducer = createReducer("DOWNLOAD_IN_JOSM");
 
-export const ItemsNumClass = (state, action) => {
-  switch (action.type) {
-    case "SET_ITEM_ID":
-      return action.payload;
-    default:
-      return state;
-  }
-};
+export const pointsSelectorReducer = createReducer(
+  "SET_POINTS_SELECTORS",
+  (a, b) => (a.values_.id < b.values_.id ? 1 : -1),
+  []
+);
 
-export const encodeItemsReducer = (state, action) => {
-  switch (action.type) {
-    case "CACHING_ENCODED":
-      return action.payload;
-    default:
-      return state;
-  }
-};
+export const ItemsNumClass = createReducer("SET_ITEM_ID");
+
+export const encodeItemsReducer = createReducer("CACHING_ENCODED");
+
+export const activeEncodeImage = createReducer("SET_ACTIVE_ENCODE_IMAGE");

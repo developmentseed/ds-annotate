@@ -15,6 +15,12 @@ export const geojson2olFeatures = (geojsonFeature) => {
   return oLFeatures;
 };
 
+export const getOLFeatures = (features) => {
+  const fc = turf.featureCollection(features);
+  const oLFeatures = new GeoJSON().readFeatures(fc);
+  return oLFeatures;
+};
+
 /**
  * Convert list of features to OpenLayers features
  * @param {Array} array of feature
@@ -98,4 +104,9 @@ export const sam2Geojson = (ListGeoms, activeProject, activeClass, id) => {
   const maxScoreFeature = features[maxIndex];
   return [maxScoreFeature];
   // return features
+};
+
+export const bbox2polygon = (bbox) => {
+  const poly = turf.bboxPolygon(bbox);
+  return poly;
 };

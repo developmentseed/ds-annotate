@@ -38,7 +38,7 @@ export const vectorSegData = new VectorLayer({
           }),
         }),
         geometry: function (feature) {
-          // return the coordinates of the first ring of the polygon
+          // Return the coordinates of the first ring of the polygon
           const coordinates = feature.getGeometry().getCoordinates()[0];
           return new MultiPoint(coordinates);
         },
@@ -94,6 +94,7 @@ const crossSVG =
       '<line x1="30" y1="10" x2="10" y2="30" style="stroke:#0199fe;stroke-width:3"/>' +
       "</svg>"
   );
+
 export const vectorPointSelector = new VectorLayer({
   style: new Style({
     image: new Icon({
@@ -102,4 +103,24 @@ export const vectorPointSelector = new VectorLayer({
     }),
   }),
   zIndex: 10,
+});
+
+export const encodeMapViews = new VectorLayer({
+  style: new Style({
+    stroke: new Stroke({
+      width: 3,
+      color: [255, 191, 11, 1],
+    }),
+  }),
+  zIndex: 7,
+});
+
+export const encodeMapViewHighlighted = new VectorLayer({
+  style: new Style({
+    stroke: new Stroke({
+      width: 3,
+      color: [46, 249, 35, 1],
+    }),
+  }),
+  zIndex: 8,
 });

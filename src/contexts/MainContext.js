@@ -11,11 +11,18 @@ import {
   highlightedItemReducer,
   pointsSelectorReducer,
   encodeItemsReducer,
+  activeEncodeImage,
 } from "./../reducers";
 
 export const MainContext = createContext();
 
 const MainContextProvider = (props) => {
+  const [map, setMap] = useState();
+
+  const [wand, setWand] = useState(null);
+
+  const [spinnerLoading, setSpinnerLoading] = useState(false);
+
   const [activeProject, dispatchSetActiveProject] = useReducer(
     activeProjectReducer,
     null
@@ -30,7 +37,7 @@ const MainContextProvider = (props) => {
 
   const [highlightedItem, dispatchSetHighlightedItem] = useReducer(
     highlightedItemReducer,
-    null
+    {}
   );
 
   const [dlGeojson, dispatchDLGeojson] = useReducer(
@@ -47,6 +54,11 @@ const MainContextProvider = (props) => {
 
   const [encodeItems, dispatchEncodeItems] = useReducer(encodeItemsReducer, []);
 
+  const [activeEncodeImageItem, dispatchActiveEncodeImageItem] = useReducer(
+    activeEncodeImage,
+    null
+  );
+
   const [displayModal, setDisplayModal] = useState(() => {
     const saved = localStorage.getItem("modalDisplay");
     if (!saved) return "block";
@@ -56,6 +68,10 @@ const MainContextProvider = (props) => {
   return (
     <MainContext.Provider
       value={{
+        map,
+        setMap,
+        wand,
+        setWand,
         projects,
         activeProject,
         dispatchSetActiveProject,
@@ -75,6 +91,10 @@ const MainContextProvider = (props) => {
         dispatchEncodeItems,
         displayModal,
         setDisplayModal,
+        activeEncodeImageItem,
+        dispatchActiveEncodeImageItem,
+        spinnerLoading,
+        setSpinnerLoading,
       }}
     >
       {props.children}

@@ -1,5 +1,10 @@
 import * as turf from "@turf/turf";
 
+/**
+ * Download file
+ * @param {object} data
+ * @param {string} fileName
+ */
 export const downloadGeojsonFile = (data, fileName) => {
   const a = document.createElement("a");
   document.body.appendChild(a);
@@ -12,36 +17,10 @@ export const downloadGeojsonFile = (data, fileName) => {
   window.URL.revokeObjectURL(url);
 };
 
-export const downloadInJOSM = (data, project) => {
-  fetch("https://bfokggy4ac.execute-api.us-east-1.amazonaws.com/ds_annotate/", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      crossOrigin: "anonymous",
-    },
-    body: data,
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      const { url, type } = project.properties.imagery;
-      const layer_name = project.properties.name.replace(/ /g, "_");
-      const url_geojson = `http://localhost:8111/import?url=${data.url.replace(
-        "https",
-        "http"
-      )}`;
-      fetch(url_geojson);
-      const url_layer = `​http://localhost:8111/imagery?title=${layer_name}&type=${type}&url=${url}`;
-      fetch(url_layer);
-    });
-};
-
 export const getProjectTemplate = (searchParams) => {
   // Set project from Query
   const classes_items = searchParams.get("classes");
-  const name = searchParams.get("name");
+  const project = searchParams.get("project");
   const imagery_type = searchParams.get("imagery_type");
   const imagery_url = searchParams.get("imagery_url");
   let project_bbox = searchParams.get("project_bbox");
@@ -49,7 +28,7 @@ export const getProjectTemplate = (searchParams) => {
   let projectFeature = null;
   if (
     classes_items &&
-    name &&
+    project &&
     imagery_type &&
     imagery_url &&
     (project_bbox || project_geometry)
@@ -60,8 +39,8 @@ export const getProjectTemplate = (searchParams) => {
     } else if (project_geometry) {
       projectFeature = turf.polygon(JSON.parse(project_geometry));
     }
-    projectFeature.properties.slug = name;
-    projectFeature.properties.name = name;
+    projectFeature.properties.slug = project;
+    projectFeature.properties.name = project;
     projectFeature.properties.classes = {};
     classes_items.split("|").forEach((item) => {
       const tuple = item.split(",");
@@ -74,23 +53,6 @@ export const getProjectTemplate = (searchParams) => {
     };
   }
   return projectFeature;
-};
-
-/**
- *
- * @param {array} items of OpenLayer
- * @param {object} activeClass
- * @returns max item id plus 1
- */
-export const getMaxIdPerClass = (items, activeClass) => {
-  const items_ = items.map((i) => i.values_);
-  // if (items_.length === 0) return 1;
-  // const filteredItems = items_.filter((obj) => obj.class === activeClass.name);
-  // if (filteredItems.length === 0) return 1;
-  // const maxItem = filteredItems.reduce((max, current) =>
-  //   max.id > current.id ? max : current
-  // );
-  return items_.length + 1;
 };
 
 /**
@@ -119,4 +81,21 @@ export const guid = () => {
       .substring(1);
   };
   return `${w().substring(0, 4)}`;
+};
+
+/**
+ * replace empty space with _
+ * @param {String} name
+ * @returns
+ */
+export const simplyName = (name) => {
+  return name.replace(/\s/g, "_");
+};
+
+export const getFileNameFromURL = (url) => {
+  const urlObject = new URL(url);
+  const pathname = urlObject.pathname;
+  const filenameWithExtension = pathname.split("/").pop();
+  const filename = filenameWithExtension.split(".").slice(0, -1).join(".");
+  return filename;
 };

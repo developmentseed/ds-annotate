@@ -7,7 +7,7 @@ import DevSeedLogo from "./../media/layout/ds-logo-pos.svg";
 export const Header = () => {
   const { setDisplayModal } = useContext(MainContext);
   return (
-    <div className="flex items-center mb-2">
+    <div className="flex items-center bg-gray-100 pt-2 pb-2 pl-3">
       <a href="https://devseed.com/" target="_blank" rel="noopener noreferrer">
         <img
           src={DevSeedLogo}

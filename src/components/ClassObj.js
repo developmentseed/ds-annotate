@@ -1,9 +1,9 @@
-import React from "react";
-import { useContext } from "react";
-import { MainContext } from "../contexts/MainContext";
+import React, { useContext } from "react";
 import { BsSquareFill } from "react-icons/bs";
 
-export const ClassObj = ({ classProps, setOpenMenu }) => {
+import { MainContext } from "../contexts/MainContext";
+
+export const ClassObj = ({ classProps }) => {
   const { activeClass, dispatchSetActiveClass } = useContext(MainContext);
 
   const setActiveClass = (class_) => {
@@ -25,13 +25,14 @@ export const ClassObj = ({ classProps, setOpenMenu }) => {
       }}
       onClick={() => {
         setActiveClass(classProps);
-        // setOpenMenu(false);
       }}
     >
       <span className="text-xs block float-left">
         <BsSquareFill style={{ color: classProps.color }}></BsSquareFill>
       </span>
-      <span className="flex-1 duration-200 text-slate-900">{classProps.name}</span>
+      <span className="flex-1 duration-200 text-slate-900">
+        {classProps.name}
+      </span>
     </li>
   );
 };

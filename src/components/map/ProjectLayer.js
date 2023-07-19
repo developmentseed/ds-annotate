@@ -5,7 +5,6 @@ import * as turf from "@turf/turf";
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
 
-import { MapContext } from "../../contexts/MapContext";
 import { MainContext } from "../../contexts/MainContext";
 
 import {
@@ -15,13 +14,22 @@ import {
   vectorSegData,
   vectorHighlighted,
   vectorPointSelector,
+  encodeMapViews,
+  encodeMapViewHighlighted,
 } from "./layers";
+
+import { bbox2polygon, getOLFeatures } from "../../utils/convert";
 
 const PADDING = { padding: [100, 100, 100, 100] };
 
 export const ProjectLayer = ({ project, items, highlightedItem }) => {
-  const { map } = useContext(MapContext);
-  const { pointsSelector, dispatchSetPointsSelector } = useContext(MainContext);
+  const {
+    map,
+    pointsSelector,
+    dispatchSetPointsSelector,
+    encodeItems,
+    activeEncodeImageItem,
+  } = useContext(MainContext);
 
   useEffect(() => {
     if (!map) return;
@@ -69,7 +77,8 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
   useEffect(() => {
     if (!map) return;
     const segDataSource = new VectorSource({
-      features: highlightedItem ? [highlightedItem] : [],
+      features:
+        Object.keys(highlightedItem).length !== 0 ? [highlightedItem] : [],
       wrapX: true,
     });
     vectorHighlighted.setSource(segDataSource);
@@ -108,5 +117,37 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
     });
     vectorPointSelector.setSource(pointsSelectorDataSource);
   }, [pointsSelector]);
+
+  // Update vector layer to desplay the bbox of the decode images
+  useEffect(() => {
+    if (!map) return;
+    const features = encodeItems.map((ei) => {
+      return bbox2polygon(ei.bbox);
+    });
+
+    const olFeatures = getOLFeatures(features);
+    const dataSource = new VectorSource({
+      features: olFeatures,
+      wrapX: true,
+    });
+    encodeMapViews.setSource(dataSource);
+  }, [encodeItems]);
+
+  useEffect(() => {
+    if (!map) return;
+    let features = [];
+    if (activeEncodeImageItem) {
+      features = [bbox2polygon(activeEncodeImageItem.bbox)];
+    }
+
+    const olFeatures = getOLFeatures(features);
+    encodeMapViewHighlighted.setSource(
+      new VectorSource({
+        features: olFeatures,
+        wrapX: true,
+      })
+    );
+  }, [activeEncodeImageItem]);
+
   return null;
 };

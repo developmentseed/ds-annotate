@@ -5,6 +5,7 @@ import { MapWrapper } from "./components/map";
 import { Modal } from "./components/Modal";
 import "react-notifications/lib/notifications.css";
 import { NotificationContainer } from "react-notifications";
+import { SpinerLoader } from "./components/SpinerLoader";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       </div>
       <Modal />
       <NotificationContainer />
+      <SpinerLoader />
     </div>
   );
 }

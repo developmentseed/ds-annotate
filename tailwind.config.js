@@ -7,9 +7,10 @@ module.exports = {
       colors:{
         "dark": "#081a51",
         "light-white": "rbga(255,255,255,0.18)",
-
       },
-
+      fontSize: {
+        'xxs': '0.625rem',
+      },
     },
   },
   plugins: [],
