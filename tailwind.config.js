@@ -11,6 +11,9 @@ module.exports = {
       fontSize: {
         'xxs': '0.625rem',
       },
+      fontFamily: {
+        sans: ['Open Sans', 'sans-serif'],
+      },
     },
   },
   plugins: [],

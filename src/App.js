@@ -9,7 +9,7 @@ import { SpinerLoader } from "./components/SpinerLoader";
 
 function App() {
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen font-sans">
       <div className="w-64 bg-gray-2000" aria-label="Sidebar">
         <Sidebar />
       </div>
