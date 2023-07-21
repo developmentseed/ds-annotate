@@ -80,7 +80,9 @@ export const EncodeItems = () => {
             <EncodeItem key={index} encodeItem={encodeItem} />
           ))}
           {!encodeItems?.length && (
-            <p className="text-sm text-center text-slate-500 my-1">No AOI is available yet</p>
+            <p className="text-sm text-center text-slate-500 my-1">
+              No AOI is available yet
+            </p>
           )}
         </div>
         <div className="grid grid-cols-2 gap-2">

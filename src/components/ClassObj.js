@@ -16,8 +16,10 @@ export const ClassObj = ({ classProps }) => {
 
   return (
     <li
-      className={`subMenuHeader hoverAnimation ${isActive ? 'bg-slate-300' : 'bg-white'}`}
-      onClick={() => setActiveClass(classProps) }
+      className={`subMenuHeader hoverAnimation ${
+        isActive ? "bg-slate-300" : "bg-white"
+      }`}
+      onClick={() => setActiveClass(classProps)}
     >
       <span className="text-xs block float-left">
         <BsSquareFill style={{ color: classProps.color }}></BsSquareFill>

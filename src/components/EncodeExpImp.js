@@ -51,10 +51,7 @@ export const EncodeExpImp = () => {
           onClick={toggleDropdown}
         >
           Export AOIs
-          <BsChevronDown
-            size="1.5em"
-            className="inline w-6 h-3 text-red"
-          />
+          <BsChevronDown size="1.5em" className="inline w-6 h-3 text-red" />
         </button>
       )}
 

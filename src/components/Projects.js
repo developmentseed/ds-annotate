@@ -78,7 +78,11 @@ export const Projects = () => {
           {projects.features.map((feature) => (
             <Link
               key={feature.properties.slug}
-              className={`subMenuHeader hoverAnimation ${projectName === feature.properties.name ? "bg-slate-300" : "bg-white"}`}
+              className={`subMenuHeader hoverAnimation ${
+                projectName === feature.properties.name
+                  ? "bg-slate-300"
+                  : "bg-white"
+              }`}
               onClick={() => {
                 setProject(feature);
                 setIsOpen(false);

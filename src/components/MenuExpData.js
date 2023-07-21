@@ -21,7 +21,11 @@ export const MenuExpData = () => {
 
   return (
     <div className="grid grid-cols-2 gap-2 mt-6">
-      <button className="custom_button" onClick={() => downloadGeojson()} title="Download data as GeoJSON">
+      <button
+        className="custom_button"
+        onClick={() => downloadGeojson()}
+        title="Download data as GeoJSON"
+      >
         <div className="text-center">
           <BsDownload className="mr-2 inline" />
           GeoJSON
