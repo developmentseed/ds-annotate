@@ -7,7 +7,7 @@ import { EncodeExpImp } from "./EncodeExpImp";
 import { openDatabase, storeEncodeItems } from "../store/indexedDB";
 import { fetchListURLS } from "../utils/requests";
 import { getFileNameFromURL } from "../utils/utils";
-import { BsLayers } from "react-icons/bs";
+import { BsLayoutWtf } from "react-icons/bs";
 
 export const Badge = () => {
   const { activeEncodeImageItem } = useContext(MainContext);
@@ -70,7 +70,7 @@ export const EncodeItems = () => {
     <MenuTemplate
       title={"SAM AOIs"}
       badge={<Badge />}
-      icon={<BsLayers />}
+      icon={<BsLayoutWtf />}
       openMenu={openMenu}
       setOpenMenu={setOpenMenu}
     >
@@ -80,7 +80,9 @@ export const EncodeItems = () => {
             <EncodeItem key={index} encodeItem={encodeItem} />
           ))}
           {!encodeItems?.length && (
-            <p className="text-sm text-center text-slate-500 my-1">No AOI is available yet</p>
+            <p className="text-sm text-center text-slate-500 my-1">
+              No AOI is available yet
+            </p>
           )}
         </div>
         <div className="grid grid-cols-2 gap-2">

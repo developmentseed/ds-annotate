@@ -15,7 +15,7 @@ export const Projects = () => {
     dispatchActiveEncodeImageItem,
   } = useContext(MainContext);
   const [projectName, setProjectName] = useState("Projects");
-  const [openMenu, setOpenMenu] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const setProject = useCallback(
     (project) => {
@@ -70,18 +70,22 @@ export const Projects = () => {
       title={projectName}
       badge={""}
       icon={<BsFolder2 />}
-      openMenu={openMenu}
-      setOpenMenu={setOpenMenu}
+      openMenu={isOpen}
+      setOpenMenu={setIsOpen}
     >
       <div>
         <ul className="pt-1">
           {projects.features.map((feature) => (
             <Link
               key={feature.properties.slug}
-              className="subMenuHeader hoverAnimation"
+              className={`subMenuHeader hoverAnimation ${
+                projectName === feature.properties.name
+                  ? "bg-slate-300"
+                  : "bg-white"
+              }`}
               onClick={() => {
                 setProject(feature);
-                setOpenMenu(false);
+                setIsOpen(false);
               }}
               to={`?project=${feature.properties.slug}`}
             >

@@ -40,26 +40,23 @@ export const EncodeExpImp = () => {
 
   return (
     <div
-      className="relative inline-block"
+      className="relative inline-block text-right"
       onMouseLeave={() => setIsOpen(false)} // Add this line
     >
       {encodeItems.length === 0 ? (
         <EncodeImport />
       ) : (
         <button
-          className="custom_button px-1 inline-flex"
+          className="custom_button text-center pl-3"
           onClick={toggleDropdown}
         >
           Export AOIs
-          <BsChevronDown
-            size="1.5em"
-            className="w-6 h-3 ml-2 mt-[3px] text-red"
-          />
+          <BsChevronDown size="1.5em" className="inline w-6 h-3 text-red" />
         </button>
       )}
 
       {isOpen && (
-        <div className="absolute text-xs right-0  left-0 mt-0 bg-white border border-gray-200 rounded shadow-lg">
+        <div className="absolute text-left text-xs right-0 left-0 mt-0 bg-white border border-gray-200 rounded shadow-lg">
           <ul>
             <li
               className="py-2 custom_button border-none px-1"

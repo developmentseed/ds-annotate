@@ -5,6 +5,7 @@ import { MainContext } from "../contexts/MainContext";
 
 export const ClassObj = ({ classProps }) => {
   const { activeClass, dispatchSetActiveClass } = useContext(MainContext);
+  const isActive = activeClass && activeClass.name === classProps.name;
 
   const setActiveClass = (class_) => {
     dispatchSetActiveClass({
@@ -15,17 +16,10 @@ export const ClassObj = ({ classProps }) => {
 
   return (
     <li
-      className={`subMenuHeader hoverAnimation`}
-      style={{
-        background: `${
-          activeClass && activeClass.name === classProps.name
-            ? activeClass.color
-            : ""
-        }`,
-      }}
-      onClick={() => {
-        setActiveClass(classProps);
-      }}
+      className={`subMenuHeader hoverAnimation ${
+        isActive ? "bg-slate-300" : "bg-white"
+      }`}
+      onClick={() => setActiveClass(classProps)}
     >
       <span className="text-xs block float-left">
         <BsSquareFill style={{ color: classProps.color }}></BsSquareFill>

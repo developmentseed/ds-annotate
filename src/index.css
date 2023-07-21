@@ -4,7 +4,7 @@
 
 @layer components {
   .menuHeader {
-    @apply text-gray-800 text-xs sm:text-base flex items-center gap-x-2 cursor-pointer py-1 px-2 rounded-md mt-2 bg-slate-300;
+    @apply text-gray-800 text-xs sm:text-base flex items-center gap-x-2 cursor-pointer py-1 px-2 rounded-md mt-2 bg-slate-100;
   }
   .subMenuHeader {
     @apply text-gray-800 text-xs flex items-center gap-x-1 cursor-pointer p-1 pl-8 pt-1 pb-1 rounded-md mt-1;
@@ -13,7 +13,7 @@
     @apply hover:bg-slate-300 hover:bg-opacity-40 rounded-md cursor-pointer transition duration-200 ease-out;
   }
   .custom_button {
-    @apply bg-transparent hover:bg-red-500 text-red-700 text-xs font-semibold hover:text-white py-1 px-1 border border-red-500 hover:border-transparent rounded;
+    @apply bg-transparent hover:bg-orange-ds hover:bg-opacity-60 text-orange-ds text-xs font-semibold hover:text-white py-1 px-1 border border-orange-ds hover:border-transparent rounded cursor-pointer;
   }
 }
 

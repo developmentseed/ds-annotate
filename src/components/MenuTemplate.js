@@ -11,21 +11,15 @@ export const MenuTemplate = ({
 }) => {
   return (
     <>
-      <div
-        className="menuHeader"
-        onClick={() => {
-          setOpenMenu(!openMenu);
-        }}
-      >
+      <div className="menuHeader" onClick={() => setOpenMenu(!openMenu)}>
         {icon}
-        <span className="text-sm text-base font-small flex-1 duration-200 false">
+        <span className="text-sm font-semibold flex-1 duration-200 false text-ellipsis truncate">
           {title}
         </span>
         {badge}
         {openMenu ? <BsChevronUp /> : <BsChevronDown />}
       </div>
       {openMenu && <div>{children}</div>}
-      {openMenu && <div className="border-t border-gray-200 my-1"></div>}
     </>
   );
 };

@@ -12,7 +12,7 @@ import { features2olFeatures } from "../utils/convert";
 import { MenuTemplate } from "./MenuTemplate";
 import React from "react";
 import { ItemsDataActions } from "./ItemsDataActions";
-import { BsLayoutWtf } from "react-icons/bs";
+import { BsBoundingBoxCircles } from "react-icons/bs";
 
 export const Items = () => {
   const { items, dispatchSetItems, activeProject } = useContext(MainContext);
@@ -52,9 +52,8 @@ export const Items = () => {
   }, [items]);
   return (
     <MenuTemplate
-      title={"Drawn items"}
-      badge={""}
-      icon={<BsLayoutWtf />}
+      title={"Drawn Items"}
+      icon={<BsBoundingBoxCircles />}
       openMenu={openMenu}
       setOpenMenu={setOpenMenu}
     >
