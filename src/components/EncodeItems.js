@@ -7,7 +7,7 @@ import { EncodeExpImp } from "./EncodeExpImp";
 import { openDatabase, storeEncodeItems } from "../store/indexedDB";
 import { fetchListURLS } from "../utils/requests";
 import { getFileNameFromURL } from "../utils/utils";
-import { BsLayers } from "react-icons/bs";
+import { BsLayoutWtf } from "react-icons/bs";
 
 export const Badge = () => {
   const { activeEncodeImageItem } = useContext(MainContext);
@@ -70,7 +70,7 @@ export const EncodeItems = () => {
     <MenuTemplate
       title={"SAM AOIs"}
       badge={<Badge />}
-      icon={<BsLayers />}
+      icon={<BsLayoutWtf />}
       openMenu={openMenu}
       setOpenMenu={setOpenMenu}
     >

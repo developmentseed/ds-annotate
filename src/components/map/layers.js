@@ -12,7 +12,7 @@ export const vector = new VectorLayer({
   style: new Style({
     stroke: new Stroke({
       color: "#dd1c77",
-      width: 2,
+      width: 3,
     }),
   }),
   zIndex: 5,
@@ -108,8 +108,8 @@ export const vectorPointSelector = new VectorLayer({
 export const encodeMapViews = new VectorLayer({
   style: new Style({
     stroke: new Stroke({
-      width: 3,
-      color: [255, 191, 11, 1],
+      width: 2,
+      color: [219, 154, 109, 1],
     }),
   }),
   zIndex: 7,
@@ -118,8 +118,8 @@ export const encodeMapViews = new VectorLayer({
 export const encodeMapViewHighlighted = new VectorLayer({
   style: new Style({
     stroke: new Stroke({
-      width: 3,
-      color: [46, 249, 35, 1],
+      width: 2,
+      color: [207, 63, 2, 1],
     }),
   }),
   zIndex: 8,

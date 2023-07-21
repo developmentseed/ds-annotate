@@ -25,13 +25,11 @@ export const EncodeCanvas = () => {
   } = useContext(MainContext);
 
   const [samApiStatus, setSamApiStatus] = useState(null);
-
+  const [notificationShown, setNotificationShown] = useState(false);
   const reset = () => {
     setSpinnerLoading(false);
     setSamApiStatus(null);
   };
-
-  const [notificationShown, setNotificationShown] = useState(false);
 
   // Request segment-anything-services
   const requestSAM = async (requestProps, isEncode) => {
@@ -147,10 +145,8 @@ export const EncodeCanvas = () => {
   return (
     <>
       <button
-        className="custom_button"
-        onClick={() => {
-          requestPrediction();
-        }}
+        className="custom_button bg-orange-ds text-white hover:bg-orange-ds hover:bg-opacity-80"
+        onClick={() => requestPrediction()}
         disabled={samApiStatus || false}
       >
         New SAM AOI

@@ -7,6 +7,7 @@ module.exports = {
       colors:{
         "dark": "#081a51",
         "light-white": "rbga(255,255,255,0.18)",
+        "orange-ds": "#CF3F02",
       },
       fontSize: {
         'xxs': '0.625rem',

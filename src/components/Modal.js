@@ -19,7 +19,7 @@ export const Modal = () => {
             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
               {/*header*/}
               <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                <h3 className="text-3xl font-semibold">DS Annotate Tool</h3>
+                <h3 className="text-3xl font-semibold">DS-Annotate</h3>
 
                 <BsXLg
                   className="p-1 cursor-pointer ml-auto border-0 text-black-900 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -32,7 +32,7 @@ export const Modal = () => {
                   DS-Annotate empowers users to draw intricate polygons over
                   aerial imagery using the{" "}
                   <a
-                    className="text-red-500"
+                    className="text-orange-ds"
                     href="https://github.com/facebookresearch/segment-anything"
                     target="_blank"
                     rel="noreferrer"
@@ -41,7 +41,7 @@ export const Modal = () => {
                   </a>
                   and the{" "}
                   <a
-                    className="text-red-500"
+                    className="text-orange-ds"
                     href="https://github.com/Tamersoul/ol-magic-wand"
                     target="_blank"
                     rel="noreferrer"
@@ -101,7 +101,7 @@ export const Modal = () => {
 
                 <p className="my-4 text-md">
                   <a
-                    className="text-red-500"
+                    className="text-orange-ds"
                     href="https://github.com/developmentseed/ds-annotate/issues"
                     target="_blank"
                     rel="noreferrer"
@@ -113,7 +113,7 @@ export const Modal = () => {
               </div>
               <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                 <button
-                  className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  className="text-orange-ds background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="button"
                   onClick={() => modalStatus("none")}
                 >
