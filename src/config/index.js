@@ -1,4 +1,7 @@
-export const gpuEncodeAPI = "https://sas-gpu.ds.io";
+export const gpuEncodeAPI =
+  process.env.REACT_APP_ENV === "production"
+    ? "https://sas-gpu.ds.io"
+    : "https://gpu-spot.segmentanythingservice.com";
 export const cpuDecodeAPI = "https://sas.ds.io";
 export const samAPI =
   "http://segme-gpuel-ekfao79wi98g-617785108.us-east-1.elb.amazonaws.com";

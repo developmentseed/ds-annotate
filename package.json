@@ -32,7 +32,8 @@
     "clean": "rimraf build/",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "deploy": "yarn build && gh-pages -d build",
+    "deploy": "yarn clean && PUBLIC_URL=/ds-annotate REACT_APP_ENV=production yarn build && gh-pages -d build",
+    "deploy_staging": "yarn clean && PUBLIC_URL=/ REACT_APP_ENV=staging yarn build && aws s3 rm s3://ds-annotate-staging/ --recursive && aws s3 sync build/ s3://ds-annotate-staging/",
     "lint": "npx eslint . && yarn prettier",
     "prettier": "yarn clean && prettier --write 'src/**/*.js'",
     "test": "yarn lint && react-scripts test --env=jsdom --watchAll=false --testMatch **/src/**/*.test.js"
@@ -67,6 +68,7 @@
     "babel-jest": "^29.2.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-jest": "^26.6.2",
+    "cross-env": "^7.0.3",
     "eslint": "8.0.0",
     "eslint-config-react-app": "7.0.1",
     "gh-pages": "^4.0.0",
