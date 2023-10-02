@@ -76,6 +76,7 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
 
   useEffect(() => {
     if (!map) return;
+    if (!highlightedItem) highlightedItem = [];
     const segDataSource = new VectorSource({
       features:
         Object.keys(highlightedItem).length !== 0 ? [highlightedItem] : [],

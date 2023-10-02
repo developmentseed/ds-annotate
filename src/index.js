@@ -6,10 +6,10 @@ import App from "./App";
 import MainContextProvider from "./contexts/MainContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-
+const basename = process.env.PUBLIC_URL;
 root.render(
   <MainContextProvider>
-    <BrowserRouter basename="/ds-annotate">
+    <BrowserRouter basename={basename}>
       <Routes>
         <Route exact path="/" element={<App />} />
         <Route exact path="?project=:slug" element={<App />} />
