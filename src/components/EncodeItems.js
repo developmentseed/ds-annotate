@@ -9,6 +9,7 @@ import { fetchListURLS } from "../utils/requests";
 import { getFileNameFromURL } from "../utils/utils";
 import { BsLayoutWtf } from "react-icons/bs";
 import { DecodeType } from "./DecodeType";
+import { Decode } from "./Decode";
 
 export const Badge = () => {
   const { activeEncodeImageItem } = useContext(MainContext);
@@ -95,7 +96,8 @@ export const EncodeItems = () => {
             setRequestMultipoint={setRequestMultipoint}
           />
         </div>
-        <DecodeType setRequestMultipoint={setRequestMultipoint} />
+        {/* <Decode/> */}
+        {/* <DecodeType setRequestMultipoint={setRequestMultipoint} /> */}
       </>
     </MenuTemplate>
   );
