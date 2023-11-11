@@ -23,14 +23,30 @@ export const downloadGeojsonReducer = createReducer("DOWNLOAD_GEOJSON");
 
 export const downloadInJOSMReducer = createReducer("DOWNLOAD_IN_JOSM");
 
-export const pointsSelectorReducer = createReducer(
-  "SET_POINTS_SELECTORS",
-  (a, b) => (a.values_.id < b.values_.id ? 1 : -1),
-  []
-);
-
 export const ItemsNumClass = createReducer("SET_ITEM_ID");
 
 export const encodeItemsReducer = createReducer("CACHING_ENCODED");
 
 export const activeEncodeImage = createReducer("SET_ACTIVE_ENCODE_IMAGE");
+
+export const pointsSelectorReducer = (state = [], action) => {
+  switch (action.type) {
+    case "SET_SINGLE_POINT":
+      return [action.payload];
+    case "SET_MULTI_POINT":
+      return [...state, action.payload];
+    case "SET_EMPTY_POINT":
+      return [];
+    default:
+      return state;
+  }
+};
+
+export const activeDecoderType = (state, action) => {
+  switch (action.type) {
+    case "SET_DECODER_TYPE":
+      return action.payload;
+    default:
+      return state;
+  }
+};

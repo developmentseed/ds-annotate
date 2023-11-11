@@ -5,14 +5,18 @@ import { MainContext } from "../contexts/MainContext";
 import { getCanvasForLayer } from "../utils/canvas";
 import { getEncode, getDecode, getPropertiesRequest } from "../utils/requests";
 import { sam2Geojson, features2olFeatures } from "../utils/convert";
-import { pointIsInEncodeBbox } from "../utils/calculation";
+import {
+  pointIsInEncodeBbox,
+  pointsIsInEncodeBbox,
+} from "../utils/calculation";
 import { storeEncodeItems, storeItems } from "../store/indexedDB";
 import { guid } from "../utils/utils";
 
-export const EncodeCanvas = () => {
+export const EncodeCanvas = ({ requestMultipoint, setRequestMultipoint }) => {
   const {
     map,
     pointsSelector,
+    dispatchSetPointsSelector,
     activeProject,
     activeClass,
     dispatchSetItems,
@@ -22,6 +26,8 @@ export const EncodeCanvas = () => {
     activeEncodeImageItem,
     dispatchActiveEncodeImageItem,
     setSpinnerLoading,
+    decoderType,
+    dispatchDecoderType,
   } = useContext(MainContext);
 
   const [samApiStatus, setSamApiStatus] = useState(null);
@@ -110,14 +116,33 @@ export const EncodeCanvas = () => {
   };
   useEffect(() => {
     if (!map) return;
+    if (pointsSelector.length === 0) return;
+
     if (activeEncodeImageItem) {
-      const { x, y } = pointIsInEncodeBbox(
+      const listPixels = pointsIsInEncodeBbox(
         activeEncodeImageItem,
         pointsSelector
       );
-      if (x && y) {
-        const input_point = [x, y];
-        const { image_embeddings, image_shape, input_label, crs, bbox, zoom } =
+
+      if (listPixels.length > 0) {
+        // check multipoint
+        let input_point = [];
+        let input_label;
+        console.log(
+          "%cEncodeCanvas.js line:129 requestMultipoint",
+          "color: #007acc;",
+          requestMultipoint
+        );
+
+        if (decoderType == "single_point") {
+          input_point = listPixels[0];
+          input_label = 1;
+        } else if (decoderType == "multi_point") {
+          input_point = listPixels;
+          input_label = input_point.map((i) => 1);
+        }
+
+        const { image_embeddings, image_shape, crs, bbox, zoom } =
           activeEncodeImageItem;
         const newRequestProps = {
           image_embeddings,
@@ -127,15 +152,23 @@ export const EncodeCanvas = () => {
           bbox,
           zoom,
           input_point,
+          decode_type: decoderType,
         };
-        requestSAM(newRequestProps, false);
+
+        if (requestMultipoint && decoderType == "multi_point") {
+          requestSAM(newRequestProps, false);
+          setRequestMultipoint(false);
+          dispatchSetPointsSelector({ type: "SET_EMPTY_POINT" });
+        } else if (decoderType == "single_point") {
+          requestSAM(newRequestProps, false);
+        }
       } else {
         showNotification(
           `Click inside of active AOI to enable Segment Anything Model.`
         );
       }
     }
-  }, [pointsSelector]);
+  }, [pointsSelector, requestMultipoint]);
 
   const requestPrediction = async () => {
     const requestProps = getPropertiesRequest(map, pointsSelector);

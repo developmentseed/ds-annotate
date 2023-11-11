@@ -29,10 +29,14 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
     dispatchSetPointsSelector,
     encodeItems,
     activeEncodeImageItem,
+    decoderType,
+    dispatchDecoderType,
   } = useContext(MainContext);
 
   useEffect(() => {
     if (!map) return;
+    if (pointsSelector.length === 0) return;
+
     if (project) {
       const geojsonSource = new VectorSource({
         features: new GeoJSON({ featureProjection: "EPSG:3857" }).readFeatures(
@@ -95,23 +99,29 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
   // Add point to send request to SAM
   useEffect(() => {
     if (!map) return;
-    map.on("click", function (e) {
+
+    const clickHandler = function (e) {
       const coordinates = e.coordinate;
       const point = new Feature(new Point(coordinates));
       point.setProperties({
-        px: Math.ceil(e.pixel_[0]),
-        py: Math.ceil(e.pixel_[1]),
+        px: Math.ceil(e.pixel[0]),
+        py: Math.ceil(e.pixel[1]),
       });
-      dispatchSetPointsSelector({
-        type: "SET_POINTS_SELECTORS",
-        payload: [point],
-      });
-    });
-  }, [pointsSelector]);
+      if (decoderType === "single_point") {
+        dispatchSetPointsSelector({ type: "SET_SINGLE_POINT", payload: point });
+      } else if (decoderType === "multi_point") {
+        dispatchSetPointsSelector({ type: "SET_MULTI_POINT", payload: point });
+      }
+    };
+
+    map.on("click", clickHandler);
+    return () => map.un("click", clickHandler);
+  }, [pointsSelector, decoderType]);
 
   // Display points selector in the map
   useEffect(() => {
     if (!map) return;
+    // if (pointsSelector.length === 0) return;
     const pointsSelectorDataSource = new VectorSource({
       features: pointsSelector,
       wrapX: true,
