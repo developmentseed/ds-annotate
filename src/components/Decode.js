@@ -2,12 +2,11 @@ import React, { useContext, useState, useEffect } from "react";
 import { NotificationManager } from "react-notifications";
 
 import { MainContext } from "../contexts/MainContext";
-import { getCanvasForLayer } from "../utils/canvas";
-import { getEncode, getDecode, getPropertiesRequest } from "../utils/requests";
+import { getDecode } from "../utils/requests";
 import { sam2Geojson, features2olFeatures } from "../utils/convert";
 import { pointsIsInEncodeBbox } from "../utils/calculation";
 import { guid } from "../utils/utils";
-import { storeEncodeItems, storeItems } from "../store/indexedDB";
+import { storeItems } from "../store/indexedDB";
 
 export const Decode = () => {
   const {
@@ -91,7 +90,7 @@ export const Decode = () => {
   }, [pointsSelector]);
 
   // Multipoint is activate when press the request decode buttom
-  const decodeBycolor = () => {
+  const decodeItems = async (decodeType) => {
     if (!map) return;
     if (pointsSelector.length === 0) return;
     if (activeEncodeImageItem) {
@@ -112,13 +111,13 @@ export const Decode = () => {
           bbox,
           zoom,
           input_point,
-          decode_type: decoderType,
+          decode_type: decodeType,
         };
-        decodePrompt(newRequestProps);
-        // dispatchSetPointsSelector({
-        //   type: "SET_EMPTY_POINT",
-        //   payload: [],
-        // });
+        await decodePrompt(newRequestProps);
+        dispatchSetPointsSelector({
+          type: "SET_EMPTY_POINT",
+          payload: [],
+        });
       } else {
         NotificationManager.warning(
           `Click inside of active AOI to enable Segment Anything Model.`,
@@ -128,7 +127,7 @@ export const Decode = () => {
     }
   };
 
-  const decodeByclass = () => {};
+  const decodeMultiItems = () => {};
 
   const setDecodeType = (decodeType) => {
     dispatchDecoderType({
@@ -136,7 +135,7 @@ export const Decode = () => {
       payload: decodeType,
     });
 
-    if (decodeType == "single_point" && pointsSelector.length > 0) {
+    if (decodeType === "single_point") {
       dispatchSetPointsSelector({
         type: "SET_SINGLE_POINT",
         payload: pointsSelector[pointsSelector.length - 1],
@@ -156,6 +155,7 @@ export const Decode = () => {
           {`Active Single point`}
         </button>
       </div>
+
       <div className="flex flex-row mt-3">
         <button
           className={`custom_button w-full ${
@@ -167,18 +167,18 @@ export const Decode = () => {
         </button>
       </div>
 
-      <div className="flex flex-row mt-3">
+      <div className="grid grid-cols-2 gap-2 mt-2">
         <button
           className={`custom_button w-full`}
-          onClick={() => decodeBycolor()}
+          onClick={() => decodeItems("multi_point")}
         >
-          {`Request by color`}
+          {`Request an item`}
         </button>
         <button
           className={`custom_button w-full`}
-          onClick={() => decodeByclass()}
+          onClick={() => decodeItems("multi_point_split")}
         >
-          {`Request by class`}
+          {`Request multi items`}
         </button>
       </div>
     </>

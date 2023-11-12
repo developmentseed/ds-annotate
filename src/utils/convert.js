@@ -99,14 +99,51 @@ export const sam2Geojson = (ListGeoms, activeProject, activeClass, id) => {
     const feature = turf.multiPolygon(geom.coordinates, properties);
     features.push(feature);
   }
-  const maxNumber = Math.max(...scores);
-  const maxIndex = scores.indexOf(maxNumber);
-  const maxScoreFeature = features[maxIndex];
-  return [maxScoreFeature];
-  // return features
+
+  const groupFeatures = splitArrayInGroups(features, 4);
+
+  const groupScores = splitArrayInGroups(scores, 4);
+
+  console.log(
+    "%cconvert.js line:104 groupFeatures",
+    "color: #007acc;",
+    groupFeatures
+  );
+  console.log(
+    "%cconvert.js line:109 groupScores",
+    "color: #007acc;",
+    groupScores
+  );
+  const maxScoreFeatures = [];
+  for (let index = 0; index < groupFeatures.length; index++) {
+    const predFeatures = groupFeatures[index];
+    const predScores = groupScores[index];
+    const maxNumber = Math.max(...predScores);
+    const maxIndex = predScores.indexOf(maxNumber);
+    const maxScoreFeature = predFeatures[maxIndex];
+    maxScoreFeatures.push(maxScoreFeature);
+  }
+  console.log(
+    "%cconvert.js line:118 maxScoreFeatures",
+    "color: #007acc;",
+    maxScoreFeatures
+  );
+  // const maxNumber = Math.max(...scores);
+  // const maxIndex = scores.indexOf(maxNumber);
+  // console.log('%cconvert.js line:104 features', 'color: #007acc;', features);
+  // const maxScoreFeature = features[maxIndex];
+  // console.log('%cconvert.js line:106 maxScoreFeature', 'color: #007acc;', maxScoreFeature);
+  // // return [maxScoreFeature];
+  return maxScoreFeatures;
 };
 
 export const bbox2polygon = (bbox) => {
   const poly = turf.bboxPolygon(bbox);
   return poly;
+};
+
+export const splitArrayInGroups = (arr, groupSize) => {
+  return Array.from({ length: Math.ceil(arr.length / groupSize) }, (_, i) =>
+    arr.slice(i * groupSize, (i + 1) * groupSize)
+  );
 };

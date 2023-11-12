@@ -8,8 +8,6 @@ import { openDatabase, storeEncodeItems } from "../store/indexedDB";
 import { fetchListURLS } from "../utils/requests";
 import { getFileNameFromURL } from "../utils/utils";
 import { BsLayoutWtf } from "react-icons/bs";
-import { DecodeType } from "./DecodeType";
-import { Decode } from "./Decode";
 
 export const Badge = () => {
   const { activeEncodeImageItem } = useContext(MainContext);
@@ -26,8 +24,6 @@ export const EncodeItems = () => {
   const { encodeItems, dispatchEncodeItems, activeProject } =
     useContext(MainContext);
   const [openMenu, setOpenMenu] = useState(true);
-
-  const [requestMultipoint, setRequestMultipoint] = useState(false);
 
   // Load indexedDB for encode Items
   useEffect(() => {
@@ -91,13 +87,8 @@ export const EncodeItems = () => {
         </div>
         <div className="grid grid-cols-2 gap-2">
           <EncodeExpImp />
-          <EncodeCanvas
-            requestMultipoint={requestMultipoint}
-            setRequestMultipoint={setRequestMultipoint}
-          />
+          <EncodeCanvas />
         </div>
-        {/* <Decode/> */}
-        {/* <DecodeType setRequestMultipoint={setRequestMultipoint} /> */}
       </>
     </MenuTemplate>
   );

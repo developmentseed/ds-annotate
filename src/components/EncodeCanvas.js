@@ -6,26 +6,18 @@ import { getEncode, getDecode, getPropertiesRequest } from "../utils/requests";
 import { storeEncodeItems, storeItems } from "../store/indexedDB";
 import { guid } from "../utils/utils";
 
-export const EncodeCanvas = ({ requestMultipoint, setRequestMultipoint }) => {
+export const EncodeCanvas = () => {
   const {
     map,
     pointsSelector,
-    dispatchSetPointsSelector,
     activeProject,
-    activeClass,
-    dispatchSetItems,
-    items,
     encodeItems,
     dispatchEncodeItems,
-    activeEncodeImageItem,
     dispatchActiveEncodeImageItem,
     setSpinnerLoading,
-    decoderType,
-    dispatchDecoderType,
   } = useContext(MainContext);
 
   const [samApiStatus, setSamApiStatus] = useState(null);
-  // const [notificationShown, setNotificationShown] = useState(false);
 
   const reset = () => {
     setSpinnerLoading(false);

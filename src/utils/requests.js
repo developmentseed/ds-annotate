@@ -91,6 +91,11 @@ export const getDecode = async (decodePayload) => {
       throw new Error(`Error: ${decodeResponse.status}`);
     }
     const decodeRespJson = await decodeResponse.json();
+    console.log(
+      "%crequests.js line:94 decodeRespJson",
+      "color: #007acc;",
+      decodeRespJson
+    );
     return decodeRespJson;
   } catch (error) {
     console.log(error);
@@ -140,7 +145,6 @@ export const uploadtoS3 = async (data, filename) => {
     if (response.ok) {
       return response.json();
     } else {
-      console.log("%cutils.js line:44 response", "color: #007acc;", response);
       throw new Error("Request failed with status " + response.status);
     }
   } catch (error) {
