@@ -140,7 +140,6 @@ export const uploadtoS3 = async (data, filename) => {
     if (response.ok) {
       return response.json();
     } else {
-      console.log("%cutils.js line:44 response", "color: #007acc;", response);
       throw new Error("Request failed with status " + response.status);
     }
   } catch (error) {

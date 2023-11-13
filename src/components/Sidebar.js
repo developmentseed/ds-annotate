@@ -6,6 +6,7 @@ import { Classes } from "./Classes";
 import { Items } from "./Items";
 import { MenuExpData } from "./MenuExpData";
 import { EncodeItems } from "./EncodeItems";
+import { DecodeItems } from "./DecodeItems";
 
 export const Sidebar = () => {
   return (
@@ -16,6 +17,7 @@ export const Sidebar = () => {
           <Projects />
           <Classes />
           <EncodeItems />
+          <DecodeItems />
           <Items />
           <MenuExpData />
         </div>

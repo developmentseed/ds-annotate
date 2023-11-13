@@ -44,6 +44,11 @@ export const EncodeItem = ({ encodeItem }) => {
       });
     }
 
+    console.log(
+      "%cEncodeItem.js line:47 updatedEncodeItems",
+      "color: #007acc;",
+      updatedEncodeItems
+    );
     dispatchEncodeItems({
       type: "CACHING_ENCODED",
       payload: updatedEncodeItems,

@@ -132,9 +132,7 @@ export function MapWrapper({ children }) {
     //Fetch predition from SAM
   };
 
-  const handleClick = (e) => {
-    // setLoading(true);
-  };
+  const handleClick = (e) => {};
 
   return (
     <>

@@ -56,6 +56,7 @@ export const EncodeItems = () => {
 
         // Store request encode images in IndexedDB
         listEncodeItemsFromurl.forEach((ei) => {
+          console.log("%cEncodeItems.js line:59 ei", "color: #007acc;", ei);
           storeEncodeItems.addData(ei);
         });
       } catch (error) {
