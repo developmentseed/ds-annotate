@@ -36,7 +36,6 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
   useEffect(() => {
     if (!map) return;
     if (pointsSelector.length === 0) return;
-
     if (project) {
       const geojsonSource = new VectorSource({
         features: new GeoJSON({ featureProjection: "EPSG:3857" }).readFeatures(
@@ -121,7 +120,8 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
   // Display points selector in the map
   useEffect(() => {
     if (!map) return;
-    // if (pointsSelector.length === 0) return;
+    if (pointsSelector.length === 0) return;
+
     const pointsSelectorDataSource = new VectorSource({
       features: pointsSelector,
       wrapX: true,

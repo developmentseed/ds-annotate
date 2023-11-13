@@ -53,11 +53,15 @@ export const pointIsInEncodeBbox = (encodeItem, pointSelector) => {
 };
 
 export const pointsIsInEncodeBbox = (encodeItem, pointsSelector) => {
-  const listPixels = pointsSelector.map(function (pointSelector) {
-    const pixel = pointIsInEncodeBbox(encodeItem, pointSelector);
-    if (Object.keys(pixel).length > 0) {
-      return [pixel.x, pixel.y];
-    }
-  });
+  const listPixels = pointsSelector
+    .map(function (pointSelector) {
+      const pixel = pointIsInEncodeBbox(encodeItem, pointSelector);
+      if (Object.keys(pixel).length > 0) {
+        return [pixel.x, pixel.y];
+      }
+    })
+    .filter(function (pixel) {
+      return pixel !== undefined;
+    });
   return listPixels;
 };

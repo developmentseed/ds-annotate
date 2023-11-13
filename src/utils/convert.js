@@ -1,5 +1,6 @@
 import GeoJSON from "ol/format/GeoJSON";
 import * as turf from "@turf/turf";
+import { guid } from "../utils/utils";
 
 /**
  *
@@ -82,18 +83,19 @@ export const getClassLayers = (project) => {
  * @param {Object} feature of project
  * @returns {Array} List of objects of classes
  */
-export const sam2Geojson = (ListGeoms, activeProject, activeClass, id) => {
+export const sam2Geojson = (ListGeoms, activeProject, activeClass) => {
   let scores = [];
   const features = [];
   for (let index = 0; index < ListGeoms.length; index++) {
     const strGeom = ListGeoms[index];
     const geom = JSON.parse(strGeom);
+    const id = guid();
     const properties = {
       class: activeClass.name,
       color: activeClass.color,
       project: activeProject.properties.name,
       ...geom.properties,
-      id: id,
+      id,
     };
     scores = geom.properties.confidence_scores;
     const feature = turf.multiPolygon(geom.coordinates, properties);
@@ -101,19 +103,7 @@ export const sam2Geojson = (ListGeoms, activeProject, activeClass, id) => {
   }
 
   const groupFeatures = splitArrayInGroups(features, 4);
-
   const groupScores = splitArrayInGroups(scores, 4);
-
-  console.log(
-    "%cconvert.js line:104 groupFeatures",
-    "color: #007acc;",
-    groupFeatures
-  );
-  console.log(
-    "%cconvert.js line:109 groupScores",
-    "color: #007acc;",
-    groupScores
-  );
   const maxScoreFeatures = [];
   for (let index = 0; index < groupFeatures.length; index++) {
     const predFeatures = groupFeatures[index];
@@ -123,25 +113,25 @@ export const sam2Geojson = (ListGeoms, activeProject, activeClass, id) => {
     const maxScoreFeature = predFeatures[maxIndex];
     maxScoreFeatures.push(maxScoreFeature);
   }
-  console.log(
-    "%cconvert.js line:118 maxScoreFeatures",
-    "color: #007acc;",
-    maxScoreFeatures
-  );
-  // const maxNumber = Math.max(...scores);
-  // const maxIndex = scores.indexOf(maxNumber);
-  // console.log('%cconvert.js line:104 features', 'color: #007acc;', features);
-  // const maxScoreFeature = features[maxIndex];
-  // console.log('%cconvert.js line:106 maxScoreFeature', 'color: #007acc;', maxScoreFeature);
-  // // return [maxScoreFeature];
   return maxScoreFeatures;
 };
 
+/**
+ *
+ * @param {Array} Bounding box [minX, minY, maxX, maxY]
+ * @returns {Object} polygon object
+ */
 export const bbox2polygon = (bbox) => {
   const poly = turf.bboxPolygon(bbox);
   return poly;
 };
 
+/**
+ *
+ * @param {Array} Any type of list
+ * @param {int} size of the items to include in the group
+ * @returns
+ */
 export const splitArrayInGroups = (arr, groupSize) => {
   return Array.from({ length: Math.ceil(arr.length / groupSize) }, (_, i) =>
     arr.slice(i * groupSize, (i + 1) * groupSize)

@@ -1,11 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { NotificationManager } from "react-notifications";
-
 import { MainContext } from "../contexts/MainContext";
 import { getDecode } from "../utils/requests";
 import { sam2Geojson, features2olFeatures } from "../utils/convert";
 import { pointsIsInEncodeBbox } from "../utils/calculation";
-import { guid } from "../utils/utils";
 import { storeItems } from "../store/indexedDB";
 
 export const Decode = () => {
@@ -17,10 +15,7 @@ export const Decode = () => {
     activeClass,
     dispatchSetItems,
     items,
-    encodeItems,
-    dispatchEncodeItems,
     activeEncodeImageItem,
-    dispatchActiveEncodeImageItem,
     setSpinnerLoading,
     decoderType,
     dispatchDecoderType,
@@ -30,12 +25,10 @@ export const Decode = () => {
     setSpinnerLoading(true);
     try {
       const decodeRespJson = await getDecode(requestProps);
-      const id = guid();
       const features = sam2Geojson(
         decodeRespJson.geojsons,
         activeProject,
-        activeClass,
-        id
+        activeClass
       );
       const olFeatures = features2olFeatures(features);
       dispatchSetItems({
@@ -43,9 +36,10 @@ export const Decode = () => {
         payload: [...items, ...olFeatures],
       });
 
-      // save in DB
-      const feature = features[0];
-      storeItems.addData({ ...feature, id });
+      // save in iddexedDB
+      features.forEach((feature) => {
+        storeItems.addData(feature);
+      });
       setSpinnerLoading(false);
     } catch (error) {
       // TODO display error
@@ -53,83 +47,90 @@ export const Decode = () => {
     }
   };
 
+  const buildReqProps = (
+    activeEncodeImageItem,
+    pointsSelector,
+    decoderType
+  ) => {
+    let input_point;
+    let input_label;
+    // Get pixels fro each point the is in the map
+    const listPixels = pointsIsInEncodeBbox(
+      activeEncodeImageItem,
+      pointsSelector
+    );
+
+    if (decoderType === "single_point") {
+      input_point = listPixels[0];
+      input_label = 1;
+    } else if (
+      decoderType === "multi_point" ||
+      decoderType === "multi_point_split"
+    ) {
+      input_point = listPixels;
+      // TODO ,Fix here for foreground and background labels.
+      input_label = input_point.map((i) => 1);
+    }
+
+    // Get propos from encode items
+    const { image_embeddings, image_shape, crs, bbox, zoom } =
+      activeEncodeImageItem;
+
+    // Build props to request to the decoder API
+    const reqProps = {
+      image_embeddings,
+      image_shape,
+      input_label,
+      crs,
+      bbox,
+      zoom,
+      input_point,
+      decode_type: decoderType,
+    };
+
+    return reqProps;
+  };
+
   // Single point is activate owhen we do a click on the map
   useEffect(() => {
     if (!map) return;
     if (pointsSelector.length === 0) return;
-    if (decoderType != "single_point") return;
-
-    if (activeEncodeImageItem) {
-      const listPixels = pointsIsInEncodeBbox(
-        activeEncodeImageItem,
-        pointsSelector
+    if (!activeEncodeImageItem) {
+      NotificationManager.warning(
+        `Click inside of active AOI to enable Segment Anything Model.`,
+        3000
       );
-      if (listPixels.length > 0) {
-        const input_point = listPixels[0];
-        const input_label = 1;
-        const { image_embeddings, image_shape, crs, bbox, zoom } =
-          activeEncodeImageItem;
-        const newRequestProps = {
-          image_embeddings,
-          image_shape,
-          input_label,
-          crs,
-          bbox,
-          zoom,
-          input_point,
-          decode_type: decoderType,
-        };
-        decodePrompt(newRequestProps);
-      } else {
-        NotificationManager.warning(
-          `Click inside of active AOI to enable Segment Anything Model.`,
-          3000
-        );
-      }
+    }
+
+    // Request in case it is a single point
+    if (decoderType == "single_point") {
+      const reqProps = buildReqProps(
+        activeEncodeImageItem,
+        pointsSelector,
+        decoderType
+      );
+      decodePrompt(reqProps);
     }
   }, [pointsSelector]);
 
   // Multipoint is activate when press the request decode buttom
-  const decodeItems = async (decodeType) => {
-    if (!map) return;
+  const decodeItems = async (multiDecoderType) => {
     if (pointsSelector.length === 0) return;
-    if (activeEncodeImageItem) {
-      const listPixels = pointsIsInEncodeBbox(
-        activeEncodeImageItem,
-        pointsSelector
-      );
-      if (listPixels.length > 0) {
-        const input_point = listPixels;
-        const input_label = input_point.map((i) => 1);
-        const { image_embeddings, image_shape, crs, bbox, zoom } =
-          activeEncodeImageItem;
-        const newRequestProps = {
-          image_embeddings,
-          image_shape,
-          input_label,
-          crs,
-          bbox,
-          zoom,
-          input_point,
-          decode_type: decodeType,
-        };
-        await decodePrompt(newRequestProps);
-        dispatchSetPointsSelector({
-          type: "SET_EMPTY_POINT",
-          payload: [],
-        });
-      } else {
-        NotificationManager.warning(
-          `Click inside of active AOI to enable Segment Anything Model.`,
-          3000
-        );
-      }
-    }
+    const reqProps = buildReqProps(
+      activeEncodeImageItem,
+      pointsSelector,
+      multiDecoderType
+    );
+    await decodePrompt(reqProps);
+    dispatchSetPointsSelector({
+      type: "SET_EMPTY_POINT",
+      payload: [],
+    });
   };
 
-  const decodeMultiItems = () => {};
-
   const setDecodeType = (decodeType) => {
+    // If the decoder type changes, we need to change the single point to the
+    // latest multi-point clicked.
     dispatchDecoderType({
       type: "SET_DECODER_TYPE",
       payload: decodeType,
