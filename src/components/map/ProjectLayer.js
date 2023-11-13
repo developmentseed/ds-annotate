@@ -120,7 +120,7 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
   // Display points selector in the map
   useEffect(() => {
     if (!map) return;
-    if (pointsSelector.length === 0) return;
+    // if (pointsSelector.length === 0) return;
 
     const pointsSelectorDataSource = new VectorSource({
       features: pointsSelector,

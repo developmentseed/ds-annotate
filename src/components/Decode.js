@@ -31,9 +31,16 @@ export const Decode = () => {
         activeClass
       );
       const olFeatures = features2olFeatures(features);
+      // Add items
       dispatchSetItems({
         type: "SET_ITEMS",
         payload: [...items, ...olFeatures],
+      });
+
+      // Set empty the point selectors
+      dispatchSetPointsSelector({
+        type: "SET_EMPTY_POINT",
+        payload: [],
       });
 
       // save in iddexedDB
@@ -122,10 +129,6 @@ export const Decode = () => {
       multiDecoderType
     );
     await decodePrompt(reqProps);
-    dispatchSetPointsSelector({
-      type: "SET_EMPTY_POINT",
-      payload: [],
-    });
   };
 
   const setDecodeType = (decodeType) => {
