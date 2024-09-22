@@ -41,7 +41,11 @@ class Store {
 
   addData(item) {
     return new Promise((resolve, reject) => {
-      const request = this.transaction("readwrite").add(item);
+      const request = this.transaction("readwrite").add({
+        id: item.id || item.properties.id,
+        project: item.project || item.properties.project,
+        ...item,
+      });
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);
     });
@@ -77,7 +81,6 @@ class Store {
     return new Promise((resolve, reject) => {
       const store = this.transaction("readwrite");
       const index = store.index("project");
-
       const request = index.openCursor(IDBKeyRange.only(project));
       request.onsuccess = () => {
         const cursor = request.result;
@@ -100,14 +103,14 @@ class Store {
     });
   }
 
-  addListData(list) {
-    return new Promise((resolve, reject) => {
-      const store = this.transaction("readwrite");
-      list.forEach((item) => store.add(item));
-      store.transaction.oncomplete = () => resolve();
-      store.transaction.onerror = () => reject(store.transaction.error);
-    });
-  }
+  // addListData(list) {
+  //   return new Promise((resolve, reject) => {
+  //     const store = this.transaction("readwrite");
+  //     list.forEach((item) => store.add({ id: item.properties.id, ...item }));
+  //     store.transaction.oncomplete = () => resolve();
+  //     store.transaction.onerror = () => reject(store.transaction.error);
+  //   });
+  // }
 }
 
 export const storeItems = new Store("items");

@@ -1,7 +1,8 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { BsTrash } from "react-icons/bs";
 import { MainContext } from "./../contexts/MainContext";
 import { storeItems } from "./../store/indexedDB";
+import { olFeatures2Features } from "../utils/convert";
 
 const Item = ({ item, index }) => {
   const { items, dispatchSetItems, dispatchSetHighlightedItem } =
@@ -25,6 +26,13 @@ const Item = ({ item, index }) => {
       payload: item,
     });
   };
+
+  // useEffect(() => {
+  //   console.log('%cItem.js line:30 items', 'color: #007acc;', items);
+  //   storeItems.addListData(olFeatures2Features(items)).then(data=>{
+  //     console.log('%cItem.js line:33 save', 'color: #007acc;', data);
+  //   })
+  // }, [items]);
 
   return (
     <div

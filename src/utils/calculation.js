@@ -23,9 +23,9 @@ export function lngLatToPixel(flatCoordinates, bbox, image_shape) {
  * @param {*} pointsSelector
  * @returns objects of properties for decode request
  */
-export const pointIsInEncodeBbox = (encodeItem, pointsSelector) => {
+export const pointIsInEncodeBbox = (encodeItem, pointSelector) => {
   // select the first point
-  const pointFeature = pointsSelector[0];
+  const pointFeature = pointSelector;
   const geometry = pointFeature.getGeometry();
   const flatCoordinates = geometry.getFlatCoordinates();
 
@@ -50,4 +50,18 @@ export const pointIsInEncodeBbox = (encodeItem, pointsSelector) => {
     pixels = lngLatToPixel(flatCoordinates, bbox, image_shape);
   }
   return pixels;
+};
+
+export const pointsIsInEncodeBbox = (encodeItem, pointsSelector) => {
+  const listPixels = pointsSelector
+    .map(function (pointSelector) {
+      const pixel = pointIsInEncodeBbox(encodeItem, pointSelector);
+      if (Object.keys(pixel).length > 0) {
+        return [pixel.x, pixel.y];
+      }
+    })
+    .filter(function (pixel) {
+      return pixel !== undefined;
+    });
+  return listPixels;
 };

@@ -1,5 +1,6 @@
 import GeoJSON from "ol/format/GeoJSON";
 import * as turf from "@turf/turf";
+import { guid } from "../utils/utils";
 
 /**
  *
@@ -82,31 +83,57 @@ export const getClassLayers = (project) => {
  * @param {Object} feature of project
  * @returns {Array} List of objects of classes
  */
-export const sam2Geojson = (ListGeoms, activeProject, activeClass, id) => {
+export const sam2Geojson = (ListGeoms, activeProject, activeClass) => {
   let scores = [];
   const features = [];
   for (let index = 0; index < ListGeoms.length; index++) {
     const strGeom = ListGeoms[index];
     const geom = JSON.parse(strGeom);
+    const id = guid();
     const properties = {
       class: activeClass.name,
       color: activeClass.color,
       project: activeProject.properties.name,
       ...geom.properties,
-      id: id,
+      id,
     };
     scores = geom.properties.confidence_scores;
     const feature = turf.multiPolygon(geom.coordinates, properties);
     features.push(feature);
   }
-  const maxNumber = Math.max(...scores);
-  const maxIndex = scores.indexOf(maxNumber);
-  const maxScoreFeature = features[maxIndex];
-  return [maxScoreFeature];
-  // return features
+
+  const groupFeatures = splitArrayInGroups(features, 4);
+  const groupScores = splitArrayInGroups(scores, 4);
+  const maxScoreFeatures = [];
+  for (let index = 0; index < groupFeatures.length; index++) {
+    const predFeatures = groupFeatures[index];
+    const predScores = groupScores[index];
+    const maxNumber = Math.max(...predScores);
+    const maxIndex = predScores.indexOf(maxNumber);
+    const maxScoreFeature = predFeatures[maxIndex];
+    maxScoreFeatures.push(maxScoreFeature);
+  }
+  return maxScoreFeatures;
 };
 
+/**
+ *
+ * @param {Array} Bounding box [minX, minY, maxX, maxY]
+ * @returns {Object} polygon object
+ */
 export const bbox2polygon = (bbox) => {
   const poly = turf.bboxPolygon(bbox);
   return poly;
+};
+
+/**
+ *
+ * @param {Array} Any type of list
+ * @param {int} size of the items to include in the group
+ * @returns
+ */
+export const splitArrayInGroups = (arr, groupSize) => {
+  return Array.from({ length: Math.ceil(arr.length / groupSize) }, (_, i) =>
+    arr.slice(i * groupSize, (i + 1) * groupSize)
+  );
 };

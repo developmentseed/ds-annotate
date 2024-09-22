@@ -12,6 +12,7 @@ import {
   pointsSelectorReducer,
   encodeItemsReducer,
   activeEncodeImage,
+  activeDecoderType,
 } from "./../reducers";
 
 export const MainContext = createContext();
@@ -65,6 +66,11 @@ const MainContextProvider = (props) => {
     return "none";
   });
 
+  const [decoderType, dispatchDecoderType] = useReducer(
+    activeDecoderType,
+    "single_point"
+  );
+
   return (
     <MainContext.Provider
       value={{
@@ -95,6 +101,8 @@ const MainContextProvider = (props) => {
         dispatchActiveEncodeImageItem,
         spinnerLoading,
         setSpinnerLoading,
+        decoderType,
+        dispatchDecoderType,
       }}
     >
       {props.children}
