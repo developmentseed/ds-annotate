@@ -1,11 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 import { NotificationManager } from "react-notifications";
 import { MainContext } from "../contexts/MainContext";
-import { getDecode } from "../utils/requests";
-import { sam2Geojson, features2olFeatures } from "../utils/convert";
+import { getDecode, fetchGeoJSONData } from "../utils/requests";
+import { sam2Geojson, features2olFeatures, setProps2Features } from "../utils/convert";
 import { pointsIsInEncodeBbox } from "../utils/calculation";
 import { storeItems } from "../store/indexedDB";
+import { guid } from "../utils/utils";
 
+import { DecodeAutomatic } from "./DecodeAutomatic";
+import { DecodePointPromt } from "./DecodePointPromt";
 export const Decode = () => {
   const {
     map,
@@ -21,15 +24,35 @@ export const Decode = () => {
     dispatchDecoderType,
   } = useContext(MainContext);
 
+  const [displayPointPromtsMenu, setDisplayPointPromtsMenu] = useState(false);
+  const [isForegroundPromtPoint, setIsForegroundPromtPoint] = useState(true);
+
+
   const decodePrompt = async (requestProps) => {
     setSpinnerLoading(true);
     try {
-      const decodeRespJson = await getDecode(requestProps);
-      const features = sam2Geojson(
-        decodeRespJson.geojsons,
+      // const decodeRespJson = await getDecode(requestProps);
+
+      const resp = await fetchGeoJSONData(requestProps);
+
+      const id = guid();
+      const features = setProps2Features(
+        resp.geojson.features,
         activeProject,
-        activeClass
+        activeClass,
+        id
       );
+
+      // console.log(features);
+
+
+      // const features = sam2Geojson(
+      //   decodeRespJson.geojsons,
+      //   activeProject,
+      //   activeClass
+      // );
+
+
       const olFeatures = features2olFeatures(features);
       // Add items
       dispatchSetItems({
@@ -53,6 +76,26 @@ export const Decode = () => {
       setSpinnerLoading(false);
     }
   };
+
+  //================================= Request Automatic =================================
+  //========================================================================================
+  const requestAutomatic = async (activeEncodeImageItemProps) => {
+    const resp = await fetchGeoJSONData(activeEncodeImageItemProps);
+    const id = guid();
+    const features = setProps2Features(
+      resp.geojson.features,
+      activeProject,
+      activeClass,
+      id
+    );
+    const olFeatures = features2olFeatures(features);
+    // Add items
+    dispatchSetItems({
+      type: "SET_ITEMS",
+      payload: [...items, ...olFeatures],
+    });
+  }
+
 
   const buildReqProps = (
     activeEncodeImageItem,
@@ -99,26 +142,26 @@ export const Decode = () => {
   };
 
   // Single point is activate owhen we do a click on the map
-  useEffect(() => {
-    if (!map) return;
-    if (pointsSelector.length === 0) return;
-    if (!activeEncodeImageItem) {
-      NotificationManager.warning(
-        `Click inside of active AOI to enable Segment Anything Model.`,
-        3000
-      );
-    }
+  // useEffect(() => {
+  //   if (!map) return;
+  //   if (pointsSelector.length === 0) return;
+  //   if (!activeEncodeImageItem) {
+  //     NotificationManager.warning(
+  //       `Click inside of active AOI to enable Segment Anything Model.`,
+  //       3000
+  //     );
+  //   }
 
-    // Request in case it is a single point
-    if (decoderType == "single_point") {
-      const reqProps = buildReqProps(
-        activeEncodeImageItem,
-        pointsSelector,
-        decoderType
-      );
-      decodePrompt(reqProps);
-    }
-  }, [pointsSelector]);
+  //   // Request in case it is a single point
+  //   if (decoderType == "single_point") {
+  //     const reqProps = buildReqProps(
+  //       activeEncodeImageItem,
+  //       pointsSelector,
+  //       decoderType
+  //     );
+  //     decodePrompt(reqProps);
+  //   }
+  // }, [pointsSelector]);
 
   // Multipoint is activate when press the request decode buttom
   const decodeItems = async (multiDecoderType) => {
@@ -139,32 +182,36 @@ export const Decode = () => {
       payload: decodeType,
     });
 
+
+    if (decodeType === "automatic") {
+      requestAutomatic(activeEncodeImageItem)
+    }
+
     if (decodeType === "single_point") {
-      dispatchSetPointsSelector({
-        type: "SET_SINGLE_POINT",
-        payload: pointsSelector[pointsSelector.length - 1],
-      });
+      setDisplayPointPromtsMenu(!displayPointPromtsMenu);
+
+      // dispatchSetPointsSelector({
+      //   type: "SET_SINGLE_POINT",
+      //   payload: pointsSelector[pointsSelector.length - 1],
+      // });
     }
   };
 
   return (
     <>
-      <div className="flex flex-row mt-3">
-        <button
-          className={`custom_button w-full ${
-            decoderType == "single_point" ? " bg-orange-ds text-white" : ""
-          }`}
-          onClick={() => setDecodeType("single_point")}
-        >
-          {`Active Single point`}
-        </button>
-      </div>
+      {/************************* Automatic **************************/}
 
+      <DecodeAutomatic />
+
+      {/************************* Active Single point **************************/}
+      <DecodePointPromt />
+
+
+      {/* 
       <div className="flex flex-row mt-3">
         <button
-          className={`custom_button w-full ${
-            decoderType == "multi_point" ? "bg-orange-ds text-white" : ""
-          }`}
+          className={`custom_button w-full ${decoderType == "multi_point" ? "bg-orange-ds text-white" : ""
+            }`}
           onClick={() => setDecodeType("multi_point")}
         >
           {`Active Multi point`}
@@ -184,7 +231,7 @@ export const Decode = () => {
         >
           {`Request multi items`}
         </button>
-      </div>
+      </div> */}
     </>
   );
 };

@@ -86,8 +86,8 @@ export const EncodeItems = () => {
             </p>
           )}
         </div>
-        <div className="grid grid-cols-2 gap-2">
-          <EncodeExpImp />
+        <div className="grid grid-cols-1 gap-2">
+          {/* <EncodeExpImp /> */}
           <EncodeCanvas />
         </div>
       </>

@@ -6,7 +6,6 @@ import { geojsonAPI } from "./../config";
 const headers = {
   Accept: "application/json",
   "Content-Type": "application/json",
-  crossOrigin: "anonymous",
 };
 
 /**
@@ -73,14 +72,56 @@ export const getEncode = async (base64_string) => {
  * @param {*} decodePayload
  * @returns
  */
-export const getDecode = async (decodePayload) => {
+export const requestSangeo = async (payload) => {
+  const apiUrl = `${cpuDecodeAPI}/sam2/segment_automatic`;
+
+  try {
+    // Decode
+    const resp = await fetch(apiUrl, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
+    });
+    
+    if (!resp.ok) {
+      NotificationManager.error(
+        `${apiUrl} `,
+        `Decode server error ${resp.status}`,
+        10000
+      );
+      throw new Error(`Error: ${resp.status}`);
+    }
+    const decodeRespJson = await resp.json();
+    return decodeRespJson.ge;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+export const fetchGeoJSONData = async (propsReq) => {
+  const url = 'https://gist.githubusercontent.com/Rub21/c7001da2925661a4e660fde237e94473/raw/88f6f163029188dd1c8e3c23ff66aaaa8a6bac93/sam2_result.json';
+  
+  try {
+    const response = await fetch(url); 
+    if (!response.ok) {
+      throw new Error(`Error fetching data: ${response.status}`);
+    }
+    const data = await response.json();
+    return {geojson:data};
+  } catch (error) {
+    console.error('Error fetching GeoJSON data:', error);
+  }
+};
+
+export const getDecode  = async (payload) => {
   const decodeURL = `${cpuDecodeAPI}/predictions/sam_vit_h_decode`;
   try {
     // Decode
     const decodeResponse = await fetch(decodeURL, {
       method: "POST",
       headers,
-      body: JSON.stringify(decodePayload),
+      body: JSON.stringify(payload),
     });
     if (!decodeResponse.ok) {
       NotificationManager.error(
@@ -96,6 +137,9 @@ export const getDecode = async (decodePayload) => {
     console.log(error);
   }
 };
+
+
+
 /**
  *
  * @param {list} urls
@@ -140,6 +184,7 @@ export const uploadtoS3 = async (data, filename) => {
     if (response.ok) {
       return response.json();
     } else {
+      console.log("%cutils.js line:44 response", "color: #007acc;", response);
       throw new Error("Request failed with status " + response.status);
     }
   } catch (error) {

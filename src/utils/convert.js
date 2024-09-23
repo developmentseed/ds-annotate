@@ -1,6 +1,9 @@
 import GeoJSON from "ol/format/GeoJSON";
 import * as turf from "@turf/turf";
-import { guid } from "../utils/utils";
+// import { proj } from 'ol/proj';
+import { transformExtent } from 'ol/proj';
+
+
 
 /**
  *
@@ -64,6 +67,14 @@ export const olFeatures2geojson = (olFeatures) => {
   return JSON.parse(geojson);
 };
 
+
+
+export const convertBbox3857to4326 = (bbox) => {
+  const convertedBbox = transformExtent(bbox, 'EPSG:3857', 'EPSG:4326');
+  return convertedBbox;
+};
+
+
 /**
  *
  * @param {Object} feature of project
@@ -83,57 +94,77 @@ export const getClassLayers = (project) => {
  * @param {Object} feature of project
  * @returns {Array} List of objects of classes
  */
-export const sam2Geojson = (ListGeoms, activeProject, activeClass) => {
+export const sam2Geojson = (ListGeoms, activeProject, activeClass, id) => {
   let scores = [];
   const features = [];
   for (let index = 0; index < ListGeoms.length; index++) {
     const strGeom = ListGeoms[index];
     const geom = JSON.parse(strGeom);
-    const id = guid();
     const properties = {
       class: activeClass.name,
       color: activeClass.color,
       project: activeProject.properties.name,
       ...geom.properties,
-      id,
+      id: id,
     };
     scores = geom.properties.confidence_scores;
     const feature = turf.multiPolygon(geom.coordinates, properties);
     features.push(feature);
   }
-
-  const groupFeatures = splitArrayInGroups(features, 4);
-  const groupScores = splitArrayInGroups(scores, 4);
-  const maxScoreFeatures = [];
-  for (let index = 0; index < groupFeatures.length; index++) {
-    const predFeatures = groupFeatures[index];
-    const predScores = groupScores[index];
-    const maxNumber = Math.max(...predScores);
-    const maxIndex = predScores.indexOf(maxNumber);
-    const maxScoreFeature = predFeatures[maxIndex];
-    maxScoreFeatures.push(maxScoreFeature);
-  }
-  return maxScoreFeatures;
+  const maxNumber = Math.max(...scores);
+  const maxIndex = scores.indexOf(maxNumber);
+  const maxScoreFeature = features[maxIndex];
+  return [maxScoreFeature];
+  // return features
 };
 
-/**
- *
- * @param {Array} Bounding box [minX, minY, maxX, maxY]
- * @returns {Object} polygon object
- */
+export const setProps2Features = (features, activeProject, activeClass, id) => {
+  const properties = {
+    class: activeClass.name,
+    color: activeClass.color,
+    project: activeProject.properties.name,
+  };
+
+  return features.map((feature, index) => {
+    return {
+      ...feature,
+      properties: {
+        ...feature.properties,
+        id: `${index}_${feature.properties.value}`,
+        ...properties,
+      },
+    };
+  });
+};
+
+
 export const bbox2polygon = (bbox) => {
   const poly = turf.bboxPolygon(bbox);
   return poly;
 };
 
-/**
- *
- * @param {Array} Any type of list
- * @param {int} size of the items to include in the group
- * @returns
- */
-export const splitArrayInGroups = (arr, groupSize) => {
-  return Array.from({ length: Math.ceil(arr.length / groupSize) }, (_, i) =>
-    arr.slice(i * groupSize, (i + 1) * groupSize)
-  );
+
+
+export const saveFeaturesToGeoJSONFile = (features) => {
+  const geoJSON = {
+    type: "FeatureCollection",
+    features: features,
+  };
+
+  const geoJSONString = JSON.stringify(geoJSON, null, 2);
+
+  const blob = new Blob([geoJSONString], { type: "application/geo+json" });
+
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `results.geojson`;
+
+  document.body.appendChild(link);
+  link.click();
+
+  document.body.removeChild(link);
+
+  URL.revokeObjectURL(url);
 };

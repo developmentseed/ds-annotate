@@ -68,7 +68,7 @@ const MainContextProvider = (props) => {
 
   const [decoderType, dispatchDecoderType] = useReducer(
     activeDecoderType,
-    "single_point"
+    "none"
   );
 
   return (

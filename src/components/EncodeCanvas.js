@@ -1,8 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import { NotificationManager } from "react-notifications";
+import log from 'loglevel';
+
 import { MainContext } from "../contexts/MainContext";
 import { getCanvasForLayer } from "../utils/canvas";
-import { getEncode, getDecode, getPropertiesRequest } from "../utils/requests";
+import { getEncode, getDecode, getPropertiesRequest, requestSangeo, fetchGeoJSONData } from "../utils/requests";
+import { sam2Geojson, features2olFeatures, setProps2Features, saveFeaturesToGeoJSONFile } from "../utils/convert";
+import { pointIsInEncodeBbox, pointIsInBbox } from "../utils/calculation";
 import { storeEncodeItems, storeItems } from "../store/indexedDB";
 import { guid } from "../utils/utils";
 
@@ -11,41 +15,37 @@ export const EncodeCanvas = () => {
     map,
     pointsSelector,
     activeProject,
+    activeClass,
+    dispatchSetItems,
+    items,
     encodeItems,
     dispatchEncodeItems,
+    activeEncodeImageItem,
     dispatchActiveEncodeImageItem,
     setSpinnerLoading,
   } = useContext(MainContext);
 
   const [samApiStatus, setSamApiStatus] = useState(null);
+  const [notificationShown, setNotificationShown] = useState(false);
 
   const reset = () => {
     setSpinnerLoading(false);
-    setSamApiStatus(null);
+    // setSamApiStatus(null);
   };
 
   // Request segment-anything-services
-  const encodeImage = async () => {
-    const requestProps = getPropertiesRequest(map, pointsSelector);
-
+  const requestSAMAOI = async (requestProps) => {
     setSpinnerLoading(true);
-    let newEncodeItems = encodeItems;
-
     //=================== Encode ===================
     try {
       const canvas = await getCanvasForLayer(map, "main_layer");
-      const base64 = canvas.split(";base64,")[1];
-      const encodeRespJson = await getEncode(base64);
-      requestProps.image_embeddings = encodeRespJson.image_embedding;
-
       const encodeItem = Object.assign({}, requestProps, {
         canvas,
+        image_embeddings: "",
         id: guid(),
         project: activeProject.properties.name,
       });
-
-      //Merge existing encode items and new
-      newEncodeItems = [...encodeItems, encodeItem];
+      const newEncodeItems = [...encodeItems, encodeItem];
 
       // Set reduce items
       dispatchEncodeItems({
@@ -63,21 +63,96 @@ export const EncodeCanvas = () => {
       storeEncodeItems.addData({ ...encodeItem });
     } catch (error) {
       reset();
-      NotificationManager.warning(
-        "Make sure that the GPU is enable",
-        "GPU",
-        3000
-      );
     }
     reset();
+  };
+
+  // const resquestPredictions = async (requestProps) => {
+  //   // =================== Decode ===================
+  //   try {
+  //     // const resp = await requestSangeo(requestProps);
+  //     const resp = await fetchGeoJSONData(requestProps);
+
+  //     // saveFeaturesToGeoJSONFile(resp.geojson.features);
+  //     console.log("====");
+
+  //     const id = guid();
+  //     const features = setProps2Features(
+  //       resp.geojson.features,
+  //       activeProject,
+  //       activeClass,
+  //       id
+  //     );
+
+  //     console.log(features);
+
+  //     const olFeatures = features2olFeatures(features);
+  //     console.log(olFeatures)
+  //     dispatchSetItems({
+  //       type: "SET_ITEMS",
+  //       payload: [...items, ...olFeatures],
+  //     });
+
+  //     // save in DB
+  //     const feature = features[0];
+  //     storeItems.addData({ ...feature, id });
+  //     reset();
+  //   } catch (error) {
+  //     reset();
+  //   }
+  // }
+
+
+  const showNotification = (text, duration) => {
+    if (!notificationShown) {
+      NotificationManager.warning(text, "Map interaction", duration);
+      setNotificationShown(true);
+      // Reactivate the notification after a 10 sec
+      setTimeout(() => {
+        setNotificationShown(false);
+      }, 10 * 1000);
+    }
+  };
+
+  // useEffect(() => {
+  //   if (!map) return;
+  //   if (activeEncodeImageItem) {
+  //     const { isPointInPolygon, pointFeature, bbox } = pointIsInBbox(
+  //       activeEncodeImageItem,
+  //       pointsSelector
+  //     );
+
+  //     const { image_shape, input_label, crs, zoom } = activeEncodeImageItem;
+  //     log.info(image_shape, input_label, crs, zoom);
+  //     const newRequestProps = {
+  //       bbox,
+  //       crs,
+  //       zoom,
+  //       id: activeProject.properties.slug,
+  //       project: activeProject.properties.name,
+  //     };
+
+  //     requestSAM(newRequestProps, false);
+
+  //   } else {
+  //     showNotification(
+  //       `Click inside of active AOI to enable Segment Anything Model.`
+  //     );
+  //   }
+
+  // }, [pointsSelector]);
+
+  const requestAOI = async () => {
+    const requestProps = getPropertiesRequest(map, pointsSelector);
+    requestSAMAOI(requestProps, true);
   };
 
   return (
     <>
       <button
         className="custom_button bg-orange-ds text-white hover:bg-orange-ds hover:bg-opacity-80"
-        onClick={() => encodeImage()}
-        disabled={samApiStatus || false}
+        onClick={() => requestAOI()}
+      // disabled={samApiStatus || false}
       >
         New SAM AOI
       </button>

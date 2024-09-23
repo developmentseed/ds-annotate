@@ -35,7 +35,7 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
 
   useEffect(() => {
     if (!map) return;
-    if (pointsSelector.length === 0) return;
+    // if (pointsSelector.length === 0) return;
     if (project) {
       const geojsonSource = new VectorSource({
         features: new GeoJSON({ featureProjection: "EPSG:3857" }).readFeatures(
@@ -95,39 +95,41 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
     });
   }, [map]);
 
-  // Add point to send request to SAM
-  useEffect(() => {
-    if (!map) return;
+  // // // Add point to send request to SAM
+  // useEffect(() => {
+  //   if (!map) return;
 
-    const clickHandler = function (e) {
-      const coordinates = e.coordinate;
-      const point = new Feature(new Point(coordinates));
-      point.setProperties({
-        px: Math.ceil(e.pixel[0]),
-        py: Math.ceil(e.pixel[1]),
-      });
-      if (decoderType === "single_point") {
-        dispatchSetPointsSelector({ type: "SET_SINGLE_POINT", payload: point });
-      } else if (decoderType === "multi_point") {
-        dispatchSetPointsSelector({ type: "SET_MULTI_POINT", payload: point });
-      }
-    };
+  //   const clickHandler = function (e) {
+  //     const coordinates = e.coordinate;
+  //     const point = new Feature(new Point(coordinates));
+  //     point.setProperties({
+  //       px: Math.ceil(e.pixel[0]),
+  //       py: Math.ceil(e.pixel[1]),
+  //     });
 
-    map.on("click", clickHandler);
-    return () => map.un("click", clickHandler);
-  }, [pointsSelector, decoderType]);
+  //     // if (decoderType === "single_point") {
+  //     //   dispatchSetPointsSelector({ type: "SET_SINGLE_POINT", payload: point });
+  //     // } else if (decoderType === "multi_point") {
+  //     //   dispatchSetPointsSelector({ type: "SET_MULTI_POINT", payload: point });
+  //     // }
 
-  // Display points selector in the map
-  useEffect(() => {
-    if (!map) return;
-    // if (pointsSelector.length === 0) return;
+  //   };
 
-    const pointsSelectorDataSource = new VectorSource({
-      features: pointsSelector,
-      wrapX: true,
-    });
-    vectorPointSelector.setSource(pointsSelectorDataSource);
-  }, [pointsSelector]);
+  //   map.on("click", clickHandler);
+  //   return () => map.un("click", clickHandler);
+  // }, [pointsSelector, decoderType]);
+
+  // // Display points selector in the map
+  // useEffect(() => {
+  //   if (!map) return;
+  //   // if (pointsSelector.length === 0) return;
+
+  //   const pointsSelectorDataSource = new VectorSource({
+  //     features: pointsSelector,
+  //     wrapX: true,
+  //   });
+  //   vectorPointSelector.setSource(pointsSelectorDataSource);
+  // }, [pointsSelector]);
 
   // Update vector layer to desplay the bbox of the decode images
   useEffect(() => {
