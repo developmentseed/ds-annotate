@@ -77,13 +77,12 @@ export const setAOI = async (encodeItem) => {
     const reqProps = {
       canvas_image: encodeItem.canvas,
       bbox: convertBbox3857to4326(encodeItem.bbox),
-      zoom:encodeItem.zoom,
+      zoom: encodeItem.zoom,
       crs: "EPSG:4326",
       id: encodeItem.id,
       project: encodeItem.project,
 
     }
-    console.log('%csrc/utils/requests.js:82 reqProps', 'color: #007acc;', reqProps);
     const encodeResponse = await fetch(url, {
       method: "POST",
       headers,
@@ -105,7 +104,7 @@ export const setAOI = async (encodeItem) => {
 };
 
 // SAM2
-export const requestSangeo = async (payload) => {
+export const requestSegmentAutomatic = async (payload) => {
   const apiUrl = `${cpuDecodeAPI}/sam2/segment_automatic`;
 
   try {
@@ -125,7 +124,7 @@ export const requestSangeo = async (payload) => {
       throw new Error(`Error: ${resp.status}`);
     }
     const decodeRespJson = await resp.json();
-    return decodeRespJson.ge;
+    return decodeRespJson;
   } catch (error) {
     console.log(error);
   }
@@ -141,6 +140,11 @@ export const requestEncodeImages = async (project_id) => {
       headers,
     });
     const decodeRespJson = await resp.json();
+    // TODO, change here  to handle response
+    if (decodeRespJson.detail) {
+      decodeRespJson.detection = {}
+      return decodeRespJson
+    }
     return decodeRespJson;
   } catch (error) {
     console.log(error);

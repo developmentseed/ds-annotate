@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { NotificationManager } from "react-notifications";
 import { MainContext } from "../contexts/MainContext";
-import { getDecode, fetchGeoJSONData } from "../utils/requests";
+import { getDecode, fetchGeoJSONData,requestSegmentAutomatic } from "../utils/requests";
 import { sam2Geojson, features2olFeatures, setProps2Features, olFeatures2Features, convertBbox3857to4326 } from "../utils/convert";
 import { pointsIsInEncodeBbox } from "../utils/calculation";
 import { storeItems } from "../store/indexedDB";
@@ -37,25 +37,26 @@ export const DecodeAutomatic = () => {
 
     setSpinnerLoading(true);
 
-    const id = guid();
-
     const reqProps = {
       bbox: convertBbox3857to4326(activeEncodeImageItem.bbox),
       crs: "EPSG:4326",
       zoom: activeEncodeImageItem.zoom,
-      id,
-      project: activeProject.properties.name,
+      id:activeEncodeImageItem.id,
+      project: activeProject.properties.slug,
     }
+    console.log(reqProps)
 
-    const resp = await fetchGeoJSONData(activeEncodeImageItem);
+    const resp = await requestSegmentAutomatic(reqProps);
+
+    // const resp = await fetchGeoJSONData(resp);
 
     console.log(resp)
 
     const features = setProps2Features(
-      resp.geojson.features,
+      resp.features,
       activeProject,
       activeClass,
-      id
+      activeEncodeImageItem.id
     );
     const olFeatures = features2olFeatures(features);
     // Add items
