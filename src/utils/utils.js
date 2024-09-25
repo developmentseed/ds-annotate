@@ -80,7 +80,7 @@ export const guid = () => {
       .toString(16)
       .substring(1);
   };
-  return `${w().substring(0, 4)}`;
+  return `${w().substring(0, 3)}`;
 };
 
 /**

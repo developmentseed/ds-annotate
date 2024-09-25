@@ -143,7 +143,7 @@ export const encodeMapViewHighlighted = new VectorLayer({
   style: new Style({
     stroke: new Stroke({
       width: 2,
-      color: [207, 63, 2, 1],
+      color: [0,255, 97, 1],
     }),
   }),
   zIndex: 8,

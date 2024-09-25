@@ -2,6 +2,7 @@ import { gpuEncodeAPI, cpuDecodeAPI } from "../config";
 import { NotificationManager } from "react-notifications";
 import { olFeatures2geojson } from "./convert";
 import { geojsonAPI } from "./../config";
+import { convertBbox3857to4326 } from "./convert";
 
 const headers = {
   Accept: "application/json",
@@ -38,6 +39,7 @@ export const getPropertiesRequest = (map, pointsSelector) => {
   return reqProps;
 };
 
+
 /**
  * Request encode API
  * @param {*} base64_string
@@ -67,11 +69,42 @@ export const getEncode = async (base64_string) => {
   }
 };
 
-/**
- * Request decode API
- * @param {*} decodePayload
- * @returns
- */
+// SAM2
+export const setAOI = async (encodeItem) => {
+  const url = `${cpuDecodeAPI}/aoi`;
+  console.log(url);
+  try {
+    const reqProps = {
+      canvas_image: encodeItem.canvas,
+      bbox: convertBbox3857to4326(encodeItem.bbox),
+      zoom:encodeItem.zoom,
+      crs: "EPSG:4326",
+      id: encodeItem.id,
+      project: encodeItem.project,
+
+    }
+    console.log('%csrc/utils/requests.js:82 reqProps', 'color: #007acc;', reqProps);
+    const encodeResponse = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(reqProps),
+    });
+    if (!encodeResponse.ok) {
+      NotificationManager.error(
+        `${url}`,
+        `Encode server error ${encodeResponse.status}`,
+        10000
+      );
+      throw new Error(`Error: ${encodeResponse.status}`);
+    }
+    const encodeRespJson = await encodeResponse.json();
+    return encodeRespJson;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// SAM2
 export const requestSangeo = async (payload) => {
   const apiUrl = `${cpuDecodeAPI}/sam2/segment_automatic`;
 
@@ -82,7 +115,7 @@ export const requestSangeo = async (payload) => {
       headers,
       body: JSON.stringify(payload),
     });
-    
+
     if (!resp.ok) {
       NotificationManager.error(
         `${apiUrl} `,
@@ -99,22 +132,39 @@ export const requestSangeo = async (payload) => {
 };
 
 
+export const requestEncodeImages = async (project_id) => {
+  const apiUrl = `${cpuDecodeAPI}/predictions?project_id=${project_id}`;
+  console.log('%csrc/utils/requests.js:137 apiUrl', 'color: #007acc;', apiUrl);
+  try {
+    const resp = await fetch(apiUrl, {
+      method: "GET",
+      headers,
+    });
+    const decodeRespJson = await resp.json();
+    return decodeRespJson;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+
 export const fetchGeoJSONData = async (propsReq) => {
   const url = 'https://gist.githubusercontent.com/Rub21/c7001da2925661a4e660fde237e94473/raw/88f6f163029188dd1c8e3c23ff66aaaa8a6bac93/sam2_result.json';
-  
+
   try {
-    const response = await fetch(url); 
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Error fetching data: ${response.status}`);
     }
     const data = await response.json();
-    return {geojson:data};
+    return { geojson: data };
   } catch (error) {
     console.error('Error fetching GeoJSON data:', error);
   }
 };
 
-export const getDecode  = async (payload) => {
+export const getDecode = async (payload) => {
   const decodeURL = `${cpuDecodeAPI}/predictions/sam_vit_h_decode`;
   try {
     // Decode

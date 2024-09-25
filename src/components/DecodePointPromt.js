@@ -48,7 +48,6 @@ export const DecodePointPromt = () => {
   useEffect(() => {
     if (!map) return;
     if (decoderType !== "single_point") return;
-
     if (!activeEncodeImageItem) {
       NotificationManager.warning(
         `Enable an AOI`,
@@ -57,13 +56,14 @@ export const DecodePointPromt = () => {
       return;
     }
 
+
+
     const clickHandler = function (e) {
       const coordinates = e.coordinate;
       const point = new Feature(new Point(coordinates));
+      
       const color = isForegroundPromtPoint ? [46, 62, 255] : [253, 23, 23];
       const label = isForegroundPromtPoint ? 1 : 0;
-      console.log("isForegroundPromtPoint: " + isForegroundPromtPoint);
-      console.log(color);
       point.setProperties({
         px: Math.ceil(e.pixel[0]),
         py: Math.ceil(e.pixel[1]),

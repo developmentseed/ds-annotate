@@ -5,6 +5,7 @@ import { storeItems } from "./../store/indexedDB";
 import { olFeatures2Features } from "../utils/convert";
 
 const Item = ({ item, index }) => {
+  console.log(item)
   const { items, dispatchSetItems, dispatchSetHighlightedItem } =
     useContext(MainContext);
 
@@ -17,6 +18,7 @@ const Item = ({ item, index }) => {
       payload: newItems,
     });
     // Delete from DB
+    console.log(item.values_.id)
     storeItems.deleteData(item.values_.id);
   };
 

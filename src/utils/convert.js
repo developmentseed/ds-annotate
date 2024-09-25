@@ -74,6 +74,10 @@ export const convertBbox3857to4326 = (bbox) => {
   return convertedBbox;
 };
 
+export const convertBbox4326to3857 = (bbox) => {
+  const convertedBbox = transformExtent(bbox, 'EPSG:4326','EPSG:3857');
+  return convertedBbox;
+};
 
 /**
  *
@@ -128,10 +132,11 @@ export const setProps2Features = (features, activeProject, activeClass, id) => {
   return features.map((feature, index) => {
     return {
       ...feature,
+      id: `${id}_${index}`,
       properties: {
         ...feature.properties,
-        id: `${index}_${feature.properties.value}`,
         ...properties,
+        id: `${id}_${index}`,
       },
     };
   });

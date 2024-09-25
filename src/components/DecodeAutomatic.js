@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { NotificationManager } from "react-notifications";
 import { MainContext } from "../contexts/MainContext";
 import { getDecode, fetchGeoJSONData } from "../utils/requests";
-import { sam2Geojson, features2olFeatures, setProps2Features,olFeatures2Features ,convertBbox3857to4326} from "../utils/convert";
+import { sam2Geojson, features2olFeatures, setProps2Features, olFeatures2Features, convertBbox3857to4326 } from "../utils/convert";
 import { pointsIsInEncodeBbox } from "../utils/calculation";
 import { storeItems } from "../store/indexedDB";
 import { guid } from "../utils/utils";
@@ -36,8 +36,9 @@ export const DecodeAutomatic = () => {
     });
 
     setSpinnerLoading(true);
+
     const id = guid();
-    console.log('%csrc/components/DecodeAutomatic.js:40 activeProject', 'color: #007acc;', activeProject);
+
     const reqProps = {
       bbox: convertBbox3857to4326(activeEncodeImageItem.bbox),
       crs: "EPSG:4326",
@@ -46,9 +47,9 @@ export const DecodeAutomatic = () => {
       project: activeProject.properties.name,
     }
 
-    console.log('%csrc/components/DecodeAutomatic.js:48 reqProps', 'color: #007acc;', reqProps);
     const resp = await fetchGeoJSONData(activeEncodeImageItem);
 
+    console.log(resp)
 
     const features = setProps2Features(
       resp.geojson.features,
@@ -62,6 +63,12 @@ export const DecodeAutomatic = () => {
       type: "SET_ITEMS",
       payload: [...items, ...olFeatures],
     });
+
+    // save in iddexedDB
+    features.forEach((feature) => {
+      storeItems.addData(feature);
+    });
+
     setSpinnerLoading(false);
   }
 

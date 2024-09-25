@@ -68,8 +68,6 @@
           "url": "https://sitmappe.comune.bologna.it/tms/tileserver/Ortofoto2017/{z}/{x}/{y}.png"
         },
         "encodeImages": [
-          "https://ds-annotate.s3.amazonaws.com/encode_images/Bologna,_IT/1521.json",
-          "https://ds-annotate.s3.amazonaws.com/encode_images/Bologna,_IT/5a86.json"
         ]
       },
       "geometry": {
