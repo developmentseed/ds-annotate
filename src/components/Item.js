@@ -5,7 +5,6 @@ import { storeItems } from "./../store/indexedDB";
 import { olFeatures2Features } from "../utils/convert";
 
 const Item = ({ item, index }) => {
-  console.log(item)
   const { items, dispatchSetItems, dispatchSetHighlightedItem } =
     useContext(MainContext);
 
@@ -18,7 +17,6 @@ const Item = ({ item, index }) => {
       payload: newItems,
     });
     // Delete from DB
-    console.log(item.values_.id)
     storeItems.deleteData(item.values_.id);
   };
 
@@ -28,14 +26,6 @@ const Item = ({ item, index }) => {
       payload: item,
     });
   };
-
-  // useEffect(() => {
-  //   console.log('%cItem.js line:30 items', 'color: #007acc;', items);
-  //   storeItems.addListData(olFeatures2Features(items)).then(data=>{
-  //     console.log('%cItem.js line:33 save', 'color: #007acc;', data);
-  //   })
-  // }, [items]);
-
   return (
     <div
       className="inline-flex justify-center items-center pr-1 pl-1 ml-1 text-xs text-slate-900 font-medium rounded-full cursor-pointer"

@@ -64,6 +64,7 @@ export const ProjectLayer = ({ project, items, highlightedItem }) => {
 
   useEffect(() => {
     if (!map) return;
+    console.log(items)
     try {
       if (items.length >= 0) {
         const segDataSource = new VectorSource({

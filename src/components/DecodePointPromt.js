@@ -5,8 +5,8 @@ import Point from "ol/geom/Point";
 import VectorSource from "ol/source/Vector";
 
 import { MainContext } from "../contexts/MainContext";
-import { getDecode, fetchGeoJSONData } from "../utils/requests";
-import { sam2Geojson, features2olFeatures, setProps2Features,olFeatures2Features ,convertBbox3857to4326} from "../utils/convert";
+import { getDecode, fetchGeoJSONData, requestSegmentAutomatic } from "../utils/requests";
+import { sam2Geojson, features2olFeatures, setProps2Features, olFeatures2Features, convertBbox3857to4326 } from "../utils/convert";
 import { pointsIsInEncodeBbox } from "../utils/calculation";
 import { storeItems } from "../store/indexedDB";
 import { guid } from "../utils/utils";
@@ -33,8 +33,6 @@ export const DecodePointPromt = () => {
   const [isForegroundPromtPoint, setIsForegroundPromtPoint] = useState(true);
   const [points, setPoints] = useState([]);
 
-
-
   const setDecodeType = (decodeType) => {
     dispatchDecoderType({
       type: "SET_DECODER_TYPE",
@@ -56,12 +54,10 @@ export const DecodePointPromt = () => {
       return;
     }
 
-
-
     const clickHandler = function (e) {
       const coordinates = e.coordinate;
       const point = new Feature(new Point(coordinates));
-      
+
       const color = isForegroundPromtPoint ? [46, 62, 255] : [253, 23, 23];
       const label = isForegroundPromtPoint ? 1 : 0;
       point.setProperties({
@@ -85,8 +81,7 @@ export const DecodePointPromt = () => {
   }, [points]);
 
 
-
-  const requestPointPromt = () => {
+  const requestPointPromt = async () => {
     if (!map) return;
     if (decoderType !== "single_point") return;
     if (!activeEncodeImageItem) {
@@ -96,28 +91,56 @@ export const DecodePointPromt = () => {
       );
       return;
     }
-    if (points.length<1) return;
+    if (points.length < 1) return;
+    setSpinnerLoading(true);
+    const featuresPoints = olFeatures2Features(points);
+    const coordinatesArray = featuresPoints.map(feature => feature.geometry.coordinates);
+    const labelsArray = featuresPoints.map(feature => feature.properties.label);
 
-    const features = olFeatures2Features( points );
-    const coordinatesArray = features.map(feature => feature.geometry.coordinates);
-    const labelsArray = features.map(feature => feature.properties.label);
-    const id = guid();
     const reqProps = {
       bbox: convertBbox3857to4326(activeEncodeImageItem.bbox),
-      point_labels:labelsArray,
-      point_coords:coordinatesArray,
+      point_labels: labelsArray,
+      point_coords: coordinatesArray,
       crs: "EPSG:4326",
       zoom: activeEncodeImageItem.zoom,
-      id,
-      project: activeProject.properties.name,
+      id: activeEncodeImageItem.id,
+      project: activeProject.properties.slug,
     }
 
-    console.log('%csrc/components/DecodePointPromt.js:126 reqProps', 'color: #007acc;', reqProps);
+
+    const resp = await requestSegmentAutomatic(reqProps, "sam2/segment_predictor")
+
+    const features = setProps2Features(
+      resp.features,
+      activeProject,
+      activeClass,
+      activeEncodeImageItem.id
+    );
+    console.log("----------------")
+
+    console.log(features)
+    const olFeatures = features2olFeatures(features);
+    // Add items
+    dispatchSetItems({
+      type: "SET_ITEMS",
+      payload: [...items, ...olFeatures],
+    });
+
+
+    setPoints([]);
+    // save in iddexedDB
+    // const items_id=guid()
+    // features.forEach((feature,index) => {
+    //   feature.id =`${items_id}_${index}`
+    //   feature.properties.id =`${items_id}_${index}`
+    //   storeItems.addData(feature);
+    // });
+    setSpinnerLoading(false);
   };
 
   return (
     <div className={`p-2 m-1 rounded ${decoderType == "single_point" ? " bg-gray-300" : ""
-    }`}>
+      }`}>
 
       <div className="flex flex-row">
         <button
@@ -148,7 +171,7 @@ export const DecodePointPromt = () => {
           <div className="flex flex-row mt-3">
             <button
               className={`custom_button w-full`}
-            onClick={() => requestPointPromt()}
+              onClick={() => requestPointPromt()}
             >
               {"Detect "}
             </button>

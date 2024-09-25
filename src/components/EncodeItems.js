@@ -28,12 +28,9 @@ export const EncodeItems = () => {
   // Load indexedDB for encode Items
   useEffect(() => {
     if (!activeProject) return;
-
-
     const fetchData = async () => {
       try {
         const encodeImages = await requestEncodeImages(activeProject.properties.slug);
-        console.log('%csrc/components/EncodeItems.js:36 encodeImages', 'color: #007acc;', encodeImages);
         let encodedImagesArray = Object.values(encodeImages.detection).map(encodeI => {
           encodeI.bbox = convertBbox4326to3857(encodeI.bbox);
           return encodeI;

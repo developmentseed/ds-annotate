@@ -111,7 +111,6 @@ export const vectorPointSelector = new VectorLayer({
   source: new VectorSource(),
   style: function (feature) {
     const colorCode = feature.get("color") || [209, 51, 255];
-    console.log(colorCode)
     return new Style({
       image: new CircleStyle({
         radius: 7,

@@ -6,6 +6,7 @@ import { sam2Geojson, features2olFeatures, setProps2Features, olFeatures2Feature
 import { pointsIsInEncodeBbox } from "../utils/calculation";
 import { storeItems } from "../store/indexedDB";
 import { guid } from "../utils/utils";
+
 export const DecodeAutomatic = () => {
   const {
     map,
@@ -46,7 +47,7 @@ export const DecodeAutomatic = () => {
     }
     console.log(reqProps)
 
-    const resp = await requestSegmentAutomatic(reqProps);
+    const resp = await requestSegmentAutomatic(reqProps,"sam2/segment_automatic");
 
     // const resp = await fetchGeoJSONData(resp);
 

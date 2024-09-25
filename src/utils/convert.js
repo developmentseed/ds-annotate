@@ -2,6 +2,7 @@ import GeoJSON from "ol/format/GeoJSON";
 import * as turf from "@turf/turf";
 // import { proj } from 'ol/proj';
 import { transformExtent } from 'ol/proj';
+import { guid } from "./utils";
 
 
 
@@ -129,19 +130,19 @@ export const setProps2Features = (features, activeProject, activeClass, id) => {
     project: activeProject.properties.name,
   };
 
+  const newId = guid();
   return features.map((feature, index) => {
     return {
       ...feature,
-      id: `${id}_${index}`,
+      id: `${newId}_${index}`,
       properties: {
         ...feature.properties,
         ...properties,
-        id: `${id}_${index}`,
+        id: `${newId}_${index}`,
       },
     };
   });
 };
-
 
 export const bbox2polygon = (bbox) => {
   const poly = turf.bboxPolygon(bbox);

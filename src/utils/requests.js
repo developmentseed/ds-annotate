@@ -104,8 +104,8 @@ export const setAOI = async (encodeItem) => {
 };
 
 // SAM2
-export const requestSegmentAutomatic = async (payload) => {
-  const apiUrl = `${cpuDecodeAPI}/sam2/segment_automatic`;
+export const requestSegmentAutomatic = async (payload, url_path) => {
+  const apiUrl = `${cpuDecodeAPI}/${url_path}`;
 
   try {
     // Decode
@@ -133,7 +133,6 @@ export const requestSegmentAutomatic = async (payload) => {
 
 export const requestEncodeImages = async (project_id) => {
   const apiUrl = `${cpuDecodeAPI}/predictions?project_id=${project_id}`;
-  console.log('%csrc/utils/requests.js:137 apiUrl', 'color: #007acc;', apiUrl);
   try {
     const resp = await fetch(apiUrl, {
       method: "GET",
