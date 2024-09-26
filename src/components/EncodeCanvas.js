@@ -72,9 +72,6 @@ export const EncodeCanvas = () => {
         type: "SET_ACTIVE_ENCODE_IMAGE",
         payload: respEncodeItem,
       });
-
-      // Save in indexedDB
-      // storeEncodeItems.addData({ ...respEncodeItem });
     } catch (error) {
       reset();
     }

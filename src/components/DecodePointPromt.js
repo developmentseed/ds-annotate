@@ -139,12 +139,12 @@ export const DecodePointPromt = () => {
 
     setPoints([]);
     // save in iddexedDB
-    // const items_id = guid()
-    // features.forEach((feature, index) => {
-    //   feature.id = `${items_id}_${index}`
-    //   feature.properties.id = `${items_id}_${index}`
-    //   storeItems.addData(feature);
-    // });
+    const items_id = guid();
+    features.forEach((feature, index) => {
+      feature.id = `${items_id}_${index}`;
+      feature.properties.id = `${items_id}_${index}`;
+      storeItems.addData(feature);
+    });
     setSpinnerLoading(false);
   };
 

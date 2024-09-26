@@ -78,8 +78,6 @@ export const Decode = () => {
     }
   };
 
-  //================================= Request Automatic =================================
-  //========================================================================================
   const requestAutomatic = async (activeEncodeImageItemProps) => {
     const resp = await fetchGeoJSONData(activeEncodeImageItemProps);
     const id = guid();

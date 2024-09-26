@@ -54,13 +54,8 @@ export const DecodeAutomatic = () => {
       id: activeEncodeImageItem.id,
       project: activeProject.properties.slug,
     };
-    console.log(reqProps);
 
     const resp = await requestSegments(reqProps, "sam2/segment_automatic");
-
-    // const resp = await fetchGeoJSONData(resp);
-
-    console.log(resp);
 
     const features = setProps2Features(
       resp.features,
