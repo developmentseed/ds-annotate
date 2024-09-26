@@ -5,7 +5,7 @@ import Point from "ol/geom/Point";
 import VectorSource from "ol/source/Vector";
 
 import { MainContext } from "../contexts/MainContext";
-import { getDecode, fetchGeoJSONData, requestSegmentAutomatic } from "../utils/requests";
+import { getDecode, fetchGeoJSONData, requestSegments } from "../utils/requests";
 import { sam2Geojson, features2olFeatures, setProps2Features, olFeatures2Features, convertBbox3857to4326 } from "../utils/convert";
 import { pointsIsInEncodeBbox } from "../utils/calculation";
 import { storeItems } from "../store/indexedDB";
@@ -48,7 +48,7 @@ export const DecodePointPromt = () => {
     if (decoderType !== "single_point") return;
     if (!activeEncodeImageItem) {
       NotificationManager.warning(
-        `Enable an AOI`,
+        `Select an AOI for making predictions within it.`,
         3000
       );
       return;
@@ -81,17 +81,24 @@ export const DecodePointPromt = () => {
   }, [points]);
 
 
-  const requestPointPromt = async () => {
+  const requestPointPromt = async (actionType) => {
     if (!map) return;
-    if (decoderType !== "single_point") return;
+    if (decoderType !== "single_point" && decoderType !== "multi_point") return;
     if (!activeEncodeImageItem) {
       NotificationManager.warning(
-        `Enable an AOI`,
+        `Select an AOI for making predictions within it.`,
         3000
       );
       return;
     }
-    if (points.length < 1) return;
+    if (points.length < 1) {
+      NotificationManager.warning(
+        `Set at least one point to make predictions.`,
+        3000
+      );
+      return;
+
+    }
     setSpinnerLoading(true);
     const featuresPoints = olFeatures2Features(points);
     const coordinatesArray = featuresPoints.map(feature => feature.geometry.coordinates);
@@ -105,20 +112,15 @@ export const DecodePointPromt = () => {
       zoom: activeEncodeImageItem.zoom,
       id: activeEncodeImageItem.id,
       project: activeProject.properties.slug,
+      action_type: actionType,
     }
-
-
-    const resp = await requestSegmentAutomatic(reqProps, "sam2/segment_predictor")
-
+    const resp = await requestSegments(reqProps, "sam2/segment_predictor");
     const features = setProps2Features(
       resp.features,
       activeProject,
       activeClass,
       activeEncodeImageItem.id
     );
-    console.log("----------------")
-
-    console.log(features)
     const olFeatures = features2olFeatures(features);
     // Add items
     dispatchSetItems({
@@ -129,17 +131,17 @@ export const DecodePointPromt = () => {
 
     setPoints([]);
     // save in iddexedDB
-    // const items_id=guid()
-    // features.forEach((feature,index) => {
-    //   feature.id =`${items_id}_${index}`
-    //   feature.properties.id =`${items_id}_${index}`
+    // const items_id = guid()
+    // features.forEach((feature, index) => {
+    //   feature.id = `${items_id}_${index}`
+    //   feature.properties.id = `${items_id}_${index}`
     //   storeItems.addData(feature);
     // });
     setSpinnerLoading(false);
   };
 
   return (
-    <div className={`p-2 m-1 rounded ${decoderType == "single_point" ? " bg-gray-300" : ""
+    <div className={`p-2 m-1 rounded ${decoderType == "single_point" ? " bg-gray-200" : ""
       }`}>
 
       <div className="flex flex-row">
@@ -171,9 +173,17 @@ export const DecodePointPromt = () => {
           <div className="flex flex-row mt-3">
             <button
               className={`custom_button w-full`}
-              onClick={() => requestPointPromt()}
+              onClick={() => requestPointPromt("single_point")}
             >
-              {"Detect "}
+              {"Detect single polygon"}
+            </button>
+          </div>
+          <div className="flex flex-row mt-3">
+            <button
+              className={`custom_button w-full`}
+              onClick={() => requestPointPromt("multi_point")}
+            >
+              {"Detect multi polygon"}
             </button>
           </div>
         </>

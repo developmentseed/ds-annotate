@@ -672,7 +672,7 @@
           "vessel": "#ffb350"
         },
         "slug": "vessels",
-        "name": "Vessels - Sentinel2",
+        "name": "Sentinel2",
         "imagery": {
           "type": "tms",
           "url": "https://planetarycomputer.microsoft.com/api/data/v1/mosaic/tiles/82ebdc445544365e45be4db6d22536ec/{z}/{x}/{y}?assets=B04&assets=B03&assets=B02&color_formula=Gamma+RGB+3.2+Saturation+0.8+Sigmoidal+RGB+25+0.35&collection=sentinel-2-l2a"

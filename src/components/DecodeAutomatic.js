@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { NotificationManager } from "react-notifications";
 import { MainContext } from "../contexts/MainContext";
-import { getDecode, fetchGeoJSONData,requestSegmentAutomatic } from "../utils/requests";
+import { getDecode, fetchGeoJSONData,requestSegments } from "../utils/requests";
 import { sam2Geojson, features2olFeatures, setProps2Features, olFeatures2Features, convertBbox3857to4326 } from "../utils/convert";
 import { pointsIsInEncodeBbox } from "../utils/calculation";
 import { storeItems } from "../store/indexedDB";
@@ -26,7 +26,7 @@ export const DecodeAutomatic = () => {
 
     if (!activeEncodeImageItem) {
       NotificationManager.warning(
-        `Enable an AOI`,
+        `Select an AOI for making predictions within it.`,
         3000
       );
       return;
@@ -47,7 +47,7 @@ export const DecodeAutomatic = () => {
     }
     console.log(reqProps)
 
-    const resp = await requestSegmentAutomatic(reqProps,"sam2/segment_automatic");
+    const resp = await requestSegments(reqProps,"sam2/segment_automatic");
 
     // const resp = await fetchGeoJSONData(resp);
 

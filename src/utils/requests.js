@@ -45,27 +45,41 @@ export const getPropertiesRequest = (map, pointsSelector) => {
  * @param {*} base64_string
  * @returns
  */
-export const getEncode = async (base64_string) => {
-  const encodeURL = `${gpuEncodeAPI}/predictions/sam_vit_h_encode`;
+// export const getEncode = async (base64_string) => {
+//   const encodeURL = `${gpuEncodeAPI}/predictions/sam_vit_h_encode`;
+//   try {
+//     // Encode
+//     const encodeResponse = await fetch(encodeURL, {
+//       method: "POST",
+//       headers,
+//       body: JSON.stringify({ encoded_image: base64_string }),
+//     });
+//     if (!encodeResponse.ok) {
+//       NotificationManager.error(
+//         `${encodeURL}`,
+//         `Encode server error ${encodeResponse.status}`,
+//         10000
+//       );
+//       throw new Error(`Error: ${encodeResponse.status}`);
+//     }
+//     const encodeRespJson = await encodeResponse.json();
+//     return encodeRespJson;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+export const getRequest = async (url) => {
+  const reqUrl = `${cpuDecodeAPI}/${url}`;
   try {
-    // Encode
-    const encodeResponse = await fetch(encodeURL, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({ encoded_image: base64_string }),
-    });
-    if (!encodeResponse.ok) {
-      NotificationManager.error(
-        `${encodeURL}`,
-        `Encode server error ${encodeResponse.status}`,
-        10000
-      );
-      throw new Error(`Error: ${encodeResponse.status}`);
+    const response = await fetch(reqUrl);
+    if (!response.ok) {
+      throw new Error(`Error fetching data: ${response.status}`);
     }
-    const encodeRespJson = await encodeResponse.json();
-    return encodeRespJson;
+    const result = await response.json();
+    return result;
   } catch (error) {
-    console.log(error);
+    console.error('Error fetching GeoJSON data:', error);
+    return null;
   }
 };
 
@@ -104,9 +118,9 @@ export const setAOI = async (encodeItem) => {
 };
 
 // SAM2
-export const requestSegmentAutomatic = async (payload, url_path) => {
+export const requestSegments = async (payload, url_path) => {
   const apiUrl = `${cpuDecodeAPI}/${url_path}`;
-
+console.log(payload)
   try {
     // Decode
     const resp = await fetch(apiUrl, {
