@@ -1,10 +1,8 @@
 import GeoJSON from "ol/format/GeoJSON";
 import * as turf from "@turf/turf";
 // import { proj } from 'ol/proj';
-import { transformExtent } from 'ol/proj';
+import { transformExtent } from "ol/proj";
 import { guid } from "./utils";
-
-
 
 /**
  *
@@ -68,15 +66,13 @@ export const olFeatures2geojson = (olFeatures) => {
   return JSON.parse(geojson);
 };
 
-
-
 export const convertBbox3857to4326 = (bbox) => {
-  const convertedBbox = transformExtent(bbox, 'EPSG:3857', 'EPSG:4326');
+  const convertedBbox = transformExtent(bbox, "EPSG:3857", "EPSG:4326");
   return convertedBbox;
 };
 
 export const convertBbox4326to3857 = (bbox) => {
-  const convertedBbox = transformExtent(bbox, 'EPSG:4326','EPSG:3857');
+  const convertedBbox = transformExtent(bbox, "EPSG:4326", "EPSG:3857");
   return convertedBbox;
 };
 
@@ -149,8 +145,6 @@ export const bbox2polygon = (bbox) => {
   return poly;
 };
 
-
-
 export const saveFeaturesToGeoJSONFile = (features) => {
   const geoJSON = {
     type: "FeatureCollection",
@@ -163,7 +157,7 @@ export const saveFeaturesToGeoJSONFile = (features) => {
 
   const url = URL.createObjectURL(blob);
 
-  const link = document.createElement('a');
+  const link = document.createElement("a");
   link.href = url;
   link.download = `results.geojson`;
 

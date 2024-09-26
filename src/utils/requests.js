@@ -39,7 +39,6 @@ export const getPropertiesRequest = (map, pointsSelector) => {
   return reqProps;
 };
 
-
 /**
  * Request encode API
  * @param {*} base64_string
@@ -78,7 +77,7 @@ export const getRequest = async (url) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    console.error('Error fetching GeoJSON data:', error);
+    console.error("Error fetching GeoJSON data:", error);
     return null;
   }
 };
@@ -95,8 +94,7 @@ export const setAOI = async (encodeItem) => {
       crs: "EPSG:4326",
       id: encodeItem.id,
       project: encodeItem.project,
-
-    }
+    };
     const encodeResponse = await fetch(url, {
       method: "POST",
       headers,
@@ -120,7 +118,7 @@ export const setAOI = async (encodeItem) => {
 // SAM2
 export const requestSegments = async (payload, url_path) => {
   const apiUrl = `${cpuDecodeAPI}/${url_path}`;
-console.log(payload)
+  console.log(payload);
   try {
     // Decode
     const resp = await fetch(apiUrl, {
@@ -144,7 +142,6 @@ console.log(payload)
   }
 };
 
-
 export const requestEncodeImages = async (project_id) => {
   const apiUrl = `${cpuDecodeAPI}/predictions?project_id=${project_id}`;
   try {
@@ -155,8 +152,8 @@ export const requestEncodeImages = async (project_id) => {
     const decodeRespJson = await resp.json();
     // TODO, change here  to handle response
     if (decodeRespJson.detail) {
-      decodeRespJson.detection = {}
-      return decodeRespJson
+      decodeRespJson.detection = {};
+      return decodeRespJson;
     }
     return decodeRespJson;
   } catch (error) {
@@ -164,10 +161,9 @@ export const requestEncodeImages = async (project_id) => {
   }
 };
 
-
-
 export const fetchGeoJSONData = async (propsReq) => {
-  const url = 'https://gist.githubusercontent.com/Rub21/c7001da2925661a4e660fde237e94473/raw/88f6f163029188dd1c8e3c23ff66aaaa8a6bac93/sam2_result.json';
+  const url =
+    "https://gist.githubusercontent.com/Rub21/c7001da2925661a4e660fde237e94473/raw/88f6f163029188dd1c8e3c23ff66aaaa8a6bac93/sam2_result.json";
 
   try {
     const response = await fetch(url);
@@ -177,7 +173,7 @@ export const fetchGeoJSONData = async (propsReq) => {
     const data = await response.json();
     return { geojson: data };
   } catch (error) {
-    console.error('Error fetching GeoJSON data:', error);
+    console.error("Error fetching GeoJSON data:", error);
   }
 };
 
@@ -204,8 +200,6 @@ export const getDecode = async (payload) => {
     console.log(error);
   }
 };
-
-
 
 /**
  *

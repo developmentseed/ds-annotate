@@ -1,11 +1,24 @@
 import React, { useContext, useState, useEffect } from "react";
 import { NotificationManager } from "react-notifications";
-import log from 'loglevel';
+import log from "loglevel";
 
 import { MainContext } from "../contexts/MainContext";
 import { getCanvasForLayer } from "../utils/canvas";
-import { getEncode, getDecode, getPropertiesRequest, requestSangeo, fetchGeoJSONData, setAOI } from "../utils/requests";
-import { sam2Geojson, features2olFeatures, setProps2Features, saveFeaturesToGeoJSONFile, convertBbox4326to3857 } from "../utils/convert";
+import {
+  getEncode,
+  getDecode,
+  getPropertiesRequest,
+  requestSangeo,
+  fetchGeoJSONData,
+  setAOI,
+} from "../utils/requests";
+import {
+  sam2Geojson,
+  features2olFeatures,
+  setProps2Features,
+  saveFeaturesToGeoJSONFile,
+  convertBbox4326to3857,
+} from "../utils/convert";
 import { pointIsInEncodeBbox, pointIsInBbox } from "../utils/calculation";
 import { storeEncodeItems, storeItems } from "../store/indexedDB";
 import { guid } from "../utils/utils";
@@ -43,7 +56,6 @@ export const EncodeCanvas = () => {
         project: activeProject.properties.slug,
       });
 
-    
       const respEncodeItem = await setAOI(encodeItem);
 
       respEncodeItem.bbox = convertBbox4326to3857(respEncodeItem.bbox);
@@ -79,7 +91,7 @@ export const EncodeCanvas = () => {
       <button
         className="custom_button bg-orange-ds text-white hover:bg-orange-ds hover:bg-opacity-80"
         onClick={() => requestAOI()}
-      // disabled={samApiStatus || false}
+        // disabled={samApiStatus || false}
       >
         New SAM AOI
       </button>

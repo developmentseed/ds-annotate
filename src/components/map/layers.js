@@ -1,7 +1,7 @@
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { TileWMS, OSM, XYZ } from "ol/source";
 import { Circle as CircleStyle, Fill, Stroke, Style, Icon } from "ol/style";
-import VectorSource from 'ol/source/Vector';
+import VectorSource from "ol/source/Vector";
 
 import MultiPoint from "ol/geom/MultiPoint";
 import { convertColorToRGBA } from "../../utils/utils";
@@ -127,7 +127,6 @@ export const vectorPointSelector = new VectorLayer({
   zIndex: 10,
 });
 
-
 export const encodeMapViews = new VectorLayer({
   style: new Style({
     stroke: new Stroke({
@@ -142,7 +141,7 @@ export const encodeMapViewHighlighted = new VectorLayer({
   style: new Style({
     stroke: new Stroke({
       width: 2,
-      color: [0,255, 97, 1],
+      color: [0, 255, 97, 1],
     }),
   }),
   zIndex: 8,

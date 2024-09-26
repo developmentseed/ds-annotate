@@ -5,14 +5,22 @@ import Point from "ol/geom/Point";
 import VectorSource from "ol/source/Vector";
 
 import { MainContext } from "../contexts/MainContext";
-import { getDecode, fetchGeoJSONData, requestSegments } from "../utils/requests";
-import { sam2Geojson, features2olFeatures, setProps2Features, olFeatures2Features, convertBbox3857to4326 } from "../utils/convert";
+import {
+  getDecode,
+  fetchGeoJSONData,
+  requestSegments,
+} from "../utils/requests";
+import {
+  sam2Geojson,
+  features2olFeatures,
+  setProps2Features,
+  olFeatures2Features,
+  convertBbox3857to4326,
+} from "../utils/convert";
 import { pointsIsInEncodeBbox } from "../utils/calculation";
 import { storeItems } from "../store/indexedDB";
 import { guid } from "../utils/utils";
-import {
-  vectorPointSelector,
-} from "./map/layers";
+import { vectorPointSelector } from "./map/layers";
 
 export const DecodePointPromt = () => {
   const {
@@ -38,9 +46,8 @@ export const DecodePointPromt = () => {
       type: "SET_DECODER_TYPE",
       payload: decodeType,
     });
-    setDisplayPointPromtsMenu(!displayPointPromtsMenu)
+    setDisplayPointPromtsMenu(!displayPointPromtsMenu);
   };
-
 
   // // Add point to send request to SAM
   useEffect(() => {
@@ -80,7 +87,6 @@ export const DecodePointPromt = () => {
     vectorPointSelector.setSource(pointsSelectorDataSource);
   }, [points]);
 
-
   const requestPointPromt = async (actionType) => {
     if (!map) return;
     if (decoderType !== "single_point" && decoderType !== "multi_point") return;
@@ -97,12 +103,15 @@ export const DecodePointPromt = () => {
         3000
       );
       return;
-
     }
     setSpinnerLoading(true);
     const featuresPoints = olFeatures2Features(points);
-    const coordinatesArray = featuresPoints.map(feature => feature.geometry.coordinates);
-    const labelsArray = featuresPoints.map(feature => feature.properties.label);
+    const coordinatesArray = featuresPoints.map(
+      (feature) => feature.geometry.coordinates
+    );
+    const labelsArray = featuresPoints.map(
+      (feature) => feature.properties.label
+    );
 
     const reqProps = {
       bbox: convertBbox3857to4326(activeEncodeImageItem.bbox),
@@ -113,7 +122,7 @@ export const DecodePointPromt = () => {
       id: activeEncodeImageItem.id,
       project: activeProject.properties.slug,
       action_type: actionType,
-    }
+    };
     const resp = await requestSegments(reqProps, "sam2/segment_predictor");
     const features = setProps2Features(
       resp.features,
@@ -128,7 +137,6 @@ export const DecodePointPromt = () => {
       payload: [...items, ...olFeatures],
     });
 
-
     setPoints([]);
     // save in iddexedDB
     // const items_id = guid()
@@ -141,13 +149,16 @@ export const DecodePointPromt = () => {
   };
 
   return (
-    <div className={`p-2 m-1 rounded ${decoderType == "single_point" ? " bg-gray-200" : ""
-      }`}>
-
+    <div
+      className={`p-2 m-1 rounded ${
+        decoderType == "single_point" ? " bg-gray-200" : ""
+      }`}
+    >
       <div className="flex flex-row">
         <button
-          className={`custom_button w-full ${decoderType == "single_point" ? " bg-orange-ds text-white" : ""
-            }`}
+          className={`custom_button w-full ${
+            decoderType == "single_point" ? " bg-orange-ds text-white" : ""
+          }`}
           onClick={() => setDecodeType("single_point")}
         >
           {`Point Input prompts`}
@@ -156,14 +167,17 @@ export const DecodePointPromt = () => {
       {decoderType == "single_point" && (
         <>
           <div className="flex space-x-2 mt-2">
-
-            <button className={`custom_button w-40 px-2 py-1 ${isForegroundPromtPoint ? " bg-orange-ds text-white" : ""
+            <button
+              className={`custom_button w-40 px-2 py-1 ${
+                isForegroundPromtPoint ? " bg-orange-ds text-white" : ""
               }`}
               onClick={() => setIsForegroundPromtPoint(true)}
             >
               Foreground
             </button>
-            <button className={`custom_button w-40 px-2 py-1 ${!isForegroundPromtPoint ? " bg-orange-ds text-white" : ""
+            <button
+              className={`custom_button w-40 px-2 py-1 ${
+                !isForegroundPromtPoint ? " bg-orange-ds text-white" : ""
               }`}
               onClick={() => setIsForegroundPromtPoint(false)}
             >

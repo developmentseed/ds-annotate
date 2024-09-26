@@ -5,7 +5,7 @@ import { EncodeCanvas } from "./EncodeCanvas";
 import { MenuTemplate } from "./MenuTemplate";
 import { EncodeExpImp } from "./EncodeExpImp";
 import { fetchListURLS, requestEncodeImages } from "../utils/requests";
-import {  convertBbox4326to3857 } from "../utils/convert";
+import { convertBbox4326to3857 } from "../utils/convert";
 
 import { BsLayoutWtf } from "react-icons/bs";
 
@@ -30,11 +30,15 @@ export const EncodeItems = () => {
     if (!activeProject) return;
     const fetchData = async () => {
       try {
-        const encodeImages = await requestEncodeImages(activeProject.properties.slug);
-        let encodedImagesArray = Object.values(encodeImages.detection).map(encodeI => {
-          encodeI.bbox = convertBbox4326to3857(encodeI.bbox);
-          return encodeI;
-        });
+        const encodeImages = await requestEncodeImages(
+          activeProject.properties.slug
+        );
+        let encodedImagesArray = Object.values(encodeImages.detection).map(
+          (encodeI) => {
+            encodeI.bbox = convertBbox4326to3857(encodeI.bbox);
+            return encodeI;
+          }
+        );
 
         dispatchEncodeItems({
           type: "CACHING_ENCODED",

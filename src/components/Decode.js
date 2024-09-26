@@ -2,7 +2,11 @@ import React, { useContext, useState, useEffect } from "react";
 import { NotificationManager } from "react-notifications";
 import { MainContext } from "../contexts/MainContext";
 import { getDecode, fetchGeoJSONData } from "../utils/requests";
-import { sam2Geojson, features2olFeatures, setProps2Features } from "../utils/convert";
+import {
+  sam2Geojson,
+  features2olFeatures,
+  setProps2Features,
+} from "../utils/convert";
 import { pointsIsInEncodeBbox } from "../utils/calculation";
 import { storeItems } from "../store/indexedDB";
 import { guid } from "../utils/utils";
@@ -27,7 +31,6 @@ export const Decode = () => {
   const [displayPointPromtsMenu, setDisplayPointPromtsMenu] = useState(false);
   const [isForegroundPromtPoint, setIsForegroundPromtPoint] = useState(true);
 
-
   const decodePrompt = async (requestProps) => {
     setSpinnerLoading(true);
     try {
@@ -45,13 +48,11 @@ export const Decode = () => {
 
       // console.log(features);
 
-
       // const features = sam2Geojson(
       //   decodeRespJson.geojsons,
       //   activeProject,
       //   activeClass
       // );
-
 
       const olFeatures = features2olFeatures(features);
       // Add items
@@ -94,8 +95,7 @@ export const Decode = () => {
       type: "SET_ITEMS",
       payload: [...items, ...olFeatures],
     });
-  }
-
+  };
 
   const buildReqProps = (
     activeEncodeImageItem,
@@ -182,9 +182,8 @@ export const Decode = () => {
       payload: decodeType,
     });
 
-
     if (decodeType === "automatic") {
-      requestAutomatic(activeEncodeImageItem)
+      requestAutomatic(activeEncodeImageItem);
     }
 
     if (decodeType === "single_point") {
@@ -205,7 +204,6 @@ export const Decode = () => {
 
       {/************************* Active Single point **************************/}
       <DecodePointPromt />
-
 
       {/* 
       <div className="flex flex-row mt-3">
