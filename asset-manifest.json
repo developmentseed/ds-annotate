@@ -1,18 +1,19 @@
 {
   "files": {
-    "main.css": "/ds-annotate/static/css/main.a40672d7.css",
-    "main.js": "/ds-annotate/static/js/main.66c11baf.js",
+    "main.css": "/ds-annotate/static/css/main.15e1984d.css",
+    "main.js": "/ds-annotate/static/js/main.97e20a26.js",
     "static/media/notification.svg?s3g3t9": "/ds-annotate/static/media/notification.5d0158671dd860c714c4.svg",
     "static/media/notification.eot": "/ds-annotate/static/media/notification.3657084dc0419605a91c.eot",
     "static/media/notification.woff?s3g3t9": "/ds-annotate/static/media/notification.c392cd33d9d9de730f9d.woff",
     "static/media/notification.ttf?s3g3t9": "/ds-annotate/static/media/notification.c5d9251ea82e42f75381.ttf",
     "static/media/ds-logo-pos.svg": "/ds-annotate/static/media/ds-logo-pos.03097196d83f8596d31a4fee4265bc13.svg",
     "index.html": "/ds-annotate/index.html",
-    "main.a40672d7.css.map": "/ds-annotate/static/css/main.a40672d7.css.map",
-    "main.66c11baf.js.map": "/ds-annotate/static/js/main.66c11baf.js.map"
+    "static/media/index.cjs": "/ds-annotate/static/media/index.0054d71a83cfe9aa4a0c.cjs",
+    "main.15e1984d.css.map": "/ds-annotate/static/css/main.15e1984d.css.map",
+    "main.97e20a26.js.map": "/ds-annotate/static/js/main.97e20a26.js.map"
   },
   "entrypoints": [
-    "static/css/main.a40672d7.css",
-    "static/js/main.66c11baf.js"
+    "static/css/main.15e1984d.css",
+    "static/js/main.97e20a26.js"
   ]
 }
