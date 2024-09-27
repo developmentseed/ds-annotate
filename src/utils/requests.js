@@ -1,4 +1,4 @@
-import { gpuEncodeAPI, cpuDecodeAPI } from "../config";
+import { gpuEncodeAPI, SamGeoAPI } from "../config";
 import { NotificationManager } from "react-notifications";
 import { olFeatures2geojson } from "./convert";
 import { geojsonAPI } from "./../config";
@@ -69,7 +69,7 @@ export const getPropertiesRequest = (map, pointsSelector) => {
 //   }
 // };
 export const getRequest = async (url) => {
-  const reqUrl = `${cpuDecodeAPI}/${url}`;
+  const reqUrl = `${SamGeoAPI}/${url}`;
   try {
     const response = await fetch(reqUrl);
     if (!response.ok) {
@@ -85,7 +85,7 @@ export const getRequest = async (url) => {
 
 // SAM2
 export const setAOI = async (encodeItem) => {
-  const url = `${cpuDecodeAPI}/aoi`;
+  const url = `${SamGeoAPI}/aoi`;
   console.log(url);
   try {
     const reqProps = {
@@ -118,7 +118,7 @@ export const setAOI = async (encodeItem) => {
 
 // SAM2
 export const requestSegments = async (payload, url_path) => {
-  const apiUrl = `${cpuDecodeAPI}/${url_path}`;
+  const apiUrl = `${SamGeoAPI}/${url_path}`;
   console.log(payload);
   try {
     // Decode
@@ -144,7 +144,7 @@ export const requestSegments = async (payload, url_path) => {
 };
 
 export const requestEncodeImages = async (project_id) => {
-  const apiUrl = `${cpuDecodeAPI}/predictions?project_id=${project_id}`;
+  const apiUrl = `${SamGeoAPI}/predictions?project_id=${project_id}`;
   try {
     const resp = await fetch(apiUrl, {
       method: "GET",
@@ -179,7 +179,7 @@ export const fetchGeoJSONData = async (propsReq) => {
 };
 
 export const getDecode = async (payload) => {
-  const decodeURL = `${cpuDecodeAPI}/predictions/sam_vit_h_decode`;
+  const decodeURL = `${SamGeoAPI}/predictions/sam_vit_h_decode`;
   try {
     // Decode
     const decodeResponse = await fetch(decodeURL, {
@@ -261,7 +261,7 @@ export const uploadtoS3 = async (data, filename) => {
  * @param {*} project
  */
 export const downloadInJOSM = (data, project, id) => {
-  const url = `${cpuDecodeAPI}/upload_geojson`;
+  const url = `${SamGeoAPI}/upload_geojson`;
 
   fetch(url, {
     method: "POST",

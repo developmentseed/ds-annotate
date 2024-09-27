@@ -46,14 +46,6 @@ export const Decode = () => {
         id
       );
 
-      // console.log(features);
-
-      // const features = sam2Geojson(
-      //   decodeRespJson.geojsons,
-      //   activeProject,
-      //   activeClass
-      // );
-
       const olFeatures = features2olFeatures(features);
       // Add items
       dispatchSetItems({
@@ -139,28 +131,6 @@ export const Decode = () => {
     return reqProps;
   };
 
-  // Single point is activate owhen we do a click on the map
-  // useEffect(() => {
-  //   if (!map) return;
-  //   if (pointsSelector.length === 0) return;
-  //   if (!activeEncodeImageItem) {
-  //     NotificationManager.warning(
-  //       `Click inside of active AOI to enable Segment Anything Model.`,
-  //       3000
-  //     );
-  //   }
-
-  //   // Request in case it is a single point
-  //   if (decoderType == "single_point") {
-  //     const reqProps = buildReqProps(
-  //       activeEncodeImageItem,
-  //       pointsSelector,
-  //       decoderType
-  //     );
-  //     decodePrompt(reqProps);
-  //   }
-  // }, [pointsSelector]);
-
   // Multipoint is activate when press the request decode buttom
   const decodeItems = async (multiDecoderType) => {
     if (pointsSelector.length === 0) return;
@@ -186,48 +156,13 @@ export const Decode = () => {
 
     if (decodeType === "single_point") {
       setDisplayPointPromtsMenu(!displayPointPromtsMenu);
-
-      // dispatchSetPointsSelector({
-      //   type: "SET_SINGLE_POINT",
-      //   payload: pointsSelector[pointsSelector.length - 1],
-      // });
     }
   };
 
   return (
     <>
-      {/************************* Automatic **************************/}
-
-      <DecodeAutomatic />
-
-      {/************************* Active Single point **************************/}
       <DecodePointPromt />
-
-      {/* 
-      <div className="flex flex-row mt-3">
-        <button
-          className={`custom_button w-full ${decoderType == "multi_point" ? "bg-orange-ds text-white" : ""
-            }`}
-          onClick={() => setDecodeType("multi_point")}
-        >
-          {`Active Multi point`}
-        </button>
-      </div>
-
-      <div className="grid grid-cols-2 gap-2 mt-2">
-        <button
-          className={`custom_button w-full`}
-          onClick={() => decodeItems("multi_point")}
-        >
-          {`Request an item`}
-        </button>
-        <button
-          className={`custom_button w-full`}
-          onClick={() => decodeItems("multi_point_split")}
-        >
-          {`Request multi items`}
-        </button>
-      </div> */}
+      <DecodeAutomatic />
     </>
   );
 };
