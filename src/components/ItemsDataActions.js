@@ -1,11 +1,16 @@
 import React, { useContext, useCallback } from "react";
 import { MainContext } from "../contexts/MainContext";
-import { mergePolygonClass } from "../utils/transformation";
+import {
+  mergePolygonClass,
+  simplifyFeatures,
+  smooth,
+} from "../utils/transformation";
 import { olFeatures2Features, features2olFeatures } from "../utils/convert";
 import { storeItems } from "../store/indexedDB";
 
 export const ItemsDataActions = () => {
-  const { items, dispatchSetItems, activeProject } = useContext(MainContext);
+  const { items, dispatchSetItems, activeProject, activeEncodeImageItem } =
+    useContext(MainContext);
 
   const setItems = useCallback(
     (items) => {
@@ -20,8 +25,9 @@ export const ItemsDataActions = () => {
   const mergePolygons = () => {
     const features = olFeatures2Features(items);
     const mergedFeatures = mergePolygonClass(features);
-    const mergedItems = features2olFeatures(mergedFeatures);
-
+    const smoothFeatures = smooth(mergedFeatures);
+    const simpFeatures = simplifyFeatures(smoothFeatures, 0.000002);
+    const mergedItems = features2olFeatures(simpFeatures);
     setItems(mergedItems);
     // Save merged features in DB
     storeItems.deleteDataByProject(activeProject.properties.name);

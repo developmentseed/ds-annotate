@@ -3,6 +3,7 @@ import { NotificationManager } from "react-notifications";
 import { olFeatures2geojson } from "./convert";
 import { geojsonAPI } from "./../config";
 import { convertBbox3857to4326 } from "./convert";
+import { guid } from "./utils";
 
 const headers = {
   Accept: "application/json",
@@ -259,19 +260,22 @@ export const uploadtoS3 = async (data, filename) => {
  * @param {*} data
  * @param {*} project
  */
-export const downloadInJOSM = (data, project) => {
-  fetch(`${geojsonAPI}/ds_annotate/`, {
+export const downloadInJOSM = (data, project, id) => {
+  const url = `${cpuDecodeAPI}/upload_geojson`;
+
+  fetch(url, {
     method: "POST",
     headers,
-    body: data,
+    body: JSON.stringify({ data, project: project.properties.slug, id }),
   })
     .then((response) => {
       return response.json();
     })
     .then((data) => {
+      console.log("%csrc/utils/requests.js:272 data", "color: #007acc;", data);
       const { url, type } = project.properties.imagery;
       const layer_name = project.properties.name.replace(/ /g, "_");
-      const url_geojson = `http://localhost:8111/import?url=${data.url.replace(
+      const url_geojson = `http://localhost:8111/import?url=${data.file_url.replace(
         "https",
         "http"
       )}`;
