@@ -3,7 +3,7 @@ import { MainContext } from "../contexts/MainContext";
 import { EncodeItem } from "./EncodeItem";
 import { EncodeCanvas } from "./EncodeCanvas";
 import { MenuTemplate } from "./MenuTemplate";
-import { fetchListURLS, requestEncodeImages } from "../utils/requests";
+import { requestEncodeImages } from "../utils/requests";
 import { convertBbox4326to3857 } from "../utils/convert";
 
 import { BsLayoutWtf } from "react-icons/bs";

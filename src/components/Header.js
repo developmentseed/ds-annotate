@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { BsInfoCircleFill } from "react-icons/bs";
 
 import { MainContext } from "./../contexts/MainContext";

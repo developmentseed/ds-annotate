@@ -1,27 +1,16 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { NotificationManager } from "react-notifications";
 import { MainContext } from "../contexts/MainContext";
+import { requestSegments } from "../utils/requests";
 import {
-  getDecode,
-  fetchGeoJSONData,
-  requestSegments,
-} from "../utils/requests";
-import {
-  sam2Geojson,
   features2olFeatures,
   setProps2Features,
-  olFeatures2Features,
   convertBbox3857to4326,
 } from "../utils/convert";
-import { pointsIsInEncodeBbox } from "../utils/calculation";
 import { storeItems } from "../store/indexedDB";
-import { guid } from "../utils/utils";
 
 export const DecodeAutomatic = () => {
   const {
-    map,
-    pointsSelector,
-    dispatchSetPointsSelector,
     activeProject,
     activeClass,
     dispatchSetItems,
@@ -55,7 +44,7 @@ export const DecodeAutomatic = () => {
       project: activeProject.properties.slug,
     };
 
-    const resp = await requestSegments(reqProps, "sam2/segment_automatic");
+    const resp = await requestSegments(reqProps, "segment_automatic");
 
     const features = setProps2Features(
       resp.features,

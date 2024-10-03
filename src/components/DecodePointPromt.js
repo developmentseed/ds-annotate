@@ -5,13 +5,8 @@ import Point from "ol/geom/Point";
 import VectorSource from "ol/source/Vector";
 
 import { MainContext } from "../contexts/MainContext";
+import { requestSegments } from "../utils/requests";
 import {
-  getDecode,
-  fetchGeoJSONData,
-  requestSegments,
-} from "../utils/requests";
-import {
-  sam2Geojson,
   features2olFeatures,
   setProps2Features,
   olFeatures2Features,
@@ -25,8 +20,6 @@ import { vectorPointSelector } from "./map/layers";
 export const DecodePointPromt = () => {
   const {
     map,
-    pointsSelector,
-    dispatchSetPointsSelector,
     activeProject,
     activeClass,
     dispatchSetItems,
@@ -49,7 +42,7 @@ export const DecodePointPromt = () => {
     setDisplayPointPromtsMenu(!displayPointPromtsMenu);
   };
 
-  // // Add point to send request to SAM
+  // Add point to send request to SAM
   useEffect(() => {
     if (!map) return;
     if (decoderType !== "single_point") return;
@@ -123,7 +116,7 @@ export const DecodePointPromt = () => {
       project: activeProject.properties.slug,
       action_type: actionType,
     };
-    const resp = await requestSegments(reqProps, "sam2/segment_predictor");
+    const resp = await requestSegments(reqProps, "segment_predictor");
     const features = setProps2Features(
       resp.features,
       activeProject,

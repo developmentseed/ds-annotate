@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { downloadInJOSM } from "../utils/requests";
-import { downloadGeojsonFile, guid } from "../utils/utils";
+import { downloadJsonFile, guid } from "../utils/utils";
 import { olFeatures2geojson } from "../utils/convert";
 import { BsDownload, BsUpload } from "react-icons/bs";
 
@@ -12,7 +12,7 @@ export const MenuExpData = () => {
   const downloadGeojson = () => {
     const geojson = JSON.stringify(olFeatures2geojson(items));
     const projectName = activeProject.properties.name.replace(/\s/g, "_");
-    downloadGeojsonFile(geojson, `${projectName}.geojson`);
+    downloadJsonFile(geojson, `${projectName}.geojson`);
   };
 
   const josm = () => {

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { NotificationManager } from "react-notifications";
 import { MainContext } from "../contexts/MainContext";
-import { getDecode, fetchGeoJSONData } from "../utils/requests";
+import { fetchGeoJSONData } from "../utils/requests";
 import {
   sam2Geojson,
   features2olFeatures,

@@ -2,7 +2,6 @@ import { useContext, useEffect } from "react";
 import { BsTrash } from "react-icons/bs";
 import { MainContext } from "./../contexts/MainContext";
 import { storeItems } from "./../store/indexedDB";
-import { olFeatures2Features } from "../utils/convert";
 
 const Item = ({ item, index }) => {
   const { items, dispatchSetItems, dispatchSetHighlightedItem } =
