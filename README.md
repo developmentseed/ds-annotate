@@ -1,6 +1,14 @@
 # ds-annotate
 
-Magic wand and Segment Anything Model (SAM) annotation tool for machine learning training data.
+Magic wand and Segment Anything Model (SAM2) annotation tool for machine learning training data. 
+
+<video width="640" height="360" controls>
+  <source src="https://github.com/user-attachments/assets/c8532ae9-d073-4381-b466-adfca76d7d38" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+
+**This application consumes a service API from [samgeo-service](https://github.com/GeoCompas/samgeo-service).**
 
 ## Installation and Usage
 The steps below will walk you through setting up your own instance of the project.
