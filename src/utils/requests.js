@@ -89,7 +89,6 @@ export const setAOI = async (encodeItem) => {
 // SAM2
 export const requestSegments = async (payload, url_path) => {
   const apiUrl = `${SamGeoAPI}/${url_path}`;
-  console.log(payload);
   try {
     // Decode
     const resp = await fetch(apiUrl, {
