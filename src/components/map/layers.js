@@ -1,6 +1,8 @@
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { TileWMS, OSM, XYZ } from "ol/source";
 import { Circle as CircleStyle, Fill, Stroke, Style, Icon } from "ol/style";
+import VectorSource from "ol/source/Vector";
+
 import MultiPoint from "ol/geom/MultiPoint";
 import { convertColorToRGBA } from "../../utils/utils";
 export const osm = new TileLayer({
@@ -86,22 +88,42 @@ export const getImageryLayer = (imagery) => {
 };
 
 // Pointer
-const crossSVG =
-  "data:image/svg+xml," +
-  encodeURIComponent(
-    '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40">' +
-      '<line x1="10" y1="10" x2="30" y2="30" style="stroke:#0199fe;stroke-width:3"/>' +
-      '<line x1="30" y1="10" x2="10" y2="30" style="stroke:#0199fe;stroke-width:3"/>' +
-      "</svg>"
-  );
+// const crossSVG =
+//   "data:image/svg+xml," +
+//   encodeURIComponent(
+//     '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40">' +
+//     '<line x1="10" y1="10" x2="30" y2="30" style="stroke:#0199fe;stroke-width:3"/>' +
+//     '<line x1="30" y1="10" x2="10" y2="30" style="stroke:#0199fe;stroke-width:3"/>' +
+//     "</svg>"
+//   );
+
+// export const vectorPointSelector = new VectorLayer({
+//   style: new Style({
+//     image: new Icon({
+//       src: crossSVG,
+//       imgSize: [40, 40],
+//     }),
+//   }),
+//   zIndex: 10,
+// });
 
 export const vectorPointSelector = new VectorLayer({
-  style: new Style({
-    image: new Icon({
-      src: crossSVG,
-      imgSize: [40, 40],
-    }),
-  }),
+  source: new VectorSource(),
+  style: function (feature) {
+    const colorCode = feature.get("color") || [209, 51, 255];
+    return new Style({
+      image: new CircleStyle({
+        radius: 7,
+        fill: new Fill({
+          color: [...colorCode, 0.3],
+        }),
+        stroke: new Stroke({
+          color: [...colorCode, 1],
+          width: 2,
+        }),
+      }),
+    });
+  },
   zIndex: 10,
 });
 
@@ -119,7 +141,7 @@ export const encodeMapViewHighlighted = new VectorLayer({
   style: new Style({
     stroke: new Stroke({
       width: 2,
-      color: [207, 63, 2, 1],
+      color: [0, 255, 97, 1],
     }),
   }),
   zIndex: 8,

@@ -2,7 +2,6 @@ import { useContext, useEffect } from "react";
 import { BsTrash } from "react-icons/bs";
 import { MainContext } from "./../contexts/MainContext";
 import { storeItems } from "./../store/indexedDB";
-import { olFeatures2Features } from "../utils/convert";
 
 const Item = ({ item, index }) => {
   const { items, dispatchSetItems, dispatchSetHighlightedItem } =
@@ -26,14 +25,6 @@ const Item = ({ item, index }) => {
       payload: item,
     });
   };
-
-  // useEffect(() => {
-  //   console.log('%cItem.js line:30 items', 'color: #007acc;', items);
-  //   storeItems.addListData(olFeatures2Features(items)).then(data=>{
-  //     console.log('%cItem.js line:33 save', 'color: #007acc;', data);
-  //   })
-  // }, [items]);
-
   return (
     <div
       className="inline-flex justify-center items-center pr-1 pl-1 ml-1 text-xs text-slate-900 font-medium rounded-full cursor-pointer"

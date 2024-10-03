@@ -1,12 +1,11 @@
-import { gpuEncodeAPI, cpuDecodeAPI } from "../config";
+import { SamGeoAPI } from "../config";
 import { NotificationManager } from "react-notifications";
 import { olFeatures2geojson } from "./convert";
-import { geojsonAPI } from "./../config";
+import { convertBbox3857to4326 } from "./convert";
 
 const headers = {
   Accept: "application/json",
   "Content-Type": "application/json",
-  crossOrigin: "anonymous",
 };
 
 /**
@@ -39,23 +38,42 @@ export const getPropertiesRequest = (map, pointsSelector) => {
   return reqProps;
 };
 
-/**
- * Request encode API
- * @param {*} base64_string
- * @returns
- */
-export const getEncode = async (base64_string) => {
-  const encodeURL = `${gpuEncodeAPI}/predictions/sam_vit_h_encode`;
+// SAM2
+export const getRequest = async (url) => {
+  const reqUrl = `${SamGeoAPI}/${url}`;
   try {
-    // Encode
-    const encodeResponse = await fetch(encodeURL, {
+    const response = await fetch(reqUrl);
+    if (!response.ok) {
+      throw new Error(`Error fetching data: ${response.status}`);
+    }
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error fetching GeoJSON data:", error);
+    return null;
+  }
+};
+
+// SAM2
+export const setAOI = async (encodeItem) => {
+  const url = `${SamGeoAPI}/aoi`;
+  try {
+    const reqProps = {
+      canvas_image: encodeItem.canvas,
+      bbox: convertBbox3857to4326(encodeItem.bbox),
+      zoom: Math.floor(encodeItem.zoom),
+      crs: "EPSG:4326",
+      id: encodeItem.id,
+      project: encodeItem.project,
+    };
+    const encodeResponse = await fetch(url, {
       method: "POST",
       headers,
-      body: JSON.stringify({ encoded_image: base64_string }),
+      body: JSON.stringify(reqProps),
     });
     if (!encodeResponse.ok) {
       NotificationManager.error(
-        `${encodeURL}`,
+        `${url}`,
         `Encode server error ${encodeResponse.status}`,
         10000
       );
@@ -68,34 +86,66 @@ export const getEncode = async (base64_string) => {
   }
 };
 
-/**
- * Request decode API
- * @param {*} decodePayload
- * @returns
- */
-export const getDecode = async (decodePayload) => {
-  const decodeURL = `${cpuDecodeAPI}/predictions/sam_vit_h_decode`;
+// SAM2
+export const requestSegments = async (payload, url_path) => {
+  const apiUrl = `${SamGeoAPI}/${url_path}`;
   try {
     // Decode
-    const decodeResponse = await fetch(decodeURL, {
+    const resp = await fetch(apiUrl, {
       method: "POST",
       headers,
-      body: JSON.stringify(decodePayload),
+      body: JSON.stringify(payload),
     });
-    if (!decodeResponse.ok) {
+
+    if (!resp.ok) {
       NotificationManager.error(
-        `${decodeURL} `,
-        `Decode server error ${decodeResponse.status}`,
+        `${apiUrl} `,
+        `Decode server error ${resp.status}`,
         10000
       );
-      throw new Error(`Error: ${decodeResponse.status}`);
+      throw new Error(`Error: ${resp.status}`);
     }
-    const decodeRespJson = await decodeResponse.json();
+    const decodeRespJson = await resp.json();
     return decodeRespJson;
   } catch (error) {
     console.log(error);
   }
 };
+
+export const requestEncodeImages = async (project_id) => {
+  const apiUrl = `${SamGeoAPI}/predictions?project_id=${project_id}`;
+  try {
+    const resp = await fetch(apiUrl, {
+      method: "GET",
+      headers,
+    });
+    const decodeRespJson = await resp.json();
+    // TODO, change here  to handle response
+    if (decodeRespJson.detail) {
+      decodeRespJson.detection = {};
+      return decodeRespJson;
+    }
+    return decodeRespJson;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchGeoJSONData = async (propsReq) => {
+  const url =
+    "https://gist.githubusercontent.com/Rub21/c7001da2925661a4e660fde237e94473/raw/88f6f163029188dd1c8e3c23ff66aaaa8a6bac93/sam2_result.json";
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Error fetching data: ${response.status}`);
+    }
+    const data = await response.json();
+    return { geojson: data };
+  } catch (error) {
+    console.error("Error fetching GeoJSON data:", error);
+  }
+};
+
 /**
  *
  * @param {list} urls
@@ -123,41 +173,16 @@ export const fetchListURLS = async (urls) => {
 };
 
 /**
- * Upload data to s3
- * @param {object} data
- * @param {string} fileName
- * @returns Url of the uploaded file
- */
-export const uploadtoS3 = async (data, filename) => {
-  const url = `${geojsonAPI}/ds_annotate/`;
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({ data, filename }),
-    });
-
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error("Request failed with status " + response.status);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-  return null;
-};
-
-/**
  * Download data in JOSM
  * @param {*} data
  * @param {*} project
  */
-export const downloadInJOSM = (data, project) => {
-  fetch(`${geojsonAPI}/ds_annotate/`, {
+export const downloadInJOSM = (data, project, id) => {
+  const url = `${SamGeoAPI}/upload_geojson`;
+  fetch(url, {
     method: "POST",
     headers,
-    body: data,
+    body: JSON.stringify({ data, project: project.properties.slug, id }),
   })
     .then((response) => {
       return response.json();
@@ -165,7 +190,7 @@ export const downloadInJOSM = (data, project) => {
     .then((data) => {
       const { url, type } = project.properties.imagery;
       const layer_name = project.properties.name.replace(/ /g, "_");
-      const url_geojson = `http://localhost:8111/import?url=${data.url.replace(
+      const url_geojson = `http://localhost:8111/import?url=${data.file_url.replace(
         "https",
         "http"
       )}`;

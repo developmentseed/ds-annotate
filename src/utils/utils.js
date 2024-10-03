@@ -5,7 +5,7 @@ import * as turf from "@turf/turf";
  * @param {object} data
  * @param {string} fileName
  */
-export const downloadGeojsonFile = (data, fileName) => {
+export const downloadJsonFile = (data, fileName) => {
   const a = document.createElement("a");
   document.body.appendChild(a);
   a.style = "display: none";
@@ -80,7 +80,7 @@ export const guid = () => {
       .toString(16)
       .substring(1);
   };
-  return `${w().substring(0, 4)}`;
+  return `${w().substring(0, 3)}`;
 };
 
 /**

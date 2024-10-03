@@ -1,22 +1,27 @@
 import React, { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { downloadInJOSM } from "../utils/requests";
-import { downloadGeojsonFile } from "../utils/utils";
+import { downloadJsonFile, guid } from "../utils/utils";
 import { olFeatures2geojson } from "../utils/convert";
 import { BsDownload, BsUpload } from "react-icons/bs";
 
 export const MenuExpData = () => {
-  const { items, activeProject } = useContext(MainContext);
+  const { items, activeProject, activeEncodeImageItem } =
+    useContext(MainContext);
 
   const downloadGeojson = () => {
     const geojson = JSON.stringify(olFeatures2geojson(items));
     const projectName = activeProject.properties.name.replace(/\s/g, "_");
-    downloadGeojsonFile(geojson, `${projectName}.geojson`);
+    downloadJsonFile(geojson, `${projectName}.geojson`);
   };
 
   const josm = () => {
     const geojson = JSON.stringify(olFeatures2geojson(items));
-    downloadInJOSM(geojson, activeProject);
+    let aoiId = guid();
+    if (activeEncodeImageItem) {
+      aoiId = activeEncodeImageItem.id;
+    }
+    downloadInJOSM(geojson, activeProject, aoiId);
   };
 
   return (

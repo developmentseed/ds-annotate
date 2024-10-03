@@ -44,11 +44,6 @@ export const EncodeItem = ({ encodeItem }) => {
       });
     }
 
-    console.log(
-      "%cEncodeItem.js line:47 updatedEncodeItems",
-      "color: #007acc;",
-      updatedEncodeItems
-    );
     dispatchEncodeItems({
       type: "CACHING_ENCODED",
       payload: updatedEncodeItems,
@@ -63,8 +58,7 @@ export const EncodeItem = ({ encodeItem }) => {
   return (
     <div className=" relative inline-flex justify-center items-center pr-1 pl-1 ml-1 text-xs text-slate-900 font-medium rounded-full cursor-pointer">
       <img
-        src={encodeItem.canvas}
-        alt={`Encoded Image for ${encodeItem.canvas}`}
+        src={encodeItem.image_url}
         className={`w-full h-full object-cover opacity-100 transition-opacity duration-500 ease-in-out transform hover:opacity-90 mb-2 
       ${
         activeEncodeImageItem && encodeItem.id === activeEncodeImageItem.id
@@ -87,9 +81,7 @@ export const EncodeItem = ({ encodeItem }) => {
         <span className="font-bold text-white">
           {activeEncodeImageItem && activeEncodeImageItem.id === encodeItem.id
             ? "Active"
-            : `[${encodeItem.image_shape[1]},${
-                encodeItem.image_shape[0]
-              }] - z${Math.round(encodeItem.zoom)} `}
+            : ""}
         </span>
       </div>
       <div className="absolute bottom-1 right-1 p-1 text-xs bg-orange-ds rounded opacity-90 backdrop-filter backdrop-blur-md flex items-center space-x-2">

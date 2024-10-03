@@ -7,6 +7,7 @@ import { Items } from "./Items";
 import { MenuExpData } from "./MenuExpData";
 import { EncodeItems } from "./EncodeItems";
 import { DecodeItems } from "./DecodeItems";
+import { ApiService } from "./ApiService";
 
 export const Sidebar = () => {
   return (
@@ -14,6 +15,7 @@ export const Sidebar = () => {
       <aside>
         <Header />
         <div className="overflow-y-auto pr-2 pl-2 scroll-smooth hover:scroll-auto overscroll-y-contain h-[calc(100vh-50px)]">
+          <ApiService />
           <Projects />
           <Classes />
           <EncodeItems />

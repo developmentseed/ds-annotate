@@ -40,7 +40,13 @@ export const smooth = (features) => {
   let smoothed = turf.polygonSmooth(turf.featureCollection(features), {
     iterations: 2,
   });
-  return smoothed.features;
+  const newFeatures = smoothed.features.map((fea, index) => {
+    const id = `${guid()}_${index}`;
+    fea.id = id;
+    fea.properties.id = id;
+    return fea;
+  });
+  return newFeatures;
 };
 
 /**
@@ -82,6 +88,7 @@ export const simplifyOlFeature = (olFeature, tolerance) => {
 export const mergePolygonClass = (features) => {
   const grouped = features.reduce((result, current) => {
     const category = current.properties.class;
+
     if (!result[category]) {
       result[category] = [];
     }
@@ -89,11 +96,11 @@ export const mergePolygonClass = (features) => {
     return result;
   }, {});
 
-  let result = [];
+  let results = [];
   for (const class_ in grouped) {
-    result = result.concat(unionPolygons(grouped[class_]));
+    results = results.concat(unionPolygons(grouped[class_]));
   }
-  return result;
+  return results;
 };
 
 /**
@@ -104,6 +111,7 @@ export const mergePolygonClass = (features) => {
 export const unionPolygons = (features) => {
   let result = null;
   let props = {};
+
   features.forEach(function (feature) {
     if (!result) {
       result = feature;
@@ -112,13 +120,18 @@ export const unionPolygons = (features) => {
       result = turf.union(result, feature);
     }
   });
+
   let new_features = [];
   if (result && result.geometry && result.geometry.type === "MultiPolygon") {
-    new_features = result.geometry.coordinates.map((c, index) => {
-      return turf.polygon(c, { ...props, id: guid() });
+    new_features = result.geometry.coordinates.map((coords, index) => {
+      const newId = `${guid()}_${index}`;
+      const singlePolygon = turf.polygon(coords, { ...props, id: newId });
+      singlePolygon.id = newId;
+      return singlePolygon;
     });
   } else if (result && result.geometry && result.geometry.type === "Polygon") {
     result.properties = props;
+    result.id = props.id;
     new_features = [result];
   } else {
     new_features = features;
