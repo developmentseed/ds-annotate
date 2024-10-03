@@ -2,10 +2,8 @@
 
 Magic wand and Segment Anything Model (SAM2) annotation tool for machine learning training data. 
 
-<video width="640" height="360" controls>
-  <source src="https://github.com/user-attachments/assets/c8532ae9-d073-4381-b466-adfca76d7d38" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+![370998787-c8532ae9-d073-4381-b466-adfca76d7d381-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/fb5b951e-643a-43b6-b80c-a5e545b6b9db)
+
 
 
 **This application consumes a service API from [samgeo-service](https://github.com/GeoCompas/samgeo-service).**
