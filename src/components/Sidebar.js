@@ -15,13 +15,13 @@ export const Sidebar = () => {
       <aside>
         <Header />
         <div className="overflow-y-auto pr-2 pl-2 scroll-smooth hover:scroll-auto overscroll-y-contain h-[calc(100vh-50px)]">
-          <ApiService />
           <Projects />
           <Classes />
           <EncodeItems />
           <DecodeItems />
           <Items />
           <MenuExpData />
+          <ApiService />
         </div>
       </aside>
     </>

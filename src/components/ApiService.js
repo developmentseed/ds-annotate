@@ -16,6 +16,7 @@ export const ApiService = () => {
     dispatchActiveEncodeImageItem,
     setSpinnerLoading,
   } = useContext(MainContext);
+  
   const [apiDetails, setApiDetails] = useState({
     gpu: { gpu: false },
     cpu: { cpu_percent: 0 },
@@ -47,22 +48,30 @@ export const ApiService = () => {
   ]);
 
   return (
-    <div className="flex space-x-4">
+    <div className="flex space-x-4 mt-2">
       <span
         className={`inline-flex justify-center items-center text-[10px] font-medium rounded pr-4 pl-4 ${
-          apiDetails.gpu.gpu
-            ? "text-green-800 bg-green-400"
-            : "text-gray-800 bg-gray-200"
+          apiDetails.gpu.gpu ? "text-green-800 bg-green-200" : "text-yellow-800 bg-yellow-200"
         }`}
       >
-        {`GPU: ${
-          apiDetails.gpu && apiDetails.gpu.gpu
-            ? `${apiDetails.gpu.device}`
-            : "Desactive"
-        }`}
-        {apiDetails.gpu && apiDetails.gpu.gpu
-          ? `, CPU: ${apiDetails.cpu.cpu_percent}%, Memory: ${apiDetails.memory.memory_percent}%`
-          : ""}
+        {apiDetails.gpu.gpu ? "GPU Active" : "CPU Mode"}
+        {apiDetails.gpu.gpu && (
+          <>
+            {` | Device: ${apiDetails.gpu.device_name}`}
+            {` | GPUs: ${apiDetails.gpu.num_gpus}`}
+            {` | GPU Memory Total: ${apiDetails.gpu.gpu_memory_total}`}
+            {` | GPU Memory Allocated: ${apiDetails.gpu.gpu_memory_allocated}`}
+            {` | GPU Memory Cached: ${apiDetails.gpu.gpu_memory_cached}`}
+            {` | GPU Memory Free: ${apiDetails.gpu.gpu_memory_free}`}
+          </>
+        )}
+        {` | CPU Usage: ${apiDetails.cpu.cpu_percent}%`}
+        {` | CPU Cores: ${apiDetails.cpu.cpu_cores}`}
+        {` | Logical CPU Cores: ${apiDetails.cpu.cpu_logical_cores}`}
+        {` | Memory Usage: ${apiDetails.memory.memory_percent}%`}
+        {` | Total Memory: ${apiDetails.memory.total_memory}`}
+        {` | Used Memory: ${apiDetails.memory.used_memory}`}
+        {` | Free Memory: ${apiDetails.memory.free_memory}`}
       </span>
     </div>
   );
