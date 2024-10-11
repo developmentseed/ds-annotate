@@ -5,73 +5,80 @@ import { getRequest } from "../utils/requests";
 export const ApiService = () => {
   const {
     map,
-    pointsSelector,
-    activeProject,
-    activeClass,
-    dispatchSetItems,
+    pointsSelector: ps,
+    activeProject: ap,
+    activeClass: ac,
+    dispatchSetItems: dsi,
     items,
-    encodeItems,
-    dispatchEncodeItems,
-    activeEncodeImageItem,
-    dispatchActiveEncodeImageItem,
-    setSpinnerLoading,
+    encodeItems: ei,
+    dispatchEncodeItems: dei,
+    activeEncodeImageItem: aei,
+    dispatchActiveEncodeImageItem: daei,
+    setSpinnerLoading: ssl,
   } = useContext(MainContext);
-  
+
   const [apiDetails, setApiDetails] = useState({
-    gpu: { gpu: false },
-    cpu: { cpu_percent: 0 },
-    memory: { memory_percent: 0 },
+    device: "",
+    gpu: {
+      device_name: "",
+      num_gpus: 0,
+      gpu_memory_total: "",
+      gpu_memory_allocated: "",
+      gpu_memory_cached: "",
+      gpu_memory_free: "",
+    },
+    cpu: {
+      cpu_percent: 0,
+      cpu_cores: 0,
+      cpu_logical_cores: 0,
+    },
+    memory: {
+      total_memory: "",
+      used_memory: "",
+      free_memory: "",
+      memory_percent: 0,
+    },
   });
 
   useEffect(() => {
-    const requestApiServiceDetails = async () => {
+    const fetchApiDetails = async () => {
       try {
         const result = await getRequest("");
         result && setApiDetails(result);
-      } catch (error) {
-        console.error("Error fetching API details:", error);
+      } catch (err) {
+        console.error("Error:", err);
       }
     };
-    requestApiServiceDetails();
-  }, [
-    map,
-    pointsSelector,
-    activeProject,
-    activeClass,
-    dispatchSetItems,
-    items,
-    encodeItems,
-    dispatchEncodeItems,
-    activeEncodeImageItem,
-    dispatchActiveEncodeImageItem,
-    setSpinnerLoading,
-  ]);
+    fetchApiDetails();
+  }, [map, ps, ap, ac, dsi, items, ei, dei, aei, daei, ssl]);
 
   return (
-    <div className="flex space-x-4 mt-2">
+    <div className="flex space-x-4">
       <span
-        className={`inline-flex justify-center items-center text-[10px] font-medium rounded pr-4 pl-4 ${
-          apiDetails.gpu.gpu ? "text-green-800 bg-green-200" : "text-yellow-800 bg-yellow-200"
+        className={`inline-flex justify-center items-center text-[10px] font-medium  p-2 ${
+          apiDetails.device === "cuda"
+            ? "text-green-800 bg-green-200"
+            : "text-yellow-800 bg-yellow-200"
         }`}
       >
-        {apiDetails.gpu.gpu ? "GPU Active" : "CPU Mode"}
-        {apiDetails.gpu.gpu && (
+        {apiDetails.device === "cuda" ? "GPU Active" : "CPU Mode"}
+        {apiDetails.device === "cuda" && (
           <>
-            {` | Device: ${apiDetails.gpu.device_name}`}
+            {` | Dev: ${apiDetails.gpu.device_name}`}
             {` | GPUs: ${apiDetails.gpu.num_gpus}`}
-            {` | GPU Memory Total: ${apiDetails.gpu.gpu_memory_total}`}
-            {` | GPU Memory Allocated: ${apiDetails.gpu.gpu_memory_allocated}`}
-            {` | GPU Memory Cached: ${apiDetails.gpu.gpu_memory_cached}`}
-            {` | GPU Memory Free: ${apiDetails.gpu.gpu_memory_free}`}
+            {` | Total Mem: ${apiDetails.gpu.gpu_memory_total}`}
+            {` | Alloc Mem: ${apiDetails.gpu.gpu_memory_allocated}`}
+            {` | Cached Mem: ${apiDetails.gpu.gpu_memory_cached}`}
+            {` | Free Mem: ${apiDetails.gpu.gpu_memory_free}`}
           </>
         )}
-        {` | CPU Usage: ${apiDetails.cpu.cpu_percent}%`}
-        {` | CPU Cores: ${apiDetails.cpu.cpu_cores}`}
-        {` | Logical CPU Cores: ${apiDetails.cpu.cpu_logical_cores}`}
-        {` | Memory Usage: ${apiDetails.memory.memory_percent}%`}
-        {` | Total Memory: ${apiDetails.memory.total_memory}`}
-        {` | Used Memory: ${apiDetails.memory.used_memory}`}
-        {` | Free Memory: ${apiDetails.memory.free_memory}`}
+        {` | CPU: ${apiDetails.cpu.cpu_percent}%`}
+        {` | Cores: ${apiDetails.cpu.cpu_cores}`}
+        {` | Log Cores: ${apiDetails.cpu.cpu_logical_cores}`}
+        {` | Mem Use: ${apiDetails.memory.memory_percent}%`}
+        {` | Total: ${apiDetails.memory.total_memory}`}
+        {` | Used: ${apiDetails.memory.used_memory}`}
+        {` | Free: ${apiDetails.memory.free_memory}`}
       </span>
     </div>
   );

@@ -7,7 +7,6 @@ import { Items } from "./Items";
 import { MenuExpData } from "./MenuExpData";
 import { EncodeItems } from "./EncodeItems";
 import { DecodeItems } from "./DecodeItems";
-import { ApiService } from "./ApiService";
 
 export const Sidebar = () => {
   return (
@@ -21,7 +20,6 @@ export const Sidebar = () => {
           <DecodeItems />
           <Items />
           <MenuExpData />
-          <ApiService />
         </div>
       </aside>
     </>
