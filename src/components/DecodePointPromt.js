@@ -115,6 +115,7 @@ export const DecodePointPromt = () => {
       id: activeEncodeImageItem.id,
       project: activeProject.properties.slug,
       action_type: actionType,
+      return_format: "geojson",
     };
     const resp = await requestSegments(reqProps, "segment_predictor");
     const features = setProps2Features(

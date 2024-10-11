@@ -16,7 +16,7 @@ export const ApiService = () => {
     dispatchActiveEncodeImageItem: daei,
     setSpinnerLoading: ssl,
   } = useContext(MainContext);
-  
+
   const [apiDetails, setApiDetails] = useState({
     device: "",
     gpu: {
@@ -55,8 +55,10 @@ export const ApiService = () => {
   return (
     <div className="flex space-x-4">
       <span
-        className={`inline-flex justify-center items-center text-[10px] font-medium  pr-2 pl-2 ${
-          apiDetails.device === "cuda" ? "text-green-800 bg-green-200" : "text-yellow-800 bg-yellow-200"
+        className={`inline-flex justify-center items-center text-[10px] font-medium  p-2 ${
+          apiDetails.device === "cuda"
+            ? "text-green-800 bg-green-200"
+            : "text-yellow-800 bg-yellow-200"
         }`}
       >
         {apiDetails.device === "cuda" ? "GPU Active" : "CPU Mode"}

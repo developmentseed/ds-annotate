@@ -42,10 +42,10 @@ export const DecodeAutomatic = () => {
       zoom: activeEncodeImageItem.zoom,
       id: activeEncodeImageItem.id,
       project: activeProject.properties.slug,
+      return_format: "geojson",
     };
 
     const resp = await requestSegments(reqProps, "segment_automatic");
-
     const features = setProps2Features(
       resp.features,
       activeProject,
