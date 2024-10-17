@@ -43,6 +43,8 @@ export const DecodeAutomatic = () => {
       id: activeEncodeImageItem.id,
       project: activeProject.properties.slug,
       return_format: "geojson",
+      simplify_tolerance: 0.000002,
+      area_val: 10,
     };
 
     const resp = await requestSegments(reqProps, "segment_automatic");

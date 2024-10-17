@@ -116,6 +116,8 @@ export const DecodePointPromt = () => {
       project: activeProject.properties.slug,
       action_type: actionType,
       return_format: "geojson",
+      simplify_tolerance: 0.000002,
+      area_val: 10,
     };
     const resp = await requestSegments(reqProps, "segment_predictor");
     const features = setProps2Features(
