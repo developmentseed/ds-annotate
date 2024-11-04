@@ -12,7 +12,6 @@ import {
   olFeatures2Features,
   convertBbox3857to4326,
 } from "../utils/convert";
-import { pointsIsInEncodeBbox } from "../utils/calculation";
 import { storeItems } from "../store/indexedDB";
 import { guid } from "../utils/utils";
 import { vectorPointSelector } from "./map/layers";

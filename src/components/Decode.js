@@ -1,12 +1,7 @@
-import React, { useContext, useState, useEffect } from "react";
-import { NotificationManager } from "react-notifications";
+import React, { useContext, useState } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { fetchGeoJSONData } from "../utils/requests";
-import {
-  sam2Geojson,
-  features2olFeatures,
-  setProps2Features,
-} from "../utils/convert";
+import { features2olFeatures, setProps2Features } from "../utils/convert";
 import { pointsIsInEncodeBbox } from "../utils/calculation";
 import { storeItems } from "../store/indexedDB";
 import { guid } from "../utils/utils";

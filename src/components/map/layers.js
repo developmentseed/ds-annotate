@@ -1,6 +1,6 @@
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { TileWMS, OSM, XYZ } from "ol/source";
-import { Circle as CircleStyle, Fill, Stroke, Style, Icon } from "ol/style";
+import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import VectorSource from "ol/source/Vector";
 
 import MultiPoint from "ol/geom/MultiPoint";
