@@ -156,8 +156,9 @@ export const Decode = () => {
 
   return (
     <>
+          <DecodeAutomatic />
+
       <DecodePointPromt />
-      <DecodeAutomatic />
     </>
   );
 };

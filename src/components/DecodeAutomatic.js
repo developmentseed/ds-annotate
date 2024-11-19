@@ -71,7 +71,7 @@ export const DecodeAutomatic = () => {
 
   return (
     <div
-      className={`p-2 m-1 rounded ${
+      className={`p-1 m-0 rounded ${
         decoderType == "automatic" ? " bg-gray-300" : ""
       }`}
     >
@@ -82,7 +82,7 @@ export const DecodeAutomatic = () => {
           }`}
           onClick={() => requestAutomatic("automatic")}
         >
-          {`Automatic`}
+          {`Detect objects automatic`}
         </button>
       </div>
     </div>
