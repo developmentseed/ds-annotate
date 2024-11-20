@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { NotificationManager } from "react-notifications";
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
-import VectorSource from "ol/source/Vector";
+// import VectorSource from "ol/source/Vector";
 
 import { MainContext } from "../contexts/MainContext";
 import { requestSegments } from "../utils/requests";
@@ -31,7 +31,7 @@ export const DecodePointPromt = () => {
 
   const [selectedTab, setSelectedTab] = useState("singlePolygon");
   const [isForegroundPromtPoint, setIsForegroundPromtPoint] = useState(true);
-  const [points, setPoints] = useState([]);
+  // const [points, setPoints] = useState([]);
 
   const setDecodeType = (decodeType) => {
     dispatchDecoderType({
@@ -42,20 +42,23 @@ export const DecodePointPromt = () => {
 
   // Add point to send request to SAM
   useEffect(() => {
-    // // || decoderType !== "single_point" 
-    // if (!map || !activeEncodeImageItem) {
-    //   // if (!activeEncodeImageItem) {
-    //   //   NotificationManager.warning(
-    //   //     `Select an AOI for making predictions within it.`,
-    //   //     3000
-    //   //   );
-    //   // }
-    //   return;
-    // }
+    // || decoderType !== "single_point" 
+    // || !activeEncodeImageItem
+    if (!map ) {
+      // if (!activeEncodeImageItem) {
+      //   NotificationManager.warning(
+      //     `Select an AOI for making predictions within it.`,
+      //     3000
+      //   );
+      // }
+      return;
+    }
 
     const clickHandler = (e) => {
       const coordinates = e.coordinate;
-      const point = new Feature(new Point(coordinates));
+      const point = new Feature({
+        geometry: new Point(coordinates),
+      });
 
       const color = isForegroundPromtPoint ? [46, 62, 255] : [253, 23, 23];
       const label = isForegroundPromtPoint ? 1 : 0;
@@ -65,31 +68,30 @@ export const DecodePointPromt = () => {
         color,
         label,
       });
-      setPoints((prevPoints) => [...prevPoints, point]);
+      const source = vectorPointSelector.getSource();
+      source.addFeature(point);
+      setTimeout(() => {
+        point.setStyle(null);
+        vectorPointSelector.changed();
+      }, 500);
     };
 
     map.on("click", clickHandler);
     return () => map.un("click", clickHandler);
   }, [map, decoderType, activeEncodeImageItem, isForegroundPromtPoint]);
 
-  useEffect(() => {
-    const pointsSelectorDataSource = new VectorSource({
-      features: points,
-      wrapX: true,
-    });
-    vectorPointSelector.setSource(pointsSelectorDataSource);
-  }, [points]);
 
   const requestPointPromt = async (actionType) => {
     if (!map || !activeEncodeImageItem || points.length < 1) {
       NotificationManager.warning(
-        `Ensure an AOI and at least one point are selected for predictions.`,
+        `Please ensure an AOI and at least one point are selected for predictions.`,
         3000
       );
       return;
     }
 
     setSpinnerLoading(true);
+    const points = vectorPointSelector.getSource().getFeatures();
     const featuresPoints = olFeatures2Features(points);
     const coordinatesArray = featuresPoints.map(
       (feature) => feature.geometry.coordinates
@@ -124,7 +126,8 @@ export const DecodePointPromt = () => {
       payload: [...items, ...olFeatures],
     });
 
-    setPoints([]);
+    // setPoints([]);
+    vectorPointSelector.getSource().clear();
     const items_id = guid();
     features.forEach((feature, index) => {
       feature.id = `${items_id}_${index}`;
@@ -145,7 +148,7 @@ export const DecodePointPromt = () => {
           : "text-gray-600 "
       }`}
       onClick={() => {
-        setSelectedTab("singlePolygon");
+        // setSelectedTab("singlePolygon");
         setDecodeType("single_point");
       }}
     >
@@ -158,7 +161,7 @@ export const DecodePointPromt = () => {
           : "text-gray-600 "
       }`}
       onClick={() => {
-        setSelectedTab("multiPolygon");
+        // setSelectedTab("multiPolygon");
         setDecodeType("multi_point");
       }}
     >
