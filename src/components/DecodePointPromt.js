@@ -43,12 +43,11 @@ export const DecodePointPromt = () => {
   // Add point to send request to SAM
   useEffect(() => {
     if (!map ) {
-      // if (!activeEncodeImageItem) {
-      //   NotificationManager.warning(
-      //     `Select an AOI for making predictions within it.`,
-      //     3000
-      //   );
-      // }
+      return;
+    }
+
+    if (!activeEncodeImageItem) {
+      console.log("Select an AOI for making predictions within it.")
       return;
     }
 
@@ -109,7 +108,7 @@ export const DecodePointPromt = () => {
       action_type: actionType,
       return_format: "geojson",
       simplify_tolerance: 0.000002,
-      area_val: 20,
+      area_val: 1,
     };
     const resp = await requestSegments(reqProps, "segment_predictor");
     const features = setProps2Features(
