@@ -19,6 +19,7 @@
     "ol-magic-wand": "^1.0.5",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
+    "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
     "react-notifications": "^1.7.4",

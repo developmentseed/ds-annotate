@@ -4,6 +4,8 @@ import { useSearchParams } from "react-router-dom";
 import { MainContext } from "../contexts/MainContext";
 import { getClassLayers } from "../utils/convert";
 import { getProjectTemplate } from "../utils/utils";
+import { CreateProjectModal } from "./CreateProjectModal";
+
 import { MenuTemplate } from "./MenuTemplate";
 import { BsFolder2 } from "react-icons/bs";
 
@@ -16,16 +18,19 @@ export const Projects = () => {
   } = useContext(MainContext);
   const [projectName, setProjectName] = useState("Projects");
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [newProjectName, setNewProjectName] = useState(""); // State for new project name
 
   const setProject = useCallback(
     (project) => {
-      //Set active project
+      // Set active project
       dispatchSetActiveProject({
         type: "SET_ACTIVE_PROJECT",
         payload: project,
       });
 
-      //Set Active class the first in the list
+      // Set Active class the first in the list
       const classLayers = getClassLayers(project);
       dispatchSetActiveClass({
         type: "SET_ACTIVE_CLASS",
@@ -34,7 +39,7 @@ export const Projects = () => {
 
       setProjectName(project.properties.name);
 
-      //Set active encode image to null
+      // Set active encode image to null
       dispatchActiveEncodeImageItem({
         type: "SET_ACTIVE_ENCODE_IMAGE",
         payload: null,
@@ -49,7 +54,7 @@ export const Projects = () => {
   useEffect(() => {
     let projectFeature = getProjectTemplate(searchParams);
     if (!projectFeature) {
-      //If the project was not set in the URL, find the projects by slug on the existing list,
+      // If the project was not set in the URL, find the projects by slug on the existing list,
       const projectSlug = searchParams.get("project");
       if (projectSlug) {
         const listProjectFound = projects.features.filter((p) => {
@@ -64,6 +69,37 @@ export const Projects = () => {
       setProject(projectFeature);
     }
   }, [searchParams]);
+
+  // Function to handle creating a new project
+  const handleCreateNewProject = () => {
+    if (!newProjectName.trim()) return alert("Project name cannot be empty!");
+
+    // Example: Add a new project to the list
+    const newProject = {
+      properties: {
+        name: newProjectName,
+        slug: newProjectName.toLowerCase().replace(/\s+/g, "-"),
+      },
+    };
+
+    // Update the projects list in MainContext (this is an example; adjust based on your context logic)
+    const updatedProjects = {
+      ...projects,
+      features: [...projects.features, newProject],
+    };
+
+    // Assuming there is a function to update projects in the context
+    dispatchSetActiveProject({
+      type: "UPDATE_PROJECTS",
+      payload: updatedProjects,
+    });
+
+    // Reset the input field
+    setNewProjectName("");
+
+    // Optionally set the new project as active
+    setProject(newProject);
+  };
 
   return (
     <MenuTemplate
@@ -93,6 +129,27 @@ export const Projects = () => {
             </Link>
           ))}
         </ul>
+        {/* Add New Project Section */}
+        <div>
+      <div className="mt-4">
+        {/* Button to open the modal */}
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="custom_button w-full"
+        >
+          Create New Project
+        </button>
+      </div>
+
+      {/* Modal Component */}
+      <CreateProjectModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        // onSubmit={handleFormSubmit}
+        // formData={formData}
+        // setFormData={setFormData}
+      />
+    </div>
       </div>
     </MenuTemplate>
   );
