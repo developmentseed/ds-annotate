@@ -42,8 +42,6 @@ export const DecodePointPromt = () => {
 
   // Add point to send request to SAM
   useEffect(() => {
-    // || decoderType !== "single_point" 
-    // || !activeEncodeImageItem
     if (!map ) {
       // if (!activeEncodeImageItem) {
       //   NotificationManager.warning(
@@ -82,6 +80,7 @@ export const DecodePointPromt = () => {
 
 
   const requestPointPromt = async (actionType) => {
+    const points = vectorPointSelector.getSource().getFeatures();
     if (!map || !activeEncodeImageItem || points.length < 1) {
       NotificationManager.warning(
         `Please ensure an AOI and at least one point are selected for predictions.`,
@@ -91,7 +90,6 @@ export const DecodePointPromt = () => {
     }
 
     setSpinnerLoading(true);
-    const points = vectorPointSelector.getSource().getFeatures();
     const featuresPoints = olFeatures2Features(points);
     const coordinatesArray = featuresPoints.map(
       (feature) => feature.geometry.coordinates
@@ -111,7 +109,7 @@ export const DecodePointPromt = () => {
       action_type: actionType,
       return_format: "geojson",
       simplify_tolerance: 0.000002,
-      area_val: 10,
+      area_val: 20,
     };
     const resp = await requestSegments(reqProps, "segment_predictor");
     const features = setProps2Features(
@@ -137,6 +135,20 @@ export const DecodePointPromt = () => {
     setSpinnerLoading(false);
   };
 
+  const tagChangeHandler = (type) => {
+    vectorPointSelector.getSource().clear();
+    if (type === "single_point") {
+      setSelectedTab("singlePolygon");
+      setDecodeType("single_point");
+    } else {
+      setSelectedTab("multiPolygon");
+      setDecodeType("multi_point");
+
+      setIsForegroundPromtPoint(true)
+    }
+
+  }
+
   return (
     <div className="p-1 m-1 rounded bg-gray-100">
       {/* Tab Navigation */}
@@ -147,10 +159,9 @@ export const DecodePointPromt = () => {
           ? "border-b-2font-semibold text-orange-ds "
           : "text-gray-600 "
       }`}
-      onClick={() => {
-        // setSelectedTab("singlePolygon");
-        setDecodeType("single_point");
-      }}
+      onClick={() => 
+        tagChangeHandler("single_point")
+      }
     >
       Single
     </button>
@@ -160,10 +171,7 @@ export const DecodePointPromt = () => {
           ? "border-b-2font-semibold text-orange-ds "
           : "text-gray-600 "
       }`}
-      onClick={() => {
-        // setSelectedTab("multiPolygon");
-        setDecodeType("multi_point");
-      }}
+      onClick={() => tagChangeHandler("multi_point")}
     >
       Multi
     </button>
