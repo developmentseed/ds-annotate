@@ -2,8 +2,6 @@ import { useEffect, useContext } from "react";
 import VectorSource from "ol/source/Vector";
 import { GeoJSON } from "ol/format";
 import * as turf from "@turf/turf";
-import Feature from "ol/Feature";
-import Point from "ol/geom/Point";
 
 import { MainContext } from "../../contexts/MainContext";
 
@@ -13,7 +11,6 @@ import {
   getImageryLayer,
   vectorSegData,
   vectorHighlighted,
-  vectorPointSelector,
   encodeMapViews,
   encodeMapViewHighlighted,
 } from "./layers";

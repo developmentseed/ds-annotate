@@ -1,7 +1,10 @@
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { TileWMS, OSM, XYZ } from "ol/source";
-import { Circle as CircleStyle, Fill, Stroke, Style, Icon } from "ol/style";
+import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import VectorSource from "ol/source/Vector";
+import Icon from "ol/style/Icon";
+import foregroundIcon from './../../media/icons/foreground.svg';
+import backgroundIcon from './../../media/icons/background.svg';
 
 import MultiPoint from "ol/geom/MultiPoint";
 import { convertColorToRGBA } from "../../utils/utils";
@@ -87,40 +90,19 @@ export const getImageryLayer = (imagery) => {
   }
 };
 
-// Pointer
-// const crossSVG =
-//   "data:image/svg+xml," +
-//   encodeURIComponent(
-//     '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40">' +
-//     '<line x1="10" y1="10" x2="30" y2="30" style="stroke:#0199fe;stroke-width:3"/>' +
-//     '<line x1="30" y1="10" x2="10" y2="30" style="stroke:#0199fe;stroke-width:3"/>' +
-//     "</svg>"
-//   );
-
-// export const vectorPointSelector = new VectorLayer({
-//   style: new Style({
-//     image: new Icon({
-//       src: crossSVG,
-//       imgSize: [40, 40],
-//     }),
-//   }),
-//   zIndex: 10,
-// });
-
 export const vectorPointSelector = new VectorLayer({
   source: new VectorSource(),
   style: function (feature) {
-    const colorCode = feature.get("color") || [209, 51, 255];
+    const iconUrl = feature.get("label") === 1 ? foregroundIcon : backgroundIcon;
+    const defaultScale = 2; 
+    const scale = feature.get("size") ? feature.get("size") : defaultScale; 
     return new Style({
-      image: new CircleStyle({
-        radius: 7,
-        fill: new Fill({
-          color: [...colorCode, 0.3],
-        }),
-        stroke: new Stroke({
-          color: [...colorCode, 1],
-          width: 2,
-        }),
+      image: new Icon({
+        src: iconUrl,
+        scale: scale,
+        anchor: [0.5, 1],
+        anchorXUnits: "fraction",
+        anchorYUnits: "fraction",
       }),
     });
   },

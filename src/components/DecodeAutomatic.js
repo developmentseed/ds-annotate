@@ -43,6 +43,8 @@ export const DecodeAutomatic = () => {
       id: activeEncodeImageItem.id,
       project: activeProject.properties.slug,
       return_format: "geojson",
+      simplify_tolerance: 0.000002,
+      area_val: 10,
     };
 
     const resp = await requestSegments(reqProps, "segment_automatic");
@@ -69,7 +71,7 @@ export const DecodeAutomatic = () => {
 
   return (
     <div
-      className={`p-2 m-1 rounded ${
+      className={`p-1 m-0 rounded ${
         decoderType == "automatic" ? " bg-gray-300" : ""
       }`}
     >
@@ -80,7 +82,7 @@ export const DecodeAutomatic = () => {
           }`}
           onClick={() => requestAutomatic("automatic")}
         >
-          {`Automatic`}
+          {`Detect objects automatic`}
         </button>
       </div>
     </div>

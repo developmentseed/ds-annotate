@@ -3,7 +3,11 @@
     "react-app",
     "react-app/jest"
   ],
+  "plugins": ["unused-imports"],
+
   "rules": {
-    "comma-dangle": ["error", "always-multiline"]
+    "comma-dangle": ["error", "always-multiline"],
+    "unused-imports/no-unused-imports": "error"
+
   }
 }
