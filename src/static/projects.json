@@ -103,29 +103,40 @@
       "properties": {
         "slug": "cattle",
         "classes": {
-          "cattle_feeds": "#17FF00",
-          "Pear cactus": "#ffb350",
-          "Barley filed": "#FED000",
-          "People": "#E222F0",
-          "Car": "#2021EA"
+          "cattle_feeds": "#17FF00"
         },
         "name": "Cattle Feeds",
         "imagery": {
           "type": "tms",
-          "url": "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
+          "url": "https://gis.apfo.usda.gov/arcgis/rest/services/NAIP/USDA_CONUS_PRIME/ImageServer/tile/{z}/{y}/{x}?blankTile=false"
         }
       },
       "geometry": {
-        "type": "Polygon",
         "coordinates": [
           [
-            [-103.31623456802303, 34.251769889138494],
-            [-103.31270303007143, 34.251769889138494],
-            [-103.31270303007143, 34.25470235031265],
-            [-103.31623456802303, 34.25470235031265],
-            [-103.31623456802303, 34.251769889138494]
+            [
+              -103.3402983155157,
+              34.256476377612
+            ],
+            [
+              -103.3402983155157,
+              34.2397030568773
+            ],
+            [
+              -103.31763860431806,
+              34.2397030568773
+            ],
+            [
+              -103.31763860431806,
+              34.256476377612
+            ],
+            [
+              -103.3402983155157,
+              34.256476377612
+            ]
           ]
-        ]
+        ],
+        "type": "Polygon"
       }
     },
     {

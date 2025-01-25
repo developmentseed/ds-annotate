@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { NotificationManager } from "react-notifications";
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
-import VectorSource from "ol/source/Vector";
+// import VectorSource from "ol/source/Vector";
 
 import { MainContext } from "../contexts/MainContext";
 import { requestSegments } from "../utils/requests";
@@ -12,7 +12,6 @@ import {
   olFeatures2Features,
   convertBbox3857to4326,
 } from "../utils/convert";
-import { pointsIsInEncodeBbox } from "../utils/calculation";
 import { storeItems } from "../store/indexedDB";
 import { guid } from "../utils/utils";
 import { vectorPointSelector } from "./map/layers";
@@ -30,33 +29,33 @@ export const DecodePointPromt = () => {
     dispatchDecoderType,
   } = useContext(MainContext);
 
-  const [displayPointPromtsMenu, setDisplayPointPromtsMenu] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("singlePolygon");
   const [isForegroundPromtPoint, setIsForegroundPromtPoint] = useState(true);
-  const [points, setPoints] = useState([]);
+  // const [points, setPoints] = useState([]);
 
   const setDecodeType = (decodeType) => {
     dispatchDecoderType({
       type: "SET_DECODER_TYPE",
       payload: decodeType,
     });
-    setDisplayPointPromtsMenu(!displayPointPromtsMenu);
   };
 
   // Add point to send request to SAM
   useEffect(() => {
-    if (!map) return;
-    if (decoderType !== "single_point") return;
-    if (!activeEncodeImageItem) {
-      NotificationManager.warning(
-        `Select an AOI for making predictions within it.`,
-        3000
-      );
+    if (!map ) {
       return;
     }
 
-    const clickHandler = function (e) {
+    if (!activeEncodeImageItem) {
+      console.log("Select an AOI for making predictions within it.")
+      return;
+    }
+
+    const clickHandler = (e) => {
       const coordinates = e.coordinate;
-      const point = new Feature(new Point(coordinates));
+      const point = new Feature({
+        geometry: new Point(coordinates),
+      });
 
       const color = isForegroundPromtPoint ? [46, 62, 255] : [253, 23, 23];
       const label = isForegroundPromtPoint ? 1 : 0;
@@ -66,37 +65,29 @@ export const DecodePointPromt = () => {
         color,
         label,
       });
-      setPoints((prevPoints) => [...prevPoints, point]);
+      const source = vectorPointSelector.getSource();
+      source.addFeature(point);
+      setTimeout(() => {
+        point.setStyle(null);
+        vectorPointSelector.changed();
+      }, 500);
     };
+
     map.on("click", clickHandler);
     return () => map.un("click", clickHandler);
   }, [map, decoderType, activeEncodeImageItem, isForegroundPromtPoint]);
 
-  useEffect(() => {
-    const pointsSelectorDataSource = new VectorSource({
-      features: points,
-      wrapX: true,
-    });
-    vectorPointSelector.setSource(pointsSelectorDataSource);
-  }, [points]);
 
   const requestPointPromt = async (actionType) => {
-    if (!map) return;
-    if (decoderType !== "single_point" && decoderType !== "multi_point") return;
-    if (!activeEncodeImageItem) {
+    const points = vectorPointSelector.getSource().getFeatures();
+    if (!map || !activeEncodeImageItem || points.length < 1) {
       NotificationManager.warning(
-        `Select an AOI for making predictions within it.`,
+        `Please ensure an AOI and at least one point are selected for predictions.`,
         3000
       );
       return;
     }
-    if (points.length < 1) {
-      NotificationManager.warning(
-        `Set at least one point to make predictions.`,
-        3000
-      );
-      return;
-    }
+
     setSpinnerLoading(true);
     const featuresPoints = olFeatures2Features(points);
     const coordinatesArray = featuresPoints.map(
@@ -116,6 +107,8 @@ export const DecodePointPromt = () => {
       project: activeProject.properties.slug,
       action_type: actionType,
       return_format: "geojson",
+      simplify_tolerance: 0.000002,
+      area_val: 1,
     };
     const resp = await requestSegments(reqProps, "segment_predictor");
     const features = setProps2Features(
@@ -125,14 +118,13 @@ export const DecodePointPromt = () => {
       activeEncodeImageItem.id
     );
     const olFeatures = features2olFeatures(features);
-    // Add items
     dispatchSetItems({
       type: "SET_ITEMS",
       payload: [...items, ...olFeatures],
     });
 
-    setPoints([]);
-    // save in iddexedDB
+    // setPoints([]);
+    vectorPointSelector.getSource().clear();
     const items_id = guid();
     features.forEach((feature, index) => {
       feature.id = `${items_id}_${index}`;
@@ -142,60 +134,89 @@ export const DecodePointPromt = () => {
     setSpinnerLoading(false);
   };
 
+  const tagChangeHandler = (type) => {
+    vectorPointSelector.getSource().clear();
+    if (type === "single_point") {
+      setSelectedTab("singlePolygon");
+      setDecodeType("single_point");
+    } else {
+      setSelectedTab("multiPolygon");
+      setDecodeType("multi_point");
+
+      setIsForegroundPromtPoint(true)
+    }
+
+  }
+
   return (
-    <div
-      className={`p-2 m-1 rounded ${
-        decoderType == "single_point" ? " bg-gray-200" : ""
+    <div className="p-1 m-1 rounded bg-gray-100">
+      {/* Tab Navigation */}
+  <div className="flex border-b border-gray-300 mb-4">
+    <button
+      className={`flex-1 text-sm focus:outline-none transition-all duration-300 ${
+        selectedTab === "singlePolygon"
+          ? "border-b-2font-semibold text-orange-ds "
+          : "text-gray-600 "
       }`}
+      onClick={() => 
+        tagChangeHandler("single_point")
+      }
     >
-      <div className="flex flex-row">
-        <button
-          className={`custom_button w-full ${
-            decoderType == "single_point" ? " bg-orange-ds text-white" : ""
-          }`}
-          onClick={() => setDecodeType("single_point")}
-        >
-          {`Point Input prompts`}
-        </button>
-      </div>
-      {decoderType == "single_point" && (
-        <>
-          <div className="flex space-x-2 mt-2">
+      Single
+    </button>
+    <button
+      className={`flex-1 text-sm focus:outline-none transition-all duration-300 ${
+        selectedTab === "multiPolygon"
+          ? "border-b-2font-semibold text-orange-ds "
+          : "text-gray-600 "
+      }`}
+      onClick={() => tagChangeHandler("multi_point")}
+    >
+      Multi
+    </button>
+  </div>
+
+
+      {/* Tab Content based on Selected Tab */}
+      <div className="mt-4">
+        {selectedTab === "singlePolygon" && (
+          <>
+
+            {/* Foreground and Background Buttons */}
+            <div className="flex space-x-2 mt-2">
+              <button
+                className={`custom_button w-40 px-2 py-1 ${isForegroundPromtPoint ? "bg-orange-ds text-white" : ""
+                  }`}
+                onClick={() => setIsForegroundPromtPoint(true)}
+              >
+                Foreground
+              </button>
+              <button
+                className={`custom_button w-40 px-2 py-1 ${!isForegroundPromtPoint ? "bg-orange-ds text-white" : ""
+                  }`}
+                onClick={() => setIsForegroundPromtPoint(false)}
+              >
+                Background
+              </button>
+            </div>
             <button
-              className={`custom_button w-40 px-2 py-1 ${
-                isForegroundPromtPoint ? " bg-orange-ds text-white" : ""
-              }`}
-              onClick={() => setIsForegroundPromtPoint(true)}
-            >
-              Foreground
-            </button>
-            <button
-              className={`custom_button w-40 px-2 py-1 ${
-                !isForegroundPromtPoint ? " bg-orange-ds text-white" : ""
-              }`}
-              onClick={() => setIsForegroundPromtPoint(false)}
-            >
-              Background
-            </button>
-          </div>
-          <div className="flex flex-row mt-3">
-            <button
-              className={`custom_button w-full`}
+              className="custom_button w-full text-white mt-3 bg-orange-ds"
               onClick={() => requestPointPromt("single_point")}
             >
-              {"Detect single polygon"}
+              Detect Single Polygon
             </button>
-          </div>
-          <div className="flex flex-row mt-3">
-            <button
-              className={`custom_button w-full`}
-              onClick={() => requestPointPromt("multi_point")}
-            >
-              {"Detect multi polygon"}
-            </button>
-          </div>
-        </>
-      )}
+          </>
+
+        )}
+        {selectedTab === "multiPolygon" && (
+          <button
+            className="custom_button w-full text-white bg-orange-ds"
+            onClick={() => requestPointPromt("multi_point")}
+          >
+            Detect Multi Polygon
+          </button>
+        )}
+      </div>
     </div>
   );
 };

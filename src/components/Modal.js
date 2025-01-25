@@ -102,7 +102,7 @@ export const Modal = () => {
                 <p className="my-4 text-md">
                   <a
                     className="text-orange-ds"
-                    href="https://github.com/developmentseed/ds-annotate/issues"
+                    href="https://github.com/openhistoricalmap/ds-annotate/issues"
                     target="_blank"
                     rel="noreferrer"
                   >
