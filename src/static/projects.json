@@ -4,59 +4,6 @@
     {
       "type": "Feature",
       "properties": {
-        "classes": {
-          "Water": "#04F5EA",
-          "Building": "#E000FF",
-          "Vegetation": "#17FF00",
-          "Car": "#ffb350",
-          "Road": "#FED000"
-        },
-        "slug": "brussels",
-        "name": "Brussels Prototype",
-        "imagery": {
-          "type": "wms",
-          "url": "https://geoservices-urbis.irisnet.be/geoserver/ows",
-          "params": {
-            "LAYERS": "Urbis:Ortho2020"
-          },
-          "serverType": "geoserver"
-        },
-        "encodeImages": [
-          "https://ds-annotate.s3.amazonaws.com/encode_images/Brussels_Prototype/c50a.json",
-          "https://ds-annotate.s3.amazonaws.com/encode_images/Brussels_Prototype/c9b5.json"
-        ]
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              4.312562942504883,
-              50.84188241883442
-            ],
-            [
-              4.376935958862305,
-              50.84188241883442
-            ],
-            [
-              4.376935958862305,
-              50.874282090165394
-            ],
-            [
-              4.312562942504883,
-              50.874282090165394
-            ],
-            [
-              4.312562942504883,
-              50.84188241883442
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "slug": "bologna",
         "classes": {
           "Water": "#04F5EA",
@@ -119,11 +66,11 @@
         "type": "Polygon",
         "coordinates": [
           [
-            [-103.31623456802303, 34.251769889138494],
-            [-103.31270303007143, 34.251769889138494],
-            [-103.31270303007143, 34.25470235031265],
-            [-103.31623456802303, 34.25470235031265],
-            [-103.31623456802303, 34.251769889138494]
+            [-103.33248681706525, 34.23521810170755],
+            [-103.29645078102922, 34.23521810170755],
+            [-103.29645078102922, 34.27125413774359],
+            [-103.33248681706525, 34.27125413774359],
+            [-103.33248681706525, 34.23521810170755]
           ]
         ]
       }
