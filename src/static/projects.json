@@ -48,36 +48,6 @@
     {
       "type": "Feature",
       "properties": {
-        "slug": "cattle",
-        "classes": {
-          "cattle_feeds": "#17FF00",
-          "Pear cactus": "#ffb350",
-          "Barley filed": "#FED000",
-          "People": "#E222F0",
-          "Car": "#2021EA"
-        },
-        "name": "Cattle Feeds",
-        "imagery": {
-          "type": "tms",
-          "url": "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
-        }
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [-103.33248681706525, 34.23521810170755],
-            [-103.29645078102922, 34.23521810170755],
-            [-103.29645078102922, 34.27125413774359],
-            [-103.33248681706525, 34.27125413774359],
-            [-103.33248681706525, 34.23521810170755]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "slug": "farms",
         "classes": {
           "Farm": "#17FF00"
@@ -687,6 +657,36 @@
               -102.29232820719133,
               19.063550307243275
             ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "slug": "cattle",
+        "classes": {
+          "cattle_feeds": "#17FF00",
+          "Pear cactus": "#ffb350",
+          "Barley filed": "#FED000",
+          "People": "#E222F0",
+          "Car": "#2021EA"
+        },
+        "name": "Cattle Feeds",
+        "imagery": {
+          "type": "tms",
+          "url": "https://b.tiles.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=pk.eyJ1IjoicnViZW4iLCJhIjoiY202cWk1Ym15MXN0djJqcHlmNTFvN3FiYSJ9.omITaZldAEoX335pMmD3_g"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-103.33248681706525, 34.23521810170755],
+            [-103.29645078102922, 34.23521810170755],
+            [-103.29645078102922, 34.27125413774359],
+            [-103.33248681706525, 34.27125413774359],
+            [-103.33248681706525, 34.23521810170755]
           ]
         ]
       }
