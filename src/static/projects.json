@@ -4,59 +4,6 @@
     {
       "type": "Feature",
       "properties": {
-        "classes": {
-          "Water": "#04F5EA",
-          "Building": "#E000FF",
-          "Vegetation": "#17FF00",
-          "Car": "#ffb350",
-          "Road": "#FED000"
-        },
-        "slug": "brussels",
-        "name": "Brussels Prototype",
-        "imagery": {
-          "type": "wms",
-          "url": "https://geoservices-urbis.irisnet.be/geoserver/ows",
-          "params": {
-            "LAYERS": "Urbis:Ortho2020"
-          },
-          "serverType": "geoserver"
-        },
-        "encodeImages": [
-          "https://ds-annotate.s3.amazonaws.com/encode_images/Brussels_Prototype/c50a.json",
-          "https://ds-annotate.s3.amazonaws.com/encode_images/Brussels_Prototype/c9b5.json"
-        ]
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              4.312562942504883,
-              50.84188241883442
-            ],
-            [
-              4.376935958862305,
-              50.84188241883442
-            ],
-            [
-              4.376935958862305,
-              50.874282090165394
-            ],
-            [
-              4.312562942504883,
-              50.874282090165394
-            ],
-            [
-              4.312562942504883,
-              50.84188241883442
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "slug": "bologna",
         "classes": {
           "Water": "#04F5EA",
@@ -96,47 +43,6 @@
             ]
           ]
         ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "slug": "cattle",
-        "classes": {
-          "cattle_feeds": "#17FF00"
-        },
-        "name": "Cattle Feeds",
-        "imagery": {
-          "type": "tms",
-          "url": "https://gis.apfo.usda.gov/arcgis/rest/services/NAIP/USDA_CONUS_PRIME/ImageServer/tile/{z}/{y}/{x}?blankTile=false"
-        }
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            [
-              -103.3402983155157,
-              34.256476377612
-            ],
-            [
-              -103.3402983155157,
-              34.2397030568773
-            ],
-            [
-              -103.31763860431806,
-              34.2397030568773
-            ],
-            [
-              -103.31763860431806,
-              34.256476377612
-            ],
-            [
-              -103.3402983155157,
-              34.256476377612
-            ]
-          ]
-        ],
-        "type": "Polygon"
       }
     },
     {
@@ -751,6 +657,36 @@
               -102.29232820719133,
               19.063550307243275
             ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "slug": "cattle",
+        "classes": {
+          "cattle_feeds": "#17FF00",
+          "Pear cactus": "#ffb350",
+          "Barley filed": "#FED000",
+          "People": "#E222F0",
+          "Car": "#2021EA"
+        },
+        "name": "Cattle Feeds",
+        "imagery": {
+          "type": "tms",
+          "url": "https://b.tiles.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg?access_token=pk.eyJ1IjoicnViZW4iLCJhIjoiY202cWk1Ym15MXN0djJqcHlmNTFvN3FiYSJ9.omITaZldAEoX335pMmD3_g"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-103.33248681706525, 34.23521810170755],
+            [-103.29645078102922, 34.23521810170755],
+            [-103.29645078102922, 34.27125413774359],
+            [-103.33248681706525, 34.27125413774359],
+            [-103.33248681706525, 34.23521810170755]
           ]
         ]
       }

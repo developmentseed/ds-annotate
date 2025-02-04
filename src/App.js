@@ -25,9 +25,8 @@ function App() {
       <SpinerLoader />
 
       {/* ApiService info*/}
-      <div className="fixed bottom-0 left-0 w-64 flex justify-center mb-1">
-        <ApiService />
-      </div>
+      <ApiService />
+
     </div>
   );
 }

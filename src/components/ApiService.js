@@ -53,10 +53,10 @@ export const ApiService = () => {
   }, [map, ps, ap, ac, dsi, items, ei, dei, aei, daei, ssl]);
 
   return (
-    <div className="flex space-x-4">
+    <div className="relative">
       <span
-        className={`inline-flex justify-center items-center text-[10px] font-medium  p-2 ${
-          apiDetails.device === "cuda"
+      className={`absolute top-[5px] right-[5px] inline-flex justify-center items-center text-[10px] font-medium p-2 w-[200px] opacity-70 ${
+        apiDetails.device === "cuda"
             ? "text-green-800 bg-green-200"
             : "text-yellow-800 bg-yellow-200"
         }`}
